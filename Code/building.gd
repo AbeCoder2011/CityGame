@@ -1,0 +1,54 @@
+extends Node2D
+
+var money = 0.0
+var population := 0
+var products := 0
+var flour := 0
+var wheat := 0
+var electronics := 0
+var power := 0
+
+var building_name = ""
+
+func init_building(nam) -> void:
+	building_name = nam
+	$Sprite.texture = AtlasTexture.new()
+	$Sprite.texture.atlas = Global.BuildingTilemap.duplicate()
+	$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
+	$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
+	
+func display_income(i:float):
+	if int(i) == i:
+		$Income.text = "+" + str(int(i))
+	else:
+		$Income.text = "+" + str(i)
+	
+	$Income/AnimationPlayer.play("play"	)
+
+
+func _on_mouse_enter() -> void:
+	print("HIII")
+	$Info.show()
+	UpdateData()
+			
+
+
+func _on_mouse_exit() -> void:
+	$Info.hide()
+
+func UpdateData():
+	match building_name:
+		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex":
+			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
+			$Info.text = str(population)
+		"Mill":
+			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
+			$Info.text = str(flour)
+		"Small Wheatfield","Large Wheatfield":
+			$Info/TextureRect.texture.region = Rect2(96,0,16,16)
+			$Info.text = str(wheat)
+		"Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
+			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
+			$Info.text = str(power)
+		_:
+			$Info.hide()

@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://dcusnyd1ctfkm"]
+
+[ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="1_inort"]
+
+[resource]
+Label/font_sizes/font_size = 24
+Label/fonts/font = ExtResource("1_inort")

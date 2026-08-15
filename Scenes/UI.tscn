@@ -1,0 +1,764 @@
+[gd_scene format=3 uid="uid://wivfjwj1whwj"]
+
+[ext_resource type="Script" uid="uid://bbmiejf3gdaei" path="res://Code/UI.gd" id="1_dewlx"]
+[ext_resource type="Texture2D" uid="uid://dlf0etyhjvnf0" path="res://Assets/Tilesheets/Large tiles/Thin outline/tilemap.png" id="1_nxvpl"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="4_hfhsn"]
+[ext_resource type="PackedScene" uid="uid://maxm0l4vdeil" path="res://Scenes/BuildingButton.tscn" id="5_qwshj"]
+[ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
+[ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]
+[ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
+atlas = ExtResource("1_nxvpl")
+region = Rect2(33, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dewlx"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hfhsn"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="Animation" id="Animation_xjg7p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1977, 493)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mg6lk"]
+resource_name = "hide"
+length = 0.3000100044704974
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1378, 493), Vector2(1977, 493)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_wunin"]
+resource_name = "show"
+length = 0.3000100044704974
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1977, 493), Vector2(1378, 493)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j04uc"]
+_data = {
+&"RESET": SubResource("Animation_xjg7p"),
+&"hide": SubResource("Animation_mg6lk"),
+&"show": SubResource("Animation_wunin")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgu54"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwshj"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48q88"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 64, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xjg7p"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 96, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mg6lk"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 128, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wunin"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(0, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j04uc"]
+atlas = ExtResource("6_xjg7p")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_xjg7p"]
+font_size = 26
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqx31"]
+atlas = ExtResource("6_xjg7p")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_aehul"]
+font_size = 26
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[node name="UI" type="CanvasLayer" unique_id=790133659]
+script = ExtResource("1_dewlx")
+
+[node name="UI" type="Control" parent="." unique_id=1042502285]
+z_index = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Tools" type="Control" parent="UI" unique_id=111894591]
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 0.067
+anchor_bottom = 1.0
+offset_left = 35.0
+offset_top = -100.0
+offset_right = 394.97998
+offset_bottom = -20.0
+grow_vertical = 0
+
+[node name="Background" type="NinePatchRect" parent="UI/Tools" unique_id=1713079574]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(99, 0, 32, 32)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Selection" type="TextureRect" parent="UI/Tools" unique_id=475266104]
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -35.0
+offset_right = 70.0
+offset_bottom = 35.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_aehul")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Tools" unique_id=1331652337]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Select" type="Button" parent="UI/Tools/HBoxContainer" unique_id=740946215]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+flat = true
+
+[node name="Mouse" type="TextureRect" parent="UI/Tools/HBoxContainer/Select" unique_id=1994169647]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_dewlx")
+
+[node name="Draw" type="Button" parent="UI/Tools/HBoxContainer" unique_id=1403676064]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+flat = true
+
+[node name="Pencil" type="TextureRect" parent="UI/Tools/HBoxContainer/Draw" unique_id=1729267903]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_hfhsn")
+
+[node name="Destroy" type="Button" parent="UI/Tools/HBoxContainer" unique_id=835524992]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+flat = true
+
+[node name="Eraser" type="TextureRect" parent="UI/Tools/HBoxContainer/Destroy" unique_id=1770598157]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_o2ick")
+
+[node name="Building" type="Control" parent="UI" unique_id=35165732]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 37.0
+offset_top = -587.0
+offset_right = 589.00146
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Building" unique_id=1778311167]
+libraries/ = SubResource("AnimationLibrary_j04uc")
+
+[node name="Background" type="NinePatchRect" parent="UI/Building" unique_id=2110127516]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(99, 0, 32, 32)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="CategorySelection" type="NinePatchRect" parent="UI/Building" unique_id=799313616]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(33, 0, 32, 32)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="CategoryList" type="VBoxContainer" parent="UI/Building/CategorySelection" unique_id=736663107]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 6.0
+offset_right = -6.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Housing" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=644776186]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Housing" unique_id=1676287308]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_tgu54")
+
+[node name="Stores" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=918964084]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Stores" unique_id=1290702940]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_qwshj")
+
+[node name="Energy Industry" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=405618852]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Energy Industry" unique_id=1347613600]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_48q88")
+
+[node name="Parks" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1361408331]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Parks" unique_id=1481926544]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_xjg7p")
+
+[node name="Nature" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=226188077]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Nature" unique_id=191263133]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_mg6lk")
+
+[node name="Production Industry" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=398566208]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Production Industry" unique_id=1566917360]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_wunin")
+
+[node name="Categories" type="Control" parent="UI/Building" unique_id=1101925859]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Housing" unique_id=238029415 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Basic House"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Housing" unique_id=1488899661 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Double House"
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Housing" unique_id=1440137315 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Apartment Complex"
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Housing" unique_id=266793742 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Apartment Complex"
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Housing" unique_id=1297636409 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Mega Apartment Complex"
+
+[node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Stores" unique_id=1467578036 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Supermarket"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Stores" unique_id=1990334717 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Supermarket"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Stores" unique_id=179582992]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Stores" unique_id=727565063 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Mill"
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Stores" unique_id=584316690 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Distribution Center"
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Stores" unique_id=848209646 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Electronics Store"
+
+[node name="BasicHouse6" parent="UI/Building/Categories/Stores" unique_id=1507187451 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Cafe"
+
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Stores" unique_id=1833232986]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Stores" unique_id=1607920380]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse7" parent="UI/Building/Categories/Stores" unique_id=1551022007 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Bakery"
+
+[node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Energy Industry" unique_id=284529578 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Thermal Power Plant"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Energy Industry" unique_id=1524477468 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Solar Farm"
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Energy Industry" unique_id=595959310 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Nuclear Power Plant"
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Energy Industry" unique_id=1702014166 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Thermal Power Plant"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Energy Industry" unique_id=2044341742]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Energy Industry" unique_id=2068159400]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Energy Industry" unique_id=1658473026 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Solar Farm"
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Energy Industry" unique_id=764165696]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse6" parent="UI/Building/Categories/Energy Industry" unique_id=521963861 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Transformator Building"
+
+[node name="Parks" type="GridContainer" parent="UI/Building/Categories" unique_id=715835040]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Parks" unique_id=862150995 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Pocket Park"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Parks" unique_id=1714039419 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Park"
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Parks" unique_id=1356010527 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Fountain Park"
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Parks" unique_id=859562912 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Park"
+
+[node name="Nature" type="GridContainer" parent="UI/Building/Categories" unique_id=2103170674]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Nature" unique_id=148310756 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Forest"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Nature" unique_id=2093322585 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Forest"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Nature" unique_id=1560891323]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Nature" unique_id=1911415177 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Mountain"
+
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Nature" unique_id=778594043]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Nature" unique_id=787070660]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Nature" unique_id=1241846232 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Wheatfield"
+
+[node name="Gap4" type="Control" parent="UI/Building/Categories/Nature" unique_id=1864687258]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap5" type="Control" parent="UI/Building/Categories/Nature" unique_id=1843669928]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap6" type="Control" parent="UI/Building/Categories/Nature" unique_id=367432611]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap7" type="Control" parent="UI/Building/Categories/Nature" unique_id=1456020247]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap8" type="Control" parent="UI/Building/Categories/Nature" unique_id=1921966314]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Nature" unique_id=1277852556 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Wheatfield"
+
+[node name="Production Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=606105817]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Production Industry" unique_id=1070245714 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Factory"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Production Industry" unique_id=1605426364 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Factory"
+
+[node name="CityInfo" type="Control" parent="UI" unique_id=1744660893]
+layout_mode = 1
+anchors_preset = 0
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 296.0
+offset_bottom = 150.0
+
+[node name="Info" type="VBoxContainer" parent="UI/CityInfo" unique_id=87025744]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Money" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=2043660209]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Money" unique_id=1791370521]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_j04uc")
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/Money" unique_id=756751477]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_48q88")
+text = "15 1515155566"
+label_settings = SubResource("LabelSettings_xjg7p")
+
+[node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
+wait_time = 0.5
+one_shot = true
+
+[node name="Population" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=724344628]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Population" unique_id=1128344503]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_vqx31")
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/Population" unique_id=1967699901]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_48q88")
+text = "15 1515155566"
+label_settings = SubResource("LabelSettings_aehul")
+
+[connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
+[connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
+[connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]

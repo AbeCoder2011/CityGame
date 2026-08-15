@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://maxm0l4vdeil"]
+
+[ext_resource type="Script" uid="uid://124t5jksha1g" path="res://Code/building_button.gd" id="1_r70a3"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="1_yugtv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
+atlas = ExtResource("1_yugtv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
+atlas = ExtResource("1_yugtv")
+region = Rect2(7, 274, 22, 19)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r70a3"]
+font_size = 2
+outline_color = Color(0, 0, 0, 1)
+
+[node name="BasicHouse" type="Button" unique_id=238029415]
+custom_minimum_size = Vector2(64, 64)
+flat = true
+script = ExtResource("1_r70a3")
+
+[node name="Texture" type="TextureRect" parent="." unique_id=1307478453]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_aehul")
+stretch_mode = 2
+
+[node name="Info" type="NinePatchRect" parent="." unique_id=1698204215]
+layout_mode = 0
+offset_left = -148.0
+offset_right = -111.0
+offset_bottom = 41.0
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_o2ick")
+region_rect = Rect2(0, 0, 22, 19)
+patch_margin_left = 1
+patch_margin_top = 11
+patch_margin_right = 4
+patch_margin_bottom = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Info" unique_id=1634502325]
+custom_maximum_size = Vector2(30, -1)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -5.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Info/VBoxContainer" unique_id=1227429031]
+custom_maximum_size = Vector2(-1, 10)
+layout_mode = 2
+offset_transform_enabled = true
+text = "Large Furniture Factory"
+label_settings = SubResource("LabelSettings_r70a3")
+
+[connection signal="mouse_entered" from="." to="." method="hover_start"]
+[connection signal="mouse_exited" from="." to="." method="hover_end"]

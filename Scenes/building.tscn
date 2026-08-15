@@ -1,0 +1,182 @@
+[gd_scene format=3 uid="uid://dj0nehyvofbqq"]
+
+[ext_resource type="Script" uid="uid://bcq4cigdxq6tk" path="res://Code/building.gd" id="1_avus0"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="2_uj2qm"]
+[ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="4_b2wr7"]
+[ext_resource type="Shader" uid="uid://ct3aa4adankg1" path="res://outline.gdshader" id="4_n4bpb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1gob"]
+atlas = ExtResource("2_uj2qm")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_b2wr7"]
+font_size = 48
+outline_size = 12
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_amr18"]
+atlas = ExtResource("4_b2wr7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="Animation" id="Animation_n4bpb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(23, 14)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_jdxhs"]
+resource_name = "play"
+length = 0.450005006705597
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(23, 14), Vector2(23, -26)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vksob"]
+_data = {
+&"RESET": SubResource("Animation_n4bpb"),
+&"play": SubResource("Animation_jdxhs")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aehul"]
+shader = ExtResource("4_n4bpb")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/width = 0.42000001995
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_b2wr7"]
+load_path = "res://.godot/imported/icons.png-09c24313aa75a5df81de880395d42450.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgu54"]
+atlas = SubResource("CompressedTexture2D_b2wr7")
+region = Rect2(32, 0, 16, 16)
+
+[node name="Building" type="Node2D" unique_id=709613803]
+script = ExtResource("1_avus0")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=432252880]
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_v1gob")
+centered = false
+
+[node name="Income" type="Label" parent="." unique_id=942702721]
+visible = false
+z_index = 1
+offset_left = 23.0
+offset_top = 14.0
+offset_right = 105.0
+offset_bottom = 81.0
+scale = Vector2(0.25, 0.25)
+text = "+12"
+label_settings = SubResource("LabelSettings_b2wr7")
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Income" unique_id=1002128158]
+layout_mode = 0
+offset_left = -64.0
+offset_top = 4.0
+offset_right = -6.0
+offset_bottom = 62.0
+mouse_filter = 2
+texture = SubResource("AtlasTexture_amr18")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Income" unique_id=1129116731]
+libraries/ = SubResource("AnimationLibrary_vksob")
+
+[node name="Info" type="Label" parent="." unique_id=411961432]
+visible = false
+z_index = 1
+offset_left = 23.0
+offset_top = 14.0
+offset_right = 105.0
+offset_bottom = 81.0
+scale = Vector2(0.25, 0.25)
+text = "0"
+label_settings = SubResource("LabelSettings_b2wr7")
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Info" unique_id=741858556]
+material = SubResource("ShaderMaterial_aehul")
+layout_mode = 0
+offset_left = -68.0
+offset_top = 4.0
+offset_right = -8.0
+offset_bottom = 64.0
+texture = SubResource("AtlasTexture_tgu54")
+
+[node name="HoverDetection" type="Button" parent="." unique_id=117750364]
+offset_right = 48.0
+offset_bottom = 96.0
+flat = true
+
+[connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
+[connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]

@@ -1,0 +1,48 @@
+--- Housing
+Basic house
+- Population + (4 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+Double house
+- Population + (8 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+small apartment complex
+- Population + (16 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+Large apartment complex
+- Population + (32 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+Mega apartment complex
+- Population + (64 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+
+--- Stores
+Small supermarket
+- Money + (Population [3] * (1 + Products [10]) 
+Large supermarket
+- Money + (Population [5] * (1 + Products [10]) 
+Mill
+Distribution center
+- Products + (Small Factory [4] + (4 * Large Factory [5])) 
+Electronics store
+- Money + (Population [6]) 
+Cafe
+- Money + (Population [4]) 
+Bakery
+- Money + (Mill [4] * 2 * Population [3])
+
+--- Energy Industry
+thermal power plant
+small solar farm
+Nuclear power plant
+Large thermal power plant
+Large solar farm
+
+--- Parks
+Pocket park
+small park
+Fountain park
+Large park
+
+--- Nature
+Small forest
+Large Forest
+Large mountain
+
+--- Production Industry
+Small Factory
+Large Factory

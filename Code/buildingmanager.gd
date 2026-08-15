@@ -1,0 +1,149 @@
+extends Node2D
+var BuildingScene = preload("res://Scenes/building.tscn")
+# EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
+var Buildings = []
+
+const HOUSING_NAMES = [
+	"Basic House", "Double House", "Small Apartment Complex",
+	"Large Apartment Complex", "Mega Apartment Complex"
+]
+
+func NewBuilding(nam:String, location:Vector2i):
+	var b : Node2D = BuildingScene.instantiate()
+	b.init_building(nam)
+	b.position = location * 48
+	add_child(b)
+	Buildings.append({"pos":location,"name":nam,"node":b})
+
+# --- Helpers -------------------------------------------------
+
+func Dist(a:Vector2i, b:Vector2i) -> float:
+	return max(abs(a.x - b.x),abs(a.y - b.y))
+
+# Count buildings of given names within radius of pos
+func CountNearby(pos:Vector2i, names:Array, radius:float) -> int:
+	var count = 0
+	for b in Buildings:
+		if b["pos"] == pos:
+			continue
+		if names.has(b["name"]) and Dist(pos, b["pos"]) <= radius:
+			count += 1
+	return count
+
+# Calculates how much some property is in the area
+func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String) -> float:
+	var total = 0.0
+	for b in Buildings:
+		if b["pos"] == pos:
+			continue
+		if names.has(b["name"]) and Dist(pos, b["pos"]) <= radius:
+			total += b["node"].get(prop)
+	return total
+
+func IndustryPenalty(pos:Vector2i) -> float:
+	var thermal = CountNearby(pos, ["Thermal Power Plant"], 6)
+	var nuclear = CountNearby(pos, ["Nuclear Power Plant"], 8)
+	var large_thermal = CountNearby(pos, ["Large Thermal Power Plant"], 8)
+	var factory = CountNearby(pos, ["Small Factory"], 8)
+	var exponent = thermal + nuclear + (large_thermal * 2) + factory
+	return 0.5 ** exponent
+
+# --- Tick ------------------------------------------------------
+
+func Tick():
+	var money_total = 0
+	var population_total = 0
+	for b in Buildings:
+		var value : Dictionary = CalculateBuildingOutput(b)
+		if value.has("money"):
+			b["node"].money = value["money"]
+			money_total += value["money"]
+			b["node"].display_income(value["money"])
+		if value.has("population"):
+			b["node"].population = value["population"]
+			population_total += value["population"]
+		if value.has("products"):
+			b["node"].products = value["products"]
+		if value.has("wheat"):
+			b["node"].wheat = value["wheat"]
+		if value.has("flour"):
+			b["node"].flour = value["flour"]
+		if value.has("power"):
+			b["node"].power = value["power"]
+		b["node"].UpdateData()
+
+	Global.Money += money_total
+	Global.Population = population_total
+	$"..".UpdateCityStats()
+	
+
+func CalculateBuildingOutput(b) -> Dictionary:
+	var pos = b["pos"]
+
+	match b["name"]:
+		"Basic House":
+			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var population_boost = 2 if power > 2 else 1
+			return {"population": 2 * IndustryPenalty(pos) * population_boost}
+		"Double House":
+			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var population_boost = 2 if power > 4 else 1
+			return {"population": 4 * IndustryPenalty(pos) * population_boost}
+		"Small Apartment Complex":
+			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var population_boost = 2 if power > 8 else 1
+			return {"population": 8 * IndustryPenalty(pos) * population_boost}
+		"Large Apartment Complex":
+			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var population_boost = 2 if power > 24 else 1
+			return {"population": 24 * IndustryPenalty(pos) * population_boost}
+		"Mega Apartment Complex":
+			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var population_boost = 2 if power > 64 else 1
+			return {"population": 64 * IndustryPenalty(pos) * population_boost}
+
+		"Small Supermarket":
+			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
+			var products = SumProperty(pos, ["Distribution Center"], 10, "products")
+			return {"money": (0.25 * pop * (1 + products))}
+
+		"Large Supermarket":
+			var pop = SumProperty(pos, HOUSING_NAMES, 5, "population")
+			var products = SumProperty(pos, ["Distribution Center"], 10, "products")
+			return {"money": pop * (1 + products)}
+
+		"Mill":
+			var wheat = SumProperty(pos, ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
+			return {"flour": wheat}
+
+		"Distribution Center":
+			var small_factory = CountNearby(pos, ["Small Factory"], 4)
+			var large_factory = CountNearby(pos, ["Large Factory"], 5)
+			return {"products": small_factory + (4 * large_factory)}
+		
+		"Electronics Store":
+			return {"money": SumProperty(pos, HOUSING_NAMES, 6, "population")}
+		
+		"Cafe":
+			return {"money": SumProperty(pos, HOUSING_NAMES, 4, "population")}
+		
+		"Bakery":
+			var flour = SumProperty(pos, ["Mill"], 3, "flour")
+			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
+			return {"money": flour * 2 * pop}
+		"Transformator Building":
+			var power = CountNearby(pos, ["Thermal Power Plant","Small Solar Farm"], 4)
+			power += 4 * CountNearby(pos, ["Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"], 4)
+			return {"power": power}
+		"Thermal Power Plant","Small Solar Farm":
+			return {"power": 1}
+		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
+			return {"power": 5}
+		"Small Wheatfield":
+			return {"wheat": 1}
+		
+		"Large Wheatfield":
+			return {"wheat": 5}
+		
+		_:
+			return {}
