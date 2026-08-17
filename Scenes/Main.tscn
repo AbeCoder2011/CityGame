@@ -324,7 +324,7 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAMAAAAAAABAAAAAAAQAAIAAAACAAAAAAAQAAI
 tile_set = SubResource("TileSet_uu6xs")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1874523406]
-position = Vector2(3216, 1392)
+position = Vector2(1488, 1488)
 limit_enabled = false
 limit_left = 0
 limit_top = 0

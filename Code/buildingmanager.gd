@@ -3,6 +3,10 @@ var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
 
+const SHOP_NAMES = [
+	"Small Supermarket", "Large Supermarket", "Electronics Store",
+	"Cafe", "Bakery", "Restaurant", "Mall"
+]
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex",
 	"Large Apartment Complex", "Mega Apartment Complex"
@@ -54,6 +58,8 @@ func Tick():
 	var money_total = 0
 	var population_total = 0
 	for b in Buildings:
+		if not is_instance_valid(b["node"]):
+			Buildings.erase(b)
 		var value : Dictionary = CalculateBuildingOutput(b)
 		if value.has("money"):
 			b["node"].money = value["money"]
@@ -70,6 +76,10 @@ func Tick():
 			b["node"].flour = value["flour"]
 		if value.has("power"):
 			b["node"].power = value["power"]
+		if value.has("livestock"):
+			b["node"].livestock = value["livestock"]
+		if value.has("meat"):
+			b["node"].meat = value["meat"]
 		b["node"].UpdateData()
 
 	Global.Money += money_total
@@ -144,6 +154,26 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		
 		"Large Wheatfield":
 			return {"wheat": 5}
+ 
+		"Animal Farm":
+			return {"livestock": 3}
+ 
+		"Butcher":
+			var livestock = SumProperty(pos, ["Animal Farm"], 4, "livestock")
+			return {"meat": livestock}
+ 
+		"Restaurant":
+			var pop = SumProperty(pos, HOUSING_NAMES, 5, "population")
+			var meat = SumProperty(pos, ["Butcher"], 4, "meat")
+			var flour = SumProperty(pos, ["Mill"], 4, "flour")
+			var products = SumProperty(pos, ["Distribution Center"], 4, "products")
+			var scarcest = min(meat, min(flour, products))
+			return {"money": (pop * 4) * scarcest}
+ 
+		"Mall":
+			var pop = SumProperty(pos, HOUSING_NAMES, 6, "population")
+			var shops = CountNearby(pos, SHOP_NAMES, 2)
+			return {"money": pop * shops}
 		
 		_:
 			return {}

@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://dj0nehyvofbqq"]
 
 [ext_resource type="Script" uid="uid://bcq4cigdxq6tk" path="res://Code/building.gd" id="1_avus0"]
-[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="2_uj2qm"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="4_b2wr7"]
 [ext_resource type="Shader" uid="uid://ct3aa4adankg1" path="res://outline.gdshader" id="4_n4bpb"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_amr18"]
+load_path = "res://.godot/imported/tiles.png-bfbd3a49507d49882cba49626454bc89.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_v1gob"]
-atlas = ExtResource("2_uj2qm")
+atlas = SubResource("CompressedTexture2D_amr18")
 region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_b2wr7"]
@@ -180,3 +182,4 @@ flat = true
 
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
 [connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]
+[connection signal="pressed" from="HoverDetection" to="." method="_on_pressed"]

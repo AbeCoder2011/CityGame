@@ -60,3 +60,8 @@ func UpdateData():
 			$Info.text = str(meat)
 		_:
 			$Info.hide()
+
+
+func _on_pressed() -> void:
+	if Global.Tool == 2:
+		queue_free()

@@ -2,7 +2,9 @@ extends Node
 
 const BuildingTilemap = preload("res://Assets/tiles.png")
 
-
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("Abe") and event.is_pressed():
+		Money += 200
 # Tool 0 = Select
 #      1 = Draw
 #      2 = Erase
@@ -24,18 +26,18 @@ const BuildingData := {
 	},
 	"Double House":{
 		"atlas_coords": Vector2i(1,0),
-		"cost": 45,
+		"cost": 50,
 		"description": "A double house containing two families. Population drops near industry buildings."
 	},
 	"Small Apartment Complex":{
 		"atlas_coords": Vector2i(2,0),
-		"cost": 100,
+		"cost": 125,
 		"description": "A small building containing several families in one structure. Population drops near industry buildings."
 	},
 	"Large Apartment Complex":{
 		"atlas_coords": Vector2i(3,0),
 		"size": Vector2i(1,2),
-		"cost": 250,
+		"cost": 350,
 		"description": "A large tower providing housing for many families. Population drops near industry buildings."
 	},
 	"Mega Apartment Complex":{
@@ -54,17 +56,22 @@ const BuildingData := {
 		"atlas_coords": Vector2i(1,2),
 		"size": Vector2i(2,2),
 		"cost": 200,
-		"description": "Earns money from a wider population radius and distribution centers."
+		"description": "Earns money from a wider population radius than a regular supermarket, boosted by nearby distribution centers."
 	},
 	"Restaurant":{
-		"atlas_coords": Vector2i(2,2),
+		"atlas_coords": Vector2i(3,3),
 		"cost": 350,
-		"description": "Earns money from nearby population, but only if there is meat, flour, and products nearby - earnings are capped by whichever is scarcest."
+		"description": "Earns money from nearby population, but only if meat, flour and products are nearby."
 	},
 	"Mill":{
 		"atlas_coords": Vector2i(3,2),
 		"cost": 200,
 		"description": "Processes goods for nearby bakeries."
+	},
+	"Animal Farm":{
+		"atlas_coords": Vector2i(4,3),
+		"cost": 90,
+		"description": "Breeds livestock for nearby butchers."
 	},
 	"Distribution Center":{
 		"atlas_coords": Vector2i(4,2),
@@ -79,21 +86,21 @@ const BuildingData := {
 	"Cafe":{
 		"atlas_coords": Vector2i(6,2),
 		"cost": 80,
-		"description": "Earns money from population living within its radius."
+		"description": "A cozy cafe where people can enjoy a sip of soda or beer. Earns money from population living within its radius."
 	},
 	"Bakery":{
 		"atlas_coords": Vector2i(7,2),
 		"cost": 100,
-		"description": "Earns money from nearby population, requires flour from nearby mills."
+		"description": "A small bakery baking bread for the nearby people. Earns money from nearby population, requires flour from nearby mills."
 	},
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
 		"cost": 1500,
-		"description": "Earns money from nearby population, boosted by all shops around."
+		"description": "A large mall combining several shops into one huge aircooled building. Earns money from nearby population, boosted by all shops around."
 	},
 	"Butcher":{
-		"atlas_coords": Vector2i(2,10),
+		"atlas_coords": Vector2i(5,3),
 		"cost": 150,
 		"description": "Processes livestock from nearby animal farms into meat."
 	},
@@ -151,11 +158,6 @@ const BuildingData := {
 		"atlas_coords": Vector2i(1,8),
 		"size": Vector2i(2,2),
 		"cost": 250
-	},
-	"Animal Farm":{
-		"atlas_coords": Vector2i(2,8),
-		"cost": 90,
-		"description": "Raises livestock for nearby butchers."
 	},
 	"Large Mountain":{
 		"atlas_coords": Vector2i(3,8),

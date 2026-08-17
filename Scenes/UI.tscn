@@ -513,6 +513,27 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Bakery"
 
+[node name="BasicHouse8" parent="UI/Building/Categories/Stores" unique_id=1991747827 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Restaurant"
+
+[node name="BasicHouse9" parent="UI/Building/Categories/Stores" unique_id=1325274770 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Animal Farm"
+
+[node name="BasicHouse10" parent="UI/Building/Categories/Stores" unique_id=520740049 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Mall"
+
+[node name="Gap4" type="Control" parent="UI/Building/Categories/Stores" unique_id=1596243480]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse11" parent="UI/Building/Categories/Stores" unique_id=2063214256 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Butcher"
+
 [node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
 visible = false
 layout_mode = 1
