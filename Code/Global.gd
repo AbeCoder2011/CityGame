@@ -56,6 +56,11 @@ const BuildingData := {
 		"cost": 200,
 		"description": "Earns money from a wider population radius and distribution centers."
 	},
+	"Restaurant":{
+		"atlas_coords": Vector2i(2,2),
+		"cost": 350,
+		"description": "Earns money from nearby population, but only if there is meat, flour, and products nearby - earnings are capped by whichever is scarcest."
+	},
 	"Mill":{
 		"atlas_coords": Vector2i(3,2),
 		"cost": 200,
@@ -80,6 +85,17 @@ const BuildingData := {
 		"atlas_coords": Vector2i(7,2),
 		"cost": 100,
 		"description": "Earns money from nearby population, requires flour from nearby mills."
+	},
+	"Mall":{
+		"atlas_coords": Vector2i(8,2),
+		"size": Vector2i(2,2),
+		"cost": 1500,
+		"description": "Earns money from nearby population, boosted by all shops around."
+	},
+	"Butcher":{
+		"atlas_coords": Vector2i(2,10),
+		"cost": 150,
+		"description": "Processes livestock from nearby animal farms into meat."
 	},
 	# --- Energy Industry
 	"Thermal Power Plant":{
@@ -135,6 +151,11 @@ const BuildingData := {
 		"atlas_coords": Vector2i(1,8),
 		"size": Vector2i(2,2),
 		"cost": 250
+	},
+	"Animal Farm":{
+		"atlas_coords": Vector2i(2,8),
+		"cost": 90,
+		"description": "Raises livestock for nearby butchers."
 	},
 	"Large Mountain":{
 		"atlas_coords": Vector2i(3,8),

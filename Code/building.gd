@@ -7,6 +7,8 @@ var flour := 0
 var wheat := 0
 var electronics := 0
 var power := 0
+var livestock := 0
+var meat := 0
 
 var building_name = ""
 
@@ -50,5 +52,11 @@ func UpdateData():
 		"Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
 			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
 			$Info.text = str(power)
+		"Animal Farm":
+			$Info/TextureRect.texture.region = Rect2(160,0,16,16)
+			$Info.text = str(livestock)
+		"Butcher":
+			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
+			$Info.text = str(meat)
 		_:
 			$Info.hide()

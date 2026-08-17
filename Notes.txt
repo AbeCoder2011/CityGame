@@ -1,48 +1,86 @@
 --- Housing
-Basic house
-- Population + (4 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
-Double house
-- Population + (8 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
-small apartment complex
-- Population + (16 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
-Large apartment complex
-- Population + (32 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
-Mega apartment complex
-- Population + (64 * 0.5^(thermal power plant [6] + Nuclear power plant [8] + (Large thermal power plant [8] * 2))
+Basic House
+Population + (4 * 0.5^(Thermal Power Plant [6] + Nuclear Power Plant [8] + (Large Thermal Power Plant [8] * 2))
+
+Double House
+
+Population + (8 * 0.5^(Thermal Power Plant [6] + Nuclear Power Plant [8] + (Large Thermal Power Plant [8] * 2))
+
+Small Apartment Complex
+
+Population + (16 * 0.5^(Thermal Power Plant [6] + Nuclear Power Plant [8] + (Large Thermal Power Plant [8] * 2))
+
+Large Apartment Complex
+
+Population + (32 * 0.5^(Thermal Power Plant [6] + Nuclear Power Plant [8] + (Large Thermal Power Plant [8] * 2))
+
+Mega Apartment Complex
+
+Population + (64 * 0.5^(Thermal Power Plant [6] + Nuclear Power Plant [8] + (Large Thermal Power Plant [8] * 2))
 
 --- Stores
-Small supermarket
-- Money + (Population [3] * (1 + Products [10]) 
-Large supermarket
-- Money + (Population [5] * (1 + Products [10]) 
+Small Supermarket
+
+Money + (Population [3] * (1 + Products [10])
+
+Large Supermarket
+
+Money + (Population [5] * (1 + Products [10])
+
 Mill
-Distribution center
-- Products + (Small Factory [4] + (4 * Large Factory [5])) 
-Electronics store
-- Money + (Population [6]) 
+
+Distribution Center
+
+Products + (Small Factory [4] + (4 * Large Factory [5]))
+
+Electronics Store
+
+Money + (Population [6])
+
 Cafe
-- Money + (Population [4]) 
+
+Money + (Population [4])
+
 Bakery
-- Money + (Mill [4] * 2 * Population [3])
+
+Money + (Mill [4] * 2 * Population [3])
 
 --- Energy Industry
-thermal power plant
-small solar farm
-Nuclear power plant
-Large thermal power plant
-Large solar farm
+Thermal Power Plant
+Small Solar Farm
+Nuclear Power Plant
+Large Thermal Power Plant
+Large Solar Farm
 
 --- Parks
-Pocket park
-small park
-Fountain park
-Large park
+Pocket Park
+Small Park
+Fountain Park
+Large Park
 
 --- Nature
-Small forest
+Small Forest
 Large Forest
-Large mountain
+Small Wheatfield
+Large Wheatfield
+Large Mountain
 
 --- Production Industry
 Small Factory
 Large Factory
+
+
+
+--- Additions
+Animal farm
+- Livestock + 3
+Butcher
+- Meat + (Livestock [4])
+Restaurant
+- Income + (Population [5] * 4) * min(Meat [4], Flour [4], Products [4])
+Mall
+- Income + (Population [6] * All Shops [2])
+
+
+
+The pig is copyrighted lol
