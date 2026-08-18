@@ -185,7 +185,43 @@ const BuildingData := {
 	},
 }
 
+const UnlockRequirements := {
+	"None": [],
+	"Basic House": [],
+	"Small Supermarket": [],
+	"Small Wheatfield": [],
+	"Thermal Power Plant": [],
+	"Pocket Park": [],
+	"Small Forest": [],
+	"Small Factory": [],
 
+	"Double House": [{"type":"population","amount":20}],
+	"Small Apartment Complex": [{"type":"population","amount":50}],
+	"Large Apartment Complex": [{"type":"population","amount":150}],
+	"Mega Apartment Complex": [{"type":"population","amount":400}],
+
+	"Large Supermarket": [{"type":"building_count","building":"Small Supermarket","amount":3}],
+	"Mill": [{"type":"building_count","building":"Small Wheatfield","amount":2}],
+	"Bakery": [{"type":"building_count","building":"Mill","amount":1}],
+	"Distribution Center": [{"type":"building_count","building":"Small Factory","amount":2}],
+	"Electronics Store": [{"type":"population","amount":100}],
+	"Cafe": [{"type":"population","amount":30}],
+	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
+
+	"Small Solar Farm": [{"type":"money","amount":1000}],
+	"Nuclear Power Plant": [{"type":"population","amount":300}],
+	"Large Thermal Power Plant": [{"type":"building_count","building":"Thermal Power Plant","amount":2}],
+	"Large Solar Farm": [{"type":"building_count","building":"Small Solar Farm","amount":2}],
+	"Transformator Building": [{"type":"building_count","building":"Thermal Power Plant","amount":1}],
+
+	"Small Park": [{"type":"building_count","building":"Pocket Park","amount":2}],
+	"Fountain Park": [{"type":"money","amount":500}],
+	"Large Park": [{"type":"population","amount":200}],
+	"Large Forest": [{"type":"building_count","building":"Small Forest","amount":2}],
+	"Large Mountain": [{"type":"money","amount":2000}],
+
+	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
+}	
 
 @export var Money = 100.0
 @export var Population := 0

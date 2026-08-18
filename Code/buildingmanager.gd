@@ -22,12 +22,19 @@ func NewBuilding(nam:String, location:Vector2i):
 	b.position = location * 48
 	add_child(b)
 	Buildings.append({"pos":location,"name":nam,"node":b})
+	print($"..".name)
 
 
 # --- Helpers -------------------------------------------------
 
 func Dist(a:Vector2i, b:Vector2i) -> float:
 	return max(abs(a.x - b.x),abs(a.y - b.y))
+
+func GetBuildingAmounts() -> Dictionary:
+	var counts = {}
+	for b in Buildings:
+		counts[b["name"]] = counts.get(b["name"], 0) + 1
+	return counts
 
 # Count buildings of given names within radius of pos
 func CountNearby(pos:Vector2i, names:Array, radius:float) -> int:
@@ -86,7 +93,7 @@ func Tick():
 	distribution_centers_inventory = {}
 	for b in Buildings:
 		if b["name"] == "Distribution Center":
-			var inv = SumAllProperties(b["pos"],2)
+			var inv = SumAllProperties(b["pos"],1)
 			for n in inv.keys():
 				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
 	

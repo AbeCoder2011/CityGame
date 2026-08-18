@@ -10,10 +10,14 @@ const FILL_CHANCE := 1      # even inside a cluster, skip some tiles to leave ga
 
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
 
+var UnlockedBuildings := {}
+
 func _ready() -> void:
 	UpdateCityStats()
 	await get_tree().process_frame
 	#GenerateEnvironment()
+	for n in Global.BuildingData.keys():
+		UnlockedBuildings[n] = Global.UnlockRequirements.has(n)
 
 func UpdateCityStats():
 	$UI.UpdateCityStats()
@@ -78,3 +82,11 @@ func ClaimTiles(pos: Vector2i, size: Vector2i):
 	for dx in range(size.x):
 		for dy in range(size.y):
 			occupied[pos + Vector2i(dx, dy)] = true
+
+func CheckBuildingUnlocks(current_building_counts:Dictionary):
+	for r in Global.UnlockRequirements:
+		if Global.UnlockedBuildings.get(r, false):
+			continue #already unlocked brrrr
+		
+		
+		

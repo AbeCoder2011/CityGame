@@ -47,3 +47,8 @@ func insufficient_funds():
 	await $UI/CityInfo/Info/Money/RedTimer.timeout
 	$UI/CityInfo/Info/Money/Label.label_settings.font_color = Color.WHITE
 	
+func CheckBuildingUnlocks():
+	for c in $UI/Building/Categories.get_children():
+		for b in c.get_children():
+			if $"..".UnlockedBuildings[b.Building_Name]:
+				b.Unlock()

@@ -12,6 +12,10 @@ region = Rect2(0, 192, 16, 16)
 atlas = ExtResource("1_yugtv")
 region = Rect2(0, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_00us2"]
+atlas = ExtResource("1_yugtv")
+region = Rect2(16, 192, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
 atlas = ExtResource("1_yugtv")
 region = Rect2(7, 274, 22, 19)
@@ -72,6 +76,22 @@ offset_right = 32.5
 offset_bottom = 16.5
 mouse_filter = 1
 flat = true
+
+[node name="LockedTexture" type="NinePatchRect" parent="." unique_id=290700800]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 33.25
+offset_bottom = 29.75
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_00us2")
+patch_margin_left = 14
+patch_margin_top = 14
+patch_margin_right = 1
+patch_margin_bottom = 1
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Info" type="NinePatchRect" parent="." unique_id=1698204215]
 z_index = 2
@@ -138,6 +158,7 @@ expand_mode = 2
 stretch_mode = 5
 
 [node name="Info" type="Label" parent="Info" unique_id=1092541616]
+visible = false
 custom_maximum_size = Vector2(592.49994, 384.99994)
 layout_mode = 0
 offset_left = 2.5
@@ -146,6 +167,19 @@ offset_right = 594.99994
 offset_bottom = 401.99994
 scale = Vector2(0.1, 0.1)
 text = "Hey, this is an example description of a building."
+label_settings = SubResource("LabelSettings_00us2")
+autowrap_mode = 3
+
+[node name="LockedInfo" type="Label" parent="Info" unique_id=843583481]
+custom_maximum_size = Vector2(592.49994, 384.99994)
+layout_mode = 0
+offset_left = 2.5
+offset_top = 17.0
+offset_right = 594.99994
+offset_bottom = 401.99994
+scale = Vector2(0.1, 0.1)
+text = "Locked - To unlock:
+- Build 5 houses"
 label_settings = SubResource("LabelSettings_00us2")
 autowrap_mode = 3
 
