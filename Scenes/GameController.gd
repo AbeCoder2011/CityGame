@@ -17,7 +17,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 	#GenerateEnvironment()
 	for n in Global.BuildingData.keys():
-		UnlockedBuildings[n] = Global.UnlockRequirements.has(n)
+		UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
 
 func UpdateCityStats():
 	$UI.UpdateCityStats()
@@ -84,9 +84,23 @@ func ClaimTiles(pos: Vector2i, size: Vector2i):
 			occupied[pos + Vector2i(dx, dy)] = true
 
 func CheckBuildingUnlocks(current_building_counts:Dictionary):
-	for r in Global.UnlockRequirements:
-		if Global.UnlockedBuildings.get(r, false):
-			continue #already unlocked brrrr
-		
-		
-		
+	for b in Global.UnlockRequirements.keys():
+		for r in Global.UnlockRequirements[b]:
+			if UnlockedBuildings.get(r, false):
+				continue #already unlocked brrrr
+			match r["type"]:
+				"population":
+					if Global.Population >= r["amount"]:
+						UnlockedBuildings[b] = true
+				"money":
+					if Global.Money >= r["amount"]:
+						UnlockedBuildings[b] = true
+				"building_count":
+					if current_building_counts.get(r["building"], 0) >= r["amount"]:
+						UnlockedBuildings[b] = true
+				"total_buildings":
+					var total = 0
+					for c in current_building_counts.values():
+						total += c
+					if total >= r["amount"]:
+						UnlockedBuildings[b] = true

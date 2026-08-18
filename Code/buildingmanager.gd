@@ -22,8 +22,8 @@ func NewBuilding(nam:String, location:Vector2i):
 	b.position = location * 48
 	add_child(b)
 	Buildings.append({"pos":location,"name":nam,"node":b})
-	print($"..".name)
-
+	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	$"../UI".CheckBuildingUnlocks()
 
 # --- Helpers -------------------------------------------------
 
@@ -125,6 +125,8 @@ func Tick():
 	Global.Money += money_total
 	Global.Population = population_total
 	$"..".UpdateCityStats()
+	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	$"../UI".CheckBuildingUnlocks()
 	
 
 func CalculateBuildingOutput(b) -> Dictionary:
@@ -180,9 +182,8 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			return {"money": flour * 2 * pop}
 		"Transformator Building":
-			var power = CountNearby(pos, ["Thermal Power Plant","Small Solar Farm"], 4)
-			power += 4 * CountNearby(pos, ["Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"], 4)
-			return {"power": power}
+		
+			return {"power": SumProperty(pos,["Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Thermal Power Plant","Small Solar Farm"],4,"power")}
 		"Thermal Power Plant","Small Solar Farm":
 			return {"power": 1}
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":

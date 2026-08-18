@@ -186,14 +186,6 @@ const BuildingData := {
 }
 
 const UnlockRequirements := {
-	"None": [],
-	"Basic House": [],
-	"Small Supermarket": [],
-	"Small Wheatfield": [],
-	"Thermal Power Plant": [],
-	"Pocket Park": [],
-	"Small Forest": [],
-	"Small Factory": [],
 
 	"Double House": [{"type":"population","amount":20}],
 	"Small Apartment Complex": [{"type":"population","amount":50}],

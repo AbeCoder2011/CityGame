@@ -5,6 +5,8 @@ const Atlas = preload("res://Assets/tiles.png")
 
 @onready var building_size : Vector2= Global.BuildingData[Building_Name].get("size",Vector2(1,1))
 
+var unlocked = false
+
 func _ready() -> void:
 	$Texture.texture = AtlasTexture.new()
 	$Texture.texture.atlas = Atlas
@@ -56,7 +58,7 @@ func hover_end() -> void:
 	$Info.hide()
 
 func Update():
-	if Global.Money < Global.BuildingData[Building_Name]["cost"]:
+	if Global.Money < Global.BuildingData[Building_Name]["cost"] and unlocked:
 		modulate = Color("888888")
 	else:
 		modulate = Color("ffffffff")
@@ -65,4 +67,10 @@ func Unlock():
 	$Info/Info.show()
 	$Info/LockedInfo.hide()
 	$LockedTexture.hide()
+	$Info/LockedName.hide()
+	$Info/Name.show()
+	$Info/LockedCost.hide()
+	$Info/Cost.show()
+	unlocked = true
+	
 	

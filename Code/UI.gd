@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+var already_unlocked = []
+
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
@@ -50,5 +52,12 @@ func insufficient_funds():
 func CheckBuildingUnlocks():
 	for c in $UI/Building/Categories.get_children():
 		for b in c.get_children():
-			if $"..".UnlockedBuildings[b.Building_Name]:
+			if b.name.begins_with("Gap"):
+				continue
+			if $"..".UnlockedBuildings[b.Building_Name] == true and not b in already_unlocked:
 				b.Unlock()
+				already_unlocked.append(b)
+				$UI/Messages/NewBuilding/Name.text = b.Building_Name
+				$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.BuildingData[b.Building_Name]["cost"])
+				$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
+				$UI/Messages/AnimationPlayer.play("new_building")

@@ -56,7 +56,7 @@ func UpdateData():
 		"Small Wheatfield","Large Wheatfield":
 			$Info/TextureRect.texture.region = Rect2(96,0,16,16)
 			$Info.text = str(wheat)
-		"Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
+		"Transformator Building":
 			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
 			$Info.text = str(power)
 		"Animal Farm":
