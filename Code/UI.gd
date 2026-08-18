@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-var already_unlocked = []
+var already_unlocked := []
 
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
@@ -10,7 +10,6 @@ func _ready() -> void:
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
 		n.hide()
-	print("hi")
 	$UI/Building/Categories.get_node(cat_name).show()
 
 
@@ -54,10 +53,24 @@ func CheckBuildingUnlocks():
 		for b in c.get_children():
 			if b.name.begins_with("Gap"):
 				continue
-			if $"..".UnlockedBuildings[b.Building_Name] == true and not b in already_unlocked:
+			if $"..".UnlockedBuildings[b.Building_Name] == true and not b.name in already_unlocked:
 				b.Unlock()
-				already_unlocked.append(b)
+				already_unlocked.append(b.name)
 				$UI/Messages/NewBuilding/Name.text = b.Building_Name
 				$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.BuildingData[b.Building_Name]["cost"])
 				$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
 				$UI/Messages/AnimationPlayer.play("new_building")
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("pause") and event.is_pressed():
+		$UI/Pause.visible = !$UI/Pause.visible
+		get_tree().paused = $UI/Pause.visible
+
+
+func _on_erase_save_pressed() -> void:
+	$"..".DeleteSave()
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func _on_save_pressed() -> void:
+	$"..".SaveGame()

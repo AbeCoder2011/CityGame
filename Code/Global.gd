@@ -22,23 +22,23 @@ const BuildingData := {
 	"Basic House":{
 		"atlas_coords": Vector2i(0,0),
 		"cost": 20,
-		"description": "A small home for one family. Population drops near industry buildings."
+		"description": "A small home for one family. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Double House":{
 		"atlas_coords": Vector2i(1,0),
 		"cost": 50,
-		"description": "A double house containing two families. Population drops near industry buildings."
+		"description": "A double house containing two families. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Small Apartment Complex":{
 		"atlas_coords": Vector2i(2,0),
 		"cost": 125,
-		"description": "A small building containing several families in one structure. Population drops near industry buildings."
+		"description": "A small building containing several families in one structure. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Large Apartment Complex":{
 		"atlas_coords": Vector2i(3,0),
 		"size": Vector2i(1,2),
 		"cost": 350,
-		"description": "A large tower providing housing for many families. Population drops near industry buildings."
+		"description": "A large tower providing housing for many families. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Mega Apartment Complex":{
 		"atlas_coords": Vector2i(4,0),
@@ -107,11 +107,13 @@ const BuildingData := {
 	# --- Energy Industry
 	"Thermal Power Plant":{
 		"atlas_coords": Vector2i(0,4),
-		"cost": 500
+		"cost": 500,
+		"description": "A power plant that burns coal to produce energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Small Solar Farm":{
 		"atlas_coords": Vector2i(1,4),
-		"cost": 700
+		"cost": 700,
+		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Nuclear Power Plant":{
 		"atlas_coords": Vector2i(2,4),
@@ -186,7 +188,6 @@ const BuildingData := {
 }
 
 const UnlockRequirements := {
-
 	"Double House": [{"type":"population","amount":20}],
 	"Small Apartment Complex": [{"type":"population","amount":50}],
 	"Large Apartment Complex": [{"type":"population","amount":150}],
@@ -198,8 +199,10 @@ const UnlockRequirements := {
 	"Distribution Center": [{"type":"building_count","building":"Small Factory","amount":2}],
 	"Electronics Store": [{"type":"population","amount":100}],
 	"Cafe": [{"type":"population","amount":30}],
-	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
-
+	"Restaurant":[{"type":"building_count","building":"Cafe","amount":3}],
+	"Mall":[{"type":"population","amount":250}],
+	"Animal Farm":[{"type":"building_count","building":"Mill","amount":2}],
+	"Butcher":[{"type":"building_count","building":"Animal Farm","amount":1}],
 	"Small Solar Farm": [{"type":"money","amount":1000}],
 	"Nuclear Power Plant": [{"type":"population","amount":300}],
 	"Large Thermal Power Plant": [{"type":"building_count","building":"Thermal Power Plant","amount":2}],
@@ -211,6 +214,7 @@ const UnlockRequirements := {
 	"Large Park": [{"type":"population","amount":200}],
 	"Large Forest": [{"type":"building_count","building":"Small Forest","amount":2}],
 	"Large Mountain": [{"type":"money","amount":2000}],
+	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
 
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
 }	

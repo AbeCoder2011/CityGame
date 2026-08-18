@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://maxm0l4vdeil" path="res://Scenes/BuildingButton.tscn" id="5_qwshj"]
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]
+[ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="8_mg6lk"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
@@ -236,10 +237,16 @@ _data = {
 &"new_building": SubResource("Animation_vqx31")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_o2ick"]
+font = ExtResource("8_mg6lk")
+font_size = 55
+
 [node name="UI" type="CanvasLayer" unique_id=790133659]
+process_mode = 3
 script = ExtResource("1_dewlx")
 
 [node name="UI" type="Control" parent="." unique_id=1042502285]
+process_mode = 1
 z_index = 1
 layout_mode = 3
 anchors_preset = 15
@@ -936,6 +943,70 @@ stretch_mode = 5
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Messages" unique_id=2116061116]
 libraries/ = SubResource("AnimationLibrary_b1goy")
 
+[node name="Pause" type="Control" parent="UI" unique_id=898323941]
+process_mode = 3
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Pause" unique_id=401796940]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.25275353, 0.2527536, 0.2527535, 0.70980394)
+
+[node name="Label" type="Label" parent="UI/Pause" unique_id=1142230429]
+layout_mode = 0
+offset_left = 842.0
+offset_top = 91.0
+offset_right = 1023.0
+offset_bottom = 161.0
+text = "Paused"
+label_settings = SubResource("LabelSettings_o2ick")
+
+[node name="Save" type="Button" parent="UI/Pause" unique_id=702289640]
+layout_mode = 0
+offset_left = 735.0
+offset_top = 268.0
+offset_right = 1126.0
+offset_bottom = 343.0
+theme_override_font_sizes/font_size = 32
+text = "Save Game"
+
+[node name="Label" type="Label" parent="UI/Pause/Save" unique_id=2065102495]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Erase Save" type="Button" parent="UI/Pause" unique_id=1171648305]
+layout_mode = 0
+offset_left = 735.0
+offset_top = 376.0
+offset_right = 1126.0
+offset_bottom = 451.0
+theme_override_font_sizes/font_size = 32
+text = "Erase Save"
+
+[node name="Label" type="Label" parent="UI/Pause/Erase Save" unique_id=505276491]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
+[connection signal="pressed" from="UI/Pause/Save" to="." method="_on_save_pressed"]
+[connection signal="pressed" from="UI/Pause/Erase Save" to="." method="_on_erase_save_pressed"]

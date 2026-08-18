@@ -9,6 +9,7 @@ var electronics := 0
 var power := 0
 var livestock := 0
 var meat := 0
+var nature := 0
 
 var building_name = ""
 
@@ -65,6 +66,9 @@ func UpdateData():
 		"Butcher":
 			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
 			$Info.text = str(meat)
+		"Pocket Park","Small Park","Fountain Park","Large Park":
+			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
+			$Info.text = str(nature)
 		_:
 			$Info.hide()
 
