@@ -2,15 +2,19 @@ extends Node2D
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
+var DestroyedBuildings = []
 
+var distribution_centers_inventory := {}
+var already_checked_buildings = []
 const SHOP_NAMES = [
-	"Small Supermarket", "Large Supermarket", "Electronics Store",
-	"Cafe", "Bakery", "Restaurant", "Mall"
+	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
 ]
 const HOUSING_NAMES = [
-	"Basic House", "Double House", "Small Apartment Complex",
-	"Large Apartment Complex", "Mega Apartment Complex"
+	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex"
 ]
+const DC_PROPERTIES = ["money","products","flour","wheat","electronics","livestock","meat"]
+func AddToRemovalList(node:Node2D):
+	DestroyedBuildings.append(node)
 
 func NewBuilding(nam:String, location:Vector2i):
 	var b : Node2D = BuildingScene.instantiate()
@@ -18,6 +22,7 @@ func NewBuilding(nam:String, location:Vector2i):
 	b.position = location * 48
 	add_child(b)
 	Buildings.append({"pos":location,"name":nam,"node":b})
+
 
 # --- Helpers -------------------------------------------------
 
@@ -40,9 +45,23 @@ func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String) -> float:
 	for b in Buildings:
 		if b["pos"] == pos:
 			continue
-		if names.has(b["name"]) and Dist(pos, b["pos"]) <= radius:
-			total += b["node"].get(prop)
+		if Dist(pos, b["pos"]) <= radius:
+			if names.has(b["name"]):
+				total += b["node"].get(prop)
+			if b["name"] == "Distribution Center":
+				total += distribution_centers_inventory.get(prop,0)
 	return total
+
+func SumAllProperties(pos:Vector2i, radius:float):
+	var properties = {}
+	for b in Buildings:
+		if b["pos"] == pos or b["name"] == "Distribution Center" or b in already_checked_buildings:
+			continue
+		if Dist(pos, b["pos"]) <= radius:
+			for n in DC_PROPERTIES:
+				properties[n] = properties.get(n, 0) + b["node"].get(n)
+				already_checked_buildings.append(b)
+	return properties
 
 func IndustryPenalty(pos:Vector2i) -> float:
 	var thermal = CountNearby(pos, ["Thermal Power Plant"], 6)
@@ -55,11 +74,25 @@ func IndustryPenalty(pos:Vector2i) -> float:
 # --- Tick ------------------------------------------------------
 
 func Tick():
+	for n in DestroyedBuildings:
+		for i in range(Buildings.size() - 1, -1, -1):
+			if Buildings[i]["node"] == n:
+				Buildings.remove_at(i)
+				break
+		if is_instance_valid(n):
+			n.queue_free()
+	DestroyedBuildings.clear()
+	already_checked_buildings = []
+	distribution_centers_inventory = {}
+	for b in Buildings:
+		if b["name"] == "Distribution Center":
+			var inv = SumAllProperties(b["pos"],2)
+			for n in inv.keys():
+				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
+	
 	var money_total = 0
 	var population_total = 0
 	for b in Buildings:
-		if not is_instance_valid(b["node"]):
-			Buildings.erase(b)
 		var value : Dictionary = CalculateBuildingOutput(b)
 		if value.has("money"):
 			b["node"].money = value["money"]
@@ -127,9 +160,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"flour": wheat}
 
 		"Distribution Center":
-			var small_factory = CountNearby(pos, ["Small Factory"], 4)
-			var large_factory = CountNearby(pos, ["Large Factory"], 5)
-			return {"products": small_factory + (4 * large_factory)}
+			return SumAllProperties(b["pos"],2)
 		
 		"Electronics Store":
 			return {"money": SumProperty(pos, HOUSING_NAMES, 6, "population")}
@@ -174,6 +205,9 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var pop = SumProperty(pos, HOUSING_NAMES, 6, "population")
 			var shops = CountNearby(pos, SHOP_NAMES, 2)
 			return {"money": pop * shops}
-		
+		"Small Factory":
+			return {"products":1}
+		"Large Factory":
+			return {"products":4}
 		_:
 			return {}

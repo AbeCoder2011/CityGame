@@ -15,11 +15,15 @@ var building_name = ""
 func init_building(nam) -> void:
 	building_name = nam
 	$Sprite.texture = AtlasTexture.new()
-	$Sprite.texture.atlas = Global.BuildingTilemap.duplicate()
+	$Sprite.texture.atlas = Global.BuildingTilemap
+	$Info/TextureRect.texture = AtlasTexture.new()
+	$Info/TextureRect.texture.atlas = Global.IconTilemap
 	$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
 	$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
 	
 func display_income(i:float):
+	if i == 0:
+		return
 	if int(i) == i:
 		$Income.text = "+" + str(int(i))
 	else:
@@ -29,7 +33,6 @@ func display_income(i:float):
 
 
 func _on_mouse_enter() -> void:
-	print("HIII")
 	$Info.show()
 	UpdateData()
 			
@@ -43,6 +46,10 @@ func UpdateData():
 		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex":
 			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
 			$Info.text = str(population)
+		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
+			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
+			$Info.text = str(money * 2) + "/s"
+			
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
 			$Info.text = str(flour)
@@ -64,4 +71,7 @@ func UpdateData():
 
 func _on_pressed() -> void:
 	if Global.Tool == 2:
-		queue_free()
+		hide()
+		$"..".AddToRemovalList(self)
+func FreeNode():
+	queue_free()

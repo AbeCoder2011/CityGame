@@ -3,11 +3,13 @@ extends CanvasLayer
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
+		print(Cat.name + " was ")
 
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
 		n.hide()
-	$UI/Building/Categories.get_node_or_null(cat_name).show()
+	print("hi")
+	$UI/Building/Categories.get_node(cat_name).show()
 
 
 func _on_select_pressed() -> void:
@@ -35,7 +37,10 @@ func UpdateCityStats():
 	else:
 		$UI/CityInfo/Info/Money/Label.text = str(Global.Money)
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
-
+	for n in $UI/Building/Categories.get_children():
+		for b in n.get_children():
+			if not b.name.begins_with("Gap"):
+				b.Update()
 func insufficient_funds():
 	$UI/CityInfo/Info/Money/Label.label_settings.font_color = Color.DARK_RED
 	$UI/CityInfo/Info/Money/RedTimer.start()

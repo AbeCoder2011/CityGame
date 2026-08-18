@@ -17,12 +17,12 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 [autoload]
 
 Global="*uid://bxrvxnpby55n6"
+Music="*uid://cedpg40fm8shm"
 
 [display]
 
 window/size/viewport_width=1940
 window/size/viewport_height=1080
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

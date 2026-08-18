@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://drg0326x7d7kg"
+path="res://.godot/imported/Pleasant Porridge.mp3-e712dd7986e4d2fba7d009a441328255.mp3str"
+
+[deps]
+
+source_file="res://Assets/Pleasant Porridge.mp3"
+dest_files=["res://.godot/imported/Pleasant Porridge.mp3-e712dd7986e4d2fba7d009a441328255.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

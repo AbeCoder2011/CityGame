@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://cedpg40fm8shm"]
+
+[ext_resource type="AudioStream" uid="uid://drg0326x7d7kg" path="res://Assets/Pleasant Porridge.mp3" id="1_fghhr"]
+
+[node name="Music" type="Node" unique_id=1084177566]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=773245750]
+stream = ExtResource("1_fghhr")
+volume_db = -4.863
+autoplay = true
+parameters/looping = true
