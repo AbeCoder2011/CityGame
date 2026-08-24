@@ -5,6 +5,7 @@
 [node name="Music" type="Node" unique_id=1084177566]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=773245750]
+process_mode = 3
 stream = ExtResource("1_fghhr")
 volume_db = -4.863
 autoplay = true

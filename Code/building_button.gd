@@ -58,10 +58,15 @@ func hover_end() -> void:
 	$Info.hide()
 
 func Update():
-	if Global.Money < Global.BuildingData[Building_Name]["cost"] and unlocked:
+	$Info/Cost.text = "Cost:      " + str(Global.GetBuildingCost(Building_Name))
+	if Global.Money < Global.GetBuildingCost(Building_Name) and unlocked:
 		modulate = Color("888888")
 	else:
 		modulate = Color("ffffffff")
+
+func UpdateCost(new_cost):
+	$Info/Cost.text = "Cost:      " + str(new_cost)
+	
 
 func Unlock():
 	$Info/Info.show()

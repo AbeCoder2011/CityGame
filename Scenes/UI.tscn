@@ -504,7 +504,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -538,6 +537,15 @@ Building_Name = "Large Apartment Complex"
 [node name="BasicHouse5" parent="UI/Building/Categories/Housing" unique_id=1297636409 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Mega Apartment Complex"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Housing" unique_id=1062639605]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse6" parent="UI/Building/Categories/Housing" unique_id=1985056110 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Low-Budget Apartment"
 
 [node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
 visible = false
@@ -867,6 +875,7 @@ label_settings = SubResource("LabelSettings_aehul")
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
 layout_mode = 1
+anchors_preset = 10
 anchor_right = 1.0
 offset_top = 30.0
 offset_bottom = 100.0

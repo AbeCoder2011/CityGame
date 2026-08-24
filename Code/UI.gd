@@ -57,7 +57,7 @@ func CheckBuildingUnlocks():
 				b.Unlock()
 				already_unlocked.append(b.name)
 				$UI/Messages/NewBuilding/Name.text = b.Building_Name
-				$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.BuildingData[b.Building_Name]["cost"])
+				$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.GetBuildingCost(b.Building_Name))
 				$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
 				$UI/Messages/AnimationPlayer.play("new_building")
 

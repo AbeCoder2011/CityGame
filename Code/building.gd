@@ -69,6 +69,10 @@ func UpdateData():
 		"Pocket Park","Small Park","Fountain Park","Large Park":
 			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
 			$Info.text = str(nature)
+		"Small Factory","Large Factory":
+			$Info/TextureRect.texture.region = Rect2(256,0,16,16)
+			$Info.text = str(products)
+			
 		_:
 			$Info.hide()
 

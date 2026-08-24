@@ -13,6 +13,8 @@ var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including mult
 var UnlockedBuildings := {}
 
 func _ready() -> void:
+	Global.Money = 100
+	Global.Population = 0
 	LoadGame()
 	_init_autosave()
 	UpdateCityStats()
@@ -143,6 +145,7 @@ func SaveGame() -> void:
 		"money": Global.Money,
 		"population": Global.Population,
 		"unlocked_buildings": UnlockedBuildings,
+		"building_uses":Global.BuildingUses,
 		"already_unlocked": $UI.already_unlocked,
 		"buildings": buildings_data,
 	}
@@ -181,7 +184,7 @@ func LoadGame() -> bool:
  
 	Global.Money = parsed.get("money", 100.0)
 	Global.Population = parsed.get("population", 0)
- 
+	Global.BuildingUses = parsed.get("building_uses", {})
 	var loaded_unlocks = parsed.get("unlocked_buildings", null)
 	if loaded_unlocks is Dictionary:
 		UnlockedBuildings = loaded_unlocks
