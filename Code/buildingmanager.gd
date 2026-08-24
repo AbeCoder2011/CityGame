@@ -102,7 +102,7 @@ func Tick():
 			for n in inv.keys():
 				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
 		if b["name"] == "Transformator Building":
-			global_power += CalculateBuildingOutput(b)["power"]
+			global_power += SumProperty(b["pos"],["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power")
 	var money_total = 0
 	var population_total = 0
 	for b in Buildings:
@@ -173,11 +173,11 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"population": 16 * population_boost * (1 + 0.01 * nature)}
 		"Small Supermarket":
 			var pop = SumProperty(pos, HOUSING_NAMES, 1, "population")
-			var products = SumProperty(pos, ["Distribution Center"], 10, "products")
+			var products = SumProperty(pos, ["Distribution Center"], 6, "products")
 			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Large Supermarket":
-			var pop = SumProperty(pos, HOUSING_NAMES, 4, "population")
+			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			var products = SumProperty(pos, ["Distribution Center"], 6, "products")
 			return {"money": pop * (1 + 0.25 * products)}
 
@@ -221,7 +221,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var pop = SumProperty(pos, HOUSING_NAMES, 5, "population")
 			var meat = SumProperty(pos, ["Butcher"], 4, "meat")
 			var flour = SumProperty(pos, ["Mill"], 4, "flour")
-			var products = SumProperty(pos, ["Distribution Center"], 4, "products")
+			var products = SumProperty(pos, ["Small Factory","Large Factory"], 4, "products")
 			return {"money": (pop * 4) * min(meat, flour, products)}
  
 		"Mall":

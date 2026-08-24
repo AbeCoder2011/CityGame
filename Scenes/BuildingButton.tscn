@@ -193,8 +193,7 @@ scale = Vector2(0.5, 0.5)
 theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxLine_00us2")
 
-[node name="Info" type="Label" parent="Info" unique_id=1092541616]
-visible = false
+[node name="Info" type="RichTextLabel" parent="Info" unique_id=507546401]
 custom_maximum_size = Vector2(592.49994, 384.99994)
 layout_mode = 0
 offset_left = 2.5
@@ -202,11 +201,16 @@ offset_top = 17.0
 offset_right = 594.99994
 offset_bottom = 401.99994
 scale = Vector2(0.1, 0.1)
-text = "Hey, this is an example description of a building."
-label_settings = SubResource("LabelSettings_00us2")
-autowrap_mode = 3
+theme_override_font_sizes/normal_font_size = 40
+theme_override_font_sizes/bold_font_size = 35
+theme_override_font_sizes/bold_italics_font_size = 40
+theme_override_font_sizes/italics_font_size = 40
+theme_override_font_sizes/mono_font_size = 40
+bbcode_enabled = true
+text = "Hey, this is an example description of a [b]building[/b]."
 
 [node name="LockedInfo" type="Label" parent="Info" unique_id=843583481]
+visible = false
 custom_maximum_size = Vector2(592.49994, 384.99994)
 layout_mode = 0
 offset_left = 2.5

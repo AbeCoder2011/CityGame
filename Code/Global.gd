@@ -55,18 +55,18 @@ const BuildingData := {
 	"Small Supermarket":{
 		"atlas_coords": Vector2i(0,2),
 		"cost": 50,
-		"description": "Earns money from nearby population, boosted by nearby distribution centers. Maximum workload: 4/s"
+		"description": "Earns money from nearby (within [b]one[/b] tile) population, boosted by nearby products from factories. "
 	},
 	"Large Supermarket":{
 		"atlas_coords": Vector2i(1,2),
 		"size": Vector2i(2,2),
 		"cost": 400,
-		"description": "Earns money from a wider population radius than a regular supermarket, boosted by nearby distribution centers. Maximum workload: 16/s"
+		"description": "Earns money from a wider population radius (within [b]three[/b] tiles) than a regular supermarket, boosted by nearby (within [b]six[/b] tiles) products from factories."
 	},
 	"Restaurant":{
 		"atlas_coords": Vector2i(3,3),
 		"cost": 12000,
-		"description": "Earns money from nearby population, but only if meat, flour and products are nearby."
+		"description": "Earns money from nearby population (within [b]five[/b] tiles), but only if meat, flour and products are nearby (within [b]four[/b] tiles)."
 	},
 	"Mill":{
 		"atlas_coords": Vector2i(3,2),
@@ -80,34 +80,34 @@ const BuildingData := {
 	},
 	"Distribution Center":{
 		"atlas_coords": Vector2i(4,2),
-		"cost": 100,
-		"description": "Collects products from nearby factories to be distributed to supermarkets within a wide range."
+		"cost": 500,
+		"description": "Collects items / products from adjacent suppliers, then shares them with any other Distribution Center on the map."
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
 		"cost": 1300,
-		"description": "Earns money from population living within its radius."
+		"description": "Earns money from population living within its radius (within [b]three[/b] tiles)."
 	},
 	"Cafe":{
 		"atlas_coords": Vector2i(6,2),
 		"cost": 500,
-		"description": "A cozy cafe where people can enjoy a sip of soda or beer. Earns money from population living within its radius."
+		"description": "A cozy cafe where people can enjoy a sip of soda or beer. Earns money from population living within its radius (within [b]two[/b] tiles)."
 	},
 	"Bakery":{
 		"atlas_coords": Vector2i(7,2),
 		"cost": 3000,
-		"description": "A small bakery baking bread for the nearby people. Earns money from nearby population, requires flour from nearby mills."
+		"description": "A small bakery baking bread for the nearby people. Earns money from nearby population (within [b]three[/b] tiles), requires flour from nearby mills (within [b]three[/b] tiles)."
 	},
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
 		"cost": 1500,
-		"description": "A large mall combining several shops into one huge aircooled building. Earns money from nearby population, boosted by all shops around."
+		"description": "A large mall combining several shops into one huge aircooled building. Earns money from nearby population (within [b]six[/b] tiles), boosted by all shops around (within [b]two[/b] tiles)."
 	},
 	"Butcher":{
 		"atlas_coords": Vector2i(5,3),
 		"cost": 150,
-		"description": "Processes livestock from nearby animal farms into meat."
+		"description": "Processes livestock from nearby (within [b]four[/b] tiles) animal farms into meat."
 	},
 	# --- Energy Industry
 	"Thermal Power Plant":{
@@ -140,7 +140,7 @@ const BuildingData := {
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
 		"cost": 300,
-		"description": "Brings power from power plants and solar farms to the city, giving population a large boost."
+		"description": "Brings power from nearby power plants and solar farms to the city, giving population a large boost. Collects power from within [b]three[/b] tiles"
 	},
 	# --- Parks
 	"Pocket Park":{
