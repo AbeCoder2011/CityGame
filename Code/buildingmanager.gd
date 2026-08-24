@@ -5,6 +5,7 @@ var Buildings = []
 var DestroyedBuildings = []
 
 var distribution_centers_inventory := {}
+var global_power = 0
 var already_checked_buildings = []
 const SHOP_NAMES = [
 	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
@@ -76,8 +77,9 @@ func IndustryPenalty(pos:Vector2i) -> float:
 	var thermal = CountNearby(pos, ["Thermal Power Plant"], 6)
 	var nuclear = CountNearby(pos, ["Nuclear Power Plant"], 8)
 	var large_thermal = CountNearby(pos, ["Large Thermal Power Plant"], 8)
-	var factory = CountNearby(pos, ["Small Factory"], 8)
-	var exponent = thermal + nuclear + (large_thermal * 2) + factory
+	var sm_factory = CountNearby(pos, ["Small Factory"], 8)
+	var large_factory = CountNearby(pos, ["Large Factory"], 8)
+	var exponent = thermal + nuclear + (large_thermal * 2) + sm_factory + (large_factory * 4)
 	return 0.5 ** exponent
 
 # --- Tick ------------------------------------------------------
@@ -93,11 +95,14 @@ func Tick():
 	DestroyedBuildings.clear()
 	already_checked_buildings = []
 	distribution_centers_inventory = {}
+	global_power = 0
 	for b in Buildings:
 		if b["name"] == "Distribution Center":
 			var inv = SumAllProperties(b["pos"],1)
 			for n in inv.keys():
 				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
+		if b["name"] == "Transformator Building":
+			global_power += CalculateBuildingOutput(b)["power"]
 	var money_total = 0
 	var population_total = 0
 	for b in Buildings:
@@ -184,17 +189,16 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return SumAllProperties(b["pos"],1)
 		
 		"Electronics Store":
-			return {"money": SumProperty(pos, HOUSING_NAMES, 6, "population")}
+			return {"money": SumProperty(pos, HOUSING_NAMES, 3, "population")}
 		
 		"Cafe":
-			return {"money": SumProperty(pos, HOUSING_NAMES, 4, "population")}
+			return {"money": SumProperty(pos, HOUSING_NAMES, 2, "population")}
 		
 		"Bakery":
 			var flour = SumProperty(pos, ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			return {"money": min(min(flour, pop) * 3,32)}
 		"Transformator Building":
-		
 			return {"power": SumProperty(pos,["Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Thermal Power Plant","Small Solar Farm"],4,"power")}
 		"Thermal Power Plant","Small Solar Farm":
 			return {"power": 1}

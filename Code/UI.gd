@@ -68,9 +68,11 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_erase_save_pressed() -> void:
+	return
 	$"..".DeleteSave()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func _on_save_pressed() -> void:
+	return
 	$"..".SaveGame()

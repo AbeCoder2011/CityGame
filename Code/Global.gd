@@ -85,12 +85,12 @@ const BuildingData := {
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
-		"cost": 400,
+		"cost": 1300,
 		"description": "Earns money from population living within its radius."
 	},
 	"Cafe":{
 		"atlas_coords": Vector2i(6,2),
-		"cost": 80,
+		"cost": 500,
 		"description": "A cozy cafe where people can enjoy a sip of soda or beer. Earns money from population living within its radius."
 	},
 	"Bakery":{
@@ -197,7 +197,7 @@ const BuildingData := {
 	"Small Factory":{
 		"atlas_coords": Vector2i(0,10),
 		"cost": 5000,
-		"description":""
+		"description":"A large industrial factory producing various food products. Placing it near housing will make their population drop."
 	},
 	"Large Factory":{
 		"atlas_coords": Vector2i(1,10),

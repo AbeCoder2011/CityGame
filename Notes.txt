@@ -44,6 +44,14 @@ Money + (Population [4])
 Bakery
 
 Money + (Mill [4] * 2 * Population [3])
+Animal farm
+- Livestock + 3
+Butcher
+- Meat + (Livestock [4])
+Restaurant
+- Income + (Population [5] * 4) * min(Meat [4], Flour [4], Products [4])
+Mall
+- Income + (Population [6] * All Shops [2])
 
 --- Energy Industry
 Thermal Power Plant
@@ -72,14 +80,7 @@ Large Factory
 
 
 --- Additions
-Animal farm
-- Livestock + 3
-Butcher
-- Meat + (Livestock [4])
-Restaurant
-- Income + (Population [5] * 4) * min(Meat [4], Flour [4], Products [4])
-Mall
-- Income + (Population [6] * All Shops [2])
+
 
 
 

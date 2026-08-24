@@ -80,6 +80,8 @@ func UpdateData():
 func _on_pressed() -> void:
 	if Global.Tool == 2:
 		hide()
+		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 2)
+		Global.BuildingUses[building_name] -= 1
 		$"..".AddToRemovalList(self)
 func FreeNode():
 	queue_free()
