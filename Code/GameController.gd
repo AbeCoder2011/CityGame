@@ -7,6 +7,7 @@ var type_noise := FastNoiseLite.new()
 const MAP_RADIUS := 60         # generates a MAP_RADIUS x MAP_RADIUS area centered on 0,0
 const CLUSTER_THRESHOLD := -0.4 # higher = fewer, tighter clusters. lower = more coverage
 const FILL_CHANCE := 1      # even inside a cluster, skip some tiles to leave gaps
+const AUTOSAVE_INTERVAL := 60.0
 
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
 
@@ -15,6 +16,10 @@ var UnlockedBuildings := {}
 func _ready() -> void:
 	Global.Money = 100
 	Global.Population = 0
+	Global.BuildingUses = {}
+	$Autosaver.wait_time = AUTOSAVE_INTERVAL
+	$Autosaver.start()
+	LoadGame()
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
 		UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
@@ -112,6 +117,42 @@ func CheckBuildingUnlocks(current_building_counts:Dictionary):
 
 # save en load stuff
 
-const SAVE_PATH := "user://savegame.json"
-const AUTOSAVE_INTERVAL_SEC := 60.0
- 
+const SAVE_PATH := "user://saves/"
+const SAVE_NAME := "save.tres"
+const SAVE_FILE := preload("res://Code/SaveFile.gd")
+func SaveGame():
+	DirAccess.make_dir_absolute(SAVE_PATH)
+	var save = {
+		"ub": UnlockedBuildings,
+		"buildings": $Buildings.Buildings,
+		"money":Global.Money,
+		"pop":Global.Population,
+		"uses":Global.BuildingUses,
+	}
+	var resource = SAVE_FILE.new()
+	resource.save = save
+	ResourceSaver.save(resource, SAVE_PATH + SAVE_NAME)
+	print("Game saved succesfully!")
+
+func LoadGame():
+	if not ResourceLoader.exists(SAVE_PATH + SAVE_NAME):
+		print("Savefile not found!")
+		return
+	var save = ResourceLoader.load(SAVE_PATH + SAVE_NAME).get("save")
+	if save == null:
+		print("Savefile not found or null!")
+		return
+	Global.Money = save["money"]
+	Global.Population = save["pop"]
+	Global.BuildingUses = save["uses"]
+	UnlockedBuildings = save["ub"]
+	for n in save["buildings"]:
+		$Buildings.NewBuilding(n["name"],n["pos"])
+	print("Loaded save!")
+
+func DeleteSave():
+	DirAccess.remove_absolute(SAVE_PATH + SAVE_NAME)
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		SaveGame()

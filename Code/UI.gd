@@ -5,7 +5,6 @@ var already_unlocked := []
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
-		print(Cat.name + " was ")
 
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
@@ -68,11 +67,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_erase_save_pressed() -> void:
-	return
 	$"..".DeleteSave()
 	get_tree().paused = false
 	get_tree().reload_current_scene()
 
 func _on_save_pressed() -> void:
-	return
 	$"..".SaveGame()

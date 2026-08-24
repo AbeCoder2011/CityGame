@@ -142,32 +142,32 @@ func CalculateBuildingOutput(b) -> Dictionary:
 
 	match b["name"]:
 		"Basic House":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 2 else 1
 			return {"population": 2 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Double House":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 4 else 1
 			return {"population": 4 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Small Apartment Complex":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 8 else 1
 			return {"population": 8 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Large Apartment Complex":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 24 else 1
 			return {"population": 24 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Mega Apartment Complex":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 64 else 1
 			return {"population": 64 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Low-Budget Apartment Building":
-			var power = SumProperty(pos, ["Transformator Building"], 15, "power")
+			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 64 else 1
 			return {"population": 16 * population_boost * (1 + 0.01 * nature)}
@@ -192,14 +192,14 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"money": SumProperty(pos, HOUSING_NAMES, 3, "population")}
 		
 		"Cafe":
-			return {"money": SumProperty(pos, HOUSING_NAMES, 2, "population")}
+			return {"money": 0.5 * SumProperty(pos, HOUSING_NAMES, 2, "population")}
 		
 		"Bakery":
 			var flour = SumProperty(pos, ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			return {"money": min(min(flour, pop) * 3,32)}
 		"Transformator Building":
-			return {"power": SumProperty(pos,["Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Thermal Power Plant","Small Solar Farm"],4,"power")}
+			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":
 			return {"power": 1}
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":

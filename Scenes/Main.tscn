@@ -1,6 +1,6 @@
 [gd_scene format=4 uid="uid://dwde3p2a17841"]
 
-[ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Scenes/GameController.gd" id="1_jw32o"]
+[ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Code/GameController.gd" id="1_jw32o"]
 [ext_resource type="Texture2D" uid="uid://jt4e480cvn71" path="res://Assets/grid.png" id="1_rgh2o"]
 [ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="2_pbw6q"]
 [ext_resource type="Script" uid="uid://yp6ns8gc2orq" path="res://Code/Camera.gd" id="3_v1gob"]
@@ -350,4 +350,7 @@ script = ExtResource("6_v1gob")
 wait_time = 0.5
 autostart = true
 
+[node name="Autosaver" type="Timer" parent="." unique_id=292409366]
+
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
+[connection signal="timeout" from="Autosaver" to="." method="SaveGame"]

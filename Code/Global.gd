@@ -221,7 +221,7 @@ const UnlockRequirements := {
 	"Bakery": [{"type":"building_count","building":"Mill","amount":1}],
 	"Distribution Center": [{"type":"building_count","building":"Small Factory","amount":2}],
 	"Electronics Store": [{"type":"population","amount":100}],
-	"Cafe": [{"type":"population","amount":30}],
+	"Cafe": [{"type":"population","amount":40}],
 	"Restaurant":[{"type":"building_count","building":"Cafe","amount":3}],
 	"Mall":[{"type":"population","amount":250}],
 	"Animal Farm":[{"type":"building_count","building":"Mill","amount":2}],

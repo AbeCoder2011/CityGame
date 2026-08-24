@@ -30,7 +30,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			$"..".UpdateCityStats()
 			$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
 			Global.BuildingUses.set(Global.CurrentBuilding,Global.BuildingUses.get_or_add(Global.CurrentBuilding,0) + 1	)
-			print(Global.BuildingUses)
 		else:
 			$"../UI".insufficient_funds()
 

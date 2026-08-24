@@ -81,7 +81,10 @@ Large Factory
 
 --- Additions
 
-
+	Church
+	Airport
+	city hall (building costs - 10%)
+	Tax office (income from all pop in city)
 
 
 The pig is copyrighted lol
