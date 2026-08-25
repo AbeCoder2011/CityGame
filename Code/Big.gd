@@ -23,12 +23,12 @@ const suffixes_metric_symbol: Dictionary[int, String] = {
 	2: "M", 
 	3: "B", 
 	4: "T", 
-	5: "P", 
-	6: "E", 
-	7: "Z", 
-	8: "Y", 
-	9: "R", 
-	10: "Q",
+	5: "Q", 
+	6: "Qi", 
+	7: "S", 
+	8: "Sp", 
+	9: "O", 
+	10: "N",
 }
 ## Metric Name Suffixes
 const suffixes_metric_name: Dictionary[int, String] = {
