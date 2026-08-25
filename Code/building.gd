@@ -92,7 +92,6 @@ func _on_pressed() -> void:
 			if not Input.is_action_pressed("select_multiple"):
 				$"..".DeselectOthers()
 			selected = true
-		$Sprite/Outline.visible = selected
 
 func Deselect():
 	selected = false

@@ -5,6 +5,8 @@ signal deselect
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
+
+var starter_buildings = []
 var DestroyedBuildings = []
 
 var distribution_centers_inventory := {}
@@ -34,6 +36,10 @@ func NewBuilding(nam:String, location:Vector2i):
 
 func DeselectOthers():
 	deselect.emit()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("move_building") and event.is_pressed():
+		pass
 # --- Helpers -------------------------------------------------
 
 func Dist(a:Vector2i, b:Vector2i) -> float:

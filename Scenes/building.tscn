@@ -254,6 +254,8 @@ texture = SubResource("AtlasTexture_tgu54")
 [node name="HoverDetection" type="Button" parent="." unique_id=117750364]
 offset_right = 48.0
 offset_bottom = 96.0
+action_mode = 0
+button_mask = 3
 flat = true
 
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
