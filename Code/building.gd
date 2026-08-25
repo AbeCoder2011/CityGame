@@ -25,14 +25,14 @@ func init_building(nam) -> void:
 	$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
 	
 func display_income(i:float):
-	if i == 0:
-		return
-	if int(i) == i:
-		$Income.text = "+" + str(int(i))
-	else:
-		$Income.text = "+" + str(i)
-	
-	$Income/AnimationPlayer.play("play"	)
+	if $Visible.is_on_screen() and Global.Zoom >= 2.0:
+		if i == 0:
+			return
+		if int(i) == i:
+			$Income.text = "+" + str(int(i))
+		else:
+			$Income.text = "+" + str(i)
+		$Income/AnimationPlayer.play("play")
 
 
 func _on_mouse_enter() -> void:
@@ -51,7 +51,8 @@ func UpdateData():
 			$Info.text = str(population)
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
-			$Info.text = str(money * 2) + "/s"
+			var income = Big.new(money)
+			$Info.text = income.toMetricSymbol(true) + "/s"
 			
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)

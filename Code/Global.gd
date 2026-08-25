@@ -1,5 +1,7 @@
 extends Node
 
+@export var Zoom := 1.0
+
 const BuildingTilemap = preload("res://Assets/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
 func _unhandled_input(event: InputEvent) -> void:
@@ -71,7 +73,7 @@ const BuildingData := {
 	"Mill":{
 		"atlas_coords": Vector2i(3,2),
 		"cost": 3000,
-		"description": "Processes goods for nearby bakeries."
+		"description": "Processes wheat for nearby bakeries. Uses wheat from nearby wheatfield (within [b]five[/b] tiles) to create flour."
 	},
 	"Animal Farm":{
 		"atlas_coords": Vector2i(4,3),

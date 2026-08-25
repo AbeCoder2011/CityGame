@@ -15,6 +15,7 @@ func _input(event: InputEvent) -> void:
 			zoom *= 1.1
 			if zoom.x > 15:
 				zoom = Vector2(15,15)
+		Global.Zoom = zoom.x
 		if event.is_action("move_camera") and event.is_pressed():
 			right_clicked = true
 		if event.is_action("move_camera") and event.is_released():

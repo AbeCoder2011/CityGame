@@ -32,6 +32,7 @@ mouse_cursor/custom_image="uid://coeaeqqbaqnu5"
 
 folder_colors={
 "res://Assets/": "pink",
+"res://Builds/": "teal",
 "res://Code/": "orange",
 "res://Scenes/": "yellow"
 }
