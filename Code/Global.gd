@@ -6,7 +6,7 @@ const BuildingTilemap = preload("res://Assets/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("Abe") and event.is_pressed():
-		Money += 200
+		Money *= 1.5
 # Tool 0 = Select
 #      1 = Draw
 #      2 = Erase
