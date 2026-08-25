@@ -17,6 +17,7 @@ func _ready() -> void:
 	Global.Money = 100
 	Global.Population = 0
 	Global.BuildingUses = {}
+	Global.CurrentBuilding = "None"
 	$Autosaver.wait_time = AUTOSAVE_INTERVAL
 	$Autosaver.start()
 	LoadGame()
