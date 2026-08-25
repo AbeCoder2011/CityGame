@@ -46,7 +46,7 @@ func _on_mouse_exit() -> void:
 
 func UpdateData():
 	match building_name:
-		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex":
+		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment":
 			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
 			$Info.text = str(population)
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":

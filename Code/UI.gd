@@ -32,8 +32,9 @@ func _on_destroy_pressed() -> void:
 	$UI/Tools/Selection.offset_left = 128
 
 func UpdateCityStats():
-	var big = Big.new(Global.Money)
-	$UI/CityInfo/Info/Money/Label.text = big.toMetricSymbol()
+	if Global.Money >= 1000000:
+		var big = Big.new(Global.Money)
+		$UI/CityInfo/Info/Money/Label.text = big.toMetricSymbol()
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():

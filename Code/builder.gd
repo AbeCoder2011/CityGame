@@ -25,7 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size):
 			return
 
-		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding):
+		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
 			Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
 			$"..".UpdateCityStats()
 			$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
