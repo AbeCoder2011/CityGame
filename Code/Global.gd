@@ -248,4 +248,4 @@ const UnlockRequirements := {
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
 	var mult = BuildingUses.get_or_add(nam,0)
-	return base * (1.3 ** mult)
+	return base * (1.1 ** mult)

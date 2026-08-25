@@ -16,12 +16,12 @@ const SHOP_NAMES = [
 	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
 ]
 const HOUSING_NAMES = [
-	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment Building"
+	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment"
 ]
 const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat","livestock"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
-	Global.Money += Global.BuildingData[node.Building_Name]["cost"] * 0.5
+	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i):
@@ -178,7 +178,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 64 else 1
 			return {"population": 64 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
-		"Low-Budget Apartment Building":
+		"Low-Budget Apartment":
 			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 64 else 1
