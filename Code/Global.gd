@@ -31,19 +31,19 @@ const BuildingData := {
 	},
 	"Small Apartment Complex":{
 		"atlas_coords": Vector2i(2,0),
-		"cost": 125,
+		"cost": 200,
 		"description": "A small building containing several families in one structure. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Large Apartment Complex":{
 		"atlas_coords": Vector2i(3,0),
 		"size": Vector2i(1,2),
-		"cost": 350,
+		"cost": 1250,
 		"description": "A large tower providing housing for many families. Population drops near industry buildings, and increases when supplied with power and nature nearby."
 	},
 	"Mega Apartment Complex":{
 		"atlas_coords": Vector2i(4,0),
 		"size": Vector2i(2,2),
-		"cost": 550,
+		"cost": 6000,
 		"description": "Three massive connected skyscrapers packing a huge population into one structure. Population drops near industry buildings."
 	},
 	"Low-Budget Apartment":{

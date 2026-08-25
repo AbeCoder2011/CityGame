@@ -13,6 +13,8 @@ var nature := 0
 
 var building_name = ""
 
+var selected = false
+
 func init_building(nam) -> void:
 	building_name = nam
 	$Sprite.texture = AtlasTexture.new()
@@ -83,5 +85,18 @@ func _on_pressed() -> void:
 		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 2)
 		Global.BuildingUses[building_name] -= 1
 		$"..".AddToRemovalList(self)
+	if Global.Tool == 0:
+		if selected:
+			selected = false
+		else:
+			if not Input.is_action_pressed("select_multiple"):
+				$"..".DeselectOthers()
+			selected = true
+		$Sprite/Outline.visible = selected
+
+func Deselect():
+	selected = false
+	$Sprite/Outline.visible = selected
+
 func FreeNode():
 	queue_free()

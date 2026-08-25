@@ -145,8 +145,6 @@ texture = SubResource("AtlasTexture_v1gob")
 centered = false
 
 [node name="Outline" type="Node2D" parent="Sprite" unique_id=1813652986]
-visible = false
-z_index = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="Sprite/Outline" unique_id=992960873]
 position = Vector2(16, -5.9604645e-08)

@@ -1,4 +1,7 @@
 extends Node2D
+
+signal deselect
+
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
@@ -24,10 +27,13 @@ func NewBuilding(nam:String, location:Vector2i):
 	b.init_building(nam)
 	b.position = location * 48
 	add_child(b)
+	deselect.connect(b.Deselect)
 	Buildings.append({"pos":location,"name":nam,"node":b})
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	$"../UI".CheckBuildingUnlocks()
 
+func DeselectOthers():
+	deselect.emit()
 # --- Helpers -------------------------------------------------
 
 func Dist(a:Vector2i, b:Vector2i) -> float:
@@ -179,7 +185,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Large Supermarket":
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			var products = SumProperty(pos, ["Distribution Center"], 6, "products")
-			return {"money": pop * (1 + 0.25 * products)}
+			return {"money": 0.5 * pop * (1 + 0.25 * products)}
 
 		"Mill":
 			var wheat = SumProperty(pos, ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
@@ -192,7 +198,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"money": SumProperty(pos, HOUSING_NAMES, 3, "population")}
 		
 		"Cafe":
-			return {"money": 0.5 * SumProperty(pos, HOUSING_NAMES, 2, "population")}
+			return {"money": 0.3 * SumProperty(pos, HOUSING_NAMES, 2, "population")}
 		
 		"Bakery":
 			var flour = SumProperty(pos, ["Mill"], 3, "flour")

@@ -194,6 +194,7 @@ theme_override_constants/separation = 0
 theme_override_styles/separator = SubResource("StyleBoxLine_00us2")
 
 [node name="Info" type="RichTextLabel" parent="Info" unique_id=507546401]
+visible = false
 custom_maximum_size = Vector2(592.49994, 384.99994)
 layout_mode = 0
 offset_left = 2.5
@@ -210,7 +211,6 @@ bbcode_enabled = true
 text = "Hey, this is an example description of a [b]building[/b]."
 
 [node name="LockedInfo" type="Label" parent="Info" unique_id=843583481]
-visible = false
 custom_maximum_size = Vector2(592.49994, 384.99994)
 layout_mode = 0
 offset_left = 2.5

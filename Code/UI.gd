@@ -35,7 +35,7 @@ func UpdateCityStats():
 	if int(Global.Money) == Global.Money:
 		$UI/CityInfo/Info/Money/Label.text = str(int(Global.Money))
 	else:
-		$UI/CityInfo/Info/Money/Label.text = str(Global.Money)
+		$UI/CityInfo/Info/Money/Label.text = str(snapped(Global.Money,0.5))
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():
