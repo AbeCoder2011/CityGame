@@ -53,20 +53,20 @@ func GetBuildingAmounts() -> Dictionary:
 	return counts
 
 # Count buildings of given names within radius of pos
-func CountNearby(pos:Vector2i, names:Array, radius:float) -> int:
+func CountNearby(pos:Vector2i, names:Array, radius:float, exclude:Array = []) -> int:
 	var count = 0
 	for b in Buildings:
-		if b["pos"] == pos:
+		if b["pos"] == pos or b["name"] in exclude:
 			continue
 		if names.has(b["name"]) and Dist(pos, b["pos"]) <= radius:
 			count += 1
 	return count
 
 # Calculates how much some property is in the area
-func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String) -> float:
+func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String,exclude:Array = []) -> float:
 	var total = 0.0
 	for b in Buildings:
-		if b["pos"] == pos:
+		if b["pos"] == pos or b["name"] in exclude:
 			continue
 		if Dist(pos, b["pos"]) <= radius:
 			if names.has(b["name"]):
@@ -239,7 +239,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
  
 		"Mall":
 			var pop = SumProperty(pos, HOUSING_NAMES, 6, "population")
-			var shops = CountNearby(pos, SHOP_NAMES, 2)
+			var shops = CountNearby(pos, SHOP_NAMES, 2,["Mall"])
 			return {"money": pop * shops}
 		"Small Factory":
 			return {"products":1}

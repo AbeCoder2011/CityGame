@@ -76,17 +76,17 @@ const BuildingData := {
 	},
 	"Mill":{
 		"atlas_coords": Vector2i(3,2),
-		"cost": 3000,
+		"cost": 5000,
 		"description": "Processes wheat for nearby bakeries. Uses wheat from nearby wheatfield (within [b]five[/b] tiles) to create flour."
 	},
 	"Animal Farm":{
 		"atlas_coords": Vector2i(4,3),
-		"cost": 90,
+		"cost": 5000,
 		"description": "Breeds livestock for nearby butchers."
 	},
 	"Distribution Center":{
 		"atlas_coords": Vector2i(4,2),
-		"cost": 500,
+		"cost": 2000,
 		"description": "Collects items / products from adjacent suppliers, then shares them with any other Distribution Center on the map."
 	},
 	"Electronics Store":{
@@ -112,62 +112,62 @@ const BuildingData := {
 	},
 	"Butcher":{
 		"atlas_coords": Vector2i(5,3),
-		"cost": 150,
+		"cost": 4000,
 		"description": "Processes livestock from nearby (within [b]four[/b] tiles) animal farms into meat."
 	},
 	# --- Energy Industry
 	"Thermal Power Plant":{
 		"atlas_coords": Vector2i(0,4),
-		"cost": 500,
+		"cost": 30000,
 		"description": "A power plant that burns coal to produce energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Small Solar Farm":{
 		"atlas_coords": Vector2i(1,4),
-		"cost": 700,
+		"cost": 40000,
 		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Nuclear Power Plant":{
 		"atlas_coords": Vector2i(2,4),
-		"cost": 4000,
+		"cost": 90000,
 		"description": "A large nuclear power reactor. Generates energy by splitting uranium atoms, and converting its heat into energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Large Thermal Power Plant":{
 		"atlas_coords": Vector2i(3,4),
 		"size": Vector2i(2,2),
-		"cost": 1900,
+		"cost": 130000,
 		"description": "A large power plant that burns massive amounts of coal to produce energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Large Solar Farm":{
 		"atlas_coords": Vector2i(5,4),
 		"size": Vector2i(2,2),
-		"cost": 2200,
+		"cost": 180000,
 		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city."
 	},
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
-		"cost": 300,
+		"cost": 2000,
 		"description": "Brings power from nearby power plants and solar farms to the city, giving population a large boost. Collects power from within [b]three[/b] tiles"
 	},
 	# --- Parks
 	"Pocket Park":{
 		"atlas_coords": Vector2i(0,6),
-		"cost": 400,
+		"cost": 1000,
 		"description":"A small park cramped between buildings. Has just enough space for a single tree. Boosts population of the buildings around."
 	},
 	"Small Park":{
 		"atlas_coords": Vector2i(1,6),
-		"cost": 600,
+		"cost": 1500,
 		"description":"A small park in the middle of the city. Features a few trees, bushes and paths connecting it all. Boosts population of the buildings around."
 	},
 	"Fountain Park":{
 		"atlas_coords": Vector2i(2,6),
-		"cost": 800,
+		"cost": 2000,
 		"description":"A small park providing relaxation for citizens. Features a small fountain where people can wish. Boosts population of the buildings around."
 	},
 	"Large Park":{
 		"atlas_coords": Vector2i(3,6),
 		"size": Vector2i(2,2),
-		"cost": 900,
+		"cost": 9000,
 		"description":"A large park featuring trees, bushes and many paths connecting all parts of the park. Boosts population of the buildings around."
 	},
 	# --- Nature
