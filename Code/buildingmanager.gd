@@ -6,7 +6,6 @@ var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
 
-var starter_buildings = []
 var DestroyedBuildings = []
 
 var distribution_centers_inventory := {}
@@ -24,7 +23,7 @@ func AddToRemovalList(node:Node2D):
 	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
-func NewBuilding(nam:String, location:Vector2i):
+func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var b : Node2D = BuildingScene.instantiate()
 	b.init_building(nam)
 	b.position = location * 48
@@ -32,7 +31,9 @@ func NewBuilding(nam:String, location:Vector2i):
 	deselect.connect(b.Deselect)
 	Buildings.append({"pos":location,"name":nam,"node":b})
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
-	$"../UI".CheckBuildingUnlocks()
+	if check_unlocks:
+		$"../UI".CheckBuildingUnlocks()
+	print(Buildings)
 
 func DeselectOthers():
 	deselect.emit()

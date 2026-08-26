@@ -10,17 +10,24 @@ const FILL_CHANCE := 1      # even inside a cluster, skip some tiles to leave ga
 const AUTOSAVE_INTERVAL := 60.0
 
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
+var starter_buildings = [{ "pos": Vector2i(31, 31), "name": "Basic House"}, { "pos": Vector2i(29, 31), "name": "Basic House"}]
+
 
 var UnlockedBuildings := {}
 
 func _ready() -> void:
-	Global.Money = 100
+	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
 	Global.Population = 0
 	Global.BuildingUses = {}
 	Global.CurrentBuilding = "None"
 	$Autosaver.wait_time = AUTOSAVE_INTERVAL
 	$Autosaver.start()
-	LoadGame()
+	if Global.LoadSettings["load"]:
+		LoadGame()
+	else:
+		if Global.Difficulty <= 2:
+			for n in starter_buildings:
+				$Buildings.NewBuilding(n["name"],n["pos"],false)
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
 		UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
@@ -148,7 +155,7 @@ func LoadGame():
 	Global.BuildingUses = save["uses"]
 	UnlockedBuildings = save["ub"]
 	for n in save["buildings"]:
-		$Buildings.NewBuilding(n["name"],n["pos"])
+		$Buildings.NewBuilding(n["name"],n["pos"],false)
 	print("Loaded save!")
 
 func DeleteSave():

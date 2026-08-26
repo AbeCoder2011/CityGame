@@ -241,6 +241,44 @@ _data = {
 font = ExtResource("8_mg6lk")
 font_size = 55
 
+[sub_resource type="Animation" id="Animation_b1goy"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_n04ve"]
+resource_name = "fade_in"
+length = 0.5000166815683246
+step = 0.16666667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wi7yl"]
+_data = {
+&"RESET": SubResource("Animation_b1goy"),
+&"fade_in": SubResource("Animation_n04ve")
+}
+
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
 script = ExtResource("1_dewlx")
@@ -1013,6 +1051,21 @@ offset_top = -34.0
 offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
+
+[node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
+z_index = 20
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Fade" unique_id=217332684]
+libraries/ = SubResource("AnimationLibrary_wi7yl")
+autoplay = &"fade_in"
 
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="CityGame"
-run/main_scene="uid://dwde3p2a17841"
+run/main_scene="uid://dqpqod4dp5ena"
 config/features=PackedStringArray("4.7", "Forward Plus")
 
 [autoload]

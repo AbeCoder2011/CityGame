@@ -1,0 +1,43 @@
+[gd_resource type="Theme" format=3 uid="uid://dw6fjogmebf23"]
+
+[ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="1_ey75g"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ndqc3"]
+bg_color = Color(0.16311157, 0.16613597, 0.14493555, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.09255054, 0.08758744, 0.06526331, 1)
+shadow_color = Color(0.29954746, 0.29954746, 0.29954743, 0.5019608)
+shadow_size = 8
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpble"]
+bg_color = Color(0.23055881, 0.23650977, 0.20783517, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18120906, 0.1727438, 0.13896665, 1)
+shadow_color = Color(0.29954746, 0.29954746, 0.29954743, 0.5019608)
+shadow_size = 8
+shadow_offset = Vector2(3, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4b3s7"]
+bg_color = Color(0.03007939, 0.030078402, 0.02395607, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.063934594, 0.0576666, 0.04199682, 1)
+shadow_color = Color(0.29954746, 0.29954746, 0.29954743, 0.5019608)
+shadow_size = 8
+shadow_offset = Vector2(3, 3)
+
+[resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_ey75g")
+Button/styles/hover = SubResource("StyleBoxFlat_ndqc3")
+Button/styles/normal = SubResource("StyleBoxFlat_mpble")
+Button/styles/pressed = SubResource("StyleBoxFlat_4b3s7")

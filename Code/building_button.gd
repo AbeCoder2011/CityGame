@@ -3,6 +3,7 @@ extends Button
 @export var Building_Name := ""
 const Atlas = preload("res://Assets/tiles.png")
 
+
 @onready var building_size : Vector2= Global.BuildingData[Building_Name].get("size",Vector2(1,1))
 
 var unlocked = false

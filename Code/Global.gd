@@ -1,12 +1,16 @@
 extends Node
 
+@export var LoadSettings := {
+	"load":true
+}
+
+@export var Difficulty = 3
+
 @export var Zoom := 1.0
 
 const BuildingTilemap = preload("res://Assets/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("Abe") and event.is_pressed():
-		Money *= 1.5
+
 # Tool 0 = Select
 #      1 = Draw
 #      2 = Erase
@@ -243,11 +247,16 @@ const UnlockRequirements := {
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
 }	
 
-@export var Money = 100.0
+@export var Money := 100.0
 @export var Population := 0
 
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
 	var mult = BuildingUses.get_or_add(nam,0)
-	return base * (1.1 ** mult)
+	var increase : float = {1:1.05,2:1.1,3:1.25,4:1.4,5:1.5}[Difficulty]
+	return base * (increase ** mult)
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("Abe") and event.is_pressed():
+		Money *= 1.5
