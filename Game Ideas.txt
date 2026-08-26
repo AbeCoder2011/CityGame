@@ -9,6 +9,7 @@ Unlock more area for your city by completing achievements
 Have many different categories combine to make the best money.
 Have global buildings that give useful buffs, unlocked through the town hall.
 Many categories like Working, Entertainment, Power, Nature, and other interesting buildings
+Trains to connect parts of your city and transport goods
 
 - Extra?
 Global events

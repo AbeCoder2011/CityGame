@@ -912,7 +912,7 @@ texture = SubResource("AtlasTexture_vqx31")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
-text = "15 1515155566"
+text = "0"
 label_settings = SubResource("LabelSettings_aehul")
 
 [node name="IncomePerSecond" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1126922166]
@@ -931,7 +931,7 @@ texture = SubResource("AtlasTexture_b1goy")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
-text = "15 1515155566"
+text = "0"
 label_settings = SubResource("LabelSettings_aehul")
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
