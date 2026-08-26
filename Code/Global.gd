@@ -54,7 +54,7 @@ const BuildingData := {
 	},
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
-		"cost": 200,
+		"cost": 400,
 		"description": "A low budget building housing many people. Costs a bit of money each second for maintainance. Population drops near industry buildings."
 	},
 	# --- Stores
@@ -91,7 +91,7 @@ const BuildingData := {
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
-		"cost": 2500,
+		"cost": 5000,
 		"description": "Earns money from population living within its radius (within [b]three[/b] tiles)."
 	},
 	"Cafe":{
