@@ -211,7 +211,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Bakery":
 			var flour = SumProperty(pos, ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
-			return {"money": min(flour, pop) * 1.5}
+			return {"money": int(log(flour+1)) * pop * 0.25}
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":
