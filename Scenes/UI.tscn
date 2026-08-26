@@ -159,6 +159,10 @@ font_size = 26
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_b1goy"]
+atlas = ExtResource("6_xjg7p")
+region = Rect2(0, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_80bsu"]
 atlas = ExtResource("1_nxvpl")
 region = Rect2(231, 66, 32, 32)
@@ -905,6 +909,25 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_vqx31")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/Population" unique_id=1967699901]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_48q88")
+text = "15 1515155566"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="IncomePerSecond" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1126922166]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=1933732170]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_b1goy")
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=964448424]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("6_48q88")

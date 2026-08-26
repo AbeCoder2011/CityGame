@@ -144,6 +144,7 @@ func Tick():
 		b["node"].UpdateData()
 
 	Global.Money += money_total
+	Global.Income = money_total
 	Global.Population = population_total
 	$"..".UpdateCityStats()
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())

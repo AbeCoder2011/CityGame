@@ -1,0 +1,15 @@
+- basics
+Citygame met progressieve unlocks van gebouwen
+Steeds betere samenwerkingen van gebouwen
+5 Difficulties die steeds moeilijker en grindy worden.
+
+- Features
+Procedurally generated terrain with forests, mountains and lakes/rivers
+Unlock more area for your city by completing achievements
+Have many different categories combine to make the best money.
+Have global buildings that give useful buffs, unlocked through the town hall.
+Many categories like Working, Entertainment, Power, Nature, and other interesting buildings
+
+- Extra?
+Global events
+If HELL mode is beaten, add extra challenges to be selected

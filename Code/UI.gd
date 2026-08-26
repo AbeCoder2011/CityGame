@@ -33,15 +33,26 @@ func _on_destroy_pressed() -> void:
 
 func UpdateCityStats():
 	print(Global.Difficulty)
-	var m : int = Global.Money
+	var m : float = Global.Money
 	if m >= 1000000:
 		var big = Big.new(m)
 		$UI/CityInfo/Info/Money/Label.text = big.toMetricSymbol()
 	elif m >= 1000:
 		var base = floor(m / 1000)
-		$UI/CityInfo/Info/Money/Label.text = str(int(base)) + "," + ("%03d" % (m % 1000))
+		$UI/CityInfo/Info/Money/Label.text = str(int(base)) + "," + ("%03d" % (int(m) % 1000))
 	else:
 		$UI/CityInfo/Info/Money/Label.text = str(int(m))
+	#--------------------------------
+	m = Global.Income * 2
+	if m >= 1000000:
+		var big = Big.new(m)
+		$UI/CityInfo/Info/IncomePerSecond/Label.text = big.toMetricSymbol() + "/s"
+	elif m >= 1000:
+		var base = floor(m / 1000)
+		$UI/CityInfo/Info/IncomePerSecond/Label.text = str(int(base)) + "," + ("%03d" % (int(m) % 1000)) + "/s"
+	else:
+		$UI/CityInfo/Info/IncomePerSecond/Label.text = str(int(m)) + "/s"
+	#--------------------------------
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():

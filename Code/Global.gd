@@ -81,7 +81,7 @@ const BuildingData := {
 	},
 	"Animal Farm":{
 		"atlas_coords": Vector2i(4,3),
-		"cost": 5000,
+		"cost": 75000,
 		"description": "Breeds livestock for nearby butchers."
 	},
 	"Distribution Center":{
@@ -91,7 +91,7 @@ const BuildingData := {
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
-		"cost": 5000,
+		"cost": 10000,
 		"description": "Earns money from population living within its radius (within [b]three[/b] tiles)."
 	},
 	"Cafe":{
@@ -112,7 +112,7 @@ const BuildingData := {
 	},
 	"Butcher":{
 		"atlas_coords": Vector2i(5,3),
-		"cost": 4000,
+		"cost": 50000,
 		"description": "Processes livestock from nearby (within [b]four[/b] tiles) animal farms into meat."
 	},
 	# --- Energy Industry
@@ -190,24 +190,24 @@ const BuildingData := {
 	},
 	"Small Wheatfield":{
 		"atlas_coords": Vector2i(5,8),
-		"cost": 200,
+		"cost": 10000,
 		"description":""
 	},
 	"Large Wheatfield":{
 		"atlas_coords": Vector2i(6,8),
 		"size": Vector2i(2,2),
-		"cost": 1000,
+		"cost": 50000,
 		"description":""
 	},
 	# --- Production Industry
 	"Small Factory":{
 		"atlas_coords": Vector2i(0,10),
-		"cost": 5000,
+		"cost": 50000,
 		"description":"A large industrial factory producing various food products. Placing it near housing will make their population drop."
 	},
 	"Large Factory":{
 		"atlas_coords": Vector2i(1,10),
-		"cost": 25000,
+		"cost": 250000,
 		"size": Vector2i(2,2),
 		"description":""
 	},
@@ -249,7 +249,7 @@ const UnlockRequirements := {
 
 @export var Money := 100.0
 @export var Population := 0
-
+@export var Income := 0.0
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
