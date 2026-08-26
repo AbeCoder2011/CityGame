@@ -184,7 +184,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			return {"population": 8 * population_boost * (1 + 0.01 * nature)}
+			return {"population": 12 * population_boost * (1 + 0.01 * nature)}
 		"Small Supermarket":
 			var pop = SumProperty(pos, HOUSING_NAMES, 1, "population")
 			var products = SumProperty(pos, ["Distribution Center"], 6, "products")
@@ -211,7 +211,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Bakery":
 			var flour = SumProperty(pos, ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
-			return {"money": int(log(flour+1)) * pop * 0.25}
+			return {"money": int(log(flour+1)) * pop * 0.4}
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":
