@@ -36,9 +36,9 @@ func UpdateCityStats():
 	if m >= 1000000:
 		var big = Big.new(m)
 		$UI/CityInfo/Info/Money/Label.text = big.toMetricSymbol()
-	if m >= 1000:
+	elif m >= 1000:
 		var base = floor(m / 1000)
-		$UI/CityInfo/Info/Money/Label.text = str(int(base)) + "," + str(int(m) % 1000)
+		$UI/CityInfo/Info/Money/Label.text = str(int(base)) + "," + ("%03d" % (m % 1000))
 	else:
 		$UI/CityInfo/Info/Money/Label.text = str(int(m))
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
