@@ -86,7 +86,8 @@ Large Factory
 	city hall (building costs - 10%)
 	Tax office (income from all pop in city)
 
-
+TODO
+- 2x2 
 The pig is copyrighted lol
 
 

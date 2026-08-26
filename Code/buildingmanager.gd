@@ -192,7 +192,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Large Supermarket":
 			var pop = SumProperty(pos, HOUSING_NAMES, 3, "population")
 			var products = SumProperty(pos, ["Distribution Center"], 6, "products")
-			return {"money": 0.5 * pop * (1 + 0.25 * products)}
+			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Mill":
 			var wheat = SumProperty(pos, ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
@@ -202,7 +202,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return SumAllProperties(b["pos"],1)
 		
 		"Electronics Store":
-			return {"money": SumProperty(pos, HOUSING_NAMES, 3, "population")}
+			return {"money": 0.5 * SumProperty(pos, HOUSING_NAMES, 3, "population")}
 		
 		"Cafe":
 			return {"money": 0.3 * SumProperty(pos, HOUSING_NAMES, 2, "population")}

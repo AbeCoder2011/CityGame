@@ -91,7 +91,7 @@ const BuildingData := {
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
-		"cost": 1300,
+		"cost": 2500,
 		"description": "Earns money from population living within its radius (within [b]three[/b] tiles)."
 	},
 	"Cafe":{
@@ -107,7 +107,7 @@ const BuildingData := {
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
-		"cost": 1500,
+		"cost": 8000,
 		"description": "A large mall combining several shops into one huge aircooled building. Earns money from nearby population (within [b]six[/b] tiles), boosted by all shops around (within [b]two[/b] tiles)."
 	},
 	"Butcher":{
@@ -146,7 +146,7 @@ const BuildingData := {
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
 		"cost": 2000,
-		"description": "Brings power from nearby power plants and solar farms to the city, giving population a large boost. Collects power from within [b]three[/b] tiles"
+		"description": "Brings power from nearby power plants and solar farms to the city, giving population (within [b]fifteen[/b] tiles) a large boost. Collects power from within [b]three[/b] tiles"
 	},
 	# --- Parks
 	"Pocket Park":{
@@ -254,7 +254,7 @@ const UnlockRequirements := {
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
 	var mult = BuildingUses.get_or_add(nam,0)
-	var increase : float = {1:1.05,2:1.1,3:1.25,4:1.4,5:1.5}[Difficulty]
+	var increase : float = {1:1.05,2:1.1,3:1.3,4:1.4,5:1.5}[Difficulty]
 	return base * (increase ** mult)
 
 func _unhandled_input(event: InputEvent) -> void:

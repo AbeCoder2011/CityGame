@@ -136,6 +136,7 @@ func SaveGame():
 		"money":Global.Money,
 		"pop":Global.Population,
 		"uses":Global.BuildingUses,
+		"diff":Global.Difficulty
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -153,6 +154,7 @@ func LoadGame():
 	Global.Money = save["money"]
 	Global.Population = save["pop"]
 	Global.BuildingUses = save["uses"]
+	Global.Difficulty = save["diff"]
 	UnlockedBuildings = save["ub"]
 	for n in save["buildings"]:
 		$Buildings.NewBuilding(n["name"],n["pos"],false)
