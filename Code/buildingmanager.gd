@@ -171,13 +171,13 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Large Apartment Complex":
 			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var population_boost = 2 if power > 24 else 1
-			return {"population": 24 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
+			var population_boost = 2 if power > 48 else 1
+			return {"population": 48 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Mega Apartment Complex":
 			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var population_boost = 2 if power > 64 else 1
-			return {"population": 64 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
+			var population_boost = 2 if power > 128 else 1
+			return {"population": 128 * IndustryPenalty(pos) * population_boost * (1 + 0.01 * nature)}
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -234,7 +234,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var meat = SumProperty(pos, ["Butcher"], 4, "meat")
 			var flour = SumProperty(pos, ["Mill"], 4, "flour")
 			var products = SumProperty(pos, ["Small Factory","Large Factory"], 4, "products")
-			return {"money": (pop * 4) * min(meat, flour, products)}
+			return {"money": (pop * 2) * min(meat, flour, products)}
  
 		"Mall":
 			var pop = SumProperty(pos, HOUSING_NAMES, 6, "population")
@@ -244,7 +244,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"products":1}
 			
 		"Large Factory":
-			return {"products":4}
+			return {"products":8}
 		"Pocket Park":
 			return {"nature":2}
 		"Small Park":
