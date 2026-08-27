@@ -43,7 +43,7 @@ func GenerateAreas():
 			var a : Node2D = Area.instantiate()
 			a.position = Vector2(x*288,y*288)
 			a.cost = max(abs(x),1) * max(abs(y),1)
-			a.area = Vector2i(x,y)
+			a.area = Vector2i(x*6,y*6)
 			a.Update()
 			add_child(a)
 "
