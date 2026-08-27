@@ -52,6 +52,12 @@ const BuildingData := {
 		"cost": 6000,
 		"description": "Three massive connected skyscrapers packing a huge population into one structure. Population drops near industry buildings."
 	},
+	"Giant Apartment Complex":{
+		"atlas_coords": Vector2i(6,0),
+		"size": Vector2i(2,2),
+		"cost": 50000,
+		"description": "hey kajer"
+	},
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
@@ -190,13 +196,13 @@ const BuildingData := {
 	},
 	"Small Wheatfield":{
 		"atlas_coords": Vector2i(5,8),
-		"cost": 10000,
+		"cost": 2000,
 		"description":""
 	},
 	"Large Wheatfield":{
 		"atlas_coords": Vector2i(6,8),
 		"size": Vector2i(2,2),
-		"cost": 50000,
+		"cost": 10000,
 		"description":""
 	},
 	# --- Production Industry
@@ -220,6 +226,7 @@ const UnlockRequirements := {
 	"Small Apartment Complex": [{"type":"population","amount":40}],
 	"Large Apartment Complex": [{"type":"population","amount":150}],
 	"Mega Apartment Complex": [{"type":"population","amount":400}],
+	"Giant Apartment Complex": [{"type":"population","amount":1000}],
 	"Low-Budget Apartment": [{"type":"population","amount":80}],
 	
 	"Large Supermarket": [{"type":"building_count","building":"Small Supermarket","amount":3}],

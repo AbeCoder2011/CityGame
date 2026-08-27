@@ -604,6 +604,15 @@ Building_Name = "Large Apartment Complex"
 layout_mode = 2
 Building_Name = "Mega Apartment Complex"
 
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Housing" unique_id=454886567]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse7" parent="UI/Building/Categories/Housing" unique_id=827284374 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Giant Apartment Complex"
+
 [node name="Gap" type="Control" parent="UI/Building/Categories/Housing" unique_id=1062639605]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
