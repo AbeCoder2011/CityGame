@@ -7,6 +7,8 @@
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]
 [ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="8_mg6lk"]
+[ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Scenes/toolbar.gd" id="9_j04uc"]
+[ext_resource type="Texture2D" uid="uid://bqx7br3m688fx" path="res://Assets/UI.png" id="9_wunin"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
@@ -306,6 +308,13 @@ _data = {
 &"RESET": SubResource("Animation_b1goy"),
 &"fade_in": SubResource("Animation_n04ve")
 }
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdmmk"]
+atlas = ExtResource("9_wunin")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
+atlas = ExtResource("1_nxvpl")
 
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
@@ -1124,8 +1133,73 @@ color = Color(0, 0, 0, 1)
 libraries/ = SubResource("AnimationLibrary_wi7yl")
 autoplay = &"fade_in"
 
+[node name="Toolbar" type="Control" parent="UI" unique_id=99239621]
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -428.73987
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = 70.0
+grow_horizontal = 0
+script = ExtResource("9_j04uc")
+
+[node name="Box" type="HBoxContainer" parent="UI/Toolbar" unique_id=2085029940]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 2
+
+[node name="Achievements" type="Button" parent="UI/Toolbar/Box" unique_id=669922776]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+text = "d"
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Toolbar/Box/Achievements" unique_id=2103148759]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_bdmmk")
+
+[node name="Achievements" type="Control" parent="UI" unique_id=1624499764]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 100.0
+offset_top = 100.0
+offset_right = -100.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="NinePatchRect" parent="UI/Achievements" unique_id=1833794775]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_hdgct")
+region_rect = Rect2(132, 198, 98, 32)
+patch_margin_left = 91
+patch_margin_top = 10
+patch_margin_right = 91
+patch_margin_bottom = 10
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
 [connection signal="pressed" from="UI/Pause/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="UI/Pause/Erase Save" to="." method="_on_erase_save_pressed"]
+[connection signal="button_up" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_button_up"]
+[connection signal="mouse_entered" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_mouse_entered"]
+[connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]

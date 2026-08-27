@@ -32,7 +32,6 @@ func _on_destroy_pressed() -> void:
 	$UI/Tools/Selection.offset_left = 128
 
 func UpdateCityStats():
-	print(Global.Difficulty)
 	var m : float = Global.Money
 	if m >= 1000000:
 		var big = Big.new(m)

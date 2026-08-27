@@ -63,5 +63,3 @@ offset_right = 152.0
 offset_bottom = 184.0
 scale = Vector2(0.6, 0.6)
 texture = SubResource("AtlasTexture_o2ick")
-
-[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

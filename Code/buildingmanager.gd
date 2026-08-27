@@ -33,7 +33,6 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
-	print(Buildings)
 
 func DeselectOthers():
 	deselect.emit()
