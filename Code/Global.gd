@@ -250,6 +250,7 @@ const UnlockRequirements := {
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
+@export var ExpansionCoins := 0
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]

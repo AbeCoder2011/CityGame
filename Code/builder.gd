@@ -43,4 +43,7 @@ func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 		var b_rect = Rect2i(b["pos"], b_size)
 		if new_rect.intersects(b_rect):
 			return true
-	return false
+	for r in $"..".BuildableAreas:
+		if new_rect.intersects(r):
+			return false
+	return true

@@ -12,6 +12,7 @@ const AUTOSAVE_INTERVAL := 60.0
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
 var starter_buildings = [{ "pos": Vector2i(31, 31), "name": "Basic House"}, { "pos": Vector2i(29, 31), "name": "Basic House"}]
 
+var BuildableAreas = [Rect2(-3,-3,6,6)]
 
 var UnlockedBuildings := {}
 

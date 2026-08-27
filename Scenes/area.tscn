@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://bfpx0lu58a1g0"]
+
+[ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="1_o88qo"]
+
+[sub_resource type="GDScript" id="GDScript_50glp"]
+resource_name = "Area"
+script/source = "extends Node2D
+
+var cost := 9
+var area : Vector2i
+
+func Update():
+	$Label.text = \"To Unlock:\\n\" + str(cost)
+
+
+
+func _on_button_pressed() -> void:
+	print(\"cost = \" + str(cost))
+	if Global.ExpansionCoins >= cost:
+		Global.ExpansionCoins -= cost
+		$\"../..\".UpdateCityStats()
+		$\"../..\".BuildableAreas.append(Rect2(area - Vector2i(3,3),Vector2i(6,6)))
+		queue_free()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
+atlas = ExtResource("1_o88qo")
+region = Rect2(320, 0, 16, 16)
+
+[node name="Area" type="Node2D" unique_id=335826406]
+script = SubResource("GDScript_50glp")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1630035145]
+offset_left = -144.0
+offset_top = -144.0
+offset_right = 144.0
+offset_bottom = 144.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+color = Color(0.37, 0.37, 0.37, 0.78431374)
+
+[node name="Button" type="Button" parent="." unique_id=1338862209]
+offset_left = -144.0
+offset_top = -144.0
+offset_right = 144.0
+offset_bottom = 144.0
+flat = true
+
+[node name="Label" type="Label" parent="." unique_id=891667808]
+offset_left = -144.0
+offset_top = -144.0
+offset_right = 144.0
+offset_bottom = 144.0
+text = "To Unlock:
+3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Label" unique_id=932521505]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 144.0
+offset_right = 152.0
+offset_bottom = 184.0
+scale = Vector2(0.6, 0.6)
+texture = SubResource("AtlasTexture_o2ick")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
