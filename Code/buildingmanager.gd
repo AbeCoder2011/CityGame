@@ -15,7 +15,7 @@ const SHOP_NAMES = [
 	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
 ]
 const HOUSING_NAMES = [
-	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment"
+	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
 ]
 const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat","livestock"]
 func AddToRemovalList(node:Node2D):
