@@ -24,6 +24,7 @@ func AddToRemovalList(node:Node2D):
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
+	
 	var b : Node2D = BuildingScene.instantiate()
 	b.init_building(nam)
 	b.position = location * 48
@@ -33,7 +34,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
-
+	print(Buildings)
 func DeselectOthers():
 	deselect.emit()
 
@@ -141,7 +142,7 @@ func Tick():
 		if value.has("nature"):
 			b["node"].nature = value["nature"]
 		b["node"].UpdateData()
-
+	money_total -= Global.Loans
 	Global.Money += money_total
 	Global.Income = money_total
 	Global.Population = population_total

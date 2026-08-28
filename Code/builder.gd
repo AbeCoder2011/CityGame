@@ -38,13 +38,12 @@ func GetBuildingSize(building_name: String) -> Vector2i:
 
 func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 	var new_rect = Rect2i(pos, size)
-	print($"..".BuildableAreas)
 	for b in $"../Buildings".Buildings:
 		var b_size = GetBuildingSize(b["name"])
 		var b_rect = Rect2i(b["pos"], b_size)
 		if new_rect.intersects(b_rect):
 			return true
-	for r in $"..".BuildableAreas:
-		if r.encloses(new_rect):
+	for r : Rect2 in $"..".BuildableAreas:
+		if r:
 			return false
 	return true

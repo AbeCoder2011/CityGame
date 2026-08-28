@@ -10,7 +10,7 @@ const FILL_CHANCE := 1      # even inside a cluster, skip some tiles to leave ga
 const AUTOSAVE_INTERVAL := 60.0
 
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
-var starter_buildings = [{ "pos": Vector2i(31, 31), "name": "Basic House"}, { "pos": Vector2i(29, 31), "name": "Basic House"}]
+var starter_buildings = [{ "pos": Vector2i(-2, -1), "name": "Basic House"}, { "pos": Vector2i(0, -1), "name": "Basic House"}]
 
 var BuildableAreas = [Rect2(-3,-3,6,6)]
 
@@ -29,6 +29,7 @@ func _ready() -> void:
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
 				$Buildings.NewBuilding(n["name"],n["pos"],false)
+		$Areas.GenerateAreas()
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
 		UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
@@ -137,7 +138,8 @@ func SaveGame():
 		"money":Global.Money,
 		"pop":Global.Population,
 		"uses":Global.BuildingUses,
-		"diff":Global.Difficulty
+		"diff":Global.Difficulty,
+		"open_areas":$Areas.OpenAreas,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -157,6 +159,7 @@ func LoadGame():
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
 	UnlockedBuildings = save["ub"]
+	$Areas.OpenAreas = save["open_areas"]
 	for n in save["buildings"]:
 		$Buildings.NewBuilding(n["name"],n["pos"],false)
 	print("Loaded save!")

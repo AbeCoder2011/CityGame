@@ -32,8 +32,12 @@ const STARTER = Vector2i(0,0)
 
 var Area = preload(\"res://Scenes/area.tscn\")
 
-func _ready() -> void:
-	GenerateAreas()
+var OpenAreas : Array[Vector2i] = [Vector2i(0,0)]
+
+var total_loans = 0
+
+var area_positions : Dictionary[Vector2i,Node2D] = {}
+
 
 func GenerateAreas():
 	for x in range(-10,10):
@@ -42,10 +46,30 @@ func GenerateAreas():
 				continue
 			var a : Node2D = Area.instantiate()
 			a.position = Vector2(x*288,y*288)
-			a.cost = max(abs(x),1) * max(abs(y),1)
-			a.area = Vector2i(x*6,y*6)
-			a.Update()
+			a.area = Vector2i(x,y)
+			area_positions[Vector2i(x,y)] = a
 			add_child(a)
+	Recalculate()
+
+func DeleteMe(n:Node2D):
+	area_positions.erase(area_positions.keys()[area_positions.values().find(n)])
+
+func Recalculate():
+	var new_cost = 8 * ({1:2,2:3,3:4,4:5,5:7}[Global.Difficulty] ** total_loans)
+	var searches = []
+	for n in OpenAreas:
+		if not searches.has(Vector2i(n.x + 1, n.y)):
+			searches.append(Vector2i(n.x + 1, n.y))
+		if not searches.has(Vector2i(n.x - 1, n.y)):
+			searches.append(Vector2i(n.x - 1, n.y))
+		if not searches.has(Vector2i(n.x, n.y + 1)):
+			searches.append(Vector2i(n.x, n.y + 1))
+		if not searches.has(Vector2i(n.x, n.y - 1)):
+			searches.append(Vector2i(n.x, n.y - 1))
+	for n in searches:
+		if area_positions.has(n):
+			area_positions[n].cost = new_cost
+			area_positions[n].Update()
 "
 
 [node name="Main" type="Node2D" unique_id=1367820127]

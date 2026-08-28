@@ -18,7 +18,6 @@ func _ready() -> void:
 		$Main/Vbox/Continue.hide()
 	for n : Control in $NewGame/Vbox.get_children():
 		if not n.name in ["Back","Description","Difficulty"]:
-			print(n.name)
 			n.mouse_entered.connect(mouse_enter.bind(int(n.name)))
 			n.mouse_exited.connect(mouse_exit.bind(int(n.name)))
 			n.pressed.connect(difficulty_pressed.bind(int(n.name)))

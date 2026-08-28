@@ -32,31 +32,14 @@ func _on_destroy_pressed() -> void:
 	$UI/Tools/Selection.offset_left = 128
 
 func UpdateCityStats():
-	var m : float = Global.Money
-	if m >= 1000000:
-		var big = Big.new(m)
-		$UI/CityInfo/Info/Money/Label.text = big.toMetricSymbol()
-	elif m >= 1000:
-		var base = floor(m / 1000)
-		$UI/CityInfo/Info/Money/Label.text = str(int(base)) + "," + ("%03d" % (int(m) % 1000))
-	else:
-		$UI/CityInfo/Info/Money/Label.text = str(int(m))
-	#--------------------------------
-	m = Global.Income * 2
-	if m >= 1000000:
-		var big = Big.new(m)
-		$UI/CityInfo/Info/IncomePerSecond/Label.text = big.toMetricSymbol() + "/s"
-	elif m >= 1000:
-		var base = floor(m / 1000)
-		$UI/CityInfo/Info/IncomePerSecond/Label.text = str(int(base)) + "," + ("%03d" % (int(m) % 1000)) + "/s"
-	else:
-		$UI/CityInfo/Info/IncomePerSecond/Label.text = str(int(m)) + "/s"
-	#--------------------------------
+	$UI/CityInfo/Info/Money/Label.text = Global.GetBigNumber(Global.Money)
+	$UI/CityInfo/Info/IncomePerSecond/Label.text = Global.GetBigNumber(Global.Income * 2) + "/s"
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():
 			if not b.name.begins_with("Gap"):
 				b.Update()
+
 func insufficient_funds():
 	$UI/CityInfo/Info/Money/Label.label_settings.font_color = Color.DARK_RED
 	$UI/CityInfo/Info/Money/RedTimer.start()
@@ -89,3 +72,7 @@ func _on_erase_save_pressed() -> void:
 
 func _on_save_pressed() -> void:
 	$"..".SaveGame()
+
+
+func _on_close_pressed() -> void:
+	$UI/Achievements/Animation.play("Close")

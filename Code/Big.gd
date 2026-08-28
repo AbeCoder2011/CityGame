@@ -148,7 +148,7 @@ static var options = {
 }
 
 ## Maximum Big Number Mantissa
-const MANTISSA_MAX: float = 1209600.0
+const MANTISSA_MAX: float = 12096000000000000000000000000.0
 ## Big Number Mantissa floating-point precision
 const MANTISSA_PRECISION: float = 0.0000001
 

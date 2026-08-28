@@ -61,7 +61,7 @@ const BuildingData := {
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
-		"description": "A low budget building housing many people. Costs a bit of money each second for maintainance. Population drops near industry buildings."
+		"description": "A low budget building housing many people. Costs a bit of money each second for maintainance. Population does NOT drop near industry buildings."
 	},
 	# --- Stores
 	"Small Supermarket":{
@@ -257,7 +257,7 @@ const UnlockRequirements := {
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
-@export var ExpansionCoins := 999
+@export var Loans := 0
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
@@ -268,3 +268,17 @@ func GetBuildingCost(nam) -> int:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("Abe") and event.is_pressed():
 		Money *= 1.5
+
+func GetBigNumber(i:float) -> String:
+	if i >= 1000000:
+		var big = Big.new(i)
+		return(big.toMetricSymbol())
+	elif i >= 1000:
+		var base = floor(i / 1000)
+		return(str(int(base)) + "," + ("%03d" % (int(i) % 1000)))
+	else:
+		if int(i) == i:
+			return(str(int(i)))
+		else:
+			return(str(i))
+			

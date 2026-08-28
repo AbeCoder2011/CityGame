@@ -51,8 +51,7 @@ func UpdateData():
 			$Info.text = str(population)
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
-			var income = Big.new(money)
-			$Info.text = income.toMetricSymbol(true) + "/s"
+			$Info.text = Global.GetBigNumber(money) + "/s"
 			
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)

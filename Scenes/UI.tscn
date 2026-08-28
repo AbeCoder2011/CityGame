@@ -9,6 +9,7 @@
 [ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="8_mg6lk"]
 [ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Scenes/toolbar.gd" id="9_j04uc"]
 [ext_resource type="Texture2D" uid="uid://bqx7br3m688fx" path="res://Assets/UI.png" id="9_wunin"]
+[ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
@@ -315,6 +316,71 @@ region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
 atlas = ExtResource("1_nxvpl")
+
+[sub_resource type="Animation" id="Animation_wi7yl"]
+resource_name = "Close"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(100, 100), Vector2(100, -1500)]
+}
+
+[sub_resource type="Animation" id="Animation_5q4fb"]
+resource_name = "Open"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(100, -1500), Vector2(100, 100)]
+}
+
+[sub_resource type="Animation" id="Animation_mqm5i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(100, 100)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jnovg"]
+_data = {
+&"Close": SubResource("Animation_wi7yl"),
+&"Open": SubResource("Animation_5q4fb"),
+&"RESET": SubResource("Animation_mqm5i")
+}
+
+[sub_resource type="LabelSettings" id="LabelSettings_tgu54"]
+font_size = 48
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61h6g"]
+atlas = ExtResource("9_wunin")
+region = Rect2(16, 0, 16, 16)
 
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
@@ -1135,6 +1201,7 @@ autoplay = &"fade_in"
 
 [node name="Toolbar" type="Control" parent="UI" unique_id=99239621]
 layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -428.73987
@@ -1170,36 +1237,69 @@ texture = SubResource("AtlasTexture_bdmmk")
 
 [node name="Achievements" type="Control" parent="UI" unique_id=1624499764]
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 100.0
 offset_top = 100.0
 offset_right = -100.0
-offset_bottom = -100.0
+offset_bottom = -100.000244
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Background" type="NinePatchRect" parent="UI/Achievements" unique_id=1833794775]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.333
+anchor_bottom = 0.333
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_hdgct")
+region_rect = Rect2(132, 201, 98, 26)
+patch_margin_left = 74
+patch_margin_top = 9
+patch_margin_right = 84
+patch_margin_bottom = 9
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 1
+
+[node name="Animation" type="AnimationPlayer" parent="UI/Achievements" unique_id=274783105]
+libraries/ = SubResource("AnimationLibrary_jnovg")
+
+[node name="Label" type="Label" parent="UI/Achievements" unique_id=615586228]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 28.0
+offset_right = 141.0
+offset_bottom = 51.0
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 48
+text = "Achievements"
+label_settings = SubResource("LabelSettings_tgu54")
+
+[node name="Close" type="Button" parent="UI/Achievements" unique_id=1177907787]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 0
+offset_left = 1650.0
+offset_top = 27.0
+offset_right = 1710.0
+offset_bottom = 87.0
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Achievements/Close" unique_id=595861979]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_hdgct")
-region_rect = Rect2(132, 198, 98, 32)
-patch_margin_left = 91
-patch_margin_top = 10
-patch_margin_right = 91
-patch_margin_bottom = 10
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 1
+texture = SubResource("AtlasTexture_61h6g")
 
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
 [connection signal="pressed" from="UI/Pause/Save" to="." method="_on_save_pressed"]
 [connection signal="pressed" from="UI/Pause/Erase Save" to="." method="_on_erase_save_pressed"]
-[connection signal="button_up" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_button_up"]
-[connection signal="mouse_entered" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_mouse_entered"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
+[connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
