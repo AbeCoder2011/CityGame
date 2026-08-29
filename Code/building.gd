@@ -22,6 +22,7 @@ func init_building(nam,pos) -> void:
 	building_name = nam
 	grid_pos = pos
 	$Sprite.texture = AtlasTexture.new()
+	$Sprite.position = GetSize(nam) * 24
 	$Sprite.texture.atlas = Global.BuildingTilemap
 	$Info/TextureRect.texture = AtlasTexture.new()
 	if nam == "Rail":
@@ -30,12 +31,12 @@ func init_building(nam,pos) -> void:
 		for n : Vector2i in other_rails:
 			if n in locations:
 				other_rails[n].UpdateRailSprite()
-		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
+		$HoverDetection.size = GetSize(nam) * 48
 		UpdateRailSprite()
 	else:
 		$Info/TextureRect.texture.atlas = Global.IconTilemap
-		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
-		$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
+		$HoverDetection.size = GetSize(nam) * 48
+		$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,GetSize(nam)*16)
 	
 func display_income(i:float):
 	if $Visible.is_on_screen() and Global.Zoom >= 2.0:
@@ -146,3 +147,5 @@ func UpdateRailSprite() -> void:
 		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	
+func GetSize(n) -> Vector2i:
+	return Global.BuildingData[n].get("size",Vector2i(1,1))

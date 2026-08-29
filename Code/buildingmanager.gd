@@ -11,13 +11,16 @@ var DestroyedBuildings = []
 var distribution_centers_inventory := {}
 var global_power = 0
 var already_checked_buildings = []
+
+var station_networks : Array[Array] = []
+
 const SHOP_NAMES = [
 	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
 ]
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
 ]
-const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat","livestock"]
+const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
 	if Rails.has(node.grid_pos) and Rails[node.grid_pos] == node:
@@ -41,6 +44,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
+	if nam == "Rail" or nam == "Train Station":
+		CalculateStationConnections()
 func DeselectOthers():
 	deselect.emit()
 
@@ -101,6 +106,60 @@ func IndustryPenalty(pos:Vector2i) -> float:
 	var exponent = thermal + nuclear + (large_thermal * 2) + sm_factory + (large_factory * 4)
 	return 0.5 ** exponent
 
+func CalculateStationConnections():
+	var stations = []
+	var networks : Array[Array] = []
+	for n in Buildings:
+		if n["name"] == "Train Station":
+			stations.append(n)
+	for st in stations:
+		var connections = [st]
+		for dir in [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]:
+			connections.append_array(FindNetwork(st["pos"] + dir,stations))
+		var double_check = []
+		for c in connections:
+			if not c in double_check:
+				double_check.append(c)
+		connections = double_check
+		# find every existing network that overlaps with this station's connections
+		var matched : Array = []
+		for netw in networks:
+			for c in connections:
+				if netw.has(c):
+					matched.append(netw)
+					break
+
+		if matched.is_empty():
+			networks.append(connections)
+		else:
+			# merge everything into the first matched network
+			var target = matched[0]
+			for c in connections:
+				if not target.has(c):
+					target.append(c)
+			# merge any other matched networks (bridged networks) into target too, then drop them
+			for i in range(1, matched.size()):
+				var other = matched[i]
+				for c in other:
+					if not target.has(c):
+						target.append(c)
+				networks.erase(other)
+	station_networks = networks
+	print(networks)
+
+func FindNetwork(pos:Vector2i,stations,searched:Array = []) -> Array:
+	if pos in searched:
+		return []
+	for n in Buildings:
+		if n["name"] == "Rail" and n["pos"] == pos:
+			var s : Array = []
+			for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
+				searched.append(pos)
+				s.append_array(FindNetwork(pos + dir,stations,searched))
+			return s
+		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
+			return([n])
+	return []
 # --- Tick ------------------------------------------------------
 
 func Tick():

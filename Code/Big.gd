@@ -148,7 +148,7 @@ static var options = {
 }
 
 ## Maximum Big Number Mantissa
-const MANTISSA_MAX: float = 12096000000000000000000000000.0
+const MANTISSA_MAX: float = 120960000000.0
 ## Big Number Mantissa floating-point precision
 const MANTISSA_PRECISION: float = 0.0000001
 
@@ -185,7 +185,7 @@ static func _typeCheck(n) -> Big:
 ## Warns if Big number's mantissa exceeds max
 static func _sizeCheck(m: float) -> void:
 	if m > MANTISSA_MAX:
-		printerr("Big Error: Mantissa \"" + str(m) + "\" exceeds MANTISSA_MAX. Use exponent or scientific notation")
+		pass #printerr("Big Error: Mantissa \"" + str(m) + "\" exceeds MANTISSA_MAX. Use exponent or scientific notation")
 
 
 ## [url=https://en.wikipedia.org/wiki/Normalized_number]Normalize[/url] a Big number

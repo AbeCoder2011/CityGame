@@ -138,7 +138,7 @@ region = Rect2(32, 0, 16, 16)
 script = ExtResource("1_avus0")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=432252880]
-position = Vector2(24, 24)
+position = Vector2(24, 24.000002)
 scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_v1gob")
 
