@@ -211,6 +211,11 @@ shadow_size = 16
 shadow_color = Color(0, 0, 0, 1)
 shadow_offset = Vector2(3, 3)
 
+[sub_resource type="LabelSettings" id="LabelSettings_tgu54"]
+font = ExtResource("3_fp2oq")
+font_size = 32
+font_color = Color(0.47553682, 0.47553688, 0.47553682, 1)
+
 [sub_resource type="Animation" id="Animation_q2qps"]
 length = 0.001
 tracks/0/type = "value"
@@ -324,6 +329,22 @@ offset_right = 585.0
 offset_bottom = 199.0
 text = "CityScape"
 label_settings = SubResource("LabelSettings_o2ick")
+
+[node name="Label" type="Label" parent="Base" unique_id=1040483654]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -65.0
+offset_top = -45.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "V0.6"
+label_settings = SubResource("LabelSettings_tgu54")
 
 [node name="Main" type="Control" parent="." unique_id=2000390083]
 layout_mode = 1
@@ -493,9 +514,9 @@ Luke
 - Playtesting
 - Continued art
 
-
-
-
+Playtesting
+- Nicolas
+- Clark
 
 
 
