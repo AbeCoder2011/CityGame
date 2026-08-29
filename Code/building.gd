@@ -13,10 +13,14 @@ var nature := 0
 
 var building_name = ""
 
+var grid_pos := Vector2i.ZERO
+var rail_connections := {"l":false,"r":false,"u":false,"d":false}
+
 var selected = false
 
 func init_building(nam,pos) -> void:
 	building_name = nam
+	grid_pos = pos
 	$Sprite.texture = AtlasTexture.new()
 	$Sprite.texture.atlas = Global.BuildingTilemap
 	$Info/TextureRect.texture = AtlasTexture.new()
@@ -25,10 +29,9 @@ func init_building(nam,pos) -> void:
 		var locations = [Vector2i(pos.x+1,pos.y),Vector2i(pos.x-1,pos.y),Vector2i(pos.x,pos.y+1),Vector2i(pos.x,pos.y-1),]
 		for n : Vector2i in other_rails:
 			if n in locations:
-				# Here!
-				pass
+				other_rails[n].UpdateRailSprite()
 		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
-		pass
+		UpdateRailSprite()
 	else:
 		$Info/TextureRect.texture.atlas = Global.IconTilemap
 		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
@@ -109,3 +112,37 @@ func Deselect():
 
 func FreeNode():
 	queue_free()
+
+func UpdateRailSprite() -> void:
+	var other_rails : Dictionary = $"..".Rails
+	rail_connections = {"l":false,"r":false,"u":false,"d":false}
+	if other_rails.has(Vector2i(grid_pos.x + 1, grid_pos.y)):
+		rail_connections["r"] = true
+	if other_rails.has(Vector2i(grid_pos.x - 1, grid_pos.y)):
+		rail_connections["l"] = true
+	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y + 1)):
+		rail_connections["d"] = true
+	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
+		rail_connections["u"] = true
+	if rail_connections["l"] and rail_connections["u"]:
+		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 0
+	elif rail_connections["u"] and rail_connections["r"]:
+		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 90
+	elif rail_connections["r"] and rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 180
+	elif rail_connections["d"] and rail_connections["l"]:
+		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 270
+	elif rail_connections["u"] or rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.rotation_degrees = 0
+	elif rail_connections["l"] or rail_connections["r"]:
+		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.rotation_degrees = 90
+	else:
+		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.rotation_degrees = 0
+	

@@ -5,7 +5,7 @@ signal deselect
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
-var Rails = []
+var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
 var distribution_centers_inventory := {}
@@ -20,20 +20,25 @@ const HOUSING_NAMES = [
 const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat","livestock"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
-	Rails.erase(Vector2i(node.position.floor()))
+	if Rails.has(node.grid_pos) and Rails[node.grid_pos] == node:
+		Rails.erase(node.grid_pos)
+		for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
+			var neighbor_pos = node.grid_pos + offset
+			if Rails.has(neighbor_pos):
+				Rails[neighbor_pos].UpdateRailSprite()
 	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var b : Node2D = BuildingScene.instantiate()
-	b.init_building(nam,location)
 	b.position = location * 48
 	add_child(b)
+	if nam == "Rail":
+		Rails[location] = b
+	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
 	Buildings.append({"pos":location,"name":nam,"node":b})
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
-	if nam == "Rail":
-		Rails.append(location)
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
 func DeselectOthers():

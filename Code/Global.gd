@@ -266,6 +266,9 @@ const UnlockRequirements := {
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
 }	
 
+const RailIndexes = {
+	
+}
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
