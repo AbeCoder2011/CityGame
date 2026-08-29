@@ -82,14 +82,14 @@ func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String,exclude:Ar
 		if Dist(pos, b["pos"]) <= radius:
 			if names.has(b["name"]):
 				total += b["node"].get(prop)
-			if b["name"] == "Distribution Center":
-				total += distribution_centers_inventory.get(prop,0)
+			if b["name"] == "Train Station":
+				pass
 	return total
 
 func SumAllProperties(pos:Vector2i, radius:float):
 	var properties = {}
 	for b in Buildings:
-		if b["pos"] == pos or b["name"] == "Distribution Center" or b in already_checked_buildings:
+		if b["pos"] == pos or b["name"] == "Train Station" or b in already_checked_buildings:
 			continue
 		if Dist(pos, b["pos"]) <= radius:
 			for n in DC_PROPERTIES:
