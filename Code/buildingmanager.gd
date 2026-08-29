@@ -5,7 +5,7 @@ signal deselect
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var Buildings = []
-
+var Rails = []
 var DestroyedBuildings = []
 
 var distribution_centers_inventory := {}
@@ -20,21 +20,22 @@ const HOUSING_NAMES = [
 const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat","livestock"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
+	Rails.erase(Vector2i(node.position.floor()))
 	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
-	
 	var b : Node2D = BuildingScene.instantiate()
-	b.init_building(nam)
+	b.init_building(nam,location)
 	b.position = location * 48
 	add_child(b)
 	deselect.connect(b.Deselect)
 	Buildings.append({"pos":location,"name":nam,"node":b})
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	if nam == "Rail":
+		Rails.append(location)
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
-	print(Buildings)
 func DeselectOthers():
 	deselect.emit()
 
@@ -110,10 +111,10 @@ func Tick():
 	distribution_centers_inventory = {}
 	global_power = 0
 	for b in Buildings:
-		#if b["name"] == "Distribution Center":
-			#var inv = SumAllProperties(b["pos"],1)
-			#for n in inv.keys():
-				#distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
+		if b["name"] == "Train Station":
+			var inv = SumAllProperties(b["pos"],3)
+			for n in inv.keys():
+				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
 		if b["name"] == "Transformator Building":
 			global_power += SumProperty(b["pos"],["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power")
 	var money_total = 0

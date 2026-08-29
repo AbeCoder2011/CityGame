@@ -15,14 +15,24 @@ var building_name = ""
 
 var selected = false
 
-func init_building(nam) -> void:
+func init_building(nam,pos) -> void:
 	building_name = nam
 	$Sprite.texture = AtlasTexture.new()
 	$Sprite.texture.atlas = Global.BuildingTilemap
 	$Info/TextureRect.texture = AtlasTexture.new()
-	$Info/TextureRect.texture.atlas = Global.IconTilemap
-	$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
-	$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
+	if nam == "Rail":
+		var other_rails = $"..".Rails
+		var locations = [Vector2i(pos.x+1,pos.y),Vector2i(pos.x-1,pos.y),Vector2i(pos.x,pos.y+1),Vector2i(pos.x,pos.y-1),]
+		for n : Vector2i in other_rails:
+			if n in locations:
+				# Here!
+				pass
+		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
+		pass
+	else:
+		$Info/TextureRect.texture.atlas = Global.IconTilemap
+		$HoverDetection.size = Global.BuildingData[nam].get("size",Vector2i(1,1)) * 48
+		$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,Global.BuildingData[nam].get("size",Vector2i(1,1))*16)
 	
 func display_income(i:float):
 	if $Visible.is_on_screen() and Global.Zoom >= 2.0:

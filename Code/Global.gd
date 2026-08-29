@@ -217,6 +217,18 @@ const BuildingData := {
 		"size": Vector2i(2,2),
 		"description":""
 	},
+	# --- Trains
+	"Train Station":{
+		"atlas_coords": Vector2i(18,3),
+		"cost": 50000000, # <- 50M
+		"size": Vector2i(2,2),
+		"description":"empty"
+	},
+	"Rail":{
+		"atlas_coords": Vector2i(19,5),
+		"cost": 3000000, # <- 3M
+		"description":"empty"
+	}
 }
 
 @export var BuildingUses := {}
@@ -281,6 +293,3 @@ func GetBigNumber(i:float) -> String:
 		else:
 			return(str(i))
 			
-
-func _ready() -> void:
-	randomize()

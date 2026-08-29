@@ -144,6 +144,10 @@ region = Rect2(0, 128, 16, 16)
 atlas = ExtResource("4_hfhsn")
 region = Rect2(0, 160, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_n04ve"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(272, 48, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_j04uc"]
 atlas = ExtResource("6_xjg7p")
 region = Rect2(0, 0, 16, 16)
@@ -671,6 +675,20 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_wunin")
 
+[node name="Trains" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1494350006]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Trains" unique_id=1231663145]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_n04ve")
+
 [node name="Categories" type="Control" parent="UI/Building" unique_id=1101925859]
 layout_mode = 1
 anchors_preset = 15
@@ -999,6 +1017,35 @@ Building_Name = "Small Factory"
 [node name="BasicHouse2" parent="UI/Building/Categories/Production Industry" unique_id=1605426364 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Large Factory"
+
+[node name="Trains" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Trains" unique_id=955909677 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Train Station"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Trains" unique_id=1200093197]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Trains" unique_id=1373562305 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Rail"
 
 [node name="CityInfo" type="Control" parent="UI" unique_id=1744660893]
 layout_mode = 1
