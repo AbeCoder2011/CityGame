@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Code/GameController.gd" id="1_jw32o"]
 [ext_resource type="Texture2D" uid="uid://jt4e480cvn71" path="res://Assets/grid.png" id="1_rgh2o"]
-[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="2_pbw6q"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/Tilesheets/BuildingTiles/tiles.png" id="2_pbw6q"]
 [ext_resource type="Script" uid="uid://yp6ns8gc2orq" path="res://Code/Camera.gd" id="3_v1gob"]
 [ext_resource type="PackedScene" uid="uid://wivfjwj1whwj" path="res://Scenes/UI.tscn" id="4_jw32o"]
 [ext_resource type="Script" uid="uid://dggin4vvri22y" path="res://Code/builder.gd" id="5_pbw6q"]
@@ -34,7 +34,7 @@ var Area = preload(\"res://Scenes/area.tscn\")
 
 var OpenAreas : Array[Vector2i] = [Vector2i(0,0)]
 
-var total_loans = 0
+var total_buys = 0
 
 var area_positions : Dictionary[Vector2i,Node2D] = {}
 
@@ -55,7 +55,7 @@ func DeleteMe(n:Node2D):
 	area_positions.erase(area_positions.keys()[area_positions.values().find(n)])
 
 func Recalculate():
-	var new_cost = 8 * ({1:2,2:3,3:4,4:5,5:7}[Global.Difficulty] ** total_loans)
+	var new_cost = 128 * ({1:1.5,2:2,3:2,4:3.5,5:5}[Global.Difficulty] ** total_buys)
 	var searches = []
 	for n in OpenAreas:
 		if not searches.has(Vector2i(n.x + 1, n.y)):

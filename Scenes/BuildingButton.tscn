@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://maxm0l4vdeil"]
 
 [ext_resource type="Script" uid="uid://124t5jksha1g" path="res://Code/building_button.gd" id="1_r70a3"]
-[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="1_yugtv"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/Tilesheets/BuildingTiles/tiles.png" id="1_yugtv"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="3_00us2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tgu54"]
@@ -40,7 +40,6 @@ outline_color = Color(0, 0, 0, 1)
 
 [node name="BasicHouse" type="Button" unique_id=238029415]
 custom_minimum_size = Vector2(68, 68)
-anchors_preset = -1
 flat = true
 script = ExtResource("1_r70a3")
 

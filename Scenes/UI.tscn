@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://wivfjwj1whwj"]
 
 [ext_resource type="Script" uid="uid://bbmiejf3gdaei" path="res://Code/UI.gd" id="1_dewlx"]
-[ext_resource type="Texture2D" uid="uid://dlf0etyhjvnf0" path="res://Assets/Tilesheets/Large tiles/Thin outline/tilemap.png" id="1_nxvpl"]
-[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/tiles.png" id="4_hfhsn"]
+[ext_resource type="Texture2D" uid="uid://dlf0etyhjvnf0" path="res://Assets/Tilesheets/UI/Large tiles/Thin outline/tilemap.png" id="1_nxvpl"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/Tilesheets/BuildingTiles/tiles.png" id="4_hfhsn"]
 [ext_resource type="PackedScene" uid="uid://maxm0l4vdeil" path="res://Scenes/BuildingButton.tscn" id="5_qwshj"]
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cea4t2j5xyu1g"
+path="res://.godot/imported/Bleeping Demo.mp3-bbd7a2b21784279a046c80bb488414c1.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/Bleeping Demo.mp3"
+dest_files=["res://.godot/imported/Bleeping Demo.mp3-bbd7a2b21784279a046c80bb488414c1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

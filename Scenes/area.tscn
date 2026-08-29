@@ -8,19 +8,20 @@ var cost := 9.0
 var area : Vector2i
 
 func Update():
-	$Label.text = \"[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]To Unlock:\\n[img]res://Assets/coin.png[/img] \" + Global.GetBigNumber(cost) + \"/s\"
+	$Label.text = \"[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]To Unlock:\\n[img]res://Assets/coin.png[/img] \" + Global.GetBigNumber(cost)
 	$Button.show()
 
 
 func _on_button_pressed() -> void:
-	Global.Loans += int(floor(cost / 2))
-	$\"../..\".UpdateCityStats()
-	$\"../..\".BuildableAreas.append(Rect2((area * Vector2i(6,6)) - Vector2i(3,3),Vector2i(6,6)))
-	$\"..\".OpenAreas.append(area)
-	$\"..\".total_loans += 1
-	$\"..\".DeleteMe(self)
-	$\"..\".Recalculate()
-	queue_free()
+	if Global.Money >= cost:
+		Global.Money -= cost
+		$\"../..\".UpdateCityStats()
+		$\"../..\".BuildableAreas.append(Rect2((area * Vector2i(6,6)) - Vector2i(3,3),Vector2i(6,6)))
+		$\"..\".OpenAreas.append(area)
+		$\"..\".total_buys += 1
+		$\"..\".DeleteMe(self)
+		$\"..\".Recalculate()
+		queue_free()
 "
 
 [node name="Area" type="Node2D" unique_id=335826406]

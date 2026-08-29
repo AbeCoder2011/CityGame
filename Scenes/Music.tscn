@@ -1,12 +1,43 @@
 [gd_scene format=3 uid="uid://cedpg40fm8shm"]
 
-[ext_resource type="AudioStream" uid="uid://drg0326x7d7kg" path="res://Assets/Pleasant Porridge.mp3" id="1_fghhr"]
+[ext_resource type="AudioStream" uid="uid://drg0326x7d7kg" path="res://Assets/Music/Pleasant Porridge.mp3" id="1_fghhr"]
+
+[sub_resource type="GDScript" id="GDScript_jw32o"]
+script/source = "extends AudioStreamPlayer
+
+var songs: Array[AudioStream] = [
+	preload(\"res://Assets/Music/Bleeping Demo.mp3\"),
+	preload(\"res://Assets/Music/Pleasant Porridge.mp3\"),
+	preload(\"res://Assets/Music/Funky Boxstep.mp3\"),
+]
+
+var last_song_index := -1
+
+func _ready() -> void:
+	play_random_song()
+
+func play_random_song() -> void:
+	var index :int
+	while last_song_index == index:
+		index = randi_range(0,len(songs))
+	stream = songs[index]
+	play()
+	last_song_index = index
+
+
+
+func _on_finished() -> void:
+	play_random_song()
+"
 
 [node name="Music" type="Node" unique_id=1084177566]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=773245750]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="." unique_id=773245750]
 process_mode = 3
 stream = ExtResource("1_fghhr")
 volume_db = -4.863
 autoplay = true
 parameters/looping = true
+script = SubResource("GDScript_jw32o")
+
+[connection signal="finished" from="MusicPlayer" to="MusicPlayer" method="_on_finished"]

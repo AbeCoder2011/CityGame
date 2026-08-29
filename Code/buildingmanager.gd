@@ -142,7 +142,6 @@ func Tick():
 		if value.has("nature"):
 			b["node"].nature = value["nature"]
 		b["node"].UpdateData()
-	money_total -= Global.Loans
 	Global.Money += money_total
 	Global.Income = money_total
 	Global.Population = population_total
