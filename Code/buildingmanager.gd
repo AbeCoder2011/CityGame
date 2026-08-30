@@ -270,20 +270,17 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"population": 8 * population_boost * (1 + 0.01 * nature)}
 		"Small Supermarket":
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 1, "population")
-			var products = SumProperty(pos, GetSize(b["name"]), ["Distribution Center"], 6, "products")
+			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 6, "products")
 			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Large Supermarket":
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
-			var products = SumProperty(pos, GetSize(b["name"]), ["Distribution Center"], 6, "products")
+			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 6, "products")
 			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Mill":
 			var wheat = SumProperty(pos, GetSize(b["name"]), ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
 			return {"flour": wheat}
-
-		"Distribution Center":
-			return SumAllProperties(b["pos"], GetSize(b["name"]),1)
 		
 		"Electronics Store":
 			return {"money": 0.5 * SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")}

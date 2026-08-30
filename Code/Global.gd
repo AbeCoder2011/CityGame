@@ -58,12 +58,12 @@ const BuildingData := {
 		"atlas_coords": Vector2i(6,0),
 		"size": Vector2i(2,2),
 		"cost": 50000,
-		"description": "hey kajer"
+		"description": "One huge building housing an absurd amount of people in a single building. Population drops near industry buildings."
 	},
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
-		"description": "A low budget building housing many people. Costs a bit of money each second for maintainance. Population does NOT drop near industry buildings."
+		"description": "A low budget building housing many people. Population does NOT drop near industry buildings."
 	},
 	# --- Stores
 	"Small Supermarket":{
@@ -90,12 +90,7 @@ const BuildingData := {
 	"Animal Farm":{
 		"atlas_coords": Vector2i(4,3),
 		"cost": 75000,
-		"description": "Breeds livestock for nearby butchers."
-	},
-	"Distribution Center":{
-		"atlas_coords": Vector2i(4,2),
-		"cost": 2000,
-		"description": "Collects items / products from adjacent suppliers, then shares them with any other Distribution Center on the map."
+		"description": "Breeds livestock for nearby butchers. The meat is probably not organic."
 	},
 	"Electronics Store":{
 		"atlas_coords": Vector2i(5,2),
@@ -154,7 +149,7 @@ const BuildingData := {
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
 		"cost": 2000,
-		"description": "Brings power from nearby power plants and solar farms to the city, giving population (within [b]fifteen[/b] tiles) a large boost. Collects power from within [b]three[/b] tiles"
+		"description": "Brings power from nearby power plants and solar farms to the city, giving population (within [b]eight[/b] tiles) a large boost. Collects power from within [b]three[/b] tiles"
 	},
 	# --- Parks
 	"Pocket Park":{
@@ -182,54 +177,54 @@ const BuildingData := {
 	"Small Forest":{
 		"atlas_coords": Vector2i(0,8),
 		"cost": 1000,
-		"description":""
+		"description":"A small forest with many trees. What did you expect?"
 	},
 	"Large Forest":{
 		"atlas_coords": Vector2i(1,8),
 		"size": Vector2i(2,2),
 		"cost": 5000,
-		"description":""
+		"description":"A huge forest with large, old trees. A rumor says a forest elf lives inside."
 	},
 	"Large Mountain":{
 		"atlas_coords": Vector2i(3,8),
 		"size": Vector2i(2,2),
-		"cost": 20000,
-		"description":""
+		"cost": 200000000,
+		"description":"A huge mountain with snow at the very top. Contains many gemstones, but they are hidden in the rocks..."
 	},
 	"Small Wheatfield":{
 		"atlas_coords": Vector2i(5,8),
 		"cost": 2000,
-		"description":""
+		"description":"A small, wild wheatfield. The wheat can be harvested by mills to create flour."
 	},
 	"Large Wheatfield":{
 		"atlas_coords": Vector2i(6,8),
 		"size": Vector2i(2,2),
 		"cost": 10000,
-		"description":""
+		"description":"A Large wheatfield spanning as far as the eye can see. The wheat can be harvested by mills to create flour."
 	},
 	# --- Production Industry
 	"Small Factory":{
 		"atlas_coords": Vector2i(0,10),
 		"cost": 50000,
-		"description":"A large industrial factory producing various food products. Placing it near housing will make their population drop."
+		"description":"A small industrial factory producing some food products. Placing it near housing will make their population drop."
 	},
 	"Large Factory":{
 		"atlas_coords": Vector2i(1,10),
 		"cost": 250000,
 		"size": Vector2i(2,2),
-		"description":""
+		"description":"A large industrial factory producing many food products. Placing it near housing will make their population drop."
 	},
 	# --- Trains
 	"Train Station":{
 		"atlas_coords": Vector2i(18,3),
 		"cost": 50000000, # <- 50M
 		"size": Vector2i(2,2),
-		"description":"empty"
+		"description":"A train station for transporting goods. Will take items from within [b]four[/b] tiles. Use rails to connect it up to other stations, and those will share resources with this one."
 	},
 	"Rail":{
 		"atlas_coords": Vector2i(19,5),
 		"cost": 3000000, # <- 3M
-		"description":"empty"
+		"description":"A rail which trains can ride on. Used to connect Train Stations to each other."
 	}
 }
 
@@ -246,7 +241,6 @@ const UnlockRequirements := {
 	"Large Supermarket": [{"type":"building_count","building":"Small Supermarket","amount":3}],
 	"Mill": [{"type":"building_count","building":"Small Wheatfield","amount":2}],
 	"Bakery": [{"type":"building_count","building":"Mill","amount":1}],
-	"Distribution Center": [{"type":"building_count","building":"Small Factory","amount":2}],
 	"Electronics Store": [{"type":"population","amount":100}],
 	"Cafe": [{"type":"population","amount":40}],
 	"Restaurant":[{"type":"building_count","building":"Cafe","amount":3}],
@@ -266,6 +260,8 @@ const UnlockRequirements := {
 	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
 
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
+	"Train Station": [{"type":"population","amount":1500}],
+	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
 }	
 
 const RailIndexes = {

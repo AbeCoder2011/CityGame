@@ -730,6 +730,7 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -783,7 +784,6 @@ layout_mode = 2
 Building_Name = "Low-Budget Apartment"
 
 [node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -815,10 +815,6 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Mill"
 
-[node name="BasicHouse4" parent="UI/Building/Categories/Stores" unique_id=584316690 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Distribution Center"
-
 [node name="BasicHouse5" parent="UI/Building/Categories/Stores" unique_id=848209646 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Electronics Store"
@@ -827,19 +823,19 @@ Building_Name = "Electronics Store"
 layout_mode = 2
 Building_Name = "Cafe"
 
-[node name="Gap2" type="Control" parent="UI/Building/Categories/Stores" unique_id=1833232986]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap3" type="Control" parent="UI/Building/Categories/Stores" unique_id=1607920380]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
 [node name="BasicHouse7" parent="UI/Building/Categories/Stores" unique_id=1551022007 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Bakery"
+
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Stores" unique_id=571519472]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Stores" unique_id=1983199321]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="BasicHouse8" parent="UI/Building/Categories/Stores" unique_id=1991747827 instance=ExtResource("5_qwshj")]
 layout_mode = 2
@@ -848,6 +844,11 @@ Building_Name = "Restaurant"
 [node name="BasicHouse9" parent="UI/Building/Categories/Stores" unique_id=1325274770 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Animal Farm"
+
+[node name="Gap5" type="Control" parent="UI/Building/Categories/Stores" unique_id=1847161497]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="BasicHouse10" parent="UI/Building/Categories/Stores" unique_id=520740049 instance=ExtResource("5_qwshj")]
 layout_mode = 2
