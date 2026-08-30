@@ -20,6 +20,9 @@ const SHOP_NAMES = [
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
 ]
+const POWER_GENERATOR_NAMES = [
+	"Thermal Power Plant", "Small Solar Farm", "Nuclear Power Plant", "Large Thermal Power Plant", "Large Solar Farm"
+]
 const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
@@ -320,10 +323,10 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var shops = CountNearby(pos, SHOP_NAMES, 2,["Mall"])
 			return {"money": pop * shops}
 		"Small Factory":
-			return {"products":1}
+			return {"products":SumProperty(pos, POWER_GENERATOR_NAMES, 2, "power")/4+1}
 			
 		"Large Factory":
-			return {"products":4}
+			return {"products":4 + (SumProperty(pos, POWER_GENERATOR_NAMES, 4, "power"))}
 		"Pocket Park":
 			return {"nature":2}
 		"Small Park":
