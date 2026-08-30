@@ -127,7 +127,7 @@ const BuildingData := {
 	"Small Solar Farm":{
 		"atlas_coords": Vector2i(1,4),
 		"cost": 40000,
-		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city."
+		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
 	},
 	"Nuclear Power Plant":{
 		"atlas_coords": Vector2i(2,4),
@@ -144,7 +144,7 @@ const BuildingData := {
 		"atlas_coords": Vector2i(5,4),
 		"size": Vector2i(2,2),
 		"cost": 180000,
-		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city."
+		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
 	},
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
