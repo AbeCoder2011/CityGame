@@ -357,7 +357,7 @@ centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1920, 1920)
 
-[node name="TileMapLayer" type="TileMapLayer" parent="Background" unique_id=256848337]
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=256848337]
 scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_jnsvb")
 script = ExtResource("9_bmxlf")

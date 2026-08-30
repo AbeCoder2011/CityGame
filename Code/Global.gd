@@ -58,7 +58,7 @@ const BuildingData := {
 		"atlas_coords": Vector2i(6,0),
 		"size": Vector2i(2,2),
 		"cost": 50000,
-		"description": "hey kajer"
+		"description": "A Massive Complex of apartments. Population drops near industry buildings"
 	},
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
@@ -132,7 +132,7 @@ const BuildingData := {
 	"Small Solar Farm":{
 		"atlas_coords": Vector2i(1,4),
 		"cost": 40000,
-		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city."
+		"description": "A few solar panels that produce energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
 	},
 	"Nuclear Power Plant":{
 		"atlas_coords": Vector2i(2,4),
@@ -149,7 +149,7 @@ const BuildingData := {
 		"atlas_coords": Vector2i(5,4),
 		"size": Vector2i(2,2),
 		"cost": 180000,
-		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city."
+		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
 	},
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
@@ -211,25 +211,25 @@ const BuildingData := {
 	"Small Factory":{
 		"atlas_coords": Vector2i(0,10),
 		"cost": 50000,
-		"description":"A large industrial factory producing various food products. Placing it near housing will make their population drop."
+		"description":"An industrial factory producing various food products. Placing it near housing will make their population drop. Placing it near Power will increase output"
 	},
 	"Large Factory":{
 		"atlas_coords": Vector2i(1,10),
 		"cost": 250000,
 		"size": Vector2i(2,2),
-		"description":""
+		"description":"A large industrial factory producing various food products. Placing it near housing will make their population drop. Placing it near Power will increase output"
 	},
 	# --- Trains
 	"Train Station":{
 		"atlas_coords": Vector2i(18,3),
 		"cost": 50000000, # <- 50M
 		"size": Vector2i(2,2),
-		"description":"empty"
+		"description":"Can take Products, Meat, Flour, and Electronics from within 4 tiles and transport them to all other train stations connected by rail"
 	},
 	"Rail":{
 		"atlas_coords": Vector2i(19,5),
 		"cost": 3000000, # <- 3M
-		"description":"empty"
+		"description":"Can connect stations together"
 	}
 }
 
