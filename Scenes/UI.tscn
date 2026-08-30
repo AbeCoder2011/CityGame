@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]
 [ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="8_mg6lk"]
+[ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="9_b1goy"]
 [ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Scenes/toolbar.gd" id="9_j04uc"]
 [ext_resource type="Texture2D" uid="uid://bqx7br3m688fx" path="res://Assets/UI.png" id="9_wunin"]
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
@@ -302,16 +303,46 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5000167),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_jnovg"]
+resource_name = "fade_out"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wi7yl"]
 _data = {
 &"RESET": SubResource("Animation_b1goy"),
-&"fade_in": SubResource("Animation_n04ve")
+&"fade_in": SubResource("Animation_n04ve"),
+&"fade_out": SubResource("Animation_jnovg")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bdmmk"]
@@ -1225,23 +1256,29 @@ color = Color(0.25275353, 0.2527536, 0.2527535, 0.70980394)
 
 [node name="Label" type="Label" parent="UI/Pause" unique_id=1142230429]
 layout_mode = 0
-offset_left = 842.0
-offset_top = 91.0
-offset_right = 1023.0
-offset_bottom = 161.0
+offset_left = 92.0
+offset_top = 70.0
+offset_right = 273.0
+offset_bottom = 140.0
 text = "Paused"
 label_settings = SubResource("LabelSettings_o2ick")
 
-[node name="Save" type="Button" parent="UI/Pause" unique_id=702289640]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause" unique_id=1873355034]
 layout_mode = 0
-offset_left = 735.0
-offset_top = 268.0
-offset_right = 1126.0
-offset_bottom = 343.0
-theme_override_font_sizes/font_size = 32
-text = "Save Game"
+offset_left = 93.0
+offset_top = 176.0
+offset_right = 503.0
+offset_bottom = 710.0
+theme_override_constants/separation = 24
 
-[node name="Label" type="Label" parent="UI/Pause/Save" unique_id=2065102495]
+[node name="Continue" type="Button" parent="UI/Pause/VBoxContainer" unique_id=702289640]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Continue -"
+
+[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/Continue" unique_id=2065102495]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1249,16 +1286,44 @@ offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
 
-[node name="Erase Save" type="Button" parent="UI/Pause" unique_id=1171648305]
-layout_mode = 0
-offset_left = 735.0
-offset_top = 376.0
-offset_right = 1126.0
-offset_bottom = 451.0
+[node name="Settings" type="Button" parent="UI/Pause/VBoxContainer" unique_id=1772297066]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
-text = "Erase Save"
+text = "- Settings -"
 
-[node name="Label" type="Label" parent="UI/Pause/Erase Save" unique_id=505276491]
+[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/Settings" unique_id=1854428389]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="SaveAndReturn" type="Button" parent="UI/Pause/VBoxContainer" unique_id=1015474028]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Quit to menu -"
+
+[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/SaveAndReturn" unique_id=763138164]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="SaveAndQuit" type="Button" parent="UI/Pause/VBoxContainer" unique_id=365317313]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Quit to desktop -"
+
+[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/SaveAndQuit" unique_id=1457726531]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1267,6 +1332,7 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
+process_mode = 3
 visible = false
 z_index = 20
 layout_mode = 1
@@ -1383,7 +1449,8 @@ texture = SubResource("AtlasTexture_61h6g")
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
-[connection signal="pressed" from="UI/Pause/Save" to="." method="_on_save_pressed"]
-[connection signal="pressed" from="UI/Pause/Erase Save" to="." method="_on_erase_save_pressed"]
+[connection signal="pressed" from="UI/Pause/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="UI/Pause/VBoxContainer/SaveAndReturn" to="." method="_on_save_and_return_pressed"]
+[connection signal="pressed" from="UI/Pause/VBoxContainer/SaveAndQuit" to="." method="_on_save_and_quit_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

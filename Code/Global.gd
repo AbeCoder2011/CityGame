@@ -1,5 +1,7 @@
 extends Node
 
+@export var First := true
+
 @export var LoadSettings := {
 	"load":true
 }

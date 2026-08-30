@@ -65,14 +65,26 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().paused = $UI/Pause.visible
 
 
-func _on_erase_save_pressed() -> void:
-	$"..".DeleteSave()
-	get_tree().paused = false
-	get_tree().reload_current_scene()
-
 func _on_save_pressed() -> void:
 	$"..".SaveGame()
 
 
 func _on_close_pressed() -> void:
 	$UI/Achievements/Animation.play("Close")
+
+
+func _on_continue_pressed() -> void:
+	$UI/Pause.visible = !$UI/Pause.visible
+	get_tree().paused = $UI/Pause.visible
+
+
+func _on_save_and_return_pressed() -> void:
+	$"..".SaveGame()
+	print("a")
+	$UI/Fade/AnimationPlayer.play("fade_out")
+	await $UI/Fade/AnimationPlayer.animation_finished
+	get_tree().change_scene_to_file("res://Scenes/title.tscn")
+
+func _on_save_and_quit_pressed() -> void:
+	$"..".SaveGame()
+	get_tree().quit()

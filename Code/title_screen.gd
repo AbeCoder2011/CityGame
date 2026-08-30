@@ -14,6 +14,10 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
+	print("back!")
+	if not Global.First:
+		$Fade/Anim.play("fade_in")
+	Global.First = false
 	if not HasSave():
 		$Main/Vbox/Continue.hide()
 	for n : Control in $NewGame/Vbox.get_children():
@@ -31,7 +35,7 @@ func mouse_exit(_id:int):
 func difficulty_pressed(id:int):
 	Global.Difficulty = id
 	Global.LoadSettings["load"] = false
-	$Fade/Anim.play("fade_in")
+	$Fade/Anim.play("fade_out")
 	await $Fade/Anim.animation_finished
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
@@ -47,7 +51,7 @@ func _on_new_game_pressed() -> void:
 
 func _on_continue_pressed() -> void:
 	Global.LoadSettings["load"] = true
-	$Fade/Anim.play("fade_in")
+	$Fade/Anim.play("fade_out")
 	await $Fade/Anim.animation_finished
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
