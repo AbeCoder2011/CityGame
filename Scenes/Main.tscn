@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://wivfjwj1whwj" path="res://Scenes/UI.tscn" id="4_jw32o"]
 [ext_resource type="Script" uid="uid://dggin4vvri22y" path="res://Code/builder.gd" id="5_pbw6q"]
 [ext_resource type="Script" uid="uid://decspchyliyr2" path="res://Code/buildingmanager.gd" id="6_v1gob"]
+[ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="8_vy5pj"]
+[ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Scenes/Terrain.gd" id="9_bmxlf"]
 
 [sub_resource type="Gradient" id="Gradient_fos0i"]
 colors = PackedColorArray(0, 0.24313726, 0, 1, 0, 0.36892712, 0.13845459, 1)
@@ -19,6 +21,18 @@ width = 6000
 height = 6000
 noise = SubResource("FastNoiseLite_cm0pq")
 color_ramp = SubResource("Gradient_fos0i")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
+texture = ExtResource("8_vy5pj")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jnsvb"]
+sources/0 = SubResource("TileSetAtlasSource_4kpch")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbw6q"]
 atlas = ExtResource("2_pbw6q")
@@ -92,6 +106,11 @@ texture = ExtResource("1_rgh2o")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 1920, 1920)
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Background" unique_id=256848337]
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_jnsvb")
+script = ExtResource("9_bmxlf")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1874523406]
 zoom = Vector2(2.5, 2.5)
