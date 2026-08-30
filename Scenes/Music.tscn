@@ -18,6 +18,7 @@ func _ready() -> void:
 
 func play_random_song() -> void:
 	var index :int
+	randomize()
 	index = randi_range(0,len(songs) - 1)
 	while last_song_index == index:
 		index = randi_range(0,len(songs))

@@ -8,7 +8,7 @@ var Buildings = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
-var distribution_centers_inventory := {}
+var network_inventories  : Array[Array] = []
 var global_power = 0
 var already_checked_buildings = []
 
@@ -20,7 +20,7 @@ const SHOP_NAMES = [
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
 ]
-const DC_PROPERTIES = ["products","flour","wheat","electronics","livestock","meat"]
+const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
 	if Rails.has(node.grid_pos) and Rails[node.grid_pos] == node:
@@ -83,7 +83,9 @@ func SumProperty(pos:Vector2i, names:Array, radius:float, prop:String,exclude:Ar
 			if names.has(b["name"]):
 				total += b["node"].get(prop)
 			if b["name"] == "Train Station":
-				pass
+				for nw in network_inventories:
+					if b["pos"] in nw[0]:
+						total += nw[1].get(prop,0.0)
 	return total
 
 func SumAllProperties(pos:Vector2i, radius:float):
@@ -92,7 +94,7 @@ func SumAllProperties(pos:Vector2i, radius:float):
 		if b["pos"] == pos or b["name"] == "Train Station" or b in already_checked_buildings:
 			continue
 		if Dist(pos, b["pos"]) <= radius:
-			for n in DC_PROPERTIES:
+			for n in MOVABLE_PROPERTIES:
 				properties[n] = properties.get(n, 0) + b["node"].get(n)
 				already_checked_buildings.append(b)
 	return properties
@@ -171,14 +173,20 @@ func Tick():
 		if is_instance_valid(n):
 			n.queue_free()
 	DestroyedBuildings.clear()
+	network_inventories = []
+	for nw in station_networks:
+		var stations := []
+		var inv := {}
+		for st in nw:
+			stations.append(st["pos"])
+			var i = SumAllProperties(st["pos"],4)
+			for n in i.keys():
+				inv[n] = inv.get(n,0) + i[n]
+		network_inventories.append([stations,inv])
+	print(network_inventories)
 	already_checked_buildings = []
-	distribution_centers_inventory = {}
 	global_power = 0
 	for b in Buildings:
-		if b["name"] == "Train Station":
-			var inv = SumAllProperties(b["pos"],3)
-			for n in inv.keys():
-				distribution_centers_inventory.set(n,inv[n] + distribution_centers_inventory.get(n,0))
 		if b["name"] == "Transformator Building":
 			global_power += SumProperty(b["pos"],["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power")
 	var money_total = 0
