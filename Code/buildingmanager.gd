@@ -326,10 +326,10 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var shops = CountNearby(pos,GetSize(b["name"]), SHOP_NAMES, 2,["Mall"])
 			return {"money": pop * shops}
 		"Small Factory":
-			return {"products":SumProperty(pos, POWER_GENERATOR_NAMES, 2, "power")/4+1}
+			return {"products":SumProperty(pos,GetSize(b["name"]), POWER_GENERATOR_NAMES, 2, "power")/4+1}
 			
 		"Large Factory":
-			return {"products":4 + (SumProperty(pos, POWER_GENERATOR_NAMES, 4, "power"))}
+			return {"products":4 + (SumProperty(pos,GetSize(b["name"]), POWER_GENERATOR_NAMES, 4, "power"))}
 		"Pocket Park":
 			return {"nature":2}
 		"Small Park":
