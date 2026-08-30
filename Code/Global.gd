@@ -275,6 +275,8 @@ const RailIndexes = {
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
+	if nam == "Rail":
+		return base
 	var mult = BuildingUses.get_or_add(nam,0)
 	var increase : float = {1:1.05,2:1.1,3:1.3,4:1.4,5:1.5}[Difficulty]
 	return base * (increase ** mult)
