@@ -40,9 +40,10 @@ var area_positions : Dictionary[Vector2i,Node2D] = {}
 
 
 func GenerateAreas():
+	total_buys = max(len(OpenAreas) - 1,0)
 	for x in range(-10,10):
 		for y in range(-10,10):
-			if Vector2i(x,y) == STARTER:
+			if Vector2i(x,y) in OpenAreas:
 				continue
 			var a : Node2D = Area.instantiate()
 			a.position = Vector2(x*288,y*288)

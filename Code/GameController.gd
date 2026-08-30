@@ -12,7 +12,7 @@ const AUTOSAVE_INTERVAL := 60.0
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
 var starter_buildings = [{ "pos": Vector2i(-2, -1), "name": "Basic House"}, { "pos": Vector2i(0, -1), "name": "Basic House"}]
 
-var BuildableAreas = [Rect2(-3,-3,6,6)]
+var BuildableAreas := [Rect2(-3,-3,6,6)]
 
 var UnlockedBuildings := {}
 
@@ -140,6 +140,7 @@ func SaveGame():
 		"uses":Global.BuildingUses,
 		"diff":Global.Difficulty,
 		"open_areas":$Areas.OpenAreas,
+		"buildable":BuildableAreas,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -159,7 +160,9 @@ func LoadGame():
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
 	UnlockedBuildings = save["ub"]
+	BuildableAreas = save["buildable"]
 	$Areas.OpenAreas = save["open_areas"]
+	$Areas.GenerateAreas()
 	for n in save["buildings"]:
 		$Buildings.NewBuilding(n["name"],n["pos"],false)
 	print("Loaded save!")
