@@ -141,6 +141,7 @@ func SaveGame():
 		"diff":Global.Difficulty,
 		"open_areas":$Areas.OpenAreas,
 		"buildable":BuildableAreas,
+		"seed": $"Terrain".seed,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -159,10 +160,12 @@ func LoadGame():
 	Global.Population = save["pop"]
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
+	$"Terrain".seed = save.get("seed", randi())
 	UnlockedBuildings = save["ub"]
 	BuildableAreas = save["buildable"]
 	$Areas.OpenAreas = save["open_areas"]
 	$Areas.GenerateAreas()
+	$"Terrain".Generate()
 	for n in save["buildings"]:
 		$Buildings.NewBuilding(n["name"],n["pos"],false)
 	print("Loaded save!")

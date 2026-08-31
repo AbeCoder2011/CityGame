@@ -10,7 +10,7 @@ func _process(delta: float) -> void:
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		var atlas_pos = Global.BuildingData[Global.CurrentBuilding]["atlas_coords"]
 		$BuildingPreview.texture.region = Rect2(atlas_pos * 16, Vector2(grid_size) * 16)
-		if IsColliding(grid_pos, grid_size):
+		if IsColliding(grid_pos, grid_size) or $"../Terrain".get_tile(grid_pos) == 1:
 			$BuildingPreview.modulate = Color(1, 0.4, 0.4,.5)
 		else:
 			$BuildingPreview.modulate = Color(1, 1, 1,.5)
@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 
-		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size):
+		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size) or $"../Terrain".get_tile(grid_pos) == 1:
 			return
 
 		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
