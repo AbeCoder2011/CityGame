@@ -22,6 +22,7 @@ func get_tile(coords:Vector2i) -> int:
 func _ready():
 	var noiseseed = randi()
 	Generate(noiseseed)
+
 func Generate(nseed) -> void:
 	var random = RandomNumberGenerator.new()
 	random.seed = nseed

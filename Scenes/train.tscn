@@ -1,0 +1,75 @@
+[gd_scene format=3 uid="uid://1dyge5xybm82"]
+
+[ext_resource type="Texture2D" uid="uid://bco61bf2s75n2" path="res://Assets/train.png" id="1_pkyfe"]
+
+[sub_resource type="Curve2D" id="Curve2D_pkyfe"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
+}
+point_count = 1
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nxpru"]
+atlas = ExtResource("1_pkyfe")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hk28"]
+atlas = ExtResource("1_pkyfe")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mcim7"]
+atlas = ExtResource("1_pkyfe")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_akv0e"]
+atlas = ExtResource("1_pkyfe")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o2ick"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hk28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mcim7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_akv0e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nxpru")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Path2D" type="Path2D" unique_id=1704886258]
+curve = SubResource("Curve2D_pkyfe")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=2033044989]
+
+[node name="Train" type="AnimatedSprite2D" parent="PathFollow2D" unique_id=1803979106]
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_o2ick")
+autoplay = "default"
+frame_progress = 0.7051491
+centered = false

@@ -1086,6 +1086,7 @@ offset_left = 15.0
 offset_top = 15.0
 offset_right = 296.0
 offset_bottom = 150.0
+mouse_filter = 2
 
 [node name="Info" type="VBoxContainer" parent="UI/CityInfo" unique_id=87025744]
 layout_mode = 1

@@ -55,6 +55,7 @@ func DeselectOthers():
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("move_building") and event.is_pressed():
 		pass
+
 # --- Helpers -------------------------------------------------
 
 func GetSize(nam) -> Vector2i:
