@@ -3,6 +3,7 @@ extends TileMapLayer
 var height_noise = FastNoiseLite.new()
 var rainfall_noise = FastNoiseLite.new()
 const NOISE_SCALE = 3
+@export var seed = 0
 
 func get_tile(coords:Vector2i) -> int:
 	var res = -1
@@ -20,14 +21,16 @@ func get_tile(coords:Vector2i) -> int:
 	return res
 
 func _ready():
-	var noiseseed = randi()
-	Generate(noiseseed)
-func Generate(nseed) -> void:
+	if Global.LoadSettings["load"] == false:
+		print("hey")
+		seed = randi()
+		Generate()
+func Generate() -> void:
 	var random = RandomNumberGenerator.new()
-	random.seed = nseed
-	height_noise.seed = nseed
+	random.seed = seed
+	height_noise.seed = seed
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	rainfall_noise.seed = nseed + 1
+	rainfall_noise.seed = seed + 1
 	rainfall_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	
 	for x in range(-60, 60):

@@ -225,7 +225,13 @@ const BuildingData := {
 		"atlas_coords": Vector2i(19,5),
 		"cost": 3000000, # <- 3M
 		"description":"A rail which trains can ride on. Used to connect Train Stations to each other."
-	}
+	},
+	# --- Entertainment
+	"Theme park":{
+		"atlas_coords": Vector2i(18,18),
+		"cost": 1000000,
+		"description":":D",
+	},
 }
 
 @export var BuildingUses := {}
@@ -270,6 +276,7 @@ const RailIndexes = {
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
+@export var Happiness := 100
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]
