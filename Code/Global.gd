@@ -262,10 +262,9 @@ const UnlockRequirements := {
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
 	"Train Station": [{"type":"population","amount":1500}],
 	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
-}	
+}
 
 const RailIndexes = {
-	
 }
 @export var Money := 100.0
 @export var Population := 0

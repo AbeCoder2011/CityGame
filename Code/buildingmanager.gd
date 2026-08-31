@@ -56,6 +56,43 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("move_building") and event.is_pressed():
 		pass
 
+func GetRailPath(station_a: Dictionary, station_b: Dictionary) -> Array:
+	var station_offsets = [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]
+	var target_rect = Rect2(station_b["pos"], Vector2(2,2))
+	var visited := []
+	station_offsets.shuffle()
+	for dir in station_offsets:
+		var new_pos = station_a["pos"] + dir
+		if Rails.has(new_pos):
+			var route = CheckPath(new_pos, target_rect, visited)
+			if not route.is_empty():
+				return route
+	return []
+
+func CheckPath(pos: Vector2i, target_rect: Rect2, visited: Array) -> Array:
+	if pos in visited:
+		return []
+	visited.append(pos)
+
+	var rail_dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]
+
+	# if the station is there: Return the stations position
+	for dir in rail_dirs:
+		if target_rect.has_point(pos + dir):
+			return [pos]
+
+	# else: check all rails around and recursively check them too
+	for dir in rail_dirs:
+		var neighbor = pos + dir
+		if Rails.has(neighbor):
+			var next_rail = CheckPath(neighbor, target_rect, visited)
+			if not next_rail.is_empty():
+				var new_path = [pos]
+				new_path.append_array(next_rail)
+				return new_path
+
+	return []
+
 # --- Helpers -------------------------------------------------
 
 func GetSize(nam) -> Vector2i:

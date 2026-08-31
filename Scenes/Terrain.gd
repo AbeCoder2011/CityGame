@@ -4,6 +4,7 @@ var height_noise = FastNoiseLite.new()
 var rainfall_noise = FastNoiseLite.new()
 const NOISE_SCALE = 3
 
+
 func get_tile(coords:Vector2i) -> int:
 	var res = -1
 	match get_cell_atlas_coords(coords):

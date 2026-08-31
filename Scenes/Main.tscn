@@ -10,7 +10,6 @@
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="8_vy5pj"]
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Scenes/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Scenes/train_animation.gd" id="10_4kpch"]
-[ext_resource type="PackedScene" uid="uid://1dyge5xybm82" path="res://Scenes/train.tscn" id="11_grg3l"]
 
 [sub_resource type="Gradient" id="Gradient_fos0i"]
 colors = PackedColorArray(0, 0.24313726, 0, 1, 0, 0.36892712, 0.13845459, 1)
@@ -401,9 +400,6 @@ script = ExtResource("10_4kpch")
 [node name="TrainTimer" type="Timer" parent="TrainAnimation" unique_id=1632609789]
 wait_time = 10.0
 autostart = true
-
-[node name="Train" parent="TrainAnimation" unique_id=1803979106 instance=ExtResource("11_grg3l")]
-position = Vector2(240, 0)
 
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
 [connection signal="timeout" from="Autosaver" to="." method="SaveGame"]

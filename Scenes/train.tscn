@@ -3,10 +3,26 @@
 [ext_resource type="Texture2D" uid="uid://bco61bf2s75n2" path="res://Assets/train.png" id="1_pkyfe"]
 
 [sub_resource type="Curve2D" id="Curve2D_pkyfe"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0)
-}
-point_count = 1
+
+[sub_resource type="GDScript" id="GDScript_o2ick"]
+script/source = "extends Path2D
+
+var stop = false
+var last = 32.0
+
+func _process(_delta: float) -> void:
+	if not stop:
+		$PathFollow2D.progress += 2
+		if $PathFollow2D.progress_ratio >= 1:
+			stop = true
+			$PathFollow2D/Sprite2D.show()
+			$PathFollow2D/Train.hide()
+	else:
+		$PathFollow2D/Sprite2D.region_rect = Rect2(0,0,12,last)
+		last -= .66666
+		if last < 0:
+			queue_free()
+"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nxpru"]
 atlas = ExtResource("1_pkyfe")
@@ -62,14 +78,29 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Path2D" type="Path2D" unique_id=1704886258]
+[sub_resource type="AtlasTexture" id="AtlasTexture_tgu54"]
+atlas = ExtResource("1_pkyfe")
+region = Rect2(10, 0, 12, 32)
+
+[node name="Train" type="Path2D" unique_id=1704886258]
 curve = SubResource("Curve2D_pkyfe")
+script = SubResource("GDScript_o2ick")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="." unique_id=2033044989]
+position = Vector2(3.8146973e-06, 3.8146973e-06)
+rotation = 0.7853982
+loop = false
 
 [node name="Train" type="AnimatedSprite2D" parent="PathFollow2D" unique_id=1803979106]
+rotation = -1.5707964
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_o2ick")
 autoplay = "default"
-frame_progress = 0.7051491
-centered = false
+
+[node name="Sprite2D" type="Sprite2D" parent="PathFollow2D" unique_id=910592631]
+visible = false
+rotation = -1.5707964
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_tgu54")
+region_enabled = true
+region_rect = Rect2(0, 0, 12, 32)
