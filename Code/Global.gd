@@ -63,7 +63,7 @@ const BuildingData := {
 	"Low-Budget Apartment":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
-		"description": "A low budget building housing many people. Population does NOT drop near industry buildings."
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	# --- Stores
 	"Small Supermarket":{
@@ -227,8 +227,14 @@ const BuildingData := {
 		"description":"A rail which trains can ride on. Used to connect Train Stations to each other."
 	},
 	# --- Entertainment
-	"Theme park":{
+	"Theme Park":{
 		"atlas_coords": Vector2i(18,18),
+		"cost": 5000000,
+		"size":Vector2(2,2),
+		"description":":D",
+	},
+	"Cinema":{
+		"atlas_coords": Vector2i(17,18),
 		"cost": 1000000,
 		"description":":D",
 	},
@@ -275,7 +281,7 @@ const RailIndexes = {
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
-@export var Happiness := 100
+@export var Happiness := 100.0
 
 func GetBuildingCost(nam) -> int:
 	var base = BuildingData[nam]["cost"]

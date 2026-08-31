@@ -149,6 +149,10 @@ region = Rect2(0, 160, 16, 16)
 atlas = ExtResource("4_hfhsn")
 region = Rect2(272, 48, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_5q4fb"]
+atlas = ExtResource("4_hfhsn")
+region = Rect2(288, 288, 32, 32)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_j04uc"]
 atlas = ExtResource("6_xjg7p")
 region = Rect2(0, 0, 16, 16)
@@ -158,7 +162,7 @@ font_size = 26
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_vqx31"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wi7yl"]
 atlas = ExtResource("6_xjg7p")
 region = Rect2(32, 0, 16, 16)
 
@@ -167,9 +171,13 @@ font_size = 26
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqx31"]
+atlas = ExtResource("6_xjg7p")
+region = Rect2(288, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_b1goy"]
 atlas = ExtResource("6_xjg7p")
-region = Rect2(0, 0, 16, 16)
+region = Rect2(384, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_80bsu"]
 atlas = ExtResource("1_nxvpl")
@@ -720,6 +728,20 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_n04ve")
 
+[node name="Entertainment" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=13019402]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+flat = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Entertainment" unique_id=1534985951]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_5q4fb")
+
 [node name="Categories" type="Control" parent="UI/Building" unique_id=1101925859]
 layout_mode = 1
 anchors_preset = 15
@@ -1079,13 +1101,37 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Rail"
 
+[node name="Entertainment" type="GridContainer" parent="UI/Building/Categories" unique_id=50405458]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 6
+
+[node name="BasicHouse" parent="UI/Building/Categories/Entertainment" unique_id=1944705623 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Cinema"
+
+[node name="BasicHouse2" parent="UI/Building/Categories/Entertainment" unique_id=1630815659 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Theme Park"
+
 [node name="CityInfo" type="Control" parent="UI" unique_id=1744660893]
 layout_mode = 1
 anchors_preset = 0
 offset_left = 15.0
 offset_top = 15.0
 offset_right = 296.0
-offset_bottom = 150.0
+offset_bottom = 429.0
 mouse_filter = 2
 
 [node name="Info" type="VBoxContainer" parent="UI/CityInfo" unique_id=87025744]
@@ -1130,9 +1176,28 @@ custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-texture = SubResource("AtlasTexture_vqx31")
+texture = SubResource("AtlasTexture_wi7yl")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/Population" unique_id=1967699901]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("6_48q88")
+text = "0"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Happiness" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1581867426]
+custom_minimum_size = Vector2(30, 50)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Happiness" unique_id=701407011]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_vertical = 4
+mouse_filter = 2
+texture = SubResource("AtlasTexture_vqx31")
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/Happiness" unique_id=1650904332]
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("6_48q88")

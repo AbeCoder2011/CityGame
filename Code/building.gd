@@ -10,6 +10,7 @@ var power := 0
 var livestock := 0
 var meat := 0
 var nature := 0
+var entertainment := 0
 
 var building_name = ""
 

@@ -23,6 +23,9 @@ const HOUSING_NAMES = [
 const POWER_GENERATOR_NAMES = [
 	"Thermal Power Plant", "Small Solar Farm", "Nuclear Power Plant", "Large Thermal Power Plant", "Large Solar Farm"
 ]
+const ENTERTAINMENT_NAMES = [
+	"Theme Park","Cinema"
+]
 const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
@@ -152,7 +155,7 @@ func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 	var sm_factory = CountNearby(pos,size, ["Small Factory"], 8)
 	var large_factory = CountNearby(pos,size, ["Large Factory"], 8)
 	var exponent = thermal + nuclear + (large_thermal * 2) + sm_factory + (large_factory * 4)
-	return 0.5 ** exponent
+	return 0.7 ** exponent
 
 func CalculateStationConnections():
 	var stations = []
@@ -207,9 +210,43 @@ func FindNetwork(pos:Vector2i,stations,searched:Array = []) -> Array:
 		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
 			return([n])
 	return []
+func CalculateHapiness():
+	var total = 0
+	var amount = 0
+	for b in Buildings:
+		if b["name"] in HOUSING_NAMES:
+			if b["name"] == "Low-Budget Apartment":
+				total += 50 * b["node"].population
+			else:
+				total += GetHappinessValue(b) * b["node"].population
+			amount += b["node"].population
+	if amount == 0:
+		Global.Happiness = 100.0
+	else:
+		Global.Happiness = floor(total / max(amount,1))
+	
+
+func GetHappinessValue(b:Dictionary) -> int:
+	var base = 100
+	var entertainment = SumProperty(b["pos"],GetSize(b["name"]),ENTERTAINMENT_NAMES,4,"entertainment")
+	var nature = SumProperty(b["pos"], GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+	var industry = IndustryPenalty(b["pos"],GetSize(b["name"]))
+	var my_pop = max(b["node"].population,1)
+	var around_pop = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,1,"population")
+	var pop_ratio = float(around_pop) / float(max(my_pop,1))
+	var boost = clamp(sqrt(250 / max(float(my_pop), 250)),0.1,1)
+	var calc = min(1 / pop_ratio * 4 * boost,1)
+	return min(max((base * calc + entertainment + (nature / 4)) * industry,0),300)
 # --- Tick ------------------------------------------------------
 
 func Tick():
+	var money_total = 0
+	for b in Buildings:
+		if b["node"].money > 0.0:
+			money_total += b["node"].money
+			b["node"].display_income(b["node"].money)
+
+func Recompute():
 	for n in DestroyedBuildings:
 		for i in range(Buildings.size() - 1, -1, -1):
 			if Buildings[i]["node"] == n:
@@ -240,7 +277,6 @@ func Tick():
 		if value.has("money"):
 			b["node"].money = value["money"]
 			money_total += value["money"]
-			b["node"].display_income(value["money"])
 		if value.has("population"):
 			b["node"].population = value["population"]
 			population_total += value["population"]
@@ -259,13 +295,13 @@ func Tick():
 		if value.has("nature"):
 			b["node"].nature = value["nature"]
 		b["node"].UpdateData()
-	Global.Money += money_total
-	Global.Income = money_total
+	CalculateHapiness()
+	Global.Money += money_total * Global.Happiness / 100
+	Global.Income = money_total * Global.Happiness / 100
 	Global.Population = population_total
 	$"..".UpdateCityStats()
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	$"../UI".CheckBuildingUnlocks()
-	
 
 func CalculateBuildingOutput(b) -> Dictionary:
 	var pos = b["pos"]
@@ -304,8 +340,8 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			return {"population": 8 * population_boost * (1 + 0.01 * nature)}
+			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
+			return {"population": 16 * population_boost * (1 + 0.01 * nature)}
 		"Small Supermarket":
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 1, "population")
 			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 6, "products")
@@ -373,5 +409,9 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"nature":4}
 		"Large Park":
 			return {"nature":18}
+		"Theme Park":
+			return {"entertainment":5}
+		"Cinema":
+			return {"entertainment":2}
 		_:
 			return {}

@@ -137,6 +137,7 @@ func SaveGame():
 		"buildings": $Buildings.Buildings,
 		"money":Global.Money,
 		"pop":Global.Population,
+		"happ":Global.Happiness,
 		"uses":Global.BuildingUses,
 		"diff":Global.Difficulty,
 		"open_areas":$Areas.OpenAreas,
@@ -158,6 +159,7 @@ func LoadGame():
 		return
 	Global.Money = save["money"]
 	Global.Population = save["pop"]
+	Global.Happiness = save["happ"]
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
 	$"Terrain".seed = save.get("seed", randi())

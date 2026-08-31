@@ -34,6 +34,13 @@ func _on_destroy_pressed() -> void:
 func UpdateCityStats():
 	$UI/CityInfo/Info/Money/Label.text = Global.GetBigNumber(Global.Money)
 	$UI/CityInfo/Info/IncomePerSecond/Label.text = Global.GetBigNumber(Global.Income * 2) + "/s"
+	$UI/CityInfo/Info/Happiness/Label.text = str(Global.Happiness)
+	if Global.Happiness < 65:
+		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(352,0,16,16)
+	elif Global.Happiness < 130:
+		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(320,0,16,16)
+	else:
+		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(288,0,16,16)
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():
