@@ -45,10 +45,7 @@ func display_income(i:float):
 	if $Visible.is_on_screen() and Global.Zoom >= 2.0:
 		if i == 0:
 			return
-		if int(i) == i:
-			$Income.text = "+" + str(int(i))
-		else:
-			$Income.text = "+" + str(i)
+		$Income.text = "+" + Global.GetBigNumber(i)
 		$Income/AnimationPlayer.play("play")
 
 

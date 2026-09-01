@@ -127,6 +127,15 @@ func CountNearby(pos:Vector2i, size:Vector2i, names:Array, radius:int, exclude:A
 		if names.has(b["name"]) and InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
 			count += 1
 	return count
+func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int) -> int:
+	var count = 0
+	for x in range(1 + radius*2):
+		for y in range(1 + radius*2):
+			if Vector2i(x,y) == Vector2i(0,0):
+				continue
+			if $"../Terrain".get_tile(Vector2i(x,y)+pos) == id:
+				count += 1
+	return count
 
 # Calculates how much some property is in the area
 func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = []) -> float:
@@ -431,7 +440,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"entertainment":2}
 		"Mine":
 			var workpower = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,2,"population")
-			var mountains = CountNearby(b["pos"],GetSize(b["name"]),["Large Mountain"],1)
+			var mountains = Count_Terrain_Nearby(b["pos"],4,1)
 			return {"ores":workpower * .1 * mountains}
 		"Ore Extractor":
 			var ores = SumProperty(b["pos"],GetSize(b["name"]),["Mine"],3,"ores")
