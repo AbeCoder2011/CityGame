@@ -118,6 +118,17 @@ const BuildingData := {
 		"cost": 50000,
 		"description": "Processes livestock from nearby (within [b]four[/b] tiles) animal farms into meat."
 	},
+	"Ore Extractor":{
+		"atlas_coords": Vector2i(10,2),
+		"cost": 8000000000,
+		"size":Vector2i(2,2),
+		"description": "Processes livestock"
+	},
+	"Jewlery Store":{
+		"atlas_coords": Vector2i(6,3),
+		"cost": 8000000000,
+		"description": "Processes livestock"
+	},
 	# --- Energy Industry
 	"Thermal Power Plant":{
 		"atlas_coords": Vector2i(0,4),
@@ -155,23 +166,23 @@ const BuildingData := {
 	"Pocket Park":{
 		"atlas_coords": Vector2i(0,6),
 		"cost": 1000,
-		"description":"A small park cramped between buildings. Has just enough space for a single tree. Boosts population of the buildings around."
+		"description":"A small park cramped between buildings. Has just enough space for a single tree. Boosts population of the buildings around (within [b]seven[/b] tiles)."
 	},
 	"Small Park":{
 		"atlas_coords": Vector2i(1,6),
 		"cost": 1500,
-		"description":"A small park in the middle of the city. Features a few trees, bushes and paths connecting it all. Boosts population of the buildings around."
+		"description":"A small park in the middle of the city. Features a few trees, bushes and paths connecting it all. Boosts population of the buildings around (within [b]seven[/b] tiles)."
 	},
 	"Fountain Park":{
 		"atlas_coords": Vector2i(2,6),
 		"cost": 2000,
-		"description":"A small park providing relaxation for citizens. Features a small fountain where people can wish. Boosts population of the buildings around."
+		"description":"A small park providing relaxation for citizens. Features a small fountain where people can wish. Boosts population of the buildings around (within [b]seven[/b] tiles)."
 	},
 	"Large Park":{
 		"atlas_coords": Vector2i(3,6),
 		"size": Vector2i(2,2),
 		"cost": 9000,
-		"description":"A large park featuring trees, bushes and many paths connecting all parts of the park. Boosts population of the buildings around."
+		"description":"A large park featuring trees, bushes and many paths connecting all parts of the park. Boosts population of the buildings around (within [b]seven[/b] tiles)."
 	},
 	# --- Nature
 	"Small Forest":{
@@ -213,6 +224,11 @@ const BuildingData := {
 		"cost": 250000,
 		"size": Vector2i(2,2),
 		"description":"A large industrial factory producing many food products. Placing it near housing will make their population drop."
+	},
+	"Mine":{
+		"atlas_coords": Vector2i(0,11),
+		"cost": 8000000000,
+		"description": "Processes livestock"
 	},
 	# --- Trains
 	"Train Station":{

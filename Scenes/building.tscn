@@ -30,7 +30,7 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_amr18"]
 atlas = ExtResource("4_b2wr7")
-region = Rect2(0, 0, 16, 16)
+region = Rect2(448, 0, 16, 16)
 
 [sub_resource type="Animation" id="Animation_n4bpb"]
 length = 0.001

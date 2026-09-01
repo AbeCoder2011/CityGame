@@ -885,6 +885,19 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Butcher"
 
+[node name="BasicHouse12" parent="UI/Building/Categories/Stores" unique_id=1225928524 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Ore Extractor"
+
+[node name="Gap6" type="Control" parent="UI/Building/Categories/Stores" unique_id=992035586]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse13" parent="UI/Building/Categories/Stores" unique_id=812362093 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Jewlery Store"
+
 [node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
 visible = false
 layout_mode = 1
@@ -1071,6 +1084,15 @@ Building_Name = "Small Factory"
 [node name="BasicHouse2" parent="UI/Building/Categories/Production Industry" unique_id=1605426364 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Large Factory"
+
+[node name="Gap" type="Control" parent="UI/Building/Categories/Production Industry" unique_id=2137024991]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Production Industry" unique_id=20369 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Mine"
 
 [node name="Trains" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
 visible = false

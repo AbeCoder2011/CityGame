@@ -11,7 +11,8 @@ var DestroyedBuildings = []
 var network_inventories  : Array[Array] = []
 var global_power = 0
 var already_checked_buildings = []
-
+var money_total = 0
+var population_total = 0
 var station_networks : Array[Array] = []
 
 const SHOP_NAMES = [
@@ -26,7 +27,10 @@ const POWER_GENERATOR_NAMES = [
 const ENTERTAINMENT_NAMES = [
 	"Theme Park","Cinema"
 ]
-const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat"]
+const FIXED_VALUES = [
+	"Pocket Park", "Small Park", "Fountain Park", "Large Park", "Small Wheatfield", "Large Wheatfield", "Small Solar Farm", "Large Solar Farm", "Thermal Power Plant", "Large Thermal Power Plant","Nuclear Power Plant","Cinema","Theme Park","Animal Farm"
+]
+const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat","ores","gemstones"]
 func AddToRemovalList(node:Node2D):
 	DestroyedBuildings.append(node)
 	if Rails.has(node.grid_pos) and Rails[node.grid_pos] == node:
@@ -52,6 +56,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		$"../UI".CheckBuildingUnlocks()
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
+	SetValues({"pos":location,"name":nam,"node":b})
 func DeselectOthers():
 	deselect.emit()
 
@@ -240,11 +245,13 @@ func GetHappinessValue(b:Dictionary) -> int:
 # --- Tick ------------------------------------------------------
 
 func Tick():
-	var money_total = 0
+	Recompute()
+	money_total = 0
 	for b in Buildings:
 		if b["node"].money > 0.0:
 			money_total += b["node"].money
 			b["node"].display_income(b["node"].money)
+	Global.Money += money_total * Global.Happiness / 100
 
 func Recompute():
 	for n in DestroyedBuildings:
@@ -270,38 +277,47 @@ func Recompute():
 	for b in Buildings:
 		if b["name"] == "Transformator Building":
 			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power")
-	var money_total = 0
-	var population_total = 0
+	money_total = 0
+	population_total = 0
 	for b in Buildings:
-		var value : Dictionary = CalculateBuildingOutput(b)
-		if value.has("money"):
-			b["node"].money = value["money"]
-			money_total += value["money"]
-		if value.has("population"):
-			b["node"].population = value["population"]
-			population_total += value["population"]
-		if value.has("products"):
-			b["node"].products = value["products"]
-		if value.has("wheat"):
-			b["node"].wheat = value["wheat"]
-		if value.has("flour"):
-			b["node"].flour = value["flour"]
-		if value.has("power"):
-			b["node"].power = value["power"]
-		if value.has("livestock"):
-			b["node"].livestock = value["livestock"]
-		if value.has("meat"):
-			b["node"].meat = value["meat"]
-		if value.has("nature"):
-			b["node"].nature = value["nature"]
-		b["node"].UpdateData()
+		if not b["name"] in FIXED_VALUES:
+			SetValues(b)
 	CalculateHapiness()
-	Global.Money += money_total * Global.Happiness / 100
 	Global.Income = money_total * Global.Happiness / 100
 	Global.Population = population_total
 	$"..".UpdateCityStats()
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	$"../UI".CheckBuildingUnlocks()
+
+func SetValues(b):
+	var value : Dictionary = CalculateBuildingOutput(b)
+	if value.has("money"):
+		b["node"].money = value["money"]
+		money_total += value["money"]
+	if value.has("population"):
+		b["node"].population = value["population"]
+		population_total += value["population"]
+	if value.has("products"):
+		b["node"].products = value["products"]
+	if value.has("wheat"):
+		b["node"].wheat = value["wheat"]
+	if value.has("flour"):
+		b["node"].flour = value["flour"]
+	if value.has("power"):
+		b["node"].power = value["power"]
+	if value.has("livestock"):
+		b["node"].livestock = value["livestock"]
+	if value.has("meat"):
+		b["node"].meat = value["meat"]
+	if value.has("nature"):
+		b["node"].nature = value["nature"]
+	if value.has("entertainment"):
+		b["node"].entertainment = value["entertainment"]
+	if value.has("ores"):
+		b["node"].ores = value["ores"]
+	if value.has("gemstones"):
+		b["node"].gemstones = value["gemstones"]
+	b["node"].UpdateData()
 
 func CalculateBuildingOutput(b) -> Dictionary:
 	var pos = b["pos"]
@@ -413,5 +429,16 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"entertainment":5}
 		"Cinema":
 			return {"entertainment":2}
+		"Mine":
+			var workpower = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,2,"population")
+			var mountains = CountNearby(b["pos"],GetSize(b["name"]),["Large Mountain"],1)
+			return {"ores":workpower * .1 * mountains}
+		"Ore Extractor":
+			var ores = SumProperty(b["pos"],GetSize(b["name"]),["Mine"],3,"ores")
+			return {"gemstones":ores * .2}
+		"Jewlery Store":
+			var gemstones = SumProperty(b["pos"],GetSize(b["name"]),["Ore Extractor"],5,"gemstones")
+			var pop = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,5,"population")
+			return {"money":gemstones * pop * 10}
 		_:
 			return {}

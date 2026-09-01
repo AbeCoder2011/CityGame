@@ -11,6 +11,8 @@ var livestock := 0
 var meat := 0
 var nature := 0
 var entertainment := 0
+var ores := 0
+var gemstones := 0
 
 var building_name = ""
 
@@ -89,6 +91,12 @@ func UpdateData():
 		"Small Factory","Large Factory":
 			$Info/TextureRect.texture.region = Rect2(256,0,16,16)
 			$Info.text = str(products)
+		"Mine":
+			$Info/TextureRect.texture.region = Rect2(416,0,16,16)
+			$Info.text = str(ores)
+		"Ore Extractor":
+			$Info/TextureRect.texture.region = Rect2(448,0,16,16)
+			$Info.text = str(gemstones)
 			
 		_:
 			$Info.hide()

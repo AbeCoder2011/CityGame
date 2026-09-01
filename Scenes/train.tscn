@@ -19,7 +19,8 @@ func _process(_delta: float) -> void:
 			$PathFollow2D/Train.hide()
 	else:
 		$PathFollow2D/Sprite2D.region_rect = Rect2(0,0,12,last)
-		last -= .66666
+		$PathFollow2D/Sprite2D.offset = Vector2(0, 16 - (last / 2))
+		last -= 1.33333
 		if last < 0:
 			queue_free()
 "
@@ -98,7 +99,6 @@ sprite_frames = SubResource("SpriteFrames_o2ick")
 autoplay = "default"
 
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D" unique_id=910592631]
-visible = false
 rotation = -1.5707964
 scale = Vector2(1.5, 1.5)
 texture = SubResource("AtlasTexture_tgu54")
