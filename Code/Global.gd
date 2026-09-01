@@ -120,13 +120,13 @@ const BuildingData := {
 	},
 	"Ore Extractor":{
 		"atlas_coords": Vector2i(10,2),
-		"cost": 8000000000,
+		"cost": 5000000000,
 		"size":Vector2i(2,2),
 		"description": "Processes livestock"
 	},
 	"Jewlery Store":{
 		"atlas_coords": Vector2i(6,3),
-		"cost": 8000000000,
+		"cost": 5000000000,
 		"description": "Processes livestock"
 	},
 	# --- Energy Industry
@@ -227,7 +227,7 @@ const BuildingData := {
 	},
 	"Mine":{
 		"atlas_coords": Vector2i(0,11),
-		"cost": 8000000000,
+		"cost": 5000000000,
 		"description": "Processes livestock"
 	},
 	# --- Trains

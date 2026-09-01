@@ -69,7 +69,6 @@ func UpdateData():
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
 			$Info.text = Global.GetBigNumber(money) + "/s"
-			
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
 			$Info.text = str(flour)

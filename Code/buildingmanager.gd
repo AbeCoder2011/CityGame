@@ -57,6 +57,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
 	SetValues({"pos":location,"name":nam,"node":b})
+	Recompute()
 func DeselectOthers():
 	deselect.emit()
 
@@ -245,7 +246,6 @@ func GetHappinessValue(b:Dictionary) -> int:
 # --- Tick ------------------------------------------------------
 
 func Tick():
-	Recompute()
 	money_total = 0
 	for b in Buildings:
 		if b["node"].money > 0.0:

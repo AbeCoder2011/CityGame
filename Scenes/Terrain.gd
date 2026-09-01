@@ -32,7 +32,6 @@ func Generate() -> void:
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	rainfall_noise.seed = seed + 1
 	rainfall_noise.noise_type = FastNoiseLite.TYPE_PERLIN
-	
 	for x in range(-60, 60):
 		for y in range(-60, 60):
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)

@@ -21,8 +21,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("build") and event.is_pressed():
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
-
-		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size) or $"../Terrain".get_tile(grid_pos) == 1:
+		for x in grid_size.x:
+			for y in grid_size.y:
+				$"../Terrain".get_tile(Vector2i(x + grid_pos.x, y + grid_pos.y))
+		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size):
 			return
 
 		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):

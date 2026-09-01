@@ -10,9 +10,14 @@ Have many different categories combine to make the best money.
 Have global buildings that give useful buffs, unlocked through the town hall.
 Many categories like Working, Entertainment, Power, Nature, and other interesting buildings
 Trains to connect parts of your city and transport goods
+Tourism + Hotels
 
 - Extra?
 Global events
 If HELL mode is beaten, add extra challenges to be selected
 Politics?
+
+- Performance
+Only recompute everything 
+
 
