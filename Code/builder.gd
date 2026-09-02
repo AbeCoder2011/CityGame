@@ -63,7 +63,6 @@ func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 func TerrainCollide(pos,size) -> bool:
 	for x in size.x:
 		for y in size.y:
-			print(x," ",y)
 			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 1:
 				return true
 			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 4:

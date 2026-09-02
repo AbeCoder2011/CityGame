@@ -269,6 +269,10 @@ func Tick():
 			money_total += b["node"].money
 			b["node"].display_income(b["node"].money)
 	Global.Money += money_total * Global.Happiness / 100
+	$"..".UpdateCityStats()
+	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	$"../UI".CheckBuildingUnlocks()
+	
 
 func Recompute():
 
