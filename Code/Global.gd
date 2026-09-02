@@ -204,13 +204,13 @@ const BuildingData := {
 	},
 	"Small Wheatfield":{
 		"atlas_coords": Vector2i(5,8),
-		"cost": 2000,
+		"cost": 1000,
 		"description":"A small, wild wheatfield. The wheat can be harvested by mills to create flour."
 	},
 	"Large Wheatfield":{
 		"atlas_coords": Vector2i(6,8),
 		"size": Vector2i(2,2),
-		"cost": 10000,
+		"cost": 5000,
 		"description":"A Large wheatfield spanning as far as the eye can see. The wheat can be harvested by mills to create flour."
 	},
 	# --- Production Industry

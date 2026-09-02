@@ -42,7 +42,7 @@ func AddToRemovalList(node:Node2D):
 	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
-func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
+func NewBuilding(nam:String, location:Vector2i,check_unlocks=true,dont_recompute=false):
 	var b : Node2D = BuildingScene.instantiate()
 	b.position = location * 48
 	add_child(b)
@@ -57,7 +57,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
 	SetValues({"pos":location,"name":nam,"node":b})
-	Recompute()
+	if not dont_recompute:
+		Recompute()
 func DeselectOthers():
 	deselect.emit()
 
@@ -251,10 +252,17 @@ func GetHappinessValue(b:Dictionary) -> int:
 	var pop_ratio = float(around_pop) / float(max(my_pop,1))
 	var boost = clamp(sqrt(250 / max(float(my_pop), 250)),0.1,1)
 	var calc = min(1 / pop_ratio * 4 * boost,1)
-	return min(max((base * calc + entertainment + (nature / 4)) * industry,0),300)
+	return min(max((base * calc + (entertainment * 4) + (nature / 8)) * industry,0),300)
 # --- Tick ------------------------------------------------------
 
 func Tick():
+	for n in DestroyedBuildings:
+		for i in range(Buildings.size() - 1, -1, -1):
+			if Buildings[i]["node"] == n:
+				Buildings.remove_at(i)
+				break
+		if is_instance_valid(n):
+			n.queue_free()
 	money_total = 0
 	for b in Buildings:
 		if b["node"].money > 0.0:
@@ -263,13 +271,7 @@ func Tick():
 	Global.Money += money_total * Global.Happiness / 100
 
 func Recompute():
-	for n in DestroyedBuildings:
-		for i in range(Buildings.size() - 1, -1, -1):
-			if Buildings[i]["node"] == n:
-				Buildings.remove_at(i)
-				break
-		if is_instance_valid(n):
-			n.queue_free()
+
 	DestroyedBuildings.clear()
 	network_inventories = []
 	for nw in station_networks:

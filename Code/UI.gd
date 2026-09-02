@@ -90,8 +90,10 @@ func _on_save_and_return_pressed() -> void:
 	print("a")
 	$UI/Fade/AnimationPlayer.play("fade_out")
 	await $UI/Fade/AnimationPlayer.animation_finished
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scenes/title.tscn")
 
 func _on_save_and_quit_pressed() -> void:
 	$"..".SaveGame()
+	get_tree().paused = false
 	get_tree().quit()

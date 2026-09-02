@@ -18,12 +18,10 @@ func _process(delta: float) -> void:
 		$BuildingPreview.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("build") and event.is_pressed():
+	if event.is_action("build") and event.is_pressed() and Global.Tool == 1:
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
-		for x in grid_size.x:
-			for y in grid_size.y:
-				$"../Terrain".get_tile(Vector2i(x + grid_pos.x, y + grid_pos.y))
+		
 		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size):
 			return
 
@@ -40,6 +38,8 @@ func GetBuildingSize(building_name: String) -> Vector2i:
 
 func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 	var new_rect = Rect2i(pos, size)
+	if TerrainCollide(pos,size):
+		return true
 	var poses = []
 	for x in range(size.x):
 		for y in range(size.y):
@@ -59,3 +59,13 @@ func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 	if poses.is_empty():
 		return false
 	return true
+
+func TerrainCollide(pos,size) -> bool:
+	for x in size.x:
+		for y in size.y:
+			print(x," ",y)
+			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 1:
+				return true
+			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 4:
+				return false
+	return false

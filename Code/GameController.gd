@@ -171,8 +171,9 @@ func LoadGame():
 	$Areas.GenerateAreas()
 	$"Terrain".Generate()
 	for n in save["buildings"]:
-		$Buildings.NewBuilding(n["name"],n["pos"],false)
+		$Buildings.NewBuilding(n["name"],n["pos"],false,true)
 	print("Loaded save!")
+	
 
 func DeleteSave():
 	DirAccess.remove_absolute(SAVE_PATH + SAVE_NAME)

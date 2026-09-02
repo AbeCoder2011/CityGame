@@ -253,7 +253,6 @@ texture = SubResource("AtlasTexture_tgu54")
 offset_right = 48.0
 offset_bottom = 96.0
 action_mode = 0
-button_mask = 3
 flat = true
 
 [node name="Visible" type="VisibleOnScreenNotifier2D" parent="." unique_id=1594430632]
