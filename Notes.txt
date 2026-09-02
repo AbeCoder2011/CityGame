@@ -79,12 +79,28 @@ Large Factory
 
 
 
+
 --- Additions
 
 	Church
 	Airport
 	city hall (building costs - 10%)
 	Tax office (income from all pop in city)
+
+--- Achievement plans
+	Avogaadro's dream: get 6.02 * 10^23 coins
+	Monopoly: have 8 bakeries all taking from only 1 mill
+	Megacorporation: build 100 of the same building
+	Walmart: Have 50 large supermarkets in your city
+	I woulds say "Speak of the devil", but it's rude to talk about somebody who's listening: have exactly 666,666 coins
+	give a man a fish, he'll be fed for a day: build 5 fishing huts
+	teach a man to fish, he'll be fed for his life: build 10 fishing huts
+	teach a man to fish exoticly, he'll be extraordinarily rich: build 5 exotic fishing huts
+	i'm sure this won't cause any environmental effects in 150 years: build 15 factories
+	why: build 500 small supermarkets
+	easy as pi: get 314.159.265.358.979.323 (314.15Q) coins
+	
+	
 
 TODO
 - 2x2 
