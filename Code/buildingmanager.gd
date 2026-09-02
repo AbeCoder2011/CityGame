@@ -42,7 +42,7 @@ func AddToRemovalList(node:Node2D):
 	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
-func NewBuilding(nam:String, location:Vector2i,check_unlocks=true,dont_recompute=false):
+func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var b : Node2D = BuildingScene.instantiate()
 	b.position = location * 48
 	add_child(b)
@@ -56,9 +56,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true,dont_recompute
 		$"../UI".CheckBuildingUnlocks()
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
-	SetValues({"pos":location,"name":nam,"node":b})
-	if not dont_recompute:
-		Recompute()
+	Recompute({"pos":location,"name":nam,"node":b})
 func DeselectOthers():
 	deselect.emit()
 
@@ -108,7 +106,7 @@ func CheckPath(pos: Vector2i, target_rect: Rect2, visited: Array) -> Array:
 func GetSize(nam) -> Vector2i:
 	return Global.BuildingData[nam].get("size",Vector2i(1,1))
 
-func InRange(a:Vector2i, b:Vector2i, sizeA=Vector2i(1,1),sizeB=Vector2i(1,1),rad=0) -> bool:
+func InRange(a:Vector2i, b:Vector2i, sizeA=Vector2i(1,1),sizeB=Vector2i(1,1),rad:int=0) -> bool:
 	var recta = Rect2(a - Vector2i(rad,rad),Vector2i(sizeA+Vector2i(rad*2,rad*2)))
 	var rectb = Rect2(b,sizeB)
 	return recta.intersects(rectb)
@@ -257,30 +255,55 @@ func GetHappinessValue(b:Dictionary) -> int:
 # --- Tick ------------------------------------------------------
 
 func Tick():
+	# --- REMOVE OLD BUILDINGS
+	var building_data = {}
 	if not DestroyedBuildings.is_empty():
 		for n in DestroyedBuildings:
 			for i in range(Buildings.size() - 1, -1, -1):
 				if Buildings[i]["node"] == n:
+					building_data = Buildings[i].duplicate()
 					Buildings.remove_at(i)
 					break
 			if is_instance_valid(n):
 				n.queue_free()
-		Recompute()
+			Recompute(building_data)
+		DestroyedBuildings.clear()
+	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
 	for b in Buildings:
 		if b["node"].money > 0.0:
 			money_total += b["node"].money
 			b["node"].display_income(b["node"].money)
 	Global.Money += money_total * Global.Happiness / 100
+	Global.Income = money_total * Global.Happiness / 100
 	$"..".UpdateCityStats()
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute():
+func Recompute(building):
+	if building["name"] == "Transformator Building":
+		RecomputePower()
+	SetValues(building)
+	if building["name"] in HOUSING_NAMES:
+		CalculateHapiness()
+	var affected = []
+	for n in Global.ORDER.keys():
+		if building["name"] in n:
+			affected = Global.ORDER[n].duplicate()
+	var affection_range : int = affected.pop_front()
+	
+	for b in Buildings:
+		if b["name"] in affected:
+			if InRange(building["pos"],b["pos"],GetSize(building["name"]),GetSize(b["name"]),affection_range):
+				Recompute(b)
+		if b["name"] == "Train Station":
+			RecomputeStations()
 
-	DestroyedBuildings.clear()
+func RecomputeStations():
+	# --- Station Networking Recompute
 	network_inventories = []
+	already_checked_buildings = []
 	for nw in station_networks:
 		var stations := []
 		var inv := {}
@@ -290,23 +313,38 @@ func Recompute():
 			for n in i.keys():
 				inv[n] = inv.get(n,0) + i[n]
 		network_inventories.append([stations,inv])
+	for nw in station_networks:
+		for st in nw:
+			Recompute(st)
+
+func RecomputePower():
+	# --- Global Power Recompute
 	already_checked_buildings = []
 	global_power = 0
 	for b in Buildings:
 		if b["name"] == "Transformator Building":
 			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
-	already_checked_buildings = []
-	money_total = 0	
+			Recompute(b)
+
+func RecomputePopulation():
 	population_total = 0
 	for b in Buildings:
-		if not b["name"] in FIXED_VALUES:
-			SetValues(b)
-	CalculateHapiness()
-	Global.Income = money_total * Global.Happiness / 100
+		if b["name"] in HOUSING_NAMES:
+			population_total += b["node"].get("population")
 	Global.Population = population_total
-	$"..".UpdateCityStats()
-	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
-	$"../UI".CheckBuildingUnlocks()
+	
+# --- Building Values Recompute
+	#already_checked_buildings = []
+	#money_total = 0	
+	#population_total = 0
+	#for b in Buildings:
+		#if not b["name"] in FIXED_VALUES:
+			#SetValues(b)
+	#Global.Income = money_total * Global.Happiness / 100
+	#Global.Population = population_total
+	#$"..".UpdateCityStats()
+	#$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	#$"../UI".CheckBuildingUnlocks()
 
 func SetValues(b):
 	var value : Dictionary = CalculateBuildingOutput(b)

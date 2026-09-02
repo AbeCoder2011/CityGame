@@ -295,6 +295,22 @@ const UnlockRequirements := {
 	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
 }
 
+const ORDER = {
+	["Small Wheatfield","Large Wheatfield"]:[5,"Mill"],
+	["Mill"]:[4,"Bakery","Restaurant"],
+	["Animal Farm"]:[4,"Butcher"],
+	["Butcher"]:[4,"Restaurant"],
+	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"]:[3,"Transformator Building"],
+	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
+	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store"],
+	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant"]:[2,"Mall"],
+	["Mine"]:[3,"Ore Extractor"],
+	["Ore Extractor"]:[5,"Jewlery Store"],
+	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store"],
+}
+
 const RailIndexes = {
 }
 @export var Money := 100.0
