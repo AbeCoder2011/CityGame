@@ -130,7 +130,23 @@ func UpdateRailSprite() -> void:
 		rail_connections["d"] = true
 	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
 		rail_connections["u"] = true
-	if rail_connections["l"] and rail_connections["u"]:
+	print(rail_connections)
+	if rail_connections["l"] and rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(288,80), Vector2(16,16))
+		$Sprite.rotation_degrees = 0
+	elif rail_connections["l"] and rail_connections["r"] and rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 0
+	elif rail_connections["l"] and rail_connections["u"] and rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 90
+	elif rail_connections["l"] and rail_connections["u"] and rail_connections["r"]:
+		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 180
+	elif rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
+		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.rotation_degrees = 270
+	elif rail_connections["l"] and rail_connections["u"]:
 		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	elif rail_connections["u"] and rail_connections["r"]:

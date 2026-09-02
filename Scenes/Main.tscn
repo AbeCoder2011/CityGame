@@ -11,18 +11,6 @@
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Scenes/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Scenes/train_animation.gd" id="10_4kpch"]
 
-[sub_resource type="Gradient" id="Gradient_fos0i"]
-colors = PackedColorArray(0, 0.24313726, 0, 1, 0, 0.36892712, 0.13845459, 1)
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_cm0pq"]
-noise_type = 3
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_r0du0"]
-width = 6000
-height = 6000
-noise = SubResource("FastNoiseLite_cm0pq")
-color_ramp = SubResource("Gradient_fos0i")
-
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
 0:0/0 = 0
@@ -343,10 +331,6 @@ script = ExtResource("1_jw32o")
 
 [node name="Background" type="Node2D" parent="." unique_id=981482509]
 z_index = -1
-
-[node name="Background" type="Sprite2D" parent="Background" unique_id=1650370799]
-z_index = -1
-texture = SubResource("NoiseTexture2D_r0du0")
 
 [node name="Grid" type="Sprite2D" parent="Background" unique_id=681625552]
 z_index = -1

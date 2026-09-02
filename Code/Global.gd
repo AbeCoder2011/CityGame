@@ -290,6 +290,9 @@ const UnlockRequirements := {
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
 	"Train Station": [{"type":"population","amount":1500}],
 	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
+	"Mine": [{"type":"building_count","building":"Train Station","amount":3}],
+	"Ore Extractor": [{"type":"building_count","building":"Train Station","amount":3}],
+	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
 }
 
 const RailIndexes = {

@@ -139,14 +139,15 @@ func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int) -> int:
 	return count
 
 # Calculates how much some property is in the area
-func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = []) -> float:
+func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = [],dont_reuse=false) -> float:
 	var total = 0.0
 	for b in Buildings:
 		if b["pos"] == pos or b["name"] in exclude:
 			continue
-		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
+		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
 			if names.has(b["name"]):
 				total += b["node"].get(prop)
+				already_checked_buildings.append(b)
 			if b["name"] == "Train Station":
 				for nw in network_inventories:
 					if b["pos"] in nw[0]:
@@ -256,13 +257,15 @@ func GetHappinessValue(b:Dictionary) -> int:
 # --- Tick ------------------------------------------------------
 
 func Tick():
-	for n in DestroyedBuildings:
-		for i in range(Buildings.size() - 1, -1, -1):
-			if Buildings[i]["node"] == n:
-				Buildings.remove_at(i)
-				break
-		if is_instance_valid(n):
-			n.queue_free()
+	if not DestroyedBuildings.is_empty():
+		for n in DestroyedBuildings:
+			for i in range(Buildings.size() - 1, -1, -1):
+				if Buildings[i]["node"] == n:
+					Buildings.remove_at(i)
+					break
+			if is_instance_valid(n):
+				n.queue_free()
+		Recompute()
 	money_total = 0
 	for b in Buildings:
 		if b["node"].money > 0.0:
@@ -291,8 +294,9 @@ func Recompute():
 	global_power = 0
 	for b in Buildings:
 		if b["name"] == "Transformator Building":
-			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power")
-	money_total = 0
+			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
+	already_checked_buildings = []
+	money_total = 0	
 	population_total = 0
 	for b in Buildings:
 		if not b["name"] in FIXED_VALUES:
@@ -400,9 +404,9 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":
-			return {"power": 1}
+			return {"power": 9}
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
-			return {"power": 5}
+			return {"power": 45}
 		"Small Wheatfield":
 			return {"wheat": 1}
 		
