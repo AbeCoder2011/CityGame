@@ -79,7 +79,7 @@ const BuildingData := {
 	},
 	"Restaurant":{
 		"atlas_coords": Vector2i(3,3),
-		"cost": 6000000, #6m
+		"cost": 1000000, #1m
 		"description": "Earns money from nearby population (within [b]five[/b] tiles), but only if meat, flour and products are nearby (within [b]four[/b] tiles)."
 	},
 	"Mill":{
@@ -227,7 +227,7 @@ const BuildingData := {
 	},
 	"Mine":{
 		"atlas_coords": Vector2i(0,11),
-		"cost": 5000000000,
+		"cost": 1000000000, # 1b
 		"description": "Processes livestock"
 	},
 	# --- Trains

@@ -396,7 +396,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Bakery":
 			var flour = SumProperty(pos, GetSize(b["name"]), ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
-			return {"money": (flour/40) * int(log(flour+1)) * pop * 0.4}
+			return {"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4}
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":
@@ -421,7 +421,7 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var meat = SumProperty(pos, GetSize(b["name"]), ["Butcher"], 4, "meat")
 			var flour = SumProperty(pos, GetSize(b["name"]), ["Mill"], 4, "flour")
 			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 4, "products")
-			return {"money": (pop * 2) * min(meat, flour, products)}
+			return {"money": pop * (min(meat, flour, products) * 0.05) * log(min(meat, flour, products)+1) / log(1.1)}
  
 		"Mall":
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 6, "population")
