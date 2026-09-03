@@ -107,6 +107,11 @@ const BuildingData := {
 		"cost": 3000,
 		"description": "A small bakery baking bread for the nearby people. Earns money from nearby population (within [b]three[/b] tiles), requires flour from nearby mills (within [b]three[/b] tiles)."
 	},
+	"Lumber Mill":{
+		"atlas_coords": Vector2i(7,3),
+		"cost": 10000,
+		"description": "it chop wood and then it sell",
+	},
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
