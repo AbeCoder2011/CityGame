@@ -439,6 +439,11 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var flour = SumProperty(pos, GetSize(b["name"]), ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
 			return {"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4}
+		"Lumber Mill":
+			var sparse_forests = Count_Terrain_Nearby(b["pos"], 2, 1)
+			var dense_forests  = Count_Terrain_Nearby(b["pos"], 3, 1)
+			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 4, "population")
+			return {"money": pop * (sparse_forests*0.5 + dense_forests)}
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":

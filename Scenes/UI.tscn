@@ -898,6 +898,20 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Jewlery Store"
 
+[node name="Gap7" type="Control" parent="UI/Building/Categories/Stores" unique_id=527991322]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap8" type="Control" parent="UI/Building/Categories/Stores" unique_id=1229582137]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse14" parent="UI/Building/Categories/Stores" unique_id=1920367053 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Lumber Mill"
+
 [node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
 visible = false
 layout_mode = 1

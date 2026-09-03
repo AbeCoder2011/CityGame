@@ -58,7 +58,7 @@ func CheckBuildingUnlocks():
 		for b in c.get_children():
 			if b.name.begins_with("Gap"):
 				continue
-			if $"..".UnlockedBuildings[b.Building_Name] == true and not b.name in already_unlocked:
+			if $"..".UnlockedBuildings.get(b.Building_Name, false) == true and not b.name in already_unlocked:
 				b.Unlock()
 				already_unlocked.append(b.name)
 				$UI/Messages/NewBuilding/Name.text = b.Building_Name
