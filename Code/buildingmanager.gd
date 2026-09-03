@@ -56,7 +56,11 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		$"../UI".CheckBuildingUnlocks()
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
-	Recompute({"pos":location,"name":nam,"node":b})
+	#if housing has been edited: recalculate stats etc
+	if Recompute({"pos":location,"name":nam,"node":b}):
+		CalculateHapiness()
+		RecomputePopulation()
+
 func DeselectOthers():
 	deselect.emit()
 
@@ -281,25 +285,28 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(building):
+func Recompute(building) -> bool:
 	if building["name"] == "Transformator Building":
 		RecomputePower()
 	SetValues(building)
-	if building["name"] in HOUSING_NAMES:
-		CalculateHapiness()
-		RecomputePopulation()
 	var affected = []
 	for n in Global.ORDER.keys():
 		if building["name"] in n:
 			affected = Global.ORDER[n].duplicate()
+	if affected.is_empty():
+		return false
 	var affection_range : int = affected.pop_front()
-	
+	var housing_edited = false
 	for b in Buildings:
 		if b["name"] in affected:
 			if InRange(building["pos"],b["pos"],GetSize(building["name"]),GetSize(b["name"]),affection_range):
-				Recompute(b)
+				if Recompute(b):
+					housing_edited = true
 		if b["name"] == "Train Station":
 			RecomputeStations()
+	if building["name"] in HOUSING_NAMES:
+		housing_edited = true
+	return housing_edited
 
 func RecomputeStations():
 	# --- Station Networking Recompute
