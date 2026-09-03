@@ -287,6 +287,7 @@ func Recompute(building):
 	SetValues(building)
 	if building["name"] in HOUSING_NAMES:
 		CalculateHapiness()
+		RecomputePopulation()
 	var affected = []
 	for n in Global.ORDER.keys():
 		if building["name"] in n:
