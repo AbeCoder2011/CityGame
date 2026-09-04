@@ -4,7 +4,7 @@ signal deselect
 
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
-var Buildings = []
+var Buildings : Dictionary[Vector2i,Dictionary]= {}
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
@@ -50,14 +50,14 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		Rails[location] = b
 	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
-	Buildings.append({"pos":location,"name":nam,"node":b})
+	Buildings.set(location,{"name":nam,"node":b})
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
 	#if housing has been edited: recalculate stats etc
-	if Recompute({"pos":location,"name":nam,"node":b}):
+	if Recompute(location,nam):
 		CalculateHapiness()
 		RecomputePopulation()
 
@@ -117,17 +117,17 @@ func InRange(a:Vector2i, b:Vector2i, sizeA=Vector2i(1,1),sizeB=Vector2i(1,1),rad
 
 func GetBuildingAmounts() -> Dictionary:
 	var counts = {}
-	for b in Buildings:
+	for b in Buildings.values():
 		counts[b["name"]] = counts.get(b["name"], 0) + 1
 	return counts
 
 # Count buildings of given names within radius of pos
 func CountNearby(pos:Vector2i, size:Vector2i, names:Array, radius:int, exclude:Array = []) -> int:
 	var count = 0
-	for b in Buildings:
-		if b["pos"] == pos or b["name"] in exclude:
+	for b in Buildings.keys():
+		if b == pos or Buildings[b]["name"] in exclude:
 			continue
-		if names.has(b["name"]) and InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
+		if names.has(Buildings[b]["name"]) and InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius):
 			count += 1
 	return count
 func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int) -> int:
@@ -143,27 +143,27 @@ func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int) -> int:
 # Calculates how much some property is in the area
 func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = [],dont_reuse=false) -> float:
 	var total = 0.0
-	for b in Buildings:
-		if b["pos"] == pos or b["name"] in exclude:
+	for b in Buildings.keys():
+		if b == pos or Buildings[b]["name"] in exclude:
 			continue
-		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
-			if names.has(b["name"]):
-				total += b["node"].get(prop)
+		if InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
+			if names.has(Buildings[b]["name"]):
+				total += Buildings[b]["node"].get(prop)
 				already_checked_buildings.append(b)
-			if b["name"] == "Train Station":
+			if Buildings[b]["name"] == "Train Station":
 				for nw in network_inventories:
-					if b["pos"] in nw[0]:
+					if b in nw[0]:
 						total += nw[1].get(prop,0.0)
 	return total
 
 func SumAllProperties(pos:Vector2i, size:Vector2i, radius:int):
 	var properties = {}
-	for b in Buildings:
-		if b["pos"] == pos or b["name"] == "Train Station" or b in already_checked_buildings:
+	for b in Buildings.keys():
+		if b == pos or Buildings[b]["name"] == "Train Station" or b in already_checked_buildings:
 			continue
-		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
+		if InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius):
 			for n in MOVABLE_PROPERTIES:
-				properties[n] = properties.get(n, 0) + b["node"].get(n)
+				properties[n] = properties.get(n, 0) + Buildings[b]["node"].get(n)
 				already_checked_buildings.append(b)
 	return properties
 
@@ -179,9 +179,9 @@ func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 func CalculateStationConnections():
 	var stations = []
 	var networks : Array[Array] = []
-	for n in Buildings:
+	for n in Buildings.values():
 		if n["name"] == "Train Station":
-			stations.append(n)
+			stations.append(Buildings.find_key(n))
 	for st in stations:
 		var connections = [st]
 		for dir in [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]:
@@ -219,39 +219,39 @@ func CalculateStationConnections():
 func FindNetwork(pos:Vector2i,stations,searched:Array = []) -> Array:
 	if pos in searched:
 		return []
-	for n in Buildings:
-		if n["name"] == "Rail" and n["pos"] == pos:
+	for n in Buildings.keys():
+		if Buildings[n]["name"] == "Rail" and n == pos:
 			var s : Array = []
 			for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
 				searched.append(pos)
 				s.append_array(FindNetwork(pos + dir,stations,searched))
 			return s
-		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
+		if Buildings[n]["name"] == "Train Station" and Rect2(n,Vector2(2,2)).has_point(pos):
 			return([n])
 	return []
 func CalculateHapiness():
 	var total = 0
 	var amount = 0
-	for b in Buildings:
-		if b["name"] in HOUSING_NAMES:
-			if b["name"] == "Low-Budget Apartment":
-				total += 50 * b["node"].population
+	for b in Buildings.keys():
+		if Buildings[b]["name"] in HOUSING_NAMES:
+			if Buildings[b]["name"] == "Low-Budget Apartment":
+				total += 50 * Buildings[b]["node"].population
 			else:
-				total += GetHappinessValue(b) * b["node"].population
-			amount += b["node"].population
+				total += GetHappinessValue(b,Buildings[b]["name"],Buildings[b]["node"]) * Buildings[b]["node"].population
+			amount += Buildings[b]["node"].population
 	if amount == 0:
 		Global.Happiness = 100.0
 	else:
 		Global.Happiness = floor(total / max(amount,1))
 	
 
-func GetHappinessValue(b:Dictionary) -> int:
+func GetHappinessValue(pos:Vector2i,nam:String,node:Node2D) -> int:
 	var base = 100
-	var entertainment = SumProperty(b["pos"],GetSize(b["name"]),ENTERTAINMENT_NAMES,4,"entertainment")
-	var nature = SumProperty(b["pos"], GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-	var industry = IndustryPenalty(b["pos"],GetSize(b["name"]))
-	var my_pop = max(b["node"].population,1)
-	var around_pop = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,1,"population")
+	var entertainment = SumProperty(pos,GetSize(nam),ENTERTAINMENT_NAMES,4,"entertainment")
+	var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+	var industry = IndustryPenalty(pos,GetSize(nam))
+	var my_pop = max(node.population,1)
+	var around_pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,1,"population")
 	var pop_ratio = float(around_pop) / float(max(my_pop,1))
 	var boost = clamp(sqrt(250 / max(float(my_pop), 250)),0.1,1)
 	var calc = min(1 / pop_ratio * 4 * boost,1)
@@ -260,21 +260,25 @@ func GetHappinessValue(b:Dictionary) -> int:
 
 func Tick():
 	# --- REMOVE OLD BUILDINGS
-	var building_data = {}
+	var pos : Vector2i
+	var nam : String
 	if not DestroyedBuildings.is_empty():
 		for n in DestroyedBuildings:
 			for i in range(Buildings.size() - 1, -1, -1):
-				if Buildings[i]["node"] == n:
-					building_data = Buildings[i].duplicate()
-					Buildings.remove_at(i)
+				if Buildings.values()[i]["node"] == n:
+					pos = Buildings.keys()[i]
+					nam = Buildings.values()[i]["name"]
+					Buildings.erase(Buildings.keys()[i])
 					break
 			if is_instance_valid(n):
 				n.queue_free()
-			Recompute(building_data)
+			if Recompute(pos,nam):
+				CalculateHapiness()
+				RecomputePopulation()
 		DestroyedBuildings.clear()
 	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
-	for b in Buildings:
+	for b in Buildings.values():
 		if b["node"].money > 0.0:
 			money_total += b["node"].money
 			b["node"].display_income(b["node"].money)
@@ -285,26 +289,27 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(building, dontretrigger=false) -> bool:
-	if building["name"] == "Transformator Building" && dontretrigger == false:
+func Recompute(pos,nam, dontretrigger:=false) -> bool:
+	if nam == "Transformator Building" && dontretrigger == false:
 		RecomputePower()
-	SetValues(building)
+	SetValues(Buildings[pos]["node"],nam,pos)
 	var affected = []
 	for n in Global.ORDER.keys():
-		if building["name"] in n:
+		if nam in n:
 			affected = Global.ORDER[n].duplicate()
 	if affected.is_empty():
 		return false
 	var affection_range : int = affected.pop_front()
 	var housing_edited = false
-	for b in Buildings:
-		if b["name"] in affected:
-			if InRange(building["pos"],b["pos"],GetSize(building["name"]),GetSize(b["name"]),affection_range):
-				if Recompute(b, dontretrigger):
+	for b in Buildings.keys():
+		var this_nam = Buildings[b]["name"]
+		if this_nam in affected:
+			if InRange(pos,b,GetSize(this_nam),GetSize(this_nam),affection_range):
+				if Recompute(b,this_nam, dontretrigger):
 					housing_edited = true
-		if b["name"] == "Train Station" && dontretrigger == false:
+		if nam == "Train Station" && dontretrigger == false:
 			RecomputeStations()
-	if building["name"] in HOUSING_NAMES:
+	if nam in HOUSING_NAMES:
 		housing_edited = true
 	return housing_edited
 
@@ -323,20 +328,21 @@ func RecomputeStations():
 		network_inventories.append([stations,inv])
 	for nw in station_networks:
 		for st in nw:
-			Recompute(st, true)
+			Recompute(st,"Train Station", true)
 
 func RecomputePower():
 	# --- Global Power Recompute
 	already_checked_buildings = []
 	global_power = 0
-	for b in Buildings:
-		if b["name"] == "Transformator Building":
-			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
-			Recompute(b,true)
+	for b in Buildings.keys():
+		var this_nam = Buildings[b]["name"]
+		if this_nam == "Transformator Building":
+			global_power += SumProperty(b,GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
+			Recompute(b,this_nam,true)
 
 func RecomputePopulation():
 	population_total = 0
-	for b in Buildings:
+	for b in Buildings.values():
 		if b["name"] in HOUSING_NAMES:
 			population_total += b["node"].get("population")
 	Global.Population = population_total
@@ -354,103 +360,101 @@ func RecomputePopulation():
 	#$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	#$"../UI".CheckBuildingUnlocks()
 
-func SetValues(b):
-	var value : Dictionary = CalculateBuildingOutput(b)
+func SetValues(node,nam,pos):
+	var value : Dictionary = CalculateBuildingOutput(nam,pos)
 	if value.has("money"):
-		b["node"].money = value["money"]
+		node.money = value["money"]
 		money_total += value["money"]
 	if value.has("population"):
-		b["node"].population = value["population"]
+		node.population = value["population"]
 		population_total += value["population"]
 	if value.has("products"):
-		b["node"].products = value["products"]
+		node.products = value["products"]
 	if value.has("wheat"):
-		b["node"].wheat = value["wheat"]
+		node.wheat = value["wheat"]
 	if value.has("flour"):
-		b["node"].flour = value["flour"]
+		node.flour = value["flour"]
 	if value.has("power"):
-		b["node"].power = value["power"]
+		node.power = value["power"]
 	if value.has("livestock"):
-		b["node"].livestock = value["livestock"]
+		node.livestock = value["livestock"]
 	if value.has("meat"):
-		b["node"].meat = value["meat"]
+		node.meat = value["meat"]
 	if value.has("nature"):
-		b["node"].nature = value["nature"]
+		node.nature = value["nature"]
 	if value.has("entertainment"):
-		b["node"].entertainment = value["entertainment"]
+		node.entertainment = value["entertainment"]
 	if value.has("ores"):
-		b["node"].ores = value["ores"]
+		node.ores = value["ores"]
 	if value.has("gemstones"):
-		b["node"].gemstones = value["gemstones"]
-	b["node"].UpdateData()
+		node.gemstones = value["gemstones"]
+	node.UpdateData()
 
-func CalculateBuildingOutput(b) -> Dictionary:
-	var pos = b["pos"]
-
-	match b["name"]:
+func CalculateBuildingOutput(nam,pos) -> Dictionary:
+	match nam:
 		"Basic House":
-			var power = SumProperty(pos, GetSize(b["name"]),["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam),["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 2 * (1 + 0.01 * nature) else 1
-			return {"population": 2 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 2 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Double House":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
-			return {"population": 4 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 4 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Small Apartment Complex":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			return {"population": 8 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 8 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Large Apartment Complex":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
-			return {"population": 24 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 24 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Mega Apartment Complex":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
-			return {"population": 64 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 64 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Giant Apartment Complex":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
-			return {"population": 256 * IndustryPenalty(pos,GetSize(b["name"])) * population_boost * (1 + 0.01 * nature)}
+			return {"population": 256 * IndustryPenalty(pos,GetSize(nam)) * population_boost * (1 + 0.01 * nature)}
 		"Low-Budget Apartment":
-			var power = SumProperty(pos, GetSize(b["name"]), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(b["name"]), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
 			return {"population": 16 * population_boost * (1 + 0.01 * nature)}
 		"Small Supermarket":
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 1, "population")
-			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 6, "products")
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 1, "population")
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products")
 			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Large Supermarket":
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
-			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 6, "products")
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products")
 			return {"money": 0.25 * pop * (1 + 0.25 * products)}
 
 		"Mill":
-			var wheat = SumProperty(pos, GetSize(b["name"]), ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
+			var wheat = SumProperty(pos, GetSize(nam), ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
 			return {"flour": wheat}
 		
 		"Electronics Store":
-			return {"money": 0.5 * SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")}
+			return {"money": 0.5 * SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")}
 		
 		"Cafe":
-			return {"money": 0.3 * SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 2, "population")}
+			return {"money": 0.3 * SumProperty(pos, GetSize(nam), HOUSING_NAMES, 2, "population")}
 		
 		"Bakery":
-			var flour = SumProperty(pos, GetSize(b["name"]), ["Mill"], 3, "flour")
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
+			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 3, "flour")
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
 			return {"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4}
 		"Lumber Mill":
-			var sparse_forests = Count_Terrain_Nearby(b["pos"], 2, 1)
-			var dense_forests  = Count_Terrain_Nearby(b["pos"], 3, 1)
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 4, "population")
+			var sparse_forests = Count_Terrain_Nearby(pos, 2, 1)
+			var dense_forests  = Count_Terrain_Nearby(pos, 3, 1)
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 4, "population")
 			return {"money": pop * (sparse_forests*0.5 + dense_forests)}
 		"Transformator Building":
 			return {"power": global_power}
@@ -468,25 +472,25 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			return {"livestock": 3}
  
 		"Butcher":
-			var livestock = SumProperty(pos, GetSize(b["name"]), ["Animal Farm"], 4, "livestock")
+			var livestock = SumProperty(pos, GetSize(nam), ["Animal Farm"], 4, "livestock")
 			return {"meat": livestock}
  
 		"Restaurant":
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 5, "population")
-			var meat = SumProperty(pos, GetSize(b["name"]), ["Butcher"], 4, "meat")
-			var flour = SumProperty(pos, GetSize(b["name"]), ["Mill"], 4, "flour")
-			var products = SumProperty(pos, GetSize(b["name"]), ["Small Factory","Large Factory"], 4, "products")
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 5, "population")
+			var meat = SumProperty(pos, GetSize(nam), ["Butcher"], 4, "meat")
+			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 4, "flour")
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 4, "products")
 			return {"money": pop * (min(meat, flour, products) * 0.05) * log(min(meat, flour, products)+1) / log(1.1)}
  
 		"Mall":
-			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 6, "population")
-			var shops = CountNearby(pos,GetSize(b["name"]), SHOP_NAMES, 2,["Mall"])
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 6, "population")
+			var shops = CountNearby(pos,GetSize(nam), SHOP_NAMES, 2,["Mall"])
 			return {"money": pop * shops}
 		"Small Factory":
-			return {"products":SumProperty(pos,GetSize(b["name"]), POWER_GENERATOR_NAMES, 2, "power")/4+1}
+			return {"products":SumProperty(pos,GetSize(nam), POWER_GENERATOR_NAMES, 2, "power")/4+1}
 			
 		"Large Factory":
-			return {"products":4 + (SumProperty(pos,GetSize(b["name"]), POWER_GENERATOR_NAMES, 4, "power"))}
+			return {"products":4 + (SumProperty(pos,GetSize(nam), POWER_GENERATOR_NAMES, 4, "power"))}
 		"Pocket Park":
 			return {"nature":2}
 		"Small Park":
@@ -500,15 +504,15 @@ func CalculateBuildingOutput(b) -> Dictionary:
 		"Cinema":
 			return {"entertainment":2}
 		"Mine":
-			var workpower = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,2,"population")
-			var mountains = Count_Terrain_Nearby(b["pos"],4,1)
+			var workpower = SumProperty(pos,GetSize(nam),HOUSING_NAMES,2,"population")
+			var mountains = Count_Terrain_Nearby(pos,4,1)
 			return {"ores":workpower * .1 * mountains}
 		"Ore Extractor":
-			var ores = SumProperty(b["pos"],GetSize(b["name"]),["Mine"],3,"ores")
+			var ores = SumProperty(pos,GetSize(nam),["Mine"],3,"ores")
 			return {"gemstones":ores * .2}
 		"Jewlery Store":
-			var gemstones = SumProperty(b["pos"],GetSize(b["name"]),["Ore Extractor"],5,"gemstones")
-			var pop = SumProperty(b["pos"],GetSize(b["name"]),HOUSING_NAMES,5,"population")
+			var gemstones = SumProperty(pos,GetSize(nam),["Ore Extractor"],5,"gemstones")
+			var pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,5,"population")
 			return {"money":gemstones * pop * 10}
 		_:
 			return {}

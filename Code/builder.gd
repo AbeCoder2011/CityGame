@@ -45,9 +45,9 @@ func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 		for y in range(size.y):
 			poses.append(pos + Vector2i(x,y))
 			
-	for b in $"../Buildings".Buildings:
-		var b_size = GetBuildingSize(b["name"])
-		var b_rect = Rect2i(b["pos"], b_size)
+	for b in $"../Buildings".Buildings.keys():
+		var b_size = GetBuildingSize($"../Buildings".Buildings[b]["name"])
+		var b_rect = Rect2i(b, b_size)
 		if new_rect.intersects(b_rect):
 			return true
 	var p = poses.duplicate()

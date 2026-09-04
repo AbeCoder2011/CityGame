@@ -346,5 +346,5 @@ func GetBigNumber(i:float) -> String:
 		if int(i) == i:
 			return(str(int(i)))
 		else:
-			return(str(i))
+			return(str(snapped(i,0.5)))
 			
