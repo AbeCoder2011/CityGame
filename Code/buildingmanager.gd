@@ -138,8 +138,8 @@ func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int, must_be_empty: bool=
 				continue
 			if must_be_empty:
 				var tmp = false
-				for b in Buildings:
-					if b["pos"] == (Vector2i(x,y)+pos):
+				for b in Buildings.keys():
+					if b == (Vector2i(x,y)+pos):
 						tmp = true
 						break
 				if tmp == true:
