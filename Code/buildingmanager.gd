@@ -280,7 +280,7 @@ func Tick():
 					break
 			if is_instance_valid(n):
 				n.queue_free()
-			if Recompute(pos,nam):
+			if Recompute(pos,nam,false,true):
 				CalculateHapiness()
 				RecomputePopulation()
 		DestroyedBuildings.clear()
@@ -297,10 +297,11 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(pos,nam, dontretrigger:=false) -> bool:
+func Recompute(pos,nam, dontretrigger:=false,dont_set_values=false) -> bool:
 	if nam == "Transformator Building" && dontretrigger == false:
 		RecomputePower()
-	SetValues(Buildings[pos]["node"],nam,pos)
+	if not dont_set_values:
+		SetValues(Buildings[pos]["node"],nam,pos)
 	var affected = []
 	for n in Global.ORDER.keys():
 		if nam in n:
