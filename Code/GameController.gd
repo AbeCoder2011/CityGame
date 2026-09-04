@@ -171,7 +171,7 @@ func LoadGame():
 	$Areas.GenerateAreas()
 	$"Terrain".Generate()
 	for n in save["buildings"]:
-		$Buildings.NewBuilding(n["name"],n["pos"],false)
+		$Buildings.NewBuilding(save["buildings"][n]["name"],n,false)
 	print("Loaded save!")
 	
 

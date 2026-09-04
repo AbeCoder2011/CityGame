@@ -56,8 +56,9 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		$"../UI".CheckBuildingUnlocks()
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
+		RecomputeStations()
 	#if housing has been edited: recalculate stats etc
-	if Recompute(location,nam):
+	elif Recompute(location,nam):
 		CalculateHapiness()
 		RecomputePopulation()
 
@@ -68,13 +69,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("move_building") and event.is_pressed():
 		pass
 
-func GetRailPath(station_a: Dictionary, station_b: Dictionary) -> Array:
+func GetRailPath(pos_a: Vector2i, pos_b: Vector2i) -> Array:
 	var station_offsets = [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]
-	var target_rect = Rect2(station_b["pos"], Vector2(2,2))
+	var target_rect = Rect2(pos_b, Vector2(2,2))
 	var visited := []
 	station_offsets.shuffle()
 	for dir in station_offsets:
-		var new_pos = station_a["pos"] + dir
+		var new_pos = pos_a + dir
 		if Rails.has(new_pos):
 			var route = CheckPath(new_pos, target_rect, visited)
 			if not route.is_empty():
@@ -193,13 +194,12 @@ func CalculateStationConnections():
 	for st in stations:
 		var connections = [st]
 		for dir in [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]:
-			connections.append_array(FindNetwork(st["pos"] + dir,stations))
+			connections.append_array(FindNetwork(st + dir,stations))
 		var double_check = []
 		for c in connections:
 			if not c in double_check:
 				double_check.append(c)
 		connections = double_check
-		# find every existing network that overlaps with this station's connections
 		var matched : Array = []
 		for netw in networks:
 			for c in connections:
@@ -210,12 +210,10 @@ func CalculateStationConnections():
 		if matched.is_empty():
 			networks.append(connections)
 		else:
-			# merge everything into the first matched network
 			var target = matched[0]
 			for c in connections:
 				if not target.has(c):
 					target.append(c)
-			# merge any other matched networks (bridged networks) into target too, then drop them
 			for i in range(1, matched.size()):
 				var other = matched[i]
 				for c in other:
@@ -316,13 +314,14 @@ func Recompute(pos,nam, dontretrigger:=false,dont_set_values=false) -> bool:
 			if InRange(pos,b,GetSize(this_nam),GetSize(this_nam),affection_range):
 				if Recompute(b,this_nam, dontretrigger):
 					housing_edited = true
-		if nam == "Train Station" && dontretrigger == false:
+		if this_nam == "Train Station" && dontretrigger == false:
 			RecomputeStations()
 	if nam in HOUSING_NAMES:
 		housing_edited = true
 	return housing_edited
 
 func RecomputeStations():
+	print("station")
 	# --- Station Networking Recompute
 	network_inventories = []
 	already_checked_buildings = []
@@ -330,14 +329,15 @@ func RecomputeStations():
 		var stations := []
 		var inv := {}
 		for st in nw:
-			stations.append(st["pos"])
-			var i = SumAllProperties(st["pos"],Vector2i(2,2),4)
+			stations.append(st)
+			var i = SumAllProperties(st,Vector2i(2,2),4)
 			for n in i.keys():
 				inv[n] = inv.get(n,0) + i[n]
 		network_inventories.append([stations,inv])
 	for nw in station_networks:
 		for st in nw:
-			Recompute(st,"Train Station", true)
+			print(st)
+			Recompute(st,"Train Station", true,true)
 
 func RecomputePower():
 	# --- Global Power Recompute
@@ -529,3 +529,4 @@ func CalculateBuildingOutput(nam,pos) -> Dictionary:
 			return {"money":gemstones * pop * 10}
 		_:
 			return {}
+	

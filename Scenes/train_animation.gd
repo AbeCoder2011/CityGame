@@ -16,8 +16,8 @@ func _on_train_timer_timeout() -> void:
 		if path.is_empty():
 			return
 		var train : Path2D = train_scene.instantiate()
-		train.position = stA["pos"] * 48 + Vector2i(24,24)
+		train.position = stA * 48 + Vector2i(24,24)
 		train.curve = Curve2D.new()
 		for n in path:
-			train.curve.add_point((n - stA["pos"])*48)
+			train.curve.add_point((n - stA)*48)
 		add_child(train)

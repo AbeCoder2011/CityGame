@@ -299,8 +299,8 @@ const UnlockRequirements := {
 	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
 
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
-	"Train Station": [{"type":"population","amount":1500}],
-	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
+	#"Train Station": [{"type":"population","amount":1500}],
+	#"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
 	"Mine": [{"type":"building_count","building":"Train Station","amount":3}],
 	"Ore Extractor": [{"type":"building_count","building":"Train Station","amount":3}],
 	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
