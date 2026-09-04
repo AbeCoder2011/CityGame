@@ -110,7 +110,7 @@ const BuildingData := {
 	"Lumber Mill":{
 		"atlas_coords": Vector2i(7,3),
 		"cost": 10000,
-		"description": "it chop wood and then it sell",
+		"description": "A place where trees are chopped and sold as furniture. Gains money from nearby population (within [b]four[/b]) tiles. Boosted by all empty forests adjacent",
 	},
 	"Fishing Hut":{
 		"atlas_coords": Vector2i(4,2),
@@ -132,12 +132,12 @@ const BuildingData := {
 		"atlas_coords": Vector2i(10,2),
 		"cost": 5000000000,
 		"size":Vector2i(2,2),
-		"description": "Processes livestock"
+		"description": "Takes raw gems from nearby (within [b]four[/b]) mines and train stations and processes it into gems"
 	},
 	"Jewlery Store":{
 		"atlas_coords": Vector2i(6,3),
 		"cost": 5000000000,
-		"description": "Processes livestock"
+		"description": "Sells gems from within [b]five[/b] tiles and sells them to population within [b]five[/b] tiles"
 	},
 	# --- Energy Industry
 	"Thermal Power Plant":{
@@ -238,7 +238,7 @@ const BuildingData := {
 	"Mine":{
 		"atlas_coords": Vector2i(0,11),
 		"cost": 1000000000, # 1b
-		"description": "Processes livestock"
+		"description": "Mines raw gems from adjacent mountains"
 	},
 	# --- Trains
 	"Train Station":{
@@ -257,12 +257,12 @@ const BuildingData := {
 		"atlas_coords": Vector2i(18,18),
 		"cost": 5000000,
 		"size":Vector2(2,2),
-		"description":":D",
+		"description":"A theme park for people to enjoy themselves. Give happiness to population within [b]four[/b] tiles",
 	},
 	"Cinema":{
 		"atlas_coords": Vector2i(17,18),
 		"cost": 1000000,
-		"description":":D",
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
 }
 
@@ -315,8 +315,8 @@ const ORDER = {
 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
-	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Mine"],
-	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill"]:[2,"Mall"],
+	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Mine"],
+	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Fishing Hut"]:[2,"Mall"],
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
