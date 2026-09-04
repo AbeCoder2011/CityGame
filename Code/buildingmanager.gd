@@ -16,7 +16,7 @@ var population_total = 0
 var station_networks : Array[Array] = []
 
 const SHOP_NAMES = [
-	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall"
+	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall","Lumber Mill"
 ]
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
@@ -281,8 +281,8 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(building):
-	if building["name"] == "Transformator Building":
+func Recompute(building, dontretrigger=false):
+	if building["name"] == "Transformator Building" && dontretrigger == false:
 		RecomputePower()
 	SetValues(building)
 	if building["name"] in HOUSING_NAMES:
@@ -292,13 +292,14 @@ func Recompute(building):
 	for n in Global.ORDER.keys():
 		if building["name"] in n:
 			affected = Global.ORDER[n].duplicate()
+	if affected.is_empty(): return
 	var affection_range : int = affected.pop_front()
 	
 	for b in Buildings:
 		if b["name"] in affected:
 			if InRange(building["pos"],b["pos"],GetSize(building["name"]),GetSize(b["name"]),affection_range):
-				Recompute(b)
-		if b["name"] == "Train Station":
+				Recompute(b, dontretrigger)
+		if b["name"] == "Train Station" && dontretrigger == false:
 			RecomputeStations()
 
 func RecomputeStations():
@@ -316,7 +317,7 @@ func RecomputeStations():
 		network_inventories.append([stations,inv])
 	for nw in station_networks:
 		for st in nw:
-			Recompute(st)
+			Recompute(st, true)
 
 func RecomputePower():
 	# --- Global Power Recompute
@@ -325,7 +326,7 @@ func RecomputePower():
 	for b in Buildings:
 		if b["name"] == "Transformator Building":
 			global_power += SumProperty(b["pos"],GetSize(b["name"]),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
-			Recompute(b)
+			Recompute(b,true)
 
 func RecomputePopulation():
 	population_total = 0
