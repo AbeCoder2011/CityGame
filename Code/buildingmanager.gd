@@ -130,12 +130,20 @@ func CountNearby(pos:Vector2i, size:Vector2i, names:Array, radius:int, exclude:A
 		if names.has(b["name"]) and InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
 			count += 1
 	return count
-func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int) -> int:
+func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int, must_be_empty: bool=false) -> int:
 	var count = 0
 	for x in range(1 + radius*2):
 		for y in range(1 + radius*2):
 			if Vector2i(x,y) == Vector2i(0,0):
 				continue
+			if must_be_empty:
+				var tmp = false
+				for b in Buildings:
+					if b["pos"] == (Vector2i(x,y)+pos):
+						tmp = true
+						break
+				if tmp == true:
+					continue
 			if $"../Terrain".get_tile(Vector2i(x,y)+pos) == id:
 				count += 1
 	return count
@@ -448,10 +456,14 @@ func CalculateBuildingOutput(b) -> Dictionary:
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
 			return {"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4}
 		"Lumber Mill":
-			var sparse_forests = Count_Terrain_Nearby(b["pos"], 2, 1)
-			var dense_forests  = Count_Terrain_Nearby(b["pos"], 3, 1)
+			var sparse_forests = Count_Terrain_Nearby(b["pos"], 2, 1,true)
+			var dense_forests  = Count_Terrain_Nearby(b["pos"], 3, 1,true)
 			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 4, "population")
-			return {"money": pop * (sparse_forests*0.5 + dense_forests)}
+			return {"money": pop * 0.7 * (sparse_forests*0.5 + dense_forests)}
+		"Fishing Hut":
+			var water = Count_Terrain_Nearby(b["pos"],1,1)
+			var pop = SumProperty(pos, GetSize(b["name"]), HOUSING_NAMES, 3, "population")
+			return {"money": pop * water}
 		"Transformator Building":
 			return {"power": global_power}
 		"Thermal Power Plant","Small Solar Farm":

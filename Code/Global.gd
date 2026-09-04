@@ -112,6 +112,11 @@ const BuildingData := {
 		"cost": 10000,
 		"description": "it chop wood and then it sell",
 	},
+	"Fishing Hut":{
+		"atlas_coords": Vector2i(4,2),
+		"cost": 15000,
+		"description": "Fishes for various different sea creatures and sells them to nearby population (Within [b]three[/b] tiles). Must be next to water"
+	},
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
@@ -280,6 +285,7 @@ const UnlockRequirements := {
 	"Mall":[{"type":"population","amount":250}],
 	"Animal Farm":[{"type":"building_count","building":"Mill","amount":2}],
 	"Butcher":[{"type":"building_count","building":"Animal Farm","amount":1}],
+	"Lumber Mill":[{"type":"population","amount":150}],
 	"Small Solar Farm": [{"type":"money","amount":1000}],
 	"Nuclear Power Plant": [{"type":"population","amount":300}],
 	"Large Thermal Power Plant": [{"type":"building_count","building":"Thermal Power Plant","amount":2}],
