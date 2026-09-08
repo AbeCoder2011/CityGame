@@ -134,7 +134,7 @@ func SaveGame():
 	DirAccess.make_dir_absolute(SAVE_PATH)
 	var save = {
 		"ub": UnlockedBuildings,
-		"buildings": $Buildings.Buildings,
+		"buildings": $Buildings.BuildingCollections,
 		"money":Global.Money,
 		"pop":Global.Population,
 		"happ":Global.Happiness,

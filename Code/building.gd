@@ -103,7 +103,7 @@ func _on_pressed() -> void:
 		hide()
 		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 2)
 		Global.BuildingUses[building_name] -= 1
-		$"..".AddToRemovalList(self)
+		$"..".AddToRemovalList({"pos":grid_pos,"name":building_name,"node":self})
 	if Global.Tool == 0:
 		if selected:
 			selected = false
@@ -170,3 +170,26 @@ func UpdateRailSprite() -> void:
 	
 func GetSize(n) -> Vector2i:
 	return Global.BuildingData[n].get("size",Vector2i(1,1))
+
+func GetBuildingInfo(data:Dictionary):
+	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono-.ttf]" + building_name + "\n"
+	for d in data.keys():
+		var v = data[d]
+		match d:
+			"population":
+				out += "👥 " + str(v) + " population nearby."
+			"income":
+				out += "[img]res://Assets/coin.png[/img] " + str(v) + "/s"
+			"wheat":
+				out += "🌾 " + str(v) +  " wheat nearby."
+			"flour":
+				out += "🍚 " + str(v) +  " flour nearby."
+			"industry":
+				out += "🏭 " + str(v) +  " industry buildings nearby."
+			"wheat":
+				out += "🌾 " + str(v) +  " wheat nearby."
+			"wheat":
+				out += "🌾 " + str(v) +  " wheat nearby."
+			"wheat":
+				out += "🌾 " + str(v) +  " wheat nearby."
+			

@@ -1563,6 +1563,48 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_61h6g")
 
+[node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
+visible = false
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 1506.0
+offset_top = 225.0
+offset_right = -10.0
+offset_bottom = 480.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Background" type="NinePatchRect" parent="UI/BuildingInfo" unique_id=1286739624]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+offset_transform_enabled = true
+offset_transform_scale = Vector2(4, 4)
+offset_transform_pivot_ratio = Vector2(0, 0)
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(297, 66, 32, 32)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/BuildingInfo" unique_id=194311629]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono-.ttf]Supermarket
+👥 5 population nearby
+[img]res://Assets/coin.png[/img] 20/s"
+
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]

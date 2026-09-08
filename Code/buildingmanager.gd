@@ -4,10 +4,14 @@ signal deselect
 
 var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
-var Buildings : Dictionary[Vector2i,Dictionary]= {}
+var BuildingCollections : Dictionary[Vector2i,Array] = {}
+var AllHousingBuildings = []
+var AllTrainRelatedBuildings = []
+var AllPowerRelatedBuildings = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
+var housing_edited = false
 var network_inventories  : Array[Array] = []
 var global_power = 0
 var already_checked_buildings = []
@@ -31,15 +35,15 @@ const FIXED_VALUES = [
 	"Pocket Park", "Small Park", "Fountain Park", "Large Park", "Small Wheatfield", "Large Wheatfield", "Small Solar Farm", "Large Solar Farm", "Thermal Power Plant", "Large Thermal Power Plant","Nuclear Power Plant","Cinema","Theme Park","Animal Farm"
 ]
 const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat","ores","gemstones"]
-func AddToRemovalList(node:Node2D):
-	DestroyedBuildings.append(node)
-	if Rails.has(node.grid_pos) and Rails[node.grid_pos] == node:
-		Rails.erase(node.grid_pos)
+func AddToRemovalList(b:Dictionary):
+	DestroyedBuildings.append(b)
+	if Rails.has(b["pos"]) and Rails[b["pos"]] == b["node"]:
+		Rails.erase(b["pos"])
 		for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
-			var neighbor_pos = node.grid_pos + offset
+			var neighbor_pos = b["pos"] + offset
 			if Rails.has(neighbor_pos):
 				Rails[neighbor_pos].UpdateRailSprite()
-	Global.Money += Global.BuildingData[node.building_name]["cost"] * 0.5
+	Global.Money += Global.BuildingData[b["name"]]["cost"] * 0.5
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
@@ -50,7 +54,15 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		Rails[location] = b
 	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
-	Buildings.set(location,{"name":nam,"node":b})
+	_add_building_to_collection(nam,location,b)
+	var this_b := {"name":nam,"pos":location,"node":b}
+	if nam in HOUSING_NAMES:
+		AllHousingBuildings.append(this_b)
+	match nam:
+		"Transformator Building":
+			AllPowerRelatedBuildings.append(this_b)
+		"Train Station","Rail":
+			AllTrainRelatedBuildings.append(this_b)
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
@@ -58,12 +70,58 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		CalculateStationConnections()
 		RecomputeStations()
 	#if housing has been edited: recalculate stats etc
-	elif Recompute(location,nam):
+	housing_edited = false
+	for n in GetRecomputePath(this_b):
+		#if n["name"] in HOUSING_NAMES:
+			#continue
+		match n["name"]:
+			"Train Station":
+				RecomputeStations()
+			"Transformator Building":
+				RecomputePower()
+			_:
+				Recompute(n["pos"],n["name"],n["node"])
+	if housing_edited:
 		CalculateHapiness()
 		RecomputePopulation()
 
 func DeselectOthers():
 	deselect.emit()
+
+func GetCollectionPos(pos:Vector2i):
+	return Vector2i(floor(Vector2(pos) / 8.0))
+
+func _add_building_to_collection(nam:String,pos:Vector2i,node:Node2D):
+	#var size = GetSize(nam)
+	#var cells = []
+	#for x in range(size.x):
+		#for y in range(size.y):
+			#var cell = GetCollectionPos(pos + Vector2i(x,y))
+			#cells.append(cell)
+	#for c in cells:
+		#if BuildingCollections.get_or_add(GetCollectionPos(pos),[]).has()
+	BuildingCollections.get_or_add(GetCollectionPos(pos),[]).append({"name":nam,"pos":pos,"node":node})
+
+func _remove_building_from_collection(pos:Vector2i):
+	var collection = GetCollectionPos(pos)
+	for building in BuildingCollections[collection]:
+		if building["pos"] == pos:
+			BuildingCollections[collection].erase(building)
+			return
+	printerr("tried to erase ",pos,", but it was no longer in its collection ")
+
+func _get_nearby_buildings(pos:Vector2i,size:Vector2i,radius:int) -> Array:
+	var bottom_left = GetCollectionPos(pos - Vector2i(radius,radius))
+	var top_right = GetCollectionPos(pos + Vector2i(radius - 1,radius - 1) + size)
+	var seen = []
+	for cellx in range(bottom_left.x, top_right.x + 1):
+		for celly in range(bottom_left.y, top_right.y + 1):
+			if BuildingCollections.has(Vector2i(cellx,celly)):
+				for b in BuildingCollections[Vector2i(cellx,celly)]:
+					if not b in seen:
+						seen.append(b)
+						
+	return seen
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("move_building") and event.is_pressed():
@@ -118,20 +176,21 @@ func InRange(a:Vector2i, b:Vector2i, sizeA=Vector2i(1,1),sizeB=Vector2i(1,1),rad
 
 func GetBuildingAmounts() -> Dictionary:
 	var counts = {}
-	for b in Buildings.values():
-		counts[b["name"]] = counts.get(b["name"], 0) + 1
+	for coll in BuildingCollections.values():
+		for b in coll:
+			counts[b["name"]] = counts.get(b["name"], 0) + 1
 	return counts
 
 # Count buildings of given names within radius of pos
 func CountNearby(pos:Vector2i, size:Vector2i, names:Array, radius:int, exclude:Array = []) -> int:
 	var count = 0
-	for b in Buildings.keys():
-		if b == pos or Buildings[b]["name"] in exclude:
+	for b in _get_nearby_buildings(pos,size,radius):
+		if b["pos"] == pos or b["name"] in exclude:
 			continue
-		if names.has(Buildings[b]["name"]) and InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius):
+		if names.has(b["name"]) and InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
 			count += 1
 	return count
-func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int, must_be_empty: bool=false) -> int:
+func Count_Terrain_Nearby(pos:Vector2i,size:Vector2i, id:int, radius:int, must_be_empty: bool=false) -> int:
 	var count = 0
 	for x in range(1 + radius*2):
 		for y in range(1 + radius*2):
@@ -139,8 +198,8 @@ func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int, must_be_empty: bool=
 				continue
 			if must_be_empty:
 				var tmp = false
-				for b in Buildings.keys():
-					if b == (Vector2i(x,y)+pos):
+				for b in _get_nearby_buildings(pos,size,radius):
+					if b["pos"] == (Vector2i(x,y)+pos):
 						tmp = true
 						break
 				if tmp == true:
@@ -152,14 +211,14 @@ func Count_Terrain_Nearby(pos:Vector2i, id:int, radius:int, must_be_empty: bool=
 # Calculates how much some property is in the area
 func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = [],dont_reuse=false) -> float:
 	var total = 0.0
-	for b in Buildings.keys():
-		if b == pos or Buildings[b]["name"] in exclude:
+	for b in _get_nearby_buildings(pos,size,radius):
+		if b["pos"] == pos or b["name"] in exclude:
 			continue
-		if InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
-			if names.has(Buildings[b]["name"]):
-				total += Buildings[b]["node"].get(prop)
+		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
+			if names.has(b["name"]):
+				total += b["node"].get(prop)
 				already_checked_buildings.append(b)
-			if Buildings[b]["name"] == "Train Station":
+			if b["name"] == "Train Station":
 				for nw in network_inventories:
 					if b in nw[0]:
 						total += nw[1].get(prop,0.0)
@@ -167,12 +226,12 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 
 func SumAllProperties(pos:Vector2i, size:Vector2i, radius:int):
 	var properties = {}
-	for b in Buildings.keys():
-		if b == pos or Buildings[b]["name"] == "Train Station" or b in already_checked_buildings:
+	for b in _get_nearby_buildings(pos,size,radius):
+		if b["pos"] == pos or b["name"] == "Train Station" or b in already_checked_buildings:
 			continue
-		if InRange(pos, b,size,GetSize(Buildings[b]["name"]),radius):
+		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
 			for n in MOVABLE_PROPERTIES:
-				properties[n] = properties.get(n, 0) + Buildings[b]["node"].get(n)
+				properties[n] = properties.get(n, 0) + b["node"].get(n)
 				already_checked_buildings.append(b)
 	return properties
 
@@ -188,9 +247,10 @@ func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 func CalculateStationConnections():
 	var stations = []
 	var networks : Array[Array] = []
-	for n in Buildings.values():
-		if n["name"] == "Train Station":
-			stations.append(Buildings.find_key(n))
+	for coll in BuildingCollections.values():
+		for n in coll:
+			if n["name"] == "Train Station":
+				stations.append(n["pos"])
 	for st in stations:
 		var connections = [st]
 		for dir in [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]:
@@ -225,26 +285,26 @@ func CalculateStationConnections():
 func FindNetwork(pos:Vector2i,stations,searched:Array = []) -> Array:
 	if pos in searched:
 		return []
-	for n in Buildings.keys():
-		if Buildings[n]["name"] == "Rail" and n == pos:
+	for n in AllTrainRelatedBuildings:
+		if n["name"] == "Rail" and n["pos"] == pos:
 			var s : Array = []
 			for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
 				searched.append(pos)
 				s.append_array(FindNetwork(pos + dir,stations,searched))
 			return s
-		if Buildings[n]["name"] == "Train Station" and Rect2(n,Vector2(2,2)).has_point(pos):
+		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
 			return([n])
 	return []
+
 func CalculateHapiness():
 	var total = 0
 	var amount = 0
-	for b in Buildings.keys():
-		if Buildings[b]["name"] in HOUSING_NAMES:
-			if Buildings[b]["name"] == "Low-Budget Apartment":
-				total += 50 * Buildings[b]["node"].population
-			else:
-				total += GetHappinessValue(b,Buildings[b]["name"],Buildings[b]["node"]) * Buildings[b]["node"].population
-			amount += Buildings[b]["node"].population
+	for b in AllHousingBuildings:
+		if b["name"] == "Low-Budget Apartment":
+			total += 50 * b["node"].population
+		else:
+			total += GetHappinessValue(b["pos"],b["name"],b["node"]) * b["node"].population
+		amount += b["node"].population
 	if amount == 0:
 		Global.Happiness = 100.0
 	else:
@@ -266,28 +326,31 @@ func GetHappinessValue(pos:Vector2i,nam:String,node:Node2D) -> int:
 
 func Tick():
 	# --- REMOVE OLD BUILDINGS
-	var pos : Vector2i
-	var nam : String
 	if not DestroyedBuildings.is_empty():
 		for n in DestroyedBuildings:
-			for i in range(Buildings.size() - 1, -1, -1):
-				if Buildings.values()[i]["node"] == n:
-					pos = Buildings.keys()[i]
-					nam = Buildings.values()[i]["name"]
-					Buildings.erase(Buildings.keys()[i])
-					break
+			BuildingCollections[GetCollectionPos(n["pos"])].erase(n)
+			if n["name"] in HOUSING_NAMES:
+				AllHousingBuildings.erase(n)
+			match n["name"]:
+				"Transformator Building":
+					AllPowerRelatedBuildings.erase(n)
+				"Train Station","Rail":
+					AllTrainRelatedBuildings.erase(n)
 			if is_instance_valid(n):
 				n.queue_free()
-			if Recompute(pos,nam,false,true):
+			housing_edited = false
+			Recompute(n["pos"],n["name"],n["node"])
+			if housing_edited:
 				CalculateHapiness()
 				RecomputePopulation()
 		DestroyedBuildings.clear()
 	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
-	for b in Buildings.values():
-		if b["node"].money > 0.0:
-			money_total += b["node"].money
-			b["node"].display_income(b["node"].money)
+	for coll in BuildingCollections.values():
+		for b in coll:
+			if b["node"].money > 0.0:
+				money_total += b["node"].money
+				b["node"].display_income(b["node"].money)
 	Global.Money += money_total * Global.Happiness / 100
 	Global.Income = money_total * Global.Happiness / 100
 	$"..".UpdateCityStats()
@@ -295,34 +358,13 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(pos,nam, dontretrigger:=false,dont_set_values=false) -> bool:
-	if nam == "Transformator Building" && dontretrigger == false:
-		RecomputePower()
-	if not dont_set_values:
-		SetValues(Buildings[pos]["node"],nam,pos)
-	var affected = []
-	for n in Global.ORDER.keys():
-		if nam in n:
-			affected = Global.ORDER[n].duplicate()
-	if affected.is_empty():
-		return false
-	var affection_range : int = affected.pop_front()
-	var housing_edited = false
-	for b in Buildings.keys():
-		var this_nam = Buildings[b]["name"]
-		if this_nam in affected:
-			if InRange(pos,b,GetSize(this_nam),GetSize(this_nam),affection_range):
-				if Recompute(b,this_nam, dontretrigger):
-					housing_edited = true
-		if this_nam == "Train Station" && dontretrigger == false:
-			RecomputeStations()
+func Recompute(pos,nam,node):
+	SetValues(node,nam,pos)
+	print("RC: ",nam)
 	if nam in HOUSING_NAMES:
 		housing_edited = true
-	return housing_edited
 
 func RecomputeStations():
-	print("station")
-	# --- Station Networking Recompute
 	network_inventories = []
 	already_checked_buildings = []
 	for nw in station_networks:
@@ -334,24 +376,71 @@ func RecomputeStations():
 			for n in i.keys():
 				inv[n] = inv.get(n,0) + i[n]
 		network_inventories.append([stations,inv])
+
+func GetRecomputePath(this_b:Dictionary,not_self = false) -> Array:
+	var affected = []
+	for n in Global.ORDER.keys():
+		if this_b["name"] in n:
+			affected = Global.ORDER[n].duplicate()
+	if affected.is_empty():
+		return [] if not_self else [this_b]
+	var affection_range : int = affected.pop_front()
+	
+	var next_updates := [] if not_self else [this_b]
+	
+	for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),affection_range):
+		var this_nam = b["name"]
+		if this_nam in affected:
+			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
+				for n in GetRecomputePath(b):
+					if next_updates.has(n):
+						next_updates.erase(n)
+					next_updates.append(n)
+		if this_nam == "Train Station":
+			for nw in station_networks:
+				for st in nw:
+					for n in BuildingCollections[GetCollectionPos(st)]:
+						if n["pos"] == st:
+							next_updates.append(n)
+							break
+					for n in GetStationRecomputePath(st):
+						if next_updates.has(n):
+							next_updates.erase(n)
+						next_updates.append(n)
+	return next_updates
+
+func GetStationRecomputePath(pos:Vector2i) -> Array:
+	var next_updates := []
 	for nw in station_networks:
 		for st in nw:
-			print(st)
-			Recompute(st,"Train Station", true,true)
+			var affected = []
+			for n in Global.ORDER.keys():
+				if "Train Station" in n:
+					affected = Global.ORDER[n].duplicate()
+			var affection_range : int = affected.pop_front()
+			for b in _get_nearby_buildings(pos,GetSize("Train Station"),affection_range):
+				var this_nam = b["name"]
+				if this_nam in affected:
+					if InRange(pos,b["pos"],GetSize(this_nam),GetSize("Train Station"),affection_range):
+						for n in GetRecomputePath(b):
+							if next_updates.has(n):
+								next_updates.erase(n)
+							next_updates.append(n)
+	return next_updates
 
 func RecomputePower():
 	# --- Global Power Recompute
 	already_checked_buildings = []
 	global_power = 0
-	for b in Buildings.keys():
-		var this_nam = Buildings[b]["name"]
-		if this_nam == "Transformator Building":
-			global_power += SumProperty(b,GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
-			Recompute(b,this_nam,true)
+	print("recompute powaa")
+	for b in AllPowerRelatedBuildings:
+		var this_nam = b["name"]
+		global_power += SumProperty(b["pos"],GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
+		Recompute(b["pos"],this_nam,b["node"])
 
 func RecomputePopulation():
 	population_total = 0
-	for b in Buildings.values():
+	for b in AllHousingBuildings:
 		if b["name"] in HOUSING_NAMES:
 			population_total += b["node"].get("population")
 	Global.Population = population_total
@@ -461,12 +550,12 @@ func CalculateBuildingOutput(nam,pos) -> Dictionary:
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
 			return {"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4}
 		"Lumber Mill":
-			var sparse_forests = Count_Terrain_Nearby(pos, 2, 1,true)
-			var dense_forests  = Count_Terrain_Nearby(pos, 3, 1,true)
+			var sparse_forests = Count_Terrain_Nearby(pos,Vector2i(1,1), 2, 1,true)
+			var dense_forests  = Count_Terrain_Nearby(pos,Vector2i(1,1), 3, 1,true)
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 4, "population")
 			return {"money": pop * 0.7 * (sparse_forests*0.5 + dense_forests)}
 		"Fishing Hut":
-			var water = Count_Terrain_Nearby(pos,1,1)
+			var water = Count_Terrain_Nearby(pos,Vector2i(1,1),1,1)
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
 			return {"money": pop * water}
 		"Transformator Building":
@@ -518,7 +607,7 @@ func CalculateBuildingOutput(nam,pos) -> Dictionary:
 			return {"entertainment":2}
 		"Mine":
 			var workpower = SumProperty(pos,GetSize(nam),HOUSING_NAMES,2,"population")
-			var mountains = Count_Terrain_Nearby(pos,4,1)
+			var mountains = Count_Terrain_Nearby(pos,Vector2i(1,1),4,1)
 			return {"ores":workpower * .1 * mountains}
 		"Ore Extractor":
 			var ores = SumProperty(pos,GetSize(nam),["Mine"],3,"ores")
