@@ -333,16 +333,16 @@ script = ExtResource("1_jw32o")
 z_index = -1
 
 [node name="Grid" type="Sprite2D" parent="Background" unique_id=681625552]
-z_index = -1
+z_index = 1
 texture_repeat = 2
-position = Vector2(-2880, -2880)
-scale = Vector2(3, 3)
+position = Vector2(-3024, -3024)
 texture = ExtResource("1_rgh2o")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 1920, 1920)
+region_rect = Rect2(0, 0, 6000, 6000)
 
 [node name="Terrain" type="TileMapLayer" parent="." unique_id=256848337]
+z_index = -1
 scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_jnsvb")
 script = ExtResource("9_bmxlf")

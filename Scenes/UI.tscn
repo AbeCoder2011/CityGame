@@ -261,6 +261,10 @@ _data = {
 font = ExtResource("8_mg6lk")
 font_size = 55
 
+[sub_resource type="LabelSettings" id="LabelSettings_b1goy"]
+font = ExtResource("8_mg6lk")
+font_size = 40
+
 [sub_resource type="Animation" id="Animation_b1goy"]
 length = 0.001
 tracks/0/type = "value"
@@ -1355,6 +1359,7 @@ libraries/ = SubResource("AnimationLibrary_b1goy")
 [node name="Pause" type="Control" parent="UI" unique_id=898323941]
 process_mode = 3
 visible = false
+z_index = 5
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1362,7 +1367,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="UI/Pause" unique_id=401796940]
+[node name="Base" type="Control" parent="UI/Pause" unique_id=1751110163]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/Pause/Base" unique_id=401796940]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1371,7 +1384,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.25275353, 0.2527536, 0.2527535, 0.70980394)
 
-[node name="Label" type="Label" parent="UI/Pause" unique_id=1142230429]
+[node name="Paused" type="Label" parent="UI/Pause/Base" unique_id=1142230429]
 layout_mode = 0
 offset_left = 92.0
 offset_top = 70.0
@@ -1380,7 +1393,15 @@ offset_bottom = 140.0
 text = "Paused"
 label_settings = SubResource("LabelSettings_o2ick")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause" unique_id=1873355034]
+[node name="Main" type="Control" parent="UI/Pause" unique_id=1234459914]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause/Main" unique_id=1873355034]
 layout_mode = 0
 offset_left = 93.0
 offset_top = 176.0
@@ -1388,14 +1409,14 @@ offset_right = 503.0
 offset_bottom = 710.0
 theme_override_constants/separation = 24
 
-[node name="Continue" type="Button" parent="UI/Pause/VBoxContainer" unique_id=702289640]
+[node name="Continue" type="Button" parent="UI/Pause/Main/VBoxContainer" unique_id=702289640]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
 text = "- Continue -"
 
-[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/Continue" unique_id=2065102495]
+[node name="Label" type="Label" parent="UI/Pause/Main/VBoxContainer/Continue" unique_id=2065102495]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1403,14 +1424,14 @@ offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
 
-[node name="Settings" type="Button" parent="UI/Pause/VBoxContainer" unique_id=1772297066]
+[node name="Settings" type="Button" parent="UI/Pause/Main/VBoxContainer" unique_id=1772297066]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
 text = "- Settings -"
 
-[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/Settings" unique_id=1854428389]
+[node name="Label" type="Label" parent="UI/Pause/Main/VBoxContainer/Settings" unique_id=1854428389]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1418,14 +1439,14 @@ offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
 
-[node name="SaveAndReturn" type="Button" parent="UI/Pause/VBoxContainer" unique_id=1015474028]
+[node name="SaveAndReturn" type="Button" parent="UI/Pause/Main/VBoxContainer" unique_id=1015474028]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
 text = "- Quit to menu -"
 
-[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/SaveAndReturn" unique_id=763138164]
+[node name="Label" type="Label" parent="UI/Pause/Main/VBoxContainer/SaveAndReturn" unique_id=763138164]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1433,20 +1454,155 @@ offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
 
-[node name="SaveAndQuit" type="Button" parent="UI/Pause/VBoxContainer" unique_id=365317313]
+[node name="SaveAndQuit" type="Button" parent="UI/Pause/Main/VBoxContainer" unique_id=365317313]
 custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
 text = "- Quit to desktop -"
 
-[node name="Label" type="Label" parent="UI/Pause/VBoxContainer/SaveAndQuit" unique_id=1457726531]
+[node name="Label" type="Label" parent="UI/Pause/Main/VBoxContainer/SaveAndQuit" unique_id=1457726531]
 visible = false
 layout_mode = 0
 offset_top = -34.0
 offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
+
+[node name="Settings" type="Control" parent="UI/Pause" unique_id=156668415]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause/Settings" unique_id=32276754]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 176.0
+offset_right = 503.0
+offset_bottom = 710.0
+theme_override_constants/separation = 24
+
+[node name="Paused" type="Label" parent="UI/Pause/Settings/VBoxContainer" unique_id=116473205]
+layout_mode = 2
+text = "Settings"
+label_settings = SubResource("LabelSettings_b1goy")
+horizontal_alignment = 1
+
+[node name="General" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=281573923]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- General -"
+
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/General" unique_id=407207726]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Sound" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=779837859]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Sound -"
+
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Sound" unique_id=2115536823]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Video" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=1543086457]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Video -"
+
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Video" unique_id=6415479]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Accesibility" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=1706391789]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Accesibility -"
+
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Accesibility" unique_id=2139719487]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=879781381]
+modulate = Color(0.606085, 0.60608506, 0.606085, 1)
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Back -"
+
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Back" unique_id=1134295189]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="General" type="Control" parent="UI/Pause" unique_id=968174023]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sound" type="Control" parent="UI/Pause" unique_id=69168596]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Video" type="Control" parent="UI/Pause" unique_id=1594882553]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Accesibility" type="Control" parent="UI/Pause" unique_id=1141455254]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
 process_mode = 3
@@ -1564,6 +1720,7 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_61h6g")
 
 [node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
+visible = false
 layout_mode = 1
 anchor_right = 1.0
 offset_left = 1506.0
@@ -1572,6 +1729,7 @@ offset_right = -10.0
 offset_bottom = 480.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Background" type="NinePatchRect" parent="UI/BuildingInfo" unique_id=1286739624]
 layout_mode = 1
@@ -1599,6 +1757,7 @@ offset_right = -24.0
 offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 bbcode_enabled = true
 text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 👥 5 population nearby
@@ -1607,8 +1766,14 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
-[connection signal="pressed" from="UI/Pause/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="UI/Pause/VBoxContainer/SaveAndReturn" to="." method="_on_save_and_return_pressed"]
-[connection signal="pressed" from="UI/Pause/VBoxContainer/SaveAndQuit" to="." method="_on_save_and_quit_pressed"]
+[connection signal="pressed" from="UI/Pause/Main/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="UI/Pause/Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="UI/Pause/Main/VBoxContainer/SaveAndReturn" to="." method="_on_save_and_return_pressed"]
+[connection signal="pressed" from="UI/Pause/Main/VBoxContainer/SaveAndQuit" to="." method="_on_save_and_quit_pressed"]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/General" to="." method="SubSetting" binds= ["general"]]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Sound" to="." method="SubSetting" binds= ["sound"]]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Accesibility" to="." method="SubSetting" binds= ["accesibilty"]]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Back" to="." method="_on_back_settings_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

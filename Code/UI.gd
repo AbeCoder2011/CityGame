@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 var already_unlocked := []
+# main, pause, settings, general_settings, video_settings, sound_settings, accesibility_settings, 
+var menu = "main"
 
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
@@ -80,9 +82,20 @@ func CheckBuildingUnlocks():
 				$UI/Messages/AnimationPlayer.play("new_building")
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("pause") and event.is_pressed():
-		$UI/Pause.visible = !$UI/Pause.visible
-		get_tree().paused = $UI/Pause.visible
+	if event.is_action("pause") and event.is_pressed() and not event.is_echo():
+		match menu:
+			"main":
+				$UI/Pause.visible = true
+				get_tree().paused = true
+				menu = "paused"
+			"paused":
+				$UI/Pause.visible = false
+				get_tree().paused = false
+				menu = "main"
+			"settings":
+				_on_back_settings_pressed()
+			"general_settings", "video_settings", "sound_settings", "accesibility_settings":
+				_on_back_sub_setting_pressed()
 
 
 func _on_save_pressed() -> void:
@@ -110,3 +123,38 @@ func _on_save_and_quit_pressed() -> void:
 	$"..".SaveGame()
 	get_tree().paused = false
 	get_tree().quit()
+
+
+func _on_settings_pressed() -> void:
+	$UI/Pause/Main.hide()
+	$UI/Pause/Settings.show()
+	menu = "settings"
+
+func _on_back_settings_pressed() -> void:
+	$UI/Pause/Settings.hide()
+	$UI/Pause/Main.show()
+	menu = "paused"
+
+func _on_back_sub_setting_pressed() -> void:
+	$UI/Pause/General.hide()
+	$UI/Pause/Sound.hide()
+	$UI/Pause/Video.hide()
+	$UI/Pause/Accesibility.hide()
+	$UI/Pause/Settings.show()
+	menu = "settings"
+
+func SubSetting(nam:String):
+	match nam:
+		"general":
+			$UI/Pause/General.show()
+			menu = "general_settings"
+		"sound":
+			menu = "sound_settings"
+			$UI/Pause/Sound.show()
+		"video":
+			menu = "video_settings"
+			$UI/Pause/Video.show()
+		"accesibility":
+			menu = "accesibility_settings"
+			$UI/Pause/Accesibility.show()
+	$UI/Pause/Settings.hide()

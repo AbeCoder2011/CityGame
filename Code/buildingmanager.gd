@@ -338,7 +338,14 @@ func Tick():
 			if is_instance_valid(n):
 				n.queue_free()
 			housing_edited = false
-			Recompute(n["pos"],n["name"],n["node"])
+			for b in GetRecomputePath(n):
+				match b["name"]:
+					"Train Station":
+						RecomputeStations()
+					"Transformator Building":
+						RecomputePower()
+					_:
+						Recompute(b["pos"],b["name"],b["node"])
 			if housing_edited:
 				CalculateHapiness()
 				RecomputePopulation()
@@ -506,7 +513,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
-			return [{"population": 256 * penalty * population_boost * (1 + 0.01 * nature)},{"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 256 * penalty * population_boost * (1 + 0.01 * nature)},{"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")

@@ -198,7 +198,10 @@ func GetBuildingInfo() -> String:
 			"mountains":
 				out += "⛰️ " + str(v) +  " mountain tiles nearby.\n"
 			"power_boost":
-				out += "⚡ " + str(v) +  " power supplied nearby.\n"
+				if extra_data.has("power_boost_mult"):
+					out += "⚡ " + str(v) +  " power supplied nearby. (" + str(extra_data["power_boost_mult"]) + "x boost)\n"
+				else:
+					out += "⚡ " + str(v) +  " power supplied nearby.\n"
 			"global_power":
 				out += "🔋 Global power grid has " + str(v) +  " power.\n"
 			"power":
