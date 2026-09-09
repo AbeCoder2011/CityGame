@@ -11,6 +11,19 @@ func SelectCategory(cat_name:String) -> void:
 		n.hide()
 	$UI/Building/Categories.get_node(cat_name).show()
 
+func ShowInfo(txt:String):
+	$UI/BuildingInfo.show()
+	$UI/BuildingInfo/Text.text = txt
+func HideInfo():
+	$UI/BuildingInfo.hide()
+	
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action("build_tool") and event.is_pressed():
+		_on_draw_pressed()
+	if event.is_action("select_tool") and event.is_pressed():
+		_on_select_pressed()
+	if event.is_action("erase_tool") and event.is_pressed():
+		_on_destroy_pressed()
 
 func _on_select_pressed() -> void:
 	if Global.Tool == 1:

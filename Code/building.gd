@@ -1,19 +1,10 @@
 extends Node2D
 
-var money = 0.0
-var population := 0
-var products := 0
-var flour := 0
-var wheat := 0
-var electronics := 0
-var power := 0
-var livestock := 0
-var meat := 0
-var nature := 0
-var entertainment := 0
-var ores := 0
-var gemstones := 0
+var inputs : Dictionary[String,int] = {}
+var extra_data : Dictionary = {}
 
+var power := 0
+var use_power := false
 var building_name = ""
 
 var grid_pos := Vector2i.ZERO
@@ -52,47 +43,48 @@ func display_income(i:float):
 func _on_mouse_enter() -> void:
 	$Info.show()
 	UpdateData()
-			
+	$"../../UI".ShowInfo(GetBuildingInfo())
 
 
 func _on_mouse_exit() -> void:
 	$Info.hide()
+	$"../../UI".HideInfo()
 
 func UpdateData():
 	match building_name:
 		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
 			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
-			$Info.text = str(population)
+			$Info.text = str(inputs.get("population",0))
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
-			$Info.text = Global.GetBigNumber(money) + "/s"
+			$Info.text = Global.GetBigNumber(inputs.get("money",0) * 2) + "/s"
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
-			$Info.text = str(flour)
+			$Info.text = str(inputs.get("flour",0))
 		"Small Wheatfield","Large Wheatfield":
 			$Info/TextureRect.texture.region = Rect2(96,0,16,16)
-			$Info.text = str(wheat)
+			$Info.text = str(inputs.get("wheat",0))
 		"Transformator Building":
 			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
-			$Info.text = str(power)
+			$Info.text = str(inputs.get("power",0))
 		"Animal Farm":
 			$Info/TextureRect.texture.region = Rect2(160,0,16,16)
-			$Info.text = str(livestock)
+			$Info.text = str(inputs.get("livestock",0))
 		"Butcher":
 			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
-			$Info.text = str(meat)
+			$Info.text = str(inputs.get("meat",0))
 		"Pocket Park","Small Park","Fountain Park","Large Park":
 			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
-			$Info.text = str(nature)
+			$Info.text = str(inputs.get("nature",0))
 		"Small Factory","Large Factory":
 			$Info/TextureRect.texture.region = Rect2(256,0,16,16)
-			$Info.text = str(products)
+			$Info.text = str(inputs.get("products",0))
 		"Mine":
 			$Info/TextureRect.texture.region = Rect2(416,0,16,16)
-			$Info.text = str(ores)
+			$Info.text = str(inputs.get("ores",0))
 		"Ore Extractor":
 			$Info/TextureRect.texture.region = Rect2(448,0,16,16)
-			$Info.text = str(gemstones)
+			$Info.text = str(inputs.get("gemstones",0))
 			
 		_:
 			$Info.hide()
@@ -171,25 +163,79 @@ func UpdateRailSprite() -> void:
 func GetSize(n) -> Vector2i:
 	return Global.BuildingData[n].get("size",Vector2i(1,1))
 
-func GetBuildingInfo(data:Dictionary):
-	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono-.ttf]" + building_name + "\n"
-	for d in data.keys():
-		var v = data[d]
+func GetBuildingInfo() -> String:
+	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]" + building_name + "\n"
+	for d in extra_data.keys():
+		var v = int(extra_data[d])
 		match d:
 			"population":
-				out += "👥 " + str(v) + " population nearby."
-			"income":
-				out += "[img]res://Assets/coin.png[/img] " + str(v) + "/s"
+				out += "👥 " + str(v) + " population nearby.\n"
 			"wheat":
-				out += "🌾 " + str(v) +  " wheat nearby."
+				out += "🌾 " + str(v) +  " wheat nearby.\n"
 			"flour":
-				out += "🍚 " + str(v) +  " flour nearby."
+				out += "🍚 " + str(v) +  " flour nearby.\n"
 			"industry":
-				out += "🏭 " + str(v) +  " industry buildings nearby."
+				out += "🏭 " + str(v) +  " industry buildings nearby.\n"
+			"meat":
+				out += "🥩 " + str(v) +  " meat nearby.\n"
+			"livestock":
+				out += "🐖 " + str(v) +  " livestock nearby.\n"
+			"products":
+				out += "📦 " + str(v) +  " products nearby.\n"
+			"nature":
+				out += "🌿 Nature score: " + str(v) + "\n"
+			"entertainment":
+				out += "🎬 Entertainment score: " + str(v) + "\n"
+			"ores":
+				out += "🪨 " + str(v) +  " ores nearby.\n"
+			"gemstones":
+				out += "💎 " + str(v) +  " gemstones nearby.\n"
+			"water":
+				out += "🌊 " + str(v) +  " water tiles nearby.\n"
+			"mountains":
+				out += "⛰️ " + str(v) +  " mountain tiles nearby.\n"
+			"shops_nearby":
+				out += "🏪 " + str(v) +  " other shops nearby.\n"
+			"mountains":
+				out += "⛰️ " + str(v) +  " mountain tiles nearby.\n"
+			"power_boost":
+				out += "⚡ " + str(v) +  " power supplied nearby.\n"
+			"global_power":
+				out += "🔋 Global power grid has " + str(v) +  " power.\n"
+			"power":
+				out += "🔋 Generates " + str(v) +  " energy.\n"
+			_:
+				printerr("Extra text for " + d + " not found! (value = " + str(v) + ")")
+	if use_power:
+		out += "🔋 " + str(power) +  " power collected nearby.\n"
+	for d in inputs.keys():
+		var v = inputs[d]
+		match d:
+			"population":
+				out += "👥 Houses " + str(v) + " people.\n"
+			"money":
+				out += "[img]res://Assets/coin.png[/img] " + str(v * 2) + "/s\n"
+			"flour":
+				out += "🍚 Produces" + str(v) +  " flour.\n"
 			"wheat":
-				out += "🌾 " + str(v) +  " wheat nearby."
-			"wheat":
-				out += "🌾 " + str(v) +  " wheat nearby."
-			"wheat":
-				out += "🌾 " + str(v) +  " wheat nearby."
-			
+				out += "🌾 Grows" + str(v) +  " wheat.\n"
+			"meat":
+				out += "🥩 Prepares " + str(v) +  " meat.\n"
+			"livestock":
+				out += "🐖 Breeds " + str(v) +  " livestock.\n"
+			"products":
+				out += "📦 Produces " + str(v) +  " products.\n"
+			"nature":
+				out += "🌿 Gives " + str(v) +  " nature points.\n"
+			"entertainment":
+				out += "🎬 Gives " + str(v) +  " entertainment points.\n"
+			"ores":
+				out += "🪨 Mines " + str(v) +  " ores.\n"
+			"gemstones":
+				out += "💎 Refines " + str(v) +  " gemstones.\n"
+			"power":
+				out += "🔋 Generates " + str(v) +  " energy.\n"
+			_:
+				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
+	return out
+	

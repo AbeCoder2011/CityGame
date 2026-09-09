@@ -1564,7 +1564,6 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_61h6g")
 
 [node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
-visible = false
 layout_mode = 1
 anchor_right = 1.0
 offset_left = 1506.0
@@ -1589,7 +1588,7 @@ patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
 
-[node name="RichTextLabel" type="RichTextLabel" parent="UI/BuildingInfo" unique_id=194311629]
+[node name="Text" type="RichTextLabel" parent="UI/BuildingInfo" unique_id=194311629]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -1601,7 +1600,7 @@ offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 bbcode_enabled = true
-text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono-.ttf]Supermarket
+text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 👥 5 population nearby
 [img]res://Assets/coin.png[/img] 20/s"
 
