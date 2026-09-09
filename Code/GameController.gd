@@ -32,7 +32,8 @@ func _ready() -> void:
 		$Areas.GenerateAreas()
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
-		UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
+		if not UnlockedBuildings.get(n,false):
+			UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
 		if UnlockedBuildings[n]:
 			$UI.already_unlocked.append(n)
 	await get_tree().process_frame
@@ -141,7 +142,6 @@ func SaveGame():
 		"uses":Global.BuildingUses,
 		"diff":Global.Difficulty,
 		"open_areas":$Areas.OpenAreas,
-		"unlocks":UnlockedBuildings,
 		"buildable":BuildableAreas,
 		"seed": $"Terrain".seed,
 	}
@@ -164,17 +164,16 @@ func LoadGame():
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
 	$"Terrain".seed = save.get("seed", randi())
-	UnlockedBuildings = save["ub"]
+	UnlockedBuildings = save.get("ub",{})
 	BuildableAreas = save.get("buildable",[Rect2(-3,-3,6,6)])
-	UnlockedBuildings = save.get("unlocks",{})
 	$Areas.OpenAreas = save["open_areas"]
 	$Areas.GenerateAreas()
 	$"Terrain".Generate()
 	for coll in save["buildings"].values():
 		for b in coll:
-			print(b)
 			$Buildings.NewBuilding(b["name"],b["pos"],false)
 	print("Loaded save!")
+	
 	
 
 func DeleteSave():

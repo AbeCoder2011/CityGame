@@ -359,12 +359,10 @@ func Tick():
 
 func Recompute(pos,nam,node):
 	SetValues(node,nam,pos)
-	print("RC: ",nam)
 	if nam in HOUSING_NAMES:
 		housing_edited = true
 
 func RecomputeStations():
-	print("twain")
 	network_inventories = []
 	already_checked_buildings = []
 	for nw in station_networks:
@@ -429,7 +427,6 @@ func RecomputePower():
 	# --- Global Power Recompute
 	already_checked_buildings = []
 	global_power = 0
-	print("recompute powaa")
 	for b in AllPowerRelatedBuildings:
 		var this_nam = b["name"]
 		var my_power = SumProperty(b["pos"],GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)

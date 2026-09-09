@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="8_vy5pj"]
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Scenes/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Scenes/train_animation.gd" id="10_4kpch"]
+[ext_resource type="PackedScene" uid="uid://dj0nehyvofbqq" path="res://Scenes/building.tscn" id="10_grg3l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -372,6 +373,8 @@ script = ExtResource("6_v1gob")
 [node name="Timer" type="Timer" parent="Buildings" unique_id=2016130931]
 wait_time = 0.5
 autostart = true
+
+[node name="Building" parent="Buildings" unique_id=709613803 instance=ExtResource("10_grg3l")]
 
 [node name="Autosaver" type="Timer" parent="." unique_id=292409366]
 

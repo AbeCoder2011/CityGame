@@ -122,7 +122,6 @@ func UpdateRailSprite() -> void:
 		rail_connections["d"] = true
 	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
 		rail_connections["u"] = true
-	print(rail_connections)
 	if rail_connections["l"] and rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
 		$Sprite.texture.region = Rect2(Vector2(288,80), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
@@ -216,7 +215,7 @@ func GetBuildingInfo() -> String:
 			"money":
 				out += "[img]res://Assets/coin.png[/img] " + str(v * 2) + "/s\n"
 			"flour":
-				out += "🍚 Produces" + str(v) +  " flour.\n"
+				out += "🍚 Produces " + str(v) +  " flour.\n"
 			"wheat":
 				out += "🌾 Grows" + str(v) +  " wheat.\n"
 			"meat":

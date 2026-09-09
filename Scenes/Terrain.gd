@@ -22,7 +22,6 @@ func get_tile(coords:Vector2i) -> int:
 
 func _ready():
 	if Global.LoadSettings["load"] == false:
-		print("hey")
 		seed = randi()
 		Generate()
 func Generate() -> void:

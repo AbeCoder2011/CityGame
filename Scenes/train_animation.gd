@@ -5,9 +5,7 @@ var train_scene = preload("res://Scenes/train.tscn")
 func _on_train_timer_timeout() -> void:
 	for nw in $"../Buildings".station_networks:
 		if nw.size() < 2:
-			print("small")
 			continue
-		print("ok!")
 		var new_nw = nw.duplicate()
 		var stA = new_nw.pick_random()
 		new_nw.erase(stA)

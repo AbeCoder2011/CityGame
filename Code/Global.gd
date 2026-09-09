@@ -340,6 +340,9 @@ func GetBuildingCost(nam) -> int:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("Abe") and event.is_pressed():
 		Money *= 1.5
+		for n in Global.BuildingData.keys():
+			get_node("/root/Main").UnlockedBuildings[n] = true
+		get_node("/root/Main/UI").CheckBuildingUnlocks()
 
 func GetBigNumber(i:float) -> String:
 	if i >= 1000000:
