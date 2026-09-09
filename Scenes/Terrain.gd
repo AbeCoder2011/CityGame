@@ -39,13 +39,13 @@ func Generate() -> void:
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 			else: # Land
 				set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-				if rainfall > 0.1:
+				if rainfall > 0.15:
 					match random.randi_range(0,1):
 						0:
 							set_cell(Vector2i(x,y),0,Vector2i(0,2)) # Sparse Forest
 						1:
 							set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-					if rainfall >= 0.2:
+					if rainfall >= 0.3:
 						match random.randi_range(0,1):
 							0:
 								set_cell(Vector2i(x,y),0,Vector2i(0,1)) # Dense Forest

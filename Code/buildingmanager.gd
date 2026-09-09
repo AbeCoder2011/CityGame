@@ -194,17 +194,17 @@ func Count_Terrain_Nearby(pos:Vector2i,size:Vector2i, id:int, radius:int, must_b
 	var count = 0
 	for x in range(1 + radius*2):
 		for y in range(1 + radius*2):
-			if Vector2i(x,y) == Vector2i(0,0):
+			if Vector2i(x-radius,y-radius) == Vector2i(0,0):
 				continue
 			if must_be_empty:
 				var tmp = false
 				for b in _get_nearby_buildings(pos,size,radius):
-					if b["pos"] == (Vector2i(x,y)+pos):
+					if b["pos"] == (Vector2i(x-radius,y-radius)+pos):
 						tmp = true
 						break
 				if tmp == true:
 					continue
-			if $"../Terrain".get_tile(Vector2i(x,y)+pos) == id:
+			if $"../Terrain".get_tile(Vector2i(x-radius,y-radius)+pos) == id:
 				count += 1
 	return count
 

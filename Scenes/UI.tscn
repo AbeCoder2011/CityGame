@@ -1722,6 +1722,7 @@ texture = SubResource("AtlasTexture_61h6g")
 [node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
 visible = false
 layout_mode = 1
+anchors_preset = 10
 anchor_right = 1.0
 offset_left = 1506.0
 offset_top = 225.0
