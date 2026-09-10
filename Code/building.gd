@@ -1,6 +1,6 @@
 extends Node2D
 
-var inputs : Dictionary[String,int] = {}
+var inputs : Dictionary[String,float] = {}
 var extra_data : Dictionary = {}
 
 var power := 0
@@ -9,6 +9,8 @@ var building_name = ""
 
 var grid_pos := Vector2i.ZERO
 var rail_connections := {"l":false,"r":false,"u":false,"d":false}
+
+var UI_Settings = {}
 
 var selected = false
 
@@ -54,7 +56,7 @@ func UpdateData():
 	match building_name:
 		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
 			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
-			$Info.text = str(inputs.get("population",0))
+			$Info.text = str(int(inputs.get("population",0)))
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
 			$Info.text = Global.GetBigNumber(inputs.get("money",0) * 2) + "/s"
@@ -169,12 +171,14 @@ func GetBuildingInfo() -> String:
 		match d:
 			"population":
 				out += "👥 " + str(v) + " population nearby.\n"
+			"base_pop":
+				out += "👥 " + str(v) + " base population.\n"
 			"wheat":
 				out += "🌾 " + str(v) +  " wheat nearby.\n"
 			"flour":
 				out += "🍚 " + str(v) +  " flour nearby.\n"
 			"industry":
-				out += "🏭 " + str(v) +  " industry buildings nearby.\n"
+				out += "🏭 Industry debuff: " + str(v) +  "x.\n"
 			"meat":
 				out += "🥩 " + str(v) +  " meat nearby.\n"
 			"livestock":
@@ -211,12 +215,13 @@ func GetBuildingInfo() -> String:
 	if use_power:
 		out += "🔋 " + str(power) +  " power collected nearby.\n"
 	for d in inputs.keys():
-		var v = inputs[d]
+		var v = int(inputs[d])
+		var decimal_v = inputs[d]
 		match d:
 			"population":
 				out += "👥 Houses " + str(v) + " people.\n"
 			"money":
-				out += "[img]res://Assets/coin.png[/img] " + str(v * 2) + "/s\n"
+				out += "[img]res://Assets/coin.png[/img] Earns " + str(Global.GetBigNumber(decimal_v*2)) + "/s\n"
 			"flour":
 				out += "🍚 Produces " + str(v) +  " flour.\n"
 			"wheat":

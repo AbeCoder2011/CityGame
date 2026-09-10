@@ -21,6 +21,8 @@ const IconTilemap = preload("res://Assets/icons.png")
 # Name of building that is now being built
 @export var CurrentBuilding := "None"
 
+@export var Settings = {}
+
 const BuildingData := {
 	"None":{
 		"atlas_coords": Vector2i(0,12),

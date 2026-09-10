@@ -76,10 +76,11 @@ func CheckBuildingUnlocks():
 			if $"..".UnlockedBuildings.get(b.Building_Name, false) == true and not b.name in already_unlocked:
 				b.Unlock()
 				already_unlocked.append(b.name)
-				$UI/Messages/NewBuilding/Name.text = b.Building_Name
-				$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.GetBuildingCost(b.Building_Name))
-				$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
-				$UI/Messages/AnimationPlayer.play("new_building")
+				if Global.Settings.get("unlock_notification",true):
+					$UI/Messages/NewBuilding/Name.text = b.Building_Name
+					$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.GetBuildingCost(b.Building_Name))
+					$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
+					$UI/Messages/AnimationPlayer.play("new_building")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("pause") and event.is_pressed() and not event.is_echo():
@@ -158,3 +159,21 @@ func SubSetting(nam:String):
 			menu = "accesibility_settings"
 			$UI/Pause/Accesibility.show()
 	$UI/Pause/Settings.hide()
+
+func SetSettingValue(new_value:float,nam:String):
+	Global.Settings[nam] = new_value
+	match nam:
+		"camera_speed":
+			$"UI/Pause/General/HBoxContainer/1/CamSpeed".text = "Camera Speed (" + str(int(new_value)) + "px)"
+		"autosave_interval":
+			$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value)) + "s)"
+
+func SetSettingBool(new_state:bool,nam:String):
+	Global.Settings[nam] = new_state
+	match nam:
+		"autosave":
+			$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".visible = new_state
+			$"UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider".visible = new_state
+	
+func SetOptionID(new_id:int,nam:String):
+	Global.Settings[nam] = new_id

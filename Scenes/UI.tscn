@@ -10,6 +10,7 @@
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="9_b1goy"]
 [ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Scenes/toolbar.gd" id="9_j04uc"]
 [ext_resource type="Texture2D" uid="uid://bqx7br3m688fx" path="res://Assets/UI.png" id="9_wunin"]
+[ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="10_n04ve"]
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 
@@ -264,6 +265,14 @@ font_size = 55
 [sub_resource type="LabelSettings" id="LabelSettings_b1goy"]
 font = ExtResource("8_mg6lk")
 font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_80bsu"]
+font = ExtResource("11_b1goy")
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_n04ve"]
+font = ExtResource("11_b1goy")
+font_size = 19
 
 [sub_resource type="Animation" id="Animation_b1goy"]
 length = 0.001
@@ -1576,6 +1585,133 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("10_n04ve")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Pause/General" unique_id=474236852]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 175.0
+offset_right = -40.0
+offset_bottom = -40.0
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="UI/Pause/General/HBoxContainer" unique_id=1219281781]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="CamSpeed" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=1499401689]
+layout_mode = 2
+text = "Camera Speed (8px)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="CamSpeedSlider" type="HSlider" parent="UI/Pause/General/HBoxContainer/1" unique_id=1378780929]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 2.0
+max_value = 24.0
+value = 8.0
+tick_count = 8
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=2137092701]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Autosave" type="CheckButton" parent="UI/Pause/General/HBoxContainer/1" unique_id=137635651]
+layout_mode = 2
+button_pressed = true
+text = "Autosave"
+
+[node name="Gap4" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=1711894673]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="AutosaveInterval2" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=752374682]
+layout_mode = 2
+text = "Autosave Interval (60s)"
+label_settings = SubResource("LabelSettings_n04ve")
+
+[node name="AutosaveIntervalSlider" type="HSlider" parent="UI/Pause/General/HBoxContainer/1" unique_id=1247204750]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("10_n04ve")
+min_value = 10.0
+max_value = 300.0
+step = 10.0
+value = 60.0
+tick_count = 30
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap2" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=1400443241]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="UnlockNotifcation" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=1965217369]
+layout_mode = 2
+button_pressed = true
+text = "Show new building unlock notification"
+autowrap_mode = 2
+
+[node name="Gap3" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=1142669930]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="DisableIncomeNumber" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=438291573]
+layout_mode = 2
+text = "Disable income number popup"
+autowrap_mode = 2
+
+[node name="2" type="VBoxContainer" parent="UI/Pause/General/HBoxContainer" unique_id=885145065]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="NumberFormat" type="Label" parent="UI/Pause/General/HBoxContainer/2" unique_id=845992802]
+layout_mode = 2
+text = "Number Format"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="NumberFormatButton" type="OptionButton" parent="UI/Pause/General/HBoxContainer/2" unique_id=1771618725]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "   Metric Symbol (12.34M)"
+popup/item_0/id = 0
+popup/item_1/text = "   Metric Names (12.34 Million)"
+popup/item_1/id = 1
+popup/item_2/text = "   Scientific Notation (1.234e7)"
+popup/item_2/id = 2
+
+[node name="Back" type="Button" parent="UI/Pause/General" unique_id=2104413619]
+modulate = Color(0.606085, 0.60608506, 0.606085, 1)
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -95.0
+offset_right = 355.0
+offset_bottom = -30.0
+grow_vertical = 0
+theme = ExtResource("9_b1goy")
+theme_override_font_sizes/font_size = 32
+text = "- Back -"
+
+[node name="Label" type="Label" parent="UI/Pause/General/Back" unique_id=1997020110]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
 
 [node name="Sound" type="Control" parent="UI/Pause" unique_id=69168596]
 visible = false
@@ -1776,5 +1912,12 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Accesibility" to="." method="SubSetting" binds= ["accesibilty"]]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Back" to="." method="_on_back_settings_pressed"]
+[connection signal="value_changed" from="UI/Pause/General/HBoxContainer/1/CamSpeedSlider" to="." method="SetSettingValue" binds= ["camera_speed"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/Autosave" to="." method="SetSettingBool" binds= ["autosave"]]
+[connection signal="value_changed" from="UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider" to="." method="SetSettingValue" binds= ["autosave_interval"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/UnlockNotifcation" to="." method="SetSettingBool" binds= ["unlock_notification"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/DisableIncomeNumber" to="." method="SetSettingBool" binds= ["income_popup"]]
+[connection signal="item_selected" from="UI/Pause/General/HBoxContainer/2/NumberFormatButton" to="." method="SetOptionID" binds= ["number_notation"]]
+[connection signal="pressed" from="UI/Pause/General/Back" to="." method="_on_back_sub_setting_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

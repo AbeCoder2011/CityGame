@@ -1,10 +1,10 @@
 extends Camera2D
-var camera_speed := 8
 var right_clicked = false
 
 func _physics_process(_delta: float) -> void:
-	position += (Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")) * (Vector2(1,1) / zoom)) * camera_speed
-
+	var dir = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
+	position += dir * Global.Settings.get("camera_speed",12) / zoom.x
+ 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
