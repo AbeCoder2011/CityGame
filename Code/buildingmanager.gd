@@ -532,7 +532,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"money": 0.25 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Mill":
-			var wheat = SumProperty(pos, GetSize(nam), ["Small Wheatfield","Large Wheatfield"], 5, "wheat")
+			var wheat = Count_Terrain_Nearby(pos, Vector2i(1, 1), 5, 5)
 			return [{"flour": wheat},{"wheat":wheat}]
 		
 		"Electronics Store":

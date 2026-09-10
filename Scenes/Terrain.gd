@@ -18,6 +18,8 @@ func get_tile(coords:Vector2i) -> int:
 			res = 3 # Dense Forest
 		Vector2i(2,0), Vector2i(3, 0), Vector2i(2, 1), Vector2i(3, 1):
 			res = 4 # Any Type of Mountain
+		Vector2i(0,4):
+			res = 5 # Any Type of Mountain
 	return res
 
 func _ready():
@@ -39,7 +41,9 @@ func Generate() -> void:
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 			else: # Land
 				set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-				if rainfall > 0.15:
+				if rainfall >= 0.1 && rainfall <= 0.2 && height <= 0.1:
+					set_cell(Vector2i(x,y),0,Vector2(0,4))
+				if height >= 0.15 && rainfall > 0.15:
 					match random.randi_range(0,1):
 						0:
 							set_cell(Vector2i(x,y),0,Vector2i(0,2)) # Sparse Forest
@@ -51,7 +55,7 @@ func Generate() -> void:
 								set_cell(Vector2i(x,y),0,Vector2i(0,1)) # Dense Forest
 							1:
 								set_cell(Vector2i(x,y),0,Vector2i(0,2)) # Sparse Forest
-				if height > 0.3 && random.randi_range(0,3) == 0:
+				if height > 0.35 && random.randi_range(0,5) == 0:
 					set_cell(Vector2i(x,y),0,Vector2i(2 + random.randi_range(0,1),0)) # Mountain
 					if rainfall >= 0.2:
 						set_cell(Vector2i(x,y),0,Vector2i(2 + random.randi_range(0,1),1))
