@@ -29,7 +29,7 @@ const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
 ]
 const POWER_GENERATOR_NAMES = [
-	"Thermal Power Plant", "Small Solar Farm", "Nuclear Power Plant", "Large Thermal Power Plant", "Large Solar Farm"
+	"Thermal Power Plant", "Small Solar Farm", "Nuclear Power Plant", "Large Thermal Power Plant", "Large Solar Farm", "Wind Turbine"
 ]
 const ENTERTAINMENT_NAMES = [
 	"Theme Park","Cinema"
