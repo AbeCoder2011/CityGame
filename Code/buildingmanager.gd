@@ -558,7 +558,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 		"Bakery":
 			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 3, "flour")
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
-			return [{"money": (flour/40) * int(log(2*flour+1)) * pop * 0.4},{"population":pop,"flour":flour}]
+			return [{"money": (flour/40) * int(log(4*flour+1)) * pop * 0.2},{"population":pop,"flour":flour}]
 		"Lumber Mill":
 			var sparse_forests = Count_Terrain_Nearby(pos,Vector2i(1,1), 2, 1,true)
 			var dense_forests  = Count_Terrain_Nearby(pos,Vector2i(1,1), 3, 1,true)

@@ -279,7 +279,7 @@ const UnlockRequirements := {
 	"Low-Budget Apartment": [{"type":"population","amount":80}],
 	
 	"Large Supermarket": [{"type":"building_count","building":"Small Supermarket","amount":3}],
-	#"Mill": [{"type":"building_count","building":"Cafe","amount":2}],
+	"Mill": [{"type":"building_count","building":"Cafe","amount":2}],
 	"Bakery": [{"type":"building_count","building":"Mill","amount":1}],
 	"Electronics Store": [{"type":"population","amount":100}],
 	"Cafe": [{"type":"population","amount":40}],
