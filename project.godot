@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.7", "Forward Plus")
 
 Global="*uid://bxrvxnpby55n6"
 Music="*uid://cedpg40fm8shm"
+YggdrasilLoader="*uid://dqbvvuokqq4um"
+YggdrasilSerializer="*uid://g5grx5mhggq2"
 
 [display]
 
@@ -27,6 +29,10 @@ window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="uid://coeaeqqbaqnu5"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/yggdrasil/plugin.cfg")
 
 [file_customization]
 

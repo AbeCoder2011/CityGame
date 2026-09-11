@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://d3sxdltevewgx"]
+
+[ext_resource type="Script" uid="uid://dl4jlc2oeuwfs" path="res://addons/yggdrasil/scripts/editor/ui/line_edit_icon.gd" id="1_1ras5"]
+[ext_resource type="Script" uid="uid://do4qeel4vus38" path="res://addons/yggdrasil/scripts/editor/yggdrasil_prefabs_panel.gd" id="1_ig03p"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_ig03p"]
+device = -1
+keycode = 4194333
+
+[sub_resource type="Shortcut" id="Shortcut_ey483"]
+events = [SubResource("InputEventKey_ig03p")]
+
+[node name="PrefabPanel" type="VBoxContainer" unique_id=609398598 node_paths=PackedStringArray("filter", "list", "rename_popup", "rename_line_edit", "apply_rename_button", "cancel_rename_button")]
+custom_minimum_size = Vector2(0, 200)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig03p")
+filter = NodePath("FilterInput")
+list = NodePath("Prefabs")
+rename_shortcut = SubResource("Shortcut_ey483")
+rename_popup = NodePath("Rename")
+rename_line_edit = NodePath("Rename/MarginContainer/VBoxContainer/NameInput")
+apply_rename_button = NodePath("Rename/MarginContainer/VBoxContainer/HBoxContainer/ApplyBtn")
+cancel_rename_button = NodePath("Rename/MarginContainer/VBoxContainer/HBoxContainer/CancelBtn")
+
+[node name="FilterInput" type="LineEdit" parent="." unique_id=1845764422]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter Prefabs"
+script = ExtResource("1_1ras5")
+icon = "Search"
+
+[node name="Prefabs" type="ItemList" parent="." unique_id=2103955264]
+layout_mode = 2
+size_flags_vertical = 3
+max_text_lines = 2
+max_columns = 0
+fixed_column_width = 100
+icon_mode = 0
+fixed_icon_size = Vector2i(64, 64)
+
+[node name="Rename" type="Popup" parent="." unique_id=1562470787]
+oversampling_override = 1.0
+title = "Rename"
+position = Vector2i(0, 36)
+size = Vector2i(250, 74)
+borderless = false
+
+[node name="MarginContainer" type="MarginContainer" parent="Rename" unique_id=830420791]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Rename/MarginContainer" unique_id=193937441]
+layout_mode = 2
+
+[node name="NameInput" type="LineEdit" parent="Rename/MarginContainer/VBoxContainer" unique_id=1795657267]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Rename/MarginContainer/VBoxContainer" unique_id=1270139205]
+layout_mode = 2
+alignment = 1
+
+[node name="ApplyBtn" type="Button" parent="Rename/MarginContainer/VBoxContainer/HBoxContainer" unique_id=769392110]
+layout_mode = 2
+text = "Apply"
+
+[node name="CancelBtn" type="Button" parent="Rename/MarginContainer/VBoxContainer/HBoxContainer" unique_id=129296354]
+layout_mode = 2
+text = "Cancel"

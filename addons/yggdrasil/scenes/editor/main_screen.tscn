@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://2ayjg8vnnwi7"]
+
+[ext_resource type="Script" uid="uid://cq2gdowbc3f66" path="res://addons/yggdrasil/scripts/editor/yggdrasil_main_screen.gd" id="1_g325d"]
+[ext_resource type="PackedScene" uid="uid://brrwdmcb8klsr" path="res://addons/yggdrasil/scenes/editor/browser.tscn" id="2_k432n"]
+[ext_resource type="PackedScene" uid="uid://bunelgkxh0in3" path="res://addons/yggdrasil/scenes/editor/editor.tscn" id="2_sluof"]
+
+[node name="MainScreen" type="Control" unique_id=1589016880 node_paths=PackedStringArray("tab_container", "browser", "save_confirmation", "http_request")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_g325d")
+tab_container = NodePath("TabContainer")
+browser = NodePath("TabContainer/Browser")
+editor_scene = ExtResource("2_sluof")
+save_confirmation = NodePath("SaveConfirmation")
+http_request = NodePath("VersionCheck")
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=832158700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="Browser" parent="TabContainer" unique_id=2118647903 node_paths=PackedStringArray("main_screen") instance=ExtResource("2_k432n")]
+layout_mode = 2
+main_screen = NodePath("../..")
+metadata/_tab_index = 0
+
+[node name="SaveConfirmation" type="ConfirmationDialog" parent="." unique_id=724942658]
+oversampling_override = 1.0
+ok_button_text = "Save & Close"
+
+[node name="VersionCheck" type="HTTPRequest" parent="." unique_id=1945767238]

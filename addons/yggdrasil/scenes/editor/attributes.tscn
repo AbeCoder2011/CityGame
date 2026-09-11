@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://b5mhmng8vbgud"]
+
+[ext_resource type="Script" uid="uid://d114t6el3e4i" path="res://addons/yggdrasil/scripts/editor/yggdrasil_attributes_editor.gd" id="1_6pntk"]
+[ext_resource type="Script" uid="uid://b34ae5gksjq55" path="res://addons/yggdrasil/scripts/editor/ui/icon_button.gd" id="2_sk020"]
+[ext_resource type="Script" uid="uid://dl4jlc2oeuwfs" path="res://addons/yggdrasil/scripts/editor/ui/line_edit_icon.gd" id="3_foilx"]
+[ext_resource type="Script" uid="uid://dskvw6vx3vest" path="res://addons/yggdrasil/scripts/editor/ui/yggdrasil_tree_ui.gd" id="4_5kph5"]
+[ext_resource type="Shortcut" uid="uid://8yyn8n7k5cx7" path="res://addons/yggdrasil/shortcuts/rename.tres" id="5_sk020"]
+
+[node name="Attributes" type="VBoxContainer" unique_id=1021028477 node_paths=PackedStringArray("add_button", "filter_input", "tree")]
+visible = false
+script = ExtResource("1_6pntk")
+add_button = NodePath("HBoxContainer/CreateBtn")
+filter_input = NodePath("HBoxContainer/FilterInput")
+tree = NodePath("Tree")
+metadata/_tab_index = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1124346707]
+layout_mode = 2
+
+[node name="CreateBtn" type="Button" parent="HBoxContainer" unique_id=51823424]
+layout_mode = 2
+tooltip_text = "Add new attribute"
+flat = true
+script = ExtResource("2_sk020")
+icon_name = "Add"
+
+[node name="FilterInput" type="LineEdit" parent="HBoxContainer" unique_id=1414977594]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Filter attributes"
+script = ExtResource("3_foilx")
+icon = "Search"
+
+[node name="Tree" type="Tree" parent="." unique_id=1893261762]
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+script = ExtResource("4_5kph5")
+rename_shortcut = ExtResource("5_sk020")

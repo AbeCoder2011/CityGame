@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://b1m5ww2rmlpv4"]
+
+[ext_resource type="Script" uid="uid://be54qxn7jf74b" path="res://addons/yggdrasil/scripts/editor/ui/texture_input.gd" id="1_0a7iv"]
+[ext_resource type="Script" uid="uid://b34ae5gksjq55" path="res://addons/yggdrasil/scripts/editor/ui/icon_button.gd" id="1_303up"]
+
+[node name="InspectorTextureInput" type="HBoxContainer" unique_id=615627613 node_paths=PackedStringArray("title_label", "texture_rect", "load_button", "clear_button", "empty_label")]
+script = ExtResource("1_0a7iv")
+title_label = NodePath("Label")
+texture_rect = NodePath("Texture")
+load_button = NodePath("Texture/QuickLoad")
+clear_button = NodePath("Texture/Clear")
+empty_label = NodePath("Texture/Empty")
+
+[node name="Label" type="Label" parent="." unique_id=545171583]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Texture" type="TextureRect" parent="." unique_id=200206517]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="QuickLoad" type="Button" parent="Texture" unique_id=1596685358]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -12.0
+offset_right = 12.0
+grow_vertical = 0
+tooltip_text = "Pick Texture2D to use as a tiled background"
+script = ExtResource("1_303up")
+icon_name = "FileBrowse"
+
+[node name="Clear" type="Button" parent="Texture" unique_id=916789768]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+tooltip_text = "Pick Texture2D to use as a tiled background"
+script = ExtResource("1_303up")
+icon_name = "Remove"
+
+[node name="Empty" type="Label" parent="Texture" unique_id=1309579147]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Empty"
+horizontal_alignment = 1
+vertical_alignment = 1

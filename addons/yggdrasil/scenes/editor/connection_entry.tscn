@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://b1dx26pr2lql1"]
+
+[node name="ConnectionEntry" type="FoldableContainer" unique_id=599794240]
+offset_right = 180.0
+offset_bottom = 168.0
+
+[node name="Inputs" type="VBoxContainer" parent="." unique_id=726120118]
+layout_mode = 2
+
+[node name="LineType" type="HBoxContainer" parent="Inputs" unique_id=1987788533]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inputs/LineType" unique_id=278260212]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Property: line_type: LineType
+Line type for this connection."
+mouse_filter = 0
+text = "Line Type"
+
+[node name="LineTypeDropdown" type="OptionButton" parent="Inputs/LineType" unique_id=1278295444]
+layout_mode = 2
+size_flags_horizontal = 3
+selected = 0
+item_count = 3
+popup/item_0/text = "Straight"
+popup/item_0/id = 0
+popup/item_1/text = "Bezier"
+popup/item_1/id = 1
+popup/item_2/text = "Arc"
+popup/item_2/id = 2
+
+[node name="Curve" type="HBoxContainer" parent="Inputs" unique_id=1502966120]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inputs/Curve" unique_id=1353923011]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Property: curve_height: float
+Curve size for Bezier line type."
+mouse_filter = 0
+text = "Curve"
+
+[node name="CurveInput" type="SpinBox" parent="Inputs/Curve" unique_id=2048540872]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 48.0
+allow_greater = true
+
+[node name="Segments" type="HBoxContainer" parent="Inputs" unique_id=625762720]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inputs/Segments" unique_id=1778262454]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Property: segments: int
+Number of segments that the line is split into. Higher number increases smoothness."
+mouse_filter = 0
+text = "Segments"
+
+[node name="SegmentsInput" type="SpinBox" parent="Inputs/Segments" unique_id=1118564293]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 64.0
+value = 16.0
+rounded = true
+
+[node name="Reversed" type="HBoxContainer" parent="Inputs" unique_id=725453361]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Inputs/Reversed" unique_id=1786453214]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Property: reversed: bool
+If enabled, line will be rendered on the opposite side."
+mouse_filter = 0
+text = "Reversed"
+
+[node name="ReversedCheck" type="CheckBox" parent="Inputs/Reversed" unique_id=396809424]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "On"

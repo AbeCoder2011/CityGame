@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://64wog7ajevut"]
+
+[ext_resource type="Script" uid="uid://b4bi2jqyvvpw" path="res://addons/yggdrasil/scripts/shared/yggdrasil_tooltip.gd" id="1_t16i4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4ag4"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[node name="YggdrasilNodeTooltip" type="PanelContainer" unique_id=2015961809 node_paths=PackedStringArray("label")]
+visible = false
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_h4ag4")
+script = ExtResource("1_t16i4")
+label = NodePath("MarginContainer/RichTextLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=790874703]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer" unique_id=580442189]
+custom_maximum_size = Vector2(550, -1)
+layout_mode = 2
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true

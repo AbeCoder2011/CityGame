@@ -1,0 +1,58 @@
+[gd_resource type="Resource" script_class="YggdrasilTree" format=3 uid="uid://bagl0gcj7cpet"]
+
+[ext_resource type="Script" uid="uid://e7tfsgtpbob6" path="res://addons/yggdrasil/scripts/resources/yggdrasil_tree.gd" id="1_dx1ck"]
+[ext_resource type="Script" uid="uid://cri0khs3wypbm" path="res://addons/yggdrasil/scripts/resources/yggdrasil_attribute.gd" id="1_vidav"]
+[ext_resource type="Texture2D" uid="uid://csrvmifspexx1" path="res://Assets/coin.png" id="2_26xhl"]
+[ext_resource type="Script" uid="uid://dsrk0byl742tb" path="res://addons/yggdrasil/scripts/resources/yggdrasil_node.gd" id="3_nfmkv"]
+
+[sub_resource type="Resource" id="Resource_0pprs"]
+script = ExtResource("1_vidav")
+id = "ab"
+name = "ab"
+effect = "Hahhaha"
+value_count = 4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_feked"]
+atlas = ExtResource("2_26xhl")
+
+[sub_resource type="Resource" id="Resource_wbuux"]
+script = ExtResource("3_nfmkv")
+is_root = true
+id = 3
+external_id = "node_3"
+name = "Node_3"
+type = 1
+icon = SubResource("AtlasTexture_feked")
+position = Vector2(80, -19)
+line_data = {}
+out_nodes = []
+in_nodes = []
+attributes = {}
+max_allocations = 1
+
+[resource]
+script = ExtResource("1_dx1ck")
+id = "unlock_tree"
+name = "UnlockTree"
+id_counter = 3
+icon_sizes = {
+0: Vector2(0, 0),
+1: Vector2(0, 0),
+2: Vector2(0, 0)
+}
+icons = {
+0: null,
+1: ExtResource("2_26xhl"),
+2: null
+}
+node_size = {
+0: Vector2(27, 27),
+1: Vector2(48, 48),
+2: Vector2(64, 64)
+}
+nodes = [SubResource("Resource_wbuux")]
+decorations = []
+prefabs = {}
+attributes = {
+"ab": SubResource("Resource_0pprs")
+}

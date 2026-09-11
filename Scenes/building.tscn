@@ -282,12 +282,14 @@ position = Vector2(10, 10)
 rect = Rect2(-11, -11, 50, 50)
 
 [node name="Lines" type="Node2D" parent="." unique_id=1733922494]
+visible = false
 z_index = 1
 position = Vector2(24, 24)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1650327373]
+visible = false
 sprite_frames = SubResource("SpriteFrames_o2ick")
-frame_progress = 0.52616614
+frame_progress = 0.85233366
 
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
 [connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://chdl0i7qyk11a"]
+
+[ext_resource type="Script" uid="uid://148vdhdbvfl0" path="res://addons/yggdrasil/scripts/shared/yggdrasil_connection.gd" id="1_80si2"]
+
+[node name="YggdrasilDefaultConnection" type="Line2D" unique_id=1476848824]
+width = 16.0
+script = ExtResource("1_80si2")
+metadata/_custom_type_script = "uid://148vdhdbvfl0"

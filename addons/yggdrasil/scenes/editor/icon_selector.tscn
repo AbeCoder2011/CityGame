@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bf8n77la50phs"]
+
+[ext_resource type="Script" uid="uid://cpwko1j2gxnec" path="res://addons/yggdrasil/scripts/editor/yggdrasil_icon_selector.gd" id="1_ufjnt"]
+[ext_resource type="Script" uid="uid://b34ae5gksjq55" path="res://addons/yggdrasil/scripts/editor/ui/icon_button.gd" id="2_yc24h"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yc24h"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.16078432, 0.16078432, 0.16078432, 1)
+
+[node name="IconSelector" type="Popup" unique_id=253055542 node_paths=PackedStringArray("icon_type_dropdown", "path_input", "browse_button", "clear_button", "icons_list", "apply_button", "close_button")]
+oversampling_override = 1.0
+title = "Icon Selector"
+position = Vector2i(0, 36)
+size = Vector2i(450, 400)
+unresizable = false
+borderless = false
+script = ExtResource("1_ufjnt")
+icon_type_dropdown = NodePath("PanelContainer/VBoxContainer/HBoxContainer/NodeType")
+path_input = NodePath("PanelContainer/VBoxContainer/HBoxContainer/Pathinput")
+browse_button = NodePath("PanelContainer/VBoxContainer/HBoxContainer/BrowseBtn")
+clear_button = NodePath("PanelContainer/VBoxContainer/HBoxContainer/ClearBtn")
+icons_list = NodePath("PanelContainer/VBoxContainer/IconsList")
+apply_button = NodePath("PanelContainer/VBoxContainer/HBoxContainer2/ApplyBtn")
+close_button = NodePath("PanelContainer/VBoxContainer/HBoxContainer2/CloseBtn")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=975062395]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yc24h")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=367782655]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=29907614]
+layout_mode = 2
+
+[node name="NodeType" type="OptionButton" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=265734551]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Small Nodes"
+popup/item_0/id = 0
+popup/item_0/disabled = true
+popup/item_1/text = "Medium Nodes"
+popup/item_1/id = 1
+popup/item_1/disabled = true
+popup/item_2/text = "Large Nodes"
+popup/item_2/id = 2
+popup/item_2/disabled = true
+
+[node name="Pathinput" type="LineEdit" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=264138005]
+layout_mode = 2
+size_flags_horizontal = 3
+editable = false
+
+[node name="BrowseBtn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=2084466045]
+layout_mode = 2
+script = ExtResource("2_yc24h")
+icon_name = "FileBrowse"
+
+[node name="ClearBtn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1088612296]
+layout_mode = 2
+script = ExtResource("2_yc24h")
+icon_name = "Remove"
+
+[node name="IconsList" type="ItemList" parent="PanelContainer/VBoxContainer" unique_id=1075941009]
+layout_mode = 2
+size_flags_vertical = 3
+max_columns = 0
+same_column_width = true
+icon_mode = 0
+fixed_icon_size = Vector2i(64, 64)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=281054524]
+layout_mode = 2
+alignment = 2
+
+[node name="ApplyBtn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer2" unique_id=1416866477]
+layout_mode = 2
+text = "Apply"
+
+[node name="CloseBtn" type="Button" parent="PanelContainer/VBoxContainer/HBoxContainer2" unique_id=1492229481]
+layout_mode = 2
+text = "Close"

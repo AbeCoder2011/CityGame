@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://cu8qeyy34fwsk"]
+
+[ext_resource type="Script" uid="uid://confg6mf6oo55" path="res://addons/yggdrasil/scripts/editor/yggdrasil_selection_box.gd" id="1_1jaly"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hcxns"]
+bg_color = Color(0.101960786, 0.5764706, 1, 0.23529412)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.19605732, 0.60959643, 1, 1)
+
+[node name="SelectionBox" type="Panel" unique_id=1494127056 node_paths=PackedStringArray("view_editor")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hcxns")
+script = ExtResource("1_1jaly")
+view_editor = NodePath("")

@@ -1,0 +1,174 @@
+[gd_scene format=3 uid="uid://brrwdmcb8klsr"]
+
+[ext_resource type="Script" uid="uid://dl4jlc2oeuwfs" path="res://addons/yggdrasil/scripts/editor/ui/line_edit_icon.gd" id="1_r4q7q"]
+[ext_resource type="Script" uid="uid://dk7qx5xft72gf" path="res://addons/yggdrasil/scripts/editor/yggdrasil_browser.gd" id="1_ujyw5"]
+[ext_resource type="Shortcut" uid="uid://cnnei65hdfjvb" path="res://addons/yggdrasil/shortcuts/delete.tres" id="2_la0mn"]
+[ext_resource type="Script" uid="uid://dskvw6vx3vest" path="res://addons/yggdrasil/scripts/editor/ui/yggdrasil_tree_ui.gd" id="2_ujyw5"]
+[ext_resource type="Shortcut" uid="uid://rfrjbo7nk5jn" path="res://addons/yggdrasil/shortcuts/new_group.tres" id="3_pf2ul"]
+[ext_resource type="Shortcut" uid="uid://c62il0h6alnob" path="res://addons/yggdrasil/shortcuts/new_tree.tres" id="4_fpm24"]
+[ext_resource type="Shortcut" uid="uid://8yyn8n7k5cx7" path="res://addons/yggdrasil/shortcuts/rename.tres" id="4_k657g"]
+[ext_resource type="Shortcut" uid="uid://do5ll41g08v5b" path="res://addons/yggdrasil/shortcuts/duplicate.tres" id="5_lb6tk"]
+[ext_resource type="Script" uid="uid://b34ae5gksjq55" path="res://addons/yggdrasil/scripts/editor/ui/icon_button.gd" id="9_fvkcx"]
+
+[sub_resource type="DPITexture" id="DPITexture_fvkcx"]
+_source = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\"><path fill=\"#e0e0e0\" d=\"m5 9 5.5-5.5L8 1h7v7l-2.5-2.5L7 11zm7 6H4a3 3 0 0 1-3-3V4a3 3 0 0 1 3-3h2a1 1 0 0 1 0 2H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-2a1 1 0 0 1 2 0v2a3 3 0 0 1-3 3z\"/></svg>
+"
+saturation = 2.0
+color_map = {
+Color(1, 0.37254903, 0.37254903, 1): Color(1, 0.47, 0.42, 1),
+Color(0.37254903, 1, 0.5921569, 1): Color(0.45, 0.95, 0.5, 1),
+Color(1, 0.8666667, 0.39607844, 1): Color(0.83, 0.78, 0.62, 1)
+}
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fvkcx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lkrjo"]
+
+[node name="Browser" type="MarginContainer" unique_id=2118647903 node_paths=PackedStringArray("tree_ui", "search_bar", "group_menu", "tree_menu", "load_time_label", "groups_count_label", "trees_count_label", "version_label", "delete_confirmation", "docs_button")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+script = ExtResource("1_ujyw5")
+tree_ui = NodePath("VBoxContainer/RegistryList")
+search_bar = NodePath("VBoxContainer/HBoxContainer/Search")
+group_menu = NodePath("VBoxContainer/HBoxContainer/GroupMenu")
+tree_menu = NodePath("VBoxContainer/HBoxContainer/TreeMenu")
+load_time_label = NodePath("VBoxContainer/MarginContainer/HBoxContainer/LoadTime")
+groups_count_label = NodePath("VBoxContainer/MarginContainer/HBoxContainer/GroupsCount")
+trees_count_label = NodePath("VBoxContainer/MarginContainer/HBoxContainer/TreesCount")
+version_label = NodePath("VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer/Version")
+delete_confirmation = NodePath("DeleteConfirmation")
+docs_button = NodePath("VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer/DocsButton")
+delete_shortcut = ExtResource("2_la0mn")
+new_group_shortcut = ExtResource("3_pf2ul")
+new_tree_shortcut = ExtResource("4_fpm24")
+duplicate_shortcut = ExtResource("5_lb6tk")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=560634849]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=191577134]
+layout_mode = 2
+
+[node name="GroupMenu" type="MenuButton" parent="VBoxContainer/HBoxContainer" unique_id=1058298158]
+layout_mode = 2
+text = "Group"
+item_count = 3
+popup/item_0/text = "Create"
+popup/item_0/id = 0
+popup/item_1/text = "Delete"
+popup/item_1/id = 1
+popup/item_2/text = "Duplicate"
+popup/item_2/id = 2
+
+[node name="TreeMenu" type="MenuButton" parent="VBoxContainer/HBoxContainer" unique_id=1606803701]
+layout_mode = 2
+text = "Tree
+"
+item_count = 3
+popup/item_0/text = "Create"
+popup/item_0/id = 0
+popup/item_1/text = "Delete"
+popup/item_1/id = 1
+popup/item_2/text = "Duplicate"
+popup/item_2/id = 2
+
+[node name="Search" type="LineEdit" parent="VBoxContainer/HBoxContainer" unique_id=849283493]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+placeholder_text = "Search"
+script = ExtResource("1_r4q7q")
+icon = "Search"
+
+[node name="RegistryList" type="Tree" parent="VBoxContainer" unique_id=48128245]
+layout_mode = 2
+size_flags_vertical = 3
+hide_root = true
+script = ExtResource("2_ujyw5")
+rename_shortcut = ExtResource("4_k657g")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=2075620951]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=983202366]
+layout_mode = 2
+
+[node name="LoadTime" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1975154656]
+layout_mode = 2
+text = "Load time: 0.00s"
+
+[node name="VSeparator2" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1672437712]
+layout_mode = 2
+
+[node name="GroupsCount" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=490230024]
+layout_mode = 2
+text = "Total groups: 3"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=421024357]
+layout_mode = 2
+
+[node name="TreesCount" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=740634242]
+layout_mode = 2
+text = "Total trees: 6"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1652075552]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="DocsButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer" unique_id=809595735]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Online Docs"
+icon = SubResource("DPITexture_fvkcx")
+flat = true
+script = ExtResource("9_fvkcx")
+icon_name = "ExternalLink"
+
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer" unique_id=1158448922]
+layout_mode = 2
+
+[node name="Version" type="RichTextLabel" parent="VBoxContainer/MarginContainer/HBoxContainer/HBoxContainer" unique_id=262097471]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fvkcx")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_lkrjo")
+bbcode_enabled = true
+text = "v1.0.0"
+fit_content = true
+autowrap_mode = 0
+vertical_alignment = 1
+
+[node name="DeleteConfirmation" type="ConfirmationDialog" parent="." unique_id=450558619]
+oversampling_override = 1.0
+initial_position = 2
+size = Vector2i(328, 148)
+ok_button_text = "Remove"
+dialog_text = "Do you want to remove this group?"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="DeleteConfirmation" unique_id=1966447931]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="DeleteFileCheck" type="CheckBox" parent="DeleteConfirmation/VBoxContainer" unique_id=104474374]
+layout_mode = 2
+text = "Delete related files"
+
+[node name="DeleteTreesCheck" type="CheckBox" parent="DeleteConfirmation/VBoxContainer" unique_id=2133839665]
+layout_mode = 2
+text = "Delete related tree files in this group"

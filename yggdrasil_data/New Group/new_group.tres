@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="YggdrasilGroup" format=3 uid="uid://b12ci3alqrrjq"]
+
+[ext_resource type="Script" uid="uid://bt8qpikafu7xg" path="res://addons/yggdrasil/scripts/resources/yggdrasil_group.gd" id="1_v7p20"]
+[ext_resource type="Resource" uid="uid://bagl0gcj7cpet" path="res://yggdrasil_data/New Group/unlock_tree.tres" id="2_1majc"]
+
+[resource]
+script = ExtResource("1_v7p20")
+name = "Education"
+trees = [ExtResource("2_1majc")]
