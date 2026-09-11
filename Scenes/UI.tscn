@@ -958,10 +958,9 @@ custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Gap2" type="Control" parent="UI/Building/Categories/Energy Industry" unique_id=2068159400]
-custom_minimum_size = Vector2(68, 68)
+[node name="BasicHouse7" parent="UI/Building/Categories/Energy Industry" unique_id=1340650243 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-mouse_filter = 2
+Building_Name = "Wind Turbine"
 
 [node name="BasicHouse5" parent="UI/Building/Categories/Energy Industry" unique_id=1658473026 instance=ExtResource("5_qwshj")]
 layout_mode = 2

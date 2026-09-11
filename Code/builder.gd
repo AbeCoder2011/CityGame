@@ -10,7 +10,7 @@ func _process(delta: float) -> void:
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		var atlas_pos = Global.BuildingData[Global.CurrentBuilding]["atlas_coords"]
 		$BuildingPreview.texture.region = Rect2(atlas_pos * 16, Vector2(grid_size) * 16)
-		if IsColliding(grid_pos, grid_size) or $"../Terrain".get_tile(grid_pos) == 1:
+		if IsColliding(grid_pos, grid_size,Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false)):
 			$BuildingPreview.modulate = Color(1, 0.4, 0.4,.5)
 		else:
 			$BuildingPreview.modulate = Color(1, 1, 1,.5)
@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		
-		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size):
+		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false)):
 			return
 
 		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
@@ -36,9 +36,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func GetBuildingSize(building_name: String) -> Vector2i:
 	return Global.BuildingData[building_name].get("size", Vector2i(1, 1))
 
-func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
+func IsColliding(pos: Vector2i, size: Vector2i, wateronly=false) -> bool:
 	var new_rect = Rect2i(pos, size)
-	if TerrainCollide(pos,size):
+	if TerrainCollide(pos,size, wateronly):
 		return true
 	var poses = []
 	for x in range(size.x):
@@ -60,11 +60,15 @@ func IsColliding(pos: Vector2i, size: Vector2i) -> bool:
 		return false
 	return true
 
-func TerrainCollide(pos,size) -> bool:
+func TerrainCollide(pos,size,wateronly) -> bool:
 	for x in size.x:
 		for y in size.y:
 			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 1:
+				if wateronly: 
+					return false
 				return true
 			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 4:
-				return false
+				return true
+	if wateronly:
+		return true
 	return false
