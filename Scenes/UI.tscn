@@ -138,10 +138,6 @@ region = Rect2(0, 64, 16, 16)
 atlas = ExtResource("4_hfhsn")
 region = Rect2(32, 96, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mg6lk"]
-atlas = ExtResource("4_hfhsn")
-region = Rect2(0, 128, 16, 16)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_wunin"]
 atlas = ExtResource("4_hfhsn")
 region = Rect2(0, 160, 16, 16)
@@ -699,20 +695,6 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_xjg7p")
 
-[node name="Nature" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=226188077]
-custom_minimum_size = Vector2(0, 58)
-layout_mode = 2
-flat = true
-
-[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Nature" unique_id=191263133]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("AtlasTexture_mg6lk")
-
 [node name="Production Industry" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=398566208]
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
@@ -1025,82 +1007,6 @@ Building_Name = "Fountain Park"
 [node name="BasicHouse4" parent="UI/Building/Categories/Parks" unique_id=859562912 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Large Park"
-
-[node name="Nature" type="GridContainer" parent="UI/Building/Categories" unique_id=2103170674]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
-columns = 6
-
-[node name="BasicHouse" parent="UI/Building/Categories/Nature" unique_id=148310756 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Small Forest"
-
-[node name="BasicHouse2" parent="UI/Building/Categories/Nature" unique_id=2093322585 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Large Forest"
-
-[node name="Gap" type="Control" parent="UI/Building/Categories/Nature" unique_id=1560891323]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="BasicHouse3" parent="UI/Building/Categories/Nature" unique_id=1911415177 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Large Mountain"
-
-[node name="Gap2" type="Control" parent="UI/Building/Categories/Nature" unique_id=778594043]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap3" type="Control" parent="UI/Building/Categories/Nature" unique_id=787070660]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="BasicHouse4" parent="UI/Building/Categories/Nature" unique_id=1241846232 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Small Wheatfield"
-
-[node name="Gap4" type="Control" parent="UI/Building/Categories/Nature" unique_id=1864687258]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap5" type="Control" parent="UI/Building/Categories/Nature" unique_id=1843669928]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap6" type="Control" parent="UI/Building/Categories/Nature" unique_id=367432611]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap7" type="Control" parent="UI/Building/Categories/Nature" unique_id=1456020247]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Gap8" type="Control" parent="UI/Building/Categories/Nature" unique_id=1921966314]
-custom_minimum_size = Vector2(68, 68)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="BasicHouse5" parent="UI/Building/Categories/Nature" unique_id=1277852556 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Large Wheatfield"
 
 [node name="Production Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=606105817]
 visible = false

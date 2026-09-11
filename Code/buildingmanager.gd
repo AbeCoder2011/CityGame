@@ -222,14 +222,17 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 			if names.has(b["name"]):
 				if dont_reuse and ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
 					total += floor(b["node"].inputs.get(prop,0) / 2)
+					for n in BuildingCollections[GetCollectionPos(pos)]:
+						if n["pos"] == pos:
+							n["claims"][b["pos"]] = prop
+							break
 				else:
-					if not dont_reuse:
-						ClaimCollections[prop][b["pos"]] = pos
+					ClaimCollections[prop][b["pos"]] = pos
+					for n in BuildingCollections[GetCollectionPos(pos)]:
+						if n["pos"] == pos:
+							n["claims"][b["pos"]] = prop
+							break
 					total += b["node"].inputs.get(prop,0)
-				for n in BuildingCollections[GetCollectionPos(pos)]:
-					if n["pos"] == pos:
-						n["claims"][b["pos"]] = prop
-						break
 			if b["name"] == "Train Station":
 				for nw in network_inventories:
 					if b in nw[0]:
