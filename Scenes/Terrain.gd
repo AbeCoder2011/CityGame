@@ -44,19 +44,19 @@ func Generate() -> void:
 		for y in range(-60, 60):
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 			var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
-			if height < -0.15: # Water
+			if (height < 0 && rainfall >= 0.2) or height <= -0.15: # Water
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 			else: # Land
 				set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-				if rainfall >= 0.1 && rainfall <= 0.2 && height <= 0.1:
-					set_cell(Vector2i(x,y),0,Vector2(0,4))
-				if height >= 0.15 && rainfall > 0.15:
+				if rainfall >= 0.1 && rainfall <= 0.15 && height <= 0.1:
+					set_cell(Vector2i(x,y),0,Vector2(0,4)) # Wheat
+				if height >= 0.15 && rainfall > 0.12:
 					match random.randi_range(0,1):
 						0:
 							set_cell(Vector2i(x,y),0,Vector2i(0,2)) # Sparse Forest
 						1:
 							set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-					if rainfall >= 0.3:
+					if rainfall >= 0.26:
 						match random.randi_range(0,1):
 							0:
 								set_cell(Vector2i(x,y),0,Vector2i(0,1)) # Dense Forest
