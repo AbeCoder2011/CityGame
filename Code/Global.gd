@@ -169,6 +169,13 @@ const BuildingData := {
 		"cost": 180000,
 		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
 	},
+	"Wind Turbine":{
+		"atlas_coords": Vector2i(7,5),
+		"size": Vector2i(1,1),
+		"cost": 2000000, #2m
+		"forcewater": true,
+		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
+	},
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
 		"cost": 2000,
@@ -313,7 +320,7 @@ const ORDER = {
 	["Mill"]:[4,"Bakery","Restaurant"],
 	["Animal Farm"]:[4,"Butcher"],
 	["Butcher"]:[4,"Restaurant"],
-	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"]:[4,"Transformator Building", "Small Factory", "Large Factory"],
+	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Wind Turbine"]:[4,"Transformator Building", "Small Factory", "Large Factory"],
 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
@@ -322,6 +329,7 @@ const ORDER = {
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
+	# ["Wind Turbine"]:[5,"Wind Turbine"] fix later
 }
 
 const REVERSE_UPDATE = {

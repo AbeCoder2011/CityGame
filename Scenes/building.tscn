@@ -5,6 +5,42 @@
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="4_b2wr7"]
 [ext_resource type="Shader" uid="uid://ct3aa4adankg1" path="res://outline.gdshader" id="4_n4bpb"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2wr7"]
+atlas = ExtResource("2_b2wr7")
+region = Rect2(112, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4bpb"]
+atlas = ExtResource("2_b2wr7")
+region = Rect2(128, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jdxhs"]
+atlas = ExtResource("2_b2wr7")
+region = Rect2(144, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vksob"]
+atlas = ExtResource("2_b2wr7")
+region = Rect2(160, 80, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o2ick"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2wr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4bpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jdxhs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vksob")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_v1gob"]
 atlas = ExtResource("2_b2wr7")
 region = Rect2(288, 96, 16, 16)
@@ -134,30 +170,16 @@ load_path = "res://.godot/imported/icons.png-09c24313aa75a5df81de880395d42450.ct
 atlas = SubResource("CompressedTexture2D_b2wr7")
 region = Rect2(32, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b2wr7"]
-atlas = ExtResource("2_b2wr7")
-region = Rect2(0, 80, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_n4bpb"]
-atlas = ExtResource("2_b2wr7")
-region = Rect2(16, 80, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_o2ick"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b2wr7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_n4bpb")
-}],
-"loop": 1,
-"name": &"default",
-"speed": 5.0
-}]
-
 [node name="Building" type="Node2D" unique_id=709613803]
 script = ExtResource("1_avus0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1650327373]
+visible = false
+position = Vector2(24, 24)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_o2ick")
+autoplay = "default"
+frame_progress = 0.8725548
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=432252880]
 position = Vector2(24, 24.000002)

@@ -21,9 +21,13 @@ var line = preload("res://Scenes/line.tscn")
 func init_building(nam,pos) -> void:
 	building_name = nam
 	grid_pos = pos
-	$Sprite.texture = AtlasTexture.new()
-	$Sprite.position = GetSize(nam) * 24
-	$Sprite.texture.atlas = Global.BuildingTilemap
+	if building_name == "Wind Turbine":
+		$Sprite.hide()
+		$AnimatedSprite2D.show()
+	else:
+		$Sprite.texture = AtlasTexture.new()
+		$Sprite.position = GetSize(nam) * 24
+		$Sprite.texture.atlas = Global.BuildingTilemap
 	$Info/TextureRect.texture = AtlasTexture.new()
 	if nam == "Rail":
 		var other_rails = $"..".Rails

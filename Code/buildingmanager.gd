@@ -580,6 +580,8 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"power": 9}]
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
 			return [{"power": 45}]
+		"Wind Turbine":
+			return [{"power": 100 / (2 ** CountNearby(pos, Vector2i(1,1),["Wind Turbine"],4))}]
 		"Small Wheatfield":
 			return [{"wheat": 1}]
 		
