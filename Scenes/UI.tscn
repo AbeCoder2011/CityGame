@@ -1680,6 +1680,7 @@ label_settings = SubResource("LabelSettings_80bsu")
 
 [node name="ShowBuildingGrid" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=1018746869]
 layout_mode = 2
+button_pressed = true
 text = "Show building grid"
 autowrap_mode = 2
 

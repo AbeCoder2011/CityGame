@@ -217,12 +217,15 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 	for b in _get_nearby_buildings(pos,size,radius):
 		if b["pos"] == pos or b["name"] in exclude:
 			continue
-		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
-			if ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
-				continue
+		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
+
 			if names.has(b["name"]):
-				total += b["node"].inputs.get(prop,0)
-				ClaimCollections[prop][b["pos"]] = pos
+				if dont_reuse and ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
+					total += floor(b["node"].inputs.get(prop,0) / 2)
+				else:
+					if not dont_reuse:
+						ClaimCollections[prop][b["pos"]] = pos
+					total += b["node"].inputs.get(prop,0)
 				for n in BuildingCollections[GetCollectionPos(pos)]:
 					if n["pos"] == pos:
 						n["claims"][b["pos"]] = prop
@@ -535,12 +538,12 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"population": 16 * population_boost * (1 + 0.01 * nature)},{"base_pop":16,"power":power,"power_boost_mult":population_boost,"nature":nature}]
 		"Small Supermarket":
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 1, "population")
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products")
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products",[],true)
 			return [{"money": 0.25 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Large Supermarket":
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products")
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products",[],true)
 			return [{"money": 0.25 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Mill":
@@ -556,7 +559,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"money": 0.3 * pop},{"population":pop}]
 		
 		"Bakery":
-			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 3, "flour")
+			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 3, "flour",[],true)
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
 			return [{"money": (flour/40) * int(log(4*flour+1)) * pop * 0.2},{"population":pop,"flour":flour}]
 		"Lumber Mill":
@@ -584,14 +587,14 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"livestock": 3}]
  
 		"Butcher":
-			var livestock = SumProperty(pos, GetSize(nam), ["Animal Farm"], 4, "livestock")
+			var livestock = SumProperty(pos, GetSize(nam), ["Animal Farm"], 4, "livestock",[],true)
 			return [{"meat": livestock},{"livestock":livestock}]
  
 		"Restaurant":
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 5, "population")
-			var meat = SumProperty(pos, GetSize(nam), ["Butcher"], 4, "meat")
-			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 4, "flour")
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 4, "products")
+			var meat = SumProperty(pos, GetSize(nam), ["Butcher"], 4, "meat",[],true)
+			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 4, "flour",[],true)
+			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 4, "products",[],true)
 			return [{"money": pop * (min(meat, flour, products) * 0.05) * log(min(meat, flour, products)+1) / log(1.1)},{"population":pop,"products":products,"meat":meat,"flour":flour}]
  
 		"Mall":
@@ -622,10 +625,10 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var mountains = Count_Terrain_Nearby(pos,Vector2i(1,1),4,1)
 			return [{"ores":workpower * .1 * mountains},{"population":workpower,"mountains":mountains}]
 		"Ore Extractor":
-			var ores = SumProperty(pos,GetSize(nam),["Mine"],3,"ores")
+			var ores = SumProperty(pos,GetSize(nam),["Mine"],3,"ores",[],true)
 			return [{"gemstones":ores * .2},{"ores":ores}]
 		"Jewlery Store":
-			var gemstones = SumProperty(pos,GetSize(nam),["Ore Extractor"],5,"gemstones")
+			var gemstones = SumProperty(pos,GetSize(nam),["Ore Extractor"],5,"gemstones",[],true)
 			var pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,5,"population")
 			return [{"money":gemstones * pop * 10},{"population":pop,"gemstones":gemstones}]
 		_:
