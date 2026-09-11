@@ -324,6 +324,12 @@ const ORDER = {
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
 }
 
+const REVERSE_UPDATE = {
+	["Butcher"]:["Animal Farm"],
+	["Mill"]:["Small Wheatfield","Large Wheatfield"],
+	["Bakery","Restaurant"]:["Small Wheatfield","Large Wheatfield"],
+}
+
 const RailIndexes = {
 }
 @export var Money := 100.0

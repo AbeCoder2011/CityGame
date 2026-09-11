@@ -10,9 +10,13 @@ var building_name = ""
 var grid_pos := Vector2i.ZERO
 var rail_connections := {"l":false,"r":false,"u":false,"d":false}
 
+var Claims : Dictionary = {}
+
 var UI_Settings = {}
 
 var selected = false
+
+var line = preload("res://Scenes/line.tscn")
 
 func init_building(nam,pos) -> void:
 	building_name = nam
@@ -44,15 +48,27 @@ func display_income(i:float):
 
 func _on_mouse_enter() -> void:
 	$Info.show()
+	$Lines.show()
 	UpdateData()
+	print(Claims)
 	$"../../UI".ShowInfo(GetBuildingInfo())
 
 
 func _on_mouse_exit() -> void:
 	$Info.hide()
+	$Lines.hide()
 	$"../../UI".HideInfo()
 
 func UpdateData():
+	for n in $Lines.get_children():
+		n.queue_free()
+	
+	for n in Claims.keys():
+		var l : Line2D = line.instantiate()
+		l.add_point(Vector2(0.0,0.0))
+		l.add_point((n - grid_pos) * 48)
+		$Lines.add_child(l)
+	
 	match building_name:
 		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
 			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
@@ -62,31 +78,31 @@ func UpdateData():
 			$Info.text = Global.GetBigNumber(inputs.get("money",0) * 2) + "/s"
 		"Mill":
 			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
-			$Info.text = str(inputs.get("flour",0))
+			$Info.text = str(int(inputs.get("flour",0)))
 		"Small Wheatfield","Large Wheatfield":
 			$Info/TextureRect.texture.region = Rect2(96,0,16,16)
-			$Info.text = str(inputs.get("wheat",0))
+			$Info.text = str(int(inputs.get("wheat",0)))
 		"Transformator Building":
 			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
-			$Info.text = str(inputs.get("power",0))
+			$Info.text = str(int(inputs.get("power",0)))
 		"Animal Farm":
 			$Info/TextureRect.texture.region = Rect2(160,0,16,16)
-			$Info.text = str(inputs.get("livestock",0))
+			$Info.text = str(int(inputs.get("livestock",0)))
 		"Butcher":
 			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
-			$Info.text = str(inputs.get("meat",0))
+			$Info.text = str(int(inputs.get("meat",0)))
 		"Pocket Park","Small Park","Fountain Park","Large Park":
 			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
-			$Info.text = str(inputs.get("nature",0))
+			$Info.text = str(int(inputs.get("nature",0)))
 		"Small Factory","Large Factory":
 			$Info/TextureRect.texture.region = Rect2(256,0,16,16)
-			$Info.text = str(inputs.get("products",0))
+			$Info.text = str(int(inputs.get("products",0)))
 		"Mine":
 			$Info/TextureRect.texture.region = Rect2(416,0,16,16)
-			$Info.text = str(inputs.get("ores",0))
+			$Info.text = str(int(inputs.get("ores",0)))
 		"Ore Extractor":
 			$Info/TextureRect.texture.region = Rect2(448,0,16,16)
-			$Info.text = str(inputs.get("gemstones",0))
+			$Info.text = str(int(inputs.get("gemstones",0)))
 			
 		_:
 			$Info.hide()
@@ -97,7 +113,7 @@ func _on_pressed() -> void:
 		hide()
 		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 2)
 		Global.BuildingUses[building_name] -= 1
-		$"..".AddToRemovalList({"pos":grid_pos,"name":building_name,"node":self})
+		$"..".AddToRemovalList({"pos":grid_pos,"name":building_name,"node":self,"claims":Claims})
 	if Global.Tool == 0:
 		if selected:
 			selected = false

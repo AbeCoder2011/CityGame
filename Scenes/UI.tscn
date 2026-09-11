@@ -1375,6 +1375,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Base" type="Control" parent="UI/Pause" unique_id=1751110163]
 layout_mode = 1
@@ -1487,22 +1488,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Pause/Settings" unique_id=32276754]
+[node name="Paused" type="Label" parent="UI/Pause/Settings" unique_id=116473205]
 layout_mode = 0
-offset_left = 93.0
-offset_top = 176.0
-offset_right = 503.0
-offset_bottom = 710.0
-theme_override_constants/separation = 24
-
-[node name="Paused" type="Label" parent="UI/Pause/Settings/VBoxContainer" unique_id=116473205]
-layout_mode = 2
-text = "Settings"
+offset_left = 347.0
+offset_top = 84.0
+offset_right = 493.0
+offset_bottom = 135.0
+text = "- Settings -"
 label_settings = SubResource("LabelSettings_b1goy")
 horizontal_alignment = 1
 
+[node name="VBoxContainer" type="HBoxContainer" parent="UI/Pause/Settings" unique_id=1800311714]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 176.0
+offset_right = 1420.0
+offset_bottom = 252.0
+theme_override_constants/separation = 24
+
 [node name="General" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=281573923]
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
@@ -1517,7 +1522,7 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Sound" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=779837859]
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
@@ -1532,7 +1537,7 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Video" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=1543086457]
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
@@ -1547,7 +1552,7 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Accesibility" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=1706391789]
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
@@ -1563,7 +1568,7 @@ horizontal_alignment = 1
 
 [node name="Back" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=879781381]
 modulate = Color(0.606085, 0.60608506, 0.606085, 1)
-custom_minimum_size = Vector2(0, 65)
+custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
@@ -1585,6 +1590,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("10_n04ve")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Pause/General" unique_id=474236852]
@@ -1593,9 +1599,10 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 40.0
-offset_top = 175.0
+offset_top = 319.0
 offset_right = -40.0
 offset_bottom = -40.0
+mouse_filter = 2
 theme_override_constants/separation = 80
 
 [node name="1" type="VBoxContainer" parent="UI/Pause/General/HBoxContainer" unique_id=1219281781]
@@ -1612,8 +1619,8 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 2.0
-max_value = 24.0
-value = 8.0
+max_value = 50.0
+value = 12.0
 tick_count = 8
 ticks_on_borders = true
 ticks_position = 3
@@ -1655,8 +1662,7 @@ label_settings = SubResource("LabelSettings_80bsu")
 
 [node name="UnlockNotifcation" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=1965217369]
 layout_mode = 2
-button_pressed = true
-text = "Show new building unlock notification"
+text = "Disable new building unlock notification"
 autowrap_mode = 2
 
 [node name="Gap3" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=1142669930]
@@ -1666,6 +1672,15 @@ label_settings = SubResource("LabelSettings_80bsu")
 [node name="DisableIncomeNumber" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=438291573]
 layout_mode = 2
 text = "Disable income number popup"
+autowrap_mode = 2
+
+[node name="Gap5" type="Label" parent="UI/Pause/General/HBoxContainer/1" unique_id=784567190]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="ShowBuildingGrid" type="CheckBox" parent="UI/Pause/General/HBoxContainer/1" unique_id=1018746869]
+layout_mode = 2
+text = "Show building grid"
 autowrap_mode = 2
 
 [node name="2" type="VBoxContainer" parent="UI/Pause/General/HBoxContainer" unique_id=885145065]
@@ -1689,30 +1704,6 @@ popup/item_1/id = 1
 popup/item_2/text = "   Scientific Notation (1.234e7)"
 popup/item_2/id = 2
 
-[node name="Back" type="Button" parent="UI/Pause/General" unique_id=2104413619]
-modulate = Color(0.606085, 0.60608506, 0.606085, 1)
-custom_minimum_size = Vector2(0, 65)
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 30.0
-offset_top = -95.0
-offset_right = 355.0
-offset_bottom = -30.0
-grow_vertical = 0
-theme = ExtResource("9_b1goy")
-theme_override_font_sizes/font_size = 32
-text = "- Back -"
-
-[node name="Label" type="Label" parent="UI/Pause/General/Back" unique_id=1997020110]
-visible = false
-layout_mode = 0
-offset_top = -34.0
-offset_right = 391.0
-text = "Game saved."
-horizontal_alignment = 1
-
 [node name="Sound" type="Control" parent="UI/Pause" unique_id=69168596]
 visible = false
 layout_mode = 1
@@ -1721,6 +1712,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Video" type="Control" parent="UI/Pause" unique_id=1594882553]
 visible = false
@@ -1730,6 +1722,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Accesibility" type="Control" parent="UI/Pause" unique_id=1141455254]
 visible = false
@@ -1739,6 +1732,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
 process_mode = 3
@@ -1866,7 +1860,7 @@ offset_right = -10.0
 offset_bottom = 480.0
 grow_horizontal = 0
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="Background" type="NinePatchRect" parent="UI/BuildingInfo" unique_id=1286739624]
 layout_mode = 1
@@ -1894,7 +1888,7 @@ offset_right = -24.0
 offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 👥 5 population nearby
@@ -1915,9 +1909,9 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="value_changed" from="UI/Pause/General/HBoxContainer/1/CamSpeedSlider" to="." method="SetSettingValue" binds= ["camera_speed"]]
 [connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/Autosave" to="." method="SetSettingBool" binds= ["autosave"]]
 [connection signal="value_changed" from="UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider" to="." method="SetSettingValue" binds= ["autosave_interval"]]
-[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/UnlockNotifcation" to="." method="SetSettingBool" binds= ["unlock_notification"]]
-[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/DisableIncomeNumber" to="." method="SetSettingBool" binds= ["income_popup"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/UnlockNotifcation" to="." method="SetSettingBool" binds= ["disable_unlock_notification"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/DisableIncomeNumber" to="." method="SetSettingBool" binds= ["disable_income_popup"]]
+[connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/ShowBuildingGrid" to="." method="SetSettingBool" binds= ["show_building_grid"]]
 [connection signal="item_selected" from="UI/Pause/General/HBoxContainer/2/NumberFormatButton" to="." method="SetOptionID" binds= ["number_notation"]]
-[connection signal="pressed" from="UI/Pause/General/Back" to="." method="_on_back_sub_setting_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

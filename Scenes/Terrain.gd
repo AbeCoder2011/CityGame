@@ -26,11 +26,18 @@ func _ready():
 	if Global.LoadSettings["load"] == false:
 		seed = randi()
 		Generate()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("reroll_seed") and event.is_pressed():
+		seed = randi()
+		print(seed)
+		Generate()
 func Generate() -> void:
 	var random = RandomNumberGenerator.new()
 	random.seed = seed
 	height_noise.seed = seed
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
+	height_noise.offset = Vector3(50,50,50)
 	rainfall_noise.seed = seed + 1
 	rainfall_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	for x in range(-60, 60):

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://b5c0hkget5gyl"]
+
+[sub_resource type="Gradient" id="Gradient_tgu54"]
+colors = PackedColorArray(0.46249998, 0.46249998, 0.46249998, 0.5882353, 0.4627451, 0.4627451, 0.4627451, 0.5882353)
+
+[node name="Line" type="Line2D" unique_id=677074577]
+width = 5.0
+gradient = SubResource("Gradient_tgu54")
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2

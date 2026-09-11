@@ -7,6 +7,8 @@ var menu = "main"
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
+	if FileAccess.file_exists("user://settings.cfg"):
+		LoadSettings()
 
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
@@ -76,7 +78,7 @@ func CheckBuildingUnlocks():
 			if $"..".UnlockedBuildings.get(b.Building_Name, false) == true and not b.name in already_unlocked:
 				b.Unlock()
 				already_unlocked.append(b.name)
-				if Global.Settings.get("unlock_notification",true):
+				if Global.Settings.get("disable_unlock_notification",true):
 					$UI/Messages/NewBuilding/Name.text = b.Building_Name
 					$UI/Messages/NewBuilding/Cost.text = "Cost:      " + str(Global.GetBuildingCost(b.Building_Name))
 					$UI/Messages/NewBuilding/TextureRect.texture.region = Rect2(Global.BuildingData[b.Building_Name]["atlas_coords"] * 16,Global.BuildingData[b.Building_Name].get("size",Vector2(1,1)) * 16)
@@ -133,6 +135,10 @@ func _on_settings_pressed() -> void:
 
 func _on_back_settings_pressed() -> void:
 	$UI/Pause/Settings.hide()
+	$UI/Pause/General.hide()
+	$UI/Pause/Sound.hide()
+	$UI/Pause/Video.hide()
+	$UI/Pause/Accesibility.hide()
 	$UI/Pause/Main.show()
 	menu = "paused"
 
@@ -145,6 +151,11 @@ func _on_back_sub_setting_pressed() -> void:
 	menu = "settings"
 
 func SubSetting(nam:String):
+	$UI/Pause/General.hide()
+	$UI/Pause/Sound.hide()
+	$UI/Pause/Video.hide()
+	$UI/Pause/Accesibility.hide()
+	
 	match nam:
 		"general":
 			$UI/Pause/General.show()
@@ -158,7 +169,7 @@ func SubSetting(nam:String):
 		"accesibility":
 			menu = "accesibility_settings"
 			$UI/Pause/Accesibility.show()
-	$UI/Pause/Settings.hide()
+	SaveSettings()
 
 func SetSettingValue(new_value:float,nam:String):
 	Global.Settings[nam] = new_value
@@ -167,6 +178,7 @@ func SetSettingValue(new_value:float,nam:String):
 			$"UI/Pause/General/HBoxContainer/1/CamSpeed".text = "Camera Speed (" + str(int(new_value)) + "px)"
 		"autosave_interval":
 			$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value)) + "s)"
+	SaveSettings()
 
 func SetSettingBool(new_state:bool,nam:String):
 	Global.Settings[nam] = new_state
@@ -174,6 +186,52 @@ func SetSettingBool(new_state:bool,nam:String):
 		"autosave":
 			$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".visible = new_state
 			$"UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider".visible = new_state
-	
+		"show_building_grid":
+			$"../Background/Grid".visible = new_state
+	SaveSettings()
+
 func SetOptionID(new_id:int,nam:String):
 	Global.Settings[nam] = new_id
+
+func SaveSettings() -> void:
+	var settings = ConfigFile.new()
+	settings.set_value("Settings","dict",Global.Settings)
+	settings.save("user://settings.cfg")
+
+func LoadSettings() -> void:
+	var settings = ConfigFile.new()
+	settings.load("user://settings.cfg")
+	Global.Settings = settings.get_value("Settings","dict",{})
+	print(Global.Settings)
+	for nam in Global.Settings.keys():
+		var v = Global.Settings[nam]
+		match nam:
+			"disable_income_popup":
+				$"UI/Pause/General/HBoxContainer/1/DisableIncomeNumber".button_pressed = v
+			"disable_unlock_notification":
+				$"UI/Pause/General/HBoxContainer/1/UnlockNotifcation".button_pressed = v
+			"autosave":
+				$"UI/Pause/General/HBoxContainer/1/Autosave".button_pressed = v
+				$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".visible = v
+				$"UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider".visible = v
+			"autosave_interval":
+				$"UI/Pause/General/HBoxContainer/1/AutosaveIntervalSlider".value = v
+			"camera_speed":
+				$"UI/Pause/General/HBoxContainer/1/CamSpeedSlider".value = v
+			"number_notation":
+				$"UI/Pause/General/HBoxContainer/2/NumberFormatButton".select(v)
+				print(v)
+			"show_building_grid":
+				$"UI/Pause/General/HBoxContainer/1/ShowBuildingGrid".button_pressed = v
+				$"../Background/Grid".visible = v
+			_:
+				print("idk! ",nam,"   ",v)
+				
+	print("Settings Loaded! ")
+				
+				
+				
+				
+				
+				
+				

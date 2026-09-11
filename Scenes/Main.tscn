@@ -294,8 +294,8 @@ var area_positions : Dictionary[Vector2i,Node2D] = {}
 
 func GenerateAreas():
 	total_buys = max(len(OpenAreas) - 1,0)
-	for x in range(-10,10):
-		for y in range(-10,10):
+	for x in range(-10,11):
+		for y in range(-10,11):
 			if Vector2i(x,y) in OpenAreas:
 				continue
 			var a : Node2D = Area.instantiate()
@@ -348,7 +348,7 @@ tile_set = SubResource("TileSet_jnsvb")
 script = ExtResource("9_bmxlf")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1874523406]
-zoom = Vector2(2.5, 2.5)
+zoom = Vector2(2, 2)
 limit_left = -2880
 limit_top = -2880
 limit_right = 2880

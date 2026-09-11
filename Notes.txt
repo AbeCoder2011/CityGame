@@ -98,15 +98,21 @@ Large Factory
 	teach a man to fish exoticly, he'll be extraordinarily rich: build 5 exotic fishing huts
 	i'm sure this won't cause any environmental effects in 150 years: build 15 factories
 	why: build 500 small supermarkets
-	easy as pi: get 3.141.592.653.589.793 (3.14Q) coins
+	easy as pi: get 314.159.265.358.979.323 (314.15Q) coins
 	
 	
 
 TODO
 - 2x2 
+
 The pig is copyrighted lol
 
 
 "Pleasant Porridge" Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 4.0 License
 http://creativecommons.org/licenses/by/4.0/
+
+
+Fun seeds:
+- 3764050316 (All water)
+

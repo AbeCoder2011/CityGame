@@ -11,6 +11,9 @@ var AllPowerRelatedBuildings = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
+
+var ClaimCollections : Dictionary[String,Dictionary]= {}
+
 var housing_edited = false
 var network_inventories  : Array[Array] = []
 var global_power = 0
@@ -54,8 +57,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		Rails[location] = b
 	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
-	_add_building_to_collection(nam,location,b)
-	var this_b := {"name":nam,"pos":location,"node":b}
+	var this_b := {"name":nam,"pos":location,"node":b,"claims":{}}
+	_add_building_to_collection(this_b)
 	if nam in HOUSING_NAMES:
 		AllHousingBuildings.append(this_b)
 	match nam:
@@ -80,7 +83,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 			"Transformator Building":
 				RecomputePower()
 			_:
-				Recompute(n["pos"],n["name"],n["node"])
+				Recompute(n)
 	if housing_edited:
 		CalculateHapiness()
 		RecomputePopulation()
@@ -91,7 +94,7 @@ func DeselectOthers():
 func GetCollectionPos(pos:Vector2i):
 	return Vector2i(floor(Vector2(pos) / 8.0))
 
-func _add_building_to_collection(nam:String,pos:Vector2i,node:Node2D):
+func _add_building_to_collection(b:Dictionary):
 	#var size = GetSize(nam)
 	#var cells = []
 	#for x in range(size.x):
@@ -100,7 +103,7 @@ func _add_building_to_collection(nam:String,pos:Vector2i,node:Node2D):
 			#cells.append(cell)
 	#for c in cells:
 		#if BuildingCollections.get_or_add(GetCollectionPos(pos),[]).has()
-	BuildingCollections.get_or_add(GetCollectionPos(pos),[]).append({"name":nam,"pos":pos,"node":node})
+	BuildingCollections.get_or_add(GetCollectionPos(b["pos"]),[]).append({"name":b["name"],"pos":b["pos"],"node":b["node"],"claims":b["claims"]})
 
 func _remove_building_from_collection(pos:Vector2i):
 	var collection = GetCollectionPos(pos)
@@ -215,9 +218,15 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 		if b["pos"] == pos or b["name"] in exclude:
 			continue
 		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius) and (not dont_reuse or not b in already_checked_buildings):
+			if ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
+				continue
 			if names.has(b["name"]):
 				total += b["node"].inputs.get(prop,0)
-				already_checked_buildings.append(b)
+				ClaimCollections[prop][b["pos"]] = pos
+				for n in BuildingCollections[GetCollectionPos(pos)]:
+					if n["pos"] == pos:
+						n["claims"][b["pos"]] = prop
+						break
 			if b["name"] == "Train Station":
 				for nw in network_inventories:
 					if b in nw[0]:
@@ -328,6 +337,8 @@ func Tick():
 	if not DestroyedBuildings.is_empty():
 		for n in DestroyedBuildings:
 			BuildingCollections[GetCollectionPos(n["pos"])].erase(n)
+			for claim in n["claims"].keys():
+				ClaimCollections[n["claims"][claim]].erase(claim)
 			if n["name"] in HOUSING_NAMES:
 				AllHousingBuildings.erase(n)
 			match n["name"]:
@@ -338,14 +349,14 @@ func Tick():
 			if is_instance_valid(n):
 				n.queue_free()
 			housing_edited = false
-			for b in GetRecomputePath(n):
+			for b in GetRecomputePath(n,true):
 				match b["name"]:
 					"Train Station":
 						RecomputeStations()
 					"Transformator Building":
 						RecomputePower()
 					_:
-						Recompute(b["pos"],b["name"],b["node"])
+						Recompute(b)
 			if housing_edited:
 				CalculateHapiness()
 				RecomputePopulation()
@@ -366,9 +377,9 @@ func Tick():
 	$"../UI".CheckBuildingUnlocks()
 	
 
-func Recompute(pos,nam,node):
-	SetValues(node,nam,pos)
-	if nam in HOUSING_NAMES:
+func Recompute(b:Dictionary):
+	SetValues(b)
+	if b["name"] in HOUSING_NAMES:
 		housing_edited = true
 
 func RecomputeStations():
@@ -446,7 +457,7 @@ func RecomputePower():
 		var my_power = SumProperty(b["pos"],GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
 		b["node"].power = my_power
 		b["node"].use_power = true
-		Recompute(b["pos"],this_nam,b["node"])
+		Recompute(b)
 
 func RecomputePopulation():
 	population_total = 0
@@ -468,15 +479,16 @@ func RecomputePopulation():
 	#$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	#$"../UI".CheckBuildingUnlocks()
 
-func SetValues(node,nam,pos):
-	var data : Array = CalculateBuildingOutput(nam,pos)
+func SetValues(b:Dictionary):
+	var data : Array = CalculateBuildingOutput(b["name"],b["pos"])
 	var values = data.pop_front()
 	if not data == []:
 		var extra = data.pop_back()
-		node.extra_data = extra
+		b["node"].extra_data = extra
 	for n in values.keys():
-		node.inputs[n] = values[n]
-	node.UpdateData()
+		b["node"].inputs[n] = values[n]
+	b["node"].Claims = b["claims"]
+	b["node"].UpdateData()
 
 func CalculateBuildingOutput(nam,pos) -> Array:
 	match nam:
