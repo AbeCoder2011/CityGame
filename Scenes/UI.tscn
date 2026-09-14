@@ -921,6 +921,15 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Fishing Hut"
 
+[node name="BasicHouse16" parent="UI/Building/Categories/Stores" unique_id=161507077 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Seafood Market"
+
+[node name="Gap11" type="Control" parent="UI/Building/Categories/Stores" unique_id=617173708]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
 [node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
 visible = false
 layout_mode = 1

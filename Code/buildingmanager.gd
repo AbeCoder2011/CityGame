@@ -23,7 +23,7 @@ var population_total = 0
 var station_networks : Array[Array] = []
 
 const SHOP_NAMES = [
-	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall","Lumber Mill"
+	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall","Lumber Mill","Seafood Market"
 ]
 const HOUSING_NAMES = [
 	"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"
@@ -227,7 +227,7 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 							n["claims"][b["pos"]] = prop
 							break
 				else:
-					ClaimCollections[prop][b["pos"]] = pos
+					ClaimCollections.get(prop,{})[b["pos"]] = pos
 					for n in BuildingCollections[GetCollectionPos(pos)]:
 						if n["pos"] == pos:
 							n["claims"][b["pos"]] = prop
@@ -572,8 +572,12 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"money": pop * 0.7 * (sparse_forests*0.5 + dense_forests)},{"population":pop,"forests":dense_forests + sparse_forests}]
 		"Fishing Hut":
 			var water = Count_Terrain_Nearby(pos,Vector2i(1,1),1,1)
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
-			return [{"money": pop * water},{"population":pop,"water":water}]
+			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 2, "population")
+			return [{"fish": floor(pop / 8.0) * water},{"population":pop,"water":water}]
+		"Seafood Market":
+			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
+			var pop = SumProperty(pos, Vector2i(2,2), HOUSING_NAMES,4,"population")
+			return [{"money":pop*fish}]
 		"Transformator Building":
 			return [{"power": global_power},{"global_power":global_power}]
 		"Thermal Power Plant","Small Solar Farm":
@@ -581,7 +585,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
 			return [{"power": 45}]
 		"Wind Turbine":
-			return [{"power": 100 / (2 ** CountNearby(pos, Vector2i(1,1),["Wind Turbine"],2))}]
+			return [{"power": 50 / (2 ** CountNearby(pos, Vector2i(1,1),["Wind Turbine"],2))}]
 		"Small Wheatfield":
 			return [{"wheat": 1}]
 		

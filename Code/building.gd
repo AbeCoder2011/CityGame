@@ -95,6 +95,9 @@ func UpdateData():
 		"Butcher":
 			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
 			$Info.text = str(int(inputs.get("meat",0)))
+		"Fishing Hut":
+			$Info/TextureRect.texture.region = Rect2(512,0,16,16)
+			$Info.text = str(int(inputs.get("fish",0)))
 		"Pocket Park","Small Park","Fountain Park","Large Park":
 			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
 			$Info.text = str(int(inputs.get("nature",0)))

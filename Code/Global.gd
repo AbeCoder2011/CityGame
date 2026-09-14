@@ -119,6 +119,12 @@ const BuildingData := {
 		"cost": 15000,
 		"description": "Fishes for various different sea creatures and sells them to nearby population (Within [b]three[/b] tiles). Must be next to water"
 	},
+	"Seafood Market":{
+		"atlas_coords": Vector2i(12,2),
+		"cost": 5000,
+		"size": Vector2i(2,2),
+		"description": "A large market for buying an selling seafood (within [b]four[/b] tiles). Boosted by population within [b]four[/b] tiles."
+	},
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
@@ -174,7 +180,7 @@ const BuildingData := {
 		"size": Vector2i(1,1),
 		"cost": 2000000, #2m
 		"forcewater": true,
-		"description": "A ton of solar panels placed for optimal power efficiency. Produces large amounts of energy. This energy can be brought to transformator buildings to increase population in your city. Does NOT cause population loss"
+		"description": "A massive spinning turbine that turns wind into energy. Must be placed on water, but gets worse the more wind turbines there are nearby (within [b]two[/b] tiles)"
 	},
 	"Transformator Building":{
 		"atlas_coords": Vector2i(7,4),
@@ -324,10 +330,11 @@ const ORDER = {
 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
-	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Mine"],
-	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Fishing Hut"]:[2,"Mall"],
+	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine"],
+	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
+	["Fishing Hut"]:[4,"Seafood Market"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
 	# ["Wind Turbine"]:[5,"Wind Turbine"] fix later
 }
