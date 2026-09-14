@@ -57,10 +57,10 @@ func Generate() -> void:
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 			else: # Land
 				set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
-				if rainfall <= -0.2 && temp >= 0.2: # Desert
+				if rainfall <= -0.05 && temp >= 0.2: # Desert
 					set_cell(Vector2i(x,y),0,Vector2i(0,3))
 					if rainfall >= -0.3 && random.randi_range(0, 15) == 0: 
-						set_cell(Vector2i(x,y),0,Vector2i(1,3))
+						set_cell(Vector2i(x,y),0,Vector2i(1,3)) # Cactus
 					if height >= 0.4 && random.randi_range(0, 5) == 0:
 						set_cell(Vector2i(x,y),0,Vector2i(3, 3)) # Desert Mountain
 				else:
