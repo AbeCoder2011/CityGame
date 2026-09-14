@@ -227,7 +227,8 @@ func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:Stri
 							n["claims"][b["pos"]] = prop
 							break
 				else:
-					ClaimCollections[prop][b["pos"]] = pos
+					if dont_reuse:
+						ClaimCollections[prop][b["pos"]] = pos
 					for n in BuildingCollections[GetCollectionPos(pos)]:
 						if n["pos"] == pos:
 							n["claims"][b["pos"]] = prop
@@ -344,7 +345,7 @@ func Tick():
 		for n in DestroyedBuildings:
 			BuildingCollections[GetCollectionPos(n["pos"])].erase(n)
 			for claim in n["claims"].keys():
-				ClaimCollections[n["claims"][claim]].erase(claim)
+				ClaimCollections.get(n["claims"][claim],{}).erase(claim)
 			if n["name"] in HOUSING_NAMES:
 				AllHousingBuildings.erase(n)
 			match n["name"]:
@@ -503,31 +504,31 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 2 * (1 + 0.01 * nature) else 1
-			return [{"population": 2 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":2,"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 2 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":2,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Double House":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
-			return [{"population": 4 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":4,"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 4 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Small Apartment Complex":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			return [{"population": 8 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":8,"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 8 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Large Apartment Complex":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
-			return [{"population": 24 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":24,"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 24 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Mega Apartment Complex":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,GetSize(nam))
 			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
-			return [{"population": 64 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":64,"power":power,"industry":penalty,"nature":nature}]
+			return [{"population": 64 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Giant Apartment Complex":
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -538,7 +539,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
-			return [{"population": 16 * population_boost * (1 + 0.01 * nature)},{"base_pop":16,"power":power,"power_boost_mult":population_boost,"nature":nature}]
+			return [{"population": 16 * population_boost * (1 + 0.01 * nature)},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature}]
 		"Small Supermarket":
 			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 1, "population")
 			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products",[],true)
