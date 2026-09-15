@@ -265,6 +265,7 @@ const BuildingData := {
 	"Rail":{
 		"atlas_coords": Vector2i(19,5),
 		"cost": 3000000, # <- 3M
+		"can_on_water":true,
 		"description":"A rail which trains can ride on. Used to connect Train Stations to each other."
 	},
 	# --- Entertainment
@@ -336,7 +337,7 @@ const ORDER = {
 	["Ore Extractor"]:[5,"Jewlery Store"],
 	["Fishing Hut"]:[4,"Seafood Market"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
-	# ["Wind Turbine"]:[5,"Wind Turbine"] fix later
+	 ["Wind Turbine"]:[5,"Wind Turbine"]
 }
 
 const REVERSE_UPDATE = {

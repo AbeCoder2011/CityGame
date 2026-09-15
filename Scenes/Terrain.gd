@@ -20,7 +20,7 @@ func get_tile(coords:Vector2i) -> int:
 		Vector2i(2,0), Vector2i(3, 0), Vector2i(2, 1), Vector2i(3, 1):
 			res = 4 # Any Type of Mountain
 		Vector2i(0,4):
-			res = 5 # Any Type of Mountain
+			res = 5 # Wheat field
 	return res
 
 func _ready():

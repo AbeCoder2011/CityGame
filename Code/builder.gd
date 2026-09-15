@@ -22,7 +22,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		
-		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false)):
+		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false), Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false)):
 			return
 
 		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
@@ -36,9 +36,9 @@ func _unhandled_input(event: InputEvent) -> void:
 func GetBuildingSize(building_name: String) -> Vector2i:
 	return Global.BuildingData[building_name].get("size", Vector2i(1, 1))
 
-func IsColliding(pos: Vector2i, size: Vector2i, wateronly=false) -> bool:
+func IsColliding(pos: Vector2i, size: Vector2i, wateronly=false, canwater=false) -> bool:
 	var new_rect = Rect2i(pos, size)
-	if TerrainCollide(pos,size, wateronly):
+	if TerrainCollide(pos,size, wateronly,canwater):
 		return true
 	var poses = []
 	for x in range(size.x):
@@ -60,15 +60,19 @@ func IsColliding(pos: Vector2i, size: Vector2i, wateronly=false) -> bool:
 		return false
 	return true
 
-func TerrainCollide(pos,size,wateronly) -> bool:
+func TerrainCollide(pos,size,wateronly,canwater) -> bool:
 	for x in size.x:
 		for y in size.y:
-			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 1:
-				if wateronly: 
-					return false
-				return true
-			if $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y)) == 4:
-				return true
-	if wateronly:
-		return true
+			var tile = $"../Terrain".get_tile(Vector2i(x + pos.x, y + pos.y))
+			match tile:
+				1: # water
+					if wateronly or canwater: 
+						continue
+					else:
+						return true
+				4: # mountain
+					return true
+				_:
+					if wateronly:
+						return true
 	return false

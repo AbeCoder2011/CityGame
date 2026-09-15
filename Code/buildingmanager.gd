@@ -212,20 +212,20 @@ func Count_Terrain_Nearby(pos:Vector2i,size:Vector2i, id:int, radius:int, must_b
 	return count
 
 # Calculates how much some property is in the area
-func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = [],dont_reuse=false) -> float:
+func SumProperty(pos:Vector2i, size:Vector2i, names:Array, radius:int, prop:String,exclude:Array = [],reuse_debuff=false,dont_reuse=false) -> float:
 	var total = 0.0
 	for b in _get_nearby_buildings(pos,size,radius):
 		if b["pos"] == pos or b["name"] in exclude:
 			continue
 		if InRange(pos, b["pos"],size,GetSize(b["name"]),radius):
-
 			if names.has(b["name"]):
-				if dont_reuse and ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
-					total += floor(b["node"].inputs.get(prop,0) / 2)
-					for n in BuildingCollections[GetCollectionPos(pos)]:
-						if n["pos"] == pos:
-							n["claims"][b["pos"]] = prop
-							break
+				if (reuse_debuff or dont_reuse) and ClaimCollections.get_or_add(prop,{}).keys().has(b["pos"]) and not ClaimCollections[prop][b["pos"]] == pos:
+					if not dont_reuse:
+						total += floor(b["node"].inputs.get(prop,0) / 2)
+						for n in BuildingCollections[GetCollectionPos(pos)]:
+							if n["pos"] == pos:
+								n["claims"][b["pos"]] = prop
+								break
 				else:
 					if dont_reuse:
 						ClaimCollections[prop][b["pos"]] = pos
@@ -417,10 +417,13 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 		var this_nam = b["name"]
 		if this_nam in affected:
 			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
-				for n in GetRecomputePath(b,false,true):
-					if next_updates.has(n):
-						next_updates.erase(n)
-					next_updates.append(n)
+				if b["name"] == "Wind Turbine":
+					next_updates.append(b)
+				else:
+					for n in GetRecomputePath(b,false,true):
+						if next_updates.has(n):
+							next_updates.erase(n)
+						next_updates.append(n)
 		if this_nam == "Train Station" and not dont_recompute_stations:
 			for nw in station_networks:
 				for st in nw:
@@ -456,12 +459,12 @@ func RecomputePower():
 	global_power = 0
 	for b in AllPowerRelatedBuildings:
 		var this_nam = b["name"]
-		var my_power = SumProperty(b["pos"],GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
+		var my_power = SumProperty(b["pos"],GetSize(this_nam),POWER_GENERATOR_NAMES,3,"power",[],false,true)
 		global_power += my_power
 	
 	for b in AllPowerRelatedBuildings:
 		var this_nam = b["name"]
-		var my_power = SumProperty(b["pos"],GetSize(this_nam),["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm"],3,"power",[],true)
+		var my_power = SumProperty(b["pos"],GetSize(this_nam),POWER_GENERATOR_NAMES,3,"power",[],false,true)
 		b["node"].power = my_power
 		b["node"].use_power = true
 		Recompute(b)

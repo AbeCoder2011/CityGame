@@ -137,6 +137,7 @@ func FreeNode():
 	queue_free()
 
 func UpdateRailSprite() -> void:
+	var water = 0
 	var other_rails : Dictionary = $"..".Rails
 	rail_connections = {"l":false,"r":false,"u":false,"d":false}
 	if other_rails.has(Vector2i(grid_pos.x + 1, grid_pos.y)):
@@ -147,41 +148,44 @@ func UpdateRailSprite() -> void:
 		rail_connections["d"] = true
 	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
 		rail_connections["u"] = true
+	if $"../../Terrain".get_tile(grid_pos) == 1:
+		water = 32
+	
 	if rail_connections["l"] and rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,80), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(288,80 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	elif rail_connections["l"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	elif rail_connections["l"] and rail_connections["u"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 90
 	elif rail_connections["l"] and rail_connections["u"] and rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 180
 	elif rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 270
 	elif rail_connections["l"] and rail_connections["u"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	elif rail_connections["u"] and rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 90
 	elif rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 180
 	elif rail_connections["d"] and rail_connections["l"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 270
 	elif rail_connections["u"] or rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	elif rail_connections["l"] or rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 90
 	else:
-		$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
 		$Sprite.rotation_degrees = 0
 	
 func GetSize(n) -> Vector2i:
@@ -269,3 +273,4 @@ func GetBuildingInfo() -> String:
 				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
 	return out
 	
+#papyrus_knight

@@ -747,7 +747,6 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -801,6 +800,7 @@ layout_mode = 2
 Building_Name = "Low-Budget Apartment"
 
 [node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -862,10 +862,9 @@ Building_Name = "Restaurant"
 layout_mode = 2
 Building_Name = "Animal Farm"
 
-[node name="Gap5" type="Control" parent="UI/Building/Categories/Stores" unique_id=1847161497]
-custom_minimum_size = Vector2(68, 68)
+[node name="BasicHouse11" parent="UI/Building/Categories/Stores" unique_id=2063214256 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-mouse_filter = 2
+Building_Name = "Butcher"
 
 [node name="BasicHouse10" parent="UI/Building/Categories/Stores" unique_id=520740049 instance=ExtResource("5_qwshj")]
 layout_mode = 2
@@ -875,10 +874,6 @@ Building_Name = "Mall"
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
-
-[node name="BasicHouse11" parent="UI/Building/Categories/Stores" unique_id=2063214256 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Butcher"
 
 [node name="BasicHouse12" parent="UI/Building/Categories/Stores" unique_id=1225928524 instance=ExtResource("5_qwshj")]
 layout_mode = 2
@@ -893,6 +888,10 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Jewlery Store"
 
+[node name="BasicHouse14" parent="UI/Building/Categories/Stores" unique_id=1920367053 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Lumber Mill"
+
 [node name="Gap7" type="Control" parent="UI/Building/Categories/Stores" unique_id=527991322]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
@@ -902,10 +901,6 @@ mouse_filter = 2
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
-
-[node name="BasicHouse14" parent="UI/Building/Categories/Stores" unique_id=1920367053 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Lumber Mill"
 
 [node name="Gap9" type="Control" parent="UI/Building/Categories/Stores" unique_id=1278122394]
 custom_minimum_size = Vector2(68, 68)
@@ -921,14 +916,14 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Fishing Hut"
 
-[node name="BasicHouse16" parent="UI/Building/Categories/Stores" unique_id=161507077 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Seafood Market"
-
 [node name="Gap11" type="Control" parent="UI/Building/Categories/Stores" unique_id=617173708]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
+
+[node name="BasicHouse16" parent="UI/Building/Categories/Stores" unique_id=161507077 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Seafood Market"
 
 [node name="Energy Industry" type="GridContainer" parent="UI/Building/Categories" unique_id=1200846286]
 visible = false
@@ -1136,7 +1131,7 @@ texture = SubResource("AtlasTexture_j04uc")
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
-text = "15 1515155566"
+text = "0"
 label_settings = SubResource("LabelSettings_xjg7p")
 
 [node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
