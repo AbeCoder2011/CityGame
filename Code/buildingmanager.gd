@@ -501,82 +501,83 @@ func SetValues(b:Dictionary):
 	b["node"].UpdateData()
 
 func CalculateBuildingOutput(nam,pos) -> Array:
+	var size = GetSize(nam)
 	match nam:
 		"Basic House":
-			var power = SumProperty(pos, GetSize(nam),["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size,["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 2 * (1 + 0.01 * nature) else 1
 			return [{"population": 2 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":2,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Double House":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
 			return [{"population": 4 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Small Apartment Complex":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
 			return [{"population": 8 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Large Apartment Complex":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
 			return [{"population": 24 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Mega Apartment Complex":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
 			return [{"population": 64 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Giant Apartment Complex":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,GetSize(nam))
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
 			return [{"population": 256 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
 		"Low-Budget Apartment":
-			var power = SumProperty(pos, GetSize(nam), ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
+			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
+			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
 			return [{"population": 16 * population_boost * (1 + 0.01 * nature)},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature}]
 		"Small Supermarket":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 1, "population")
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products",[],true)
-			return [{"money": 0.25 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 1, "population")
+			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 6, "products",[],true)
+			return [{"money": 0.5 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Large Supermarket":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 6, "products",[],true)
-			return [{"money": 0.25 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 3, "population")
+			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 6, "products",[],true)
+			return [{"money": 0.75 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Mill":
 			var wheat = Count_Terrain_Nearby(pos, Vector2i(1, 1), 5, 5)
 			return [{"flour": wheat},{"wheat":wheat}]
 		
 		"Electronics Store":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 3, "population")
 			return [{"money": 0.5 * pop},{"population":pop}]
 		
 		"Cafe":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 2, "population")
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 2, "population")
 			return [{"money": 0.3 * pop},{"population":pop}]
 		
 		"Bakery":
-			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 3, "flour",[],true)
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 3, "population")
+			var flour = SumProperty(pos, size, ["Mill"], 3, "flour",[],true)
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 3, "population")
 			return [{"money": (flour/40) * int(log(4*flour+1)) * pop * 0.2},{"population":pop,"flour":flour}]
 		"Lumber Mill":
-			var sparse_forests = Count_Terrain_Nearby(pos,Vector2i(1,1), 2, 1,true)
-			var dense_forests  = Count_Terrain_Nearby(pos,Vector2i(1,1), 3, 1,true)
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 4, "population")
+			var sparse_forests = Count_Terrain_Nearby(pos,size, 2, 1,true)
+			var dense_forests  = Count_Terrain_Nearby(pos,size, 3, 1,true)
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 4, "population")
 			return [{"money": pop * 0.7 * (sparse_forests*0.5 + dense_forests)},{"population":pop,"forests":dense_forests + sparse_forests}]
 		"Fishing Hut":
-			var water = Count_Terrain_Nearby(pos,Vector2i(1,1),1,1)
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 2, "population")
+			var water = Count_Terrain_Nearby(pos,size,1,1)
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 2, "population")
 			return [{"fish": floor(pop / 8.0) * water},{"population":pop,"water":water}]
 		"Seafood Market":
 			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
@@ -589,7 +590,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
 			return [{"power": 45}]
 		"Wind Turbine":
-			return [{"power": 50 / (2 ** CountNearby(pos, Vector2i(1,1),["Wind Turbine"],2))}]
+			return [{"power": int(floor(50.0 / (2 ** CountNearby(pos, size,["Wind Turbine"],2))))}]
 		"Small Wheatfield":
 			return [{"wheat": 1}]
 		
@@ -600,27 +601,27 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			return [{"livestock": 3}]
  
 		"Butcher":
-			var livestock = SumProperty(pos, GetSize(nam), ["Animal Farm"], 4, "livestock",[],true)
+			var livestock = SumProperty(pos, size, ["Animal Farm"], 4, "livestock",[],true)
 			return [{"meat": livestock},{"livestock":livestock}]
  
 		"Restaurant":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 5, "population")
-			var meat = SumProperty(pos, GetSize(nam), ["Butcher"], 4, "meat",[],true)
-			var flour = SumProperty(pos, GetSize(nam), ["Mill"], 4, "flour",[],true)
-			var products = SumProperty(pos, GetSize(nam), ["Small Factory","Large Factory"], 4, "products",[],true)
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 5, "population")
+			var meat = SumProperty(pos, size, ["Butcher"], 4, "meat",[],true)
+			var flour = SumProperty(pos, size, ["Mill"], 4, "flour",[],true)
+			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 4, "products",[],true)
 			return [{"money": pop * (min(meat, flour, products) * 0.05) * log(min(meat, flour, products)+1) / log(1.1)},{"population":pop,"products":products,"meat":meat,"flour":flour}]
  
 		"Mall":
-			var pop = SumProperty(pos, GetSize(nam), HOUSING_NAMES, 6, "population")
-			var shops = CountNearby(pos,GetSize(nam), SHOP_NAMES, 2,["Mall"])
+			var pop = SumProperty(pos, size, HOUSING_NAMES, 6, "population")
+			var shops = CountNearby(pos,size, SHOP_NAMES, 2,["Mall"])
 			return [{"money": pop * shops},{"population":pop,"shops_nearby":shops}]
 		"Small Factory":
-			var power = SumProperty(pos,GetSize(nam), POWER_GENERATOR_NAMES, 2, "power")
-			return [{"products":power/4+1},{"power_boost":power}]
+			var power = SumProperty(pos,size, POWER_GENERATOR_NAMES, 2, "power")
+			return [{"products":max(4*log(power+1),1)},{"power_boost":power}]
 			
 		"Large Factory":
-			var power = SumProperty(pos,GetSize(nam), POWER_GENERATOR_NAMES, 4, "power")
-			return [{"products":4 + power},{"power_boost":power}]
+			var power = SumProperty(pos,size, POWER_GENERATOR_NAMES, 4, "power")
+			return [{"products":max(18*log(power+1),1)},{"power_boost":power}]
 		"Pocket Park":
 			return [{"nature":2}]
 		"Small Park":
@@ -634,15 +635,25 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 		"Cinema":
 			return [{"entertainment":2}]
 		"Mine":
-			var workpower = SumProperty(pos,GetSize(nam),HOUSING_NAMES,2,"population")
-			var mountains = Count_Terrain_Nearby(pos,Vector2i(1,1),4,1)
+			var workpower = SumProperty(pos,size,HOUSING_NAMES,2,"population")
+			var mountains = Count_Terrain_Nearby(pos,size,4,1)
 			return [{"ores":workpower * .1 * mountains},{"population":workpower,"mountains":mountains}]
 		"Ore Extractor":
-			var ores = SumProperty(pos,GetSize(nam),["Mine"],3,"ores",[],true)
+			var ores = SumProperty(pos,size,["Mine"],3,"ores",[],true)
 			return [{"gemstones":ores * .2},{"ores":ores}]
+		"Sand Mine":
+			var desert = Count_Terrain_Nearby(pos,size,4,6,true)
+			var population = SumProperty(pos,size,HOUSING_NAMES,2,"population")
+			var boost = 1 if population >= 16 else 0
+			return [{"sand": boost * desert},{"desert":desert,"population":population,"gets_pop_boost":boost >= 16}]
+		"Smeltery":
+			var sand = SumProperty(pos,size,["Sand Mine"],4,"sand",[],true)
+			var power = SumProperty(pos,size, POWER_GENERATOR_NAMES, 2, "power")
+			return [{"glass":sand * max(log(power+1),1)},{"sand":sand}]
+		
 		"Jewlery Store":
-			var gemstones = SumProperty(pos,GetSize(nam),["Ore Extractor"],5,"gemstones",[],true)
-			var pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,5,"population")
+			var gemstones = SumProperty(pos,size,["Ore Extractor"],5,"gemstones",[],true)
+			var pop = SumProperty(pos,size,HOUSING_NAMES,5,"population")
 			return [{"money":gemstones * pop * 10},{"population":pop,"gemstones":gemstones}]
 		_:
 			return [{}]

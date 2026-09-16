@@ -1044,6 +1044,14 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Mine"
 
+[node name="BasicHouse4" parent="UI/Building/Categories/Production Industry" unique_id=523922328 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Sand Mine"
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Production Industry" unique_id=1739314986 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Smeltery"
+
 [node name="Trains" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
 visible = false
 layout_mode = 1

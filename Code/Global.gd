@@ -140,7 +140,7 @@ const BuildingData := {
 		"atlas_coords": Vector2i(10,2),
 		"cost": 5000000000,
 		"size":Vector2i(2,2),
-		"description": "Takes raw gems from nearby (within [b]four[/b]) mines and train stations and processes it into gems"
+		"description": "Takes raw gems from nearby mines (within [b]four[/b] tiles) and processes it into gems"
 	},
 	"Jewlery Store":{
 		"atlas_coords": Vector2i(6,3),
@@ -253,7 +253,17 @@ const BuildingData := {
 	"Mine":{
 		"atlas_coords": Vector2i(0,11),
 		"cost": 1000000000, # 1b
-		"description": "Mines raw gems from adjacent mountains"
+		"description": "Mines raw gems from adjacent mountains. (within [b]one[/b] tile)"
+	},
+	"Sand Mine":{
+		"atlas_coords": Vector2i(3,10),
+		"cost": 1000000000000, # 1T
+		"description": "A large sand quarry, mining up sand in the nearby desert."
+	},
+	"Smeltery":{
+		"atlas_coords": Vector2i(3,11),
+		"cost": 1000000000000, # 1T
+		"description": "Smelts sand into glass."
 	},
 	# --- Trains
 	"Train Station":{
@@ -302,6 +312,9 @@ const UnlockRequirements := {
 	"Animal Farm":[{"type":"building_count","building":"Mill","amount":2}],
 	"Butcher":[{"type":"building_count","building":"Animal Farm","amount":1}],
 	"Lumber Mill":[{"type":"population","amount":150}],
+	"Fish Market":[{"type":"population","amount":40}],
+	"Fishing Hut":[{"type":"population","amount":40}],
+	
 	"Small Solar Farm": [{"type":"money","amount":1000}],
 	"Nuclear Power Plant": [{"type":"population","amount":300}],
 	"Large Thermal Power Plant": [{"type":"building_count","building":"Thermal Power Plant","amount":2}],

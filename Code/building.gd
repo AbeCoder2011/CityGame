@@ -74,42 +74,51 @@ func UpdateData():
 		$Lines.add_child(l)
 	
 	match building_name:
-		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
-			$Info/TextureRect.texture.region = Rect2(32,0,16,16)
-			$Info.text = str(int(inputs.get("population",0)))
 		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
 			$Info.text = Global.GetBigNumber(inputs.get("money",0) * 2) + "/s"
+		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
+			$Info/TextureRect.texture.region = Rect2(1*32,0,16,16)
+			$Info.text = str(int(inputs.get("population",0)))
 		"Mill":
-			$Info/TextureRect.texture.region = Rect2(64,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(2*32,0,16,16)
 			$Info.text = str(int(inputs.get("flour",0)))
 		"Small Wheatfield","Large Wheatfield":
-			$Info/TextureRect.texture.region = Rect2(96,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(3*32,0,16,16)
 			$Info.text = str(int(inputs.get("wheat",0)))
 		"Transformator Building":
-			$Info/TextureRect.texture.region = Rect2(128,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(4*32,0,16,16)
 			$Info.text = str(int(inputs.get("power",0)))
 		"Animal Farm":
-			$Info/TextureRect.texture.region = Rect2(160,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(5*32,0,16,16)
 			$Info.text = str(int(inputs.get("livestock",0)))
 		"Butcher":
-			$Info/TextureRect.texture.region = Rect2(192,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(6*32,0,16,16)
 			$Info.text = str(int(inputs.get("meat",0)))
-		"Fishing Hut":
-			$Info/TextureRect.texture.region = Rect2(512,0,16,16)
-			$Info.text = str(int(inputs.get("fish",0)))
 		"Pocket Park","Small Park","Fountain Park","Large Park":
-			$Info/TextureRect.texture.region = Rect2(224,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(7*32,0,16,16)
 			$Info.text = str(int(inputs.get("nature",0)))
 		"Small Factory","Large Factory":
-			$Info/TextureRect.texture.region = Rect2(256,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(8*32,0,16,16)
 			$Info.text = str(int(inputs.get("products",0)))
 		"Mine":
-			$Info/TextureRect.texture.region = Rect2(416,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(13*32,0,16,16)
 			$Info.text = str(int(inputs.get("ores",0)))
 		"Ore Extractor":
-			$Info/TextureRect.texture.region = Rect2(448,0,16,16)
+			$Info/TextureRect.texture.region = Rect2(14*32,0,16,16)
 			$Info.text = str(int(inputs.get("gemstones",0)))
+		"Library","University","Elementary School":
+			$Info/TextureRect.texture.region = Rect2(15*32,0,16,16)
+			$Info.text = str(int(inputs.get("gemstones",0)))
+		"Fishing Hut":
+			$Info/TextureRect.texture.region = Rect2(16*32,0,16,16)
+			$Info.text = str(int(inputs.get("fish",0)))
+		"Sand Mine":
+			$Info/TextureRect.texture.region = Rect2(17*32,0,16,16)
+			$Info.text = str(int(inputs.get("sand",0)))
+		"Smeltery":
+			$Info/TextureRect.texture.region = Rect2(18*32,0,16,16)
+			$Info.text = str(int(inputs.get("glass",0)))
 			
 		_:
 			$Info.hide()
@@ -197,7 +206,13 @@ func GetBuildingInfo() -> String:
 		var v = int(extra_data[d])
 		match d:
 			"population":
-				out += "👥 " + str(v) + " population nearby.\n"
+				if extra_data.has("gets_pop_boost"):
+					if extra_data["gets_pop_boost"]:
+						out += "👥 " + str(v) + " population nearby. ([b]Sufficient[/b])\n"
+					else:
+						out += "👥 " + str(v) + " population nearby. ([b]Not sufficient[/b])\n"
+				else:
+					out += "👥 " + str(v) + " population nearby.\n"
 			"base_pop":
 				out += "👥 " + str(v) + " base population.\n"
 			"wheat":
@@ -224,6 +239,10 @@ func GetBuildingInfo() -> String:
 				out += "🌊 " + str(v) +  " water tiles nearby.\n"
 			"mountains":
 				out += "⛰️ " + str(v) +  " mountain tiles nearby.\n"
+			"desert":
+				out += "🏜️ " + str(v) +  " desert tiles nearby.\n"
+			"sand":
+				out += "🏖️ " + str(v) +  " sand nearby.\n"
 			"shops_nearby":
 				out += "🏪 " + str(v) +  " other shops nearby.\n"
 			"mountains":
@@ -237,6 +256,8 @@ func GetBuildingInfo() -> String:
 				out += "🔋 Global power grid has " + str(v) +  " power.\n"
 			"power":
 				out += "🔋 Generates " + str(v) +  " energy.\n"
+			"power_boost_mult","gets_pop_boost":
+				pass
 			_:
 				printerr("Extra text for " + d + " not found! (value = " + str(v) + ")")
 	if use_power:
@@ -259,6 +280,8 @@ func GetBuildingInfo() -> String:
 				out += "🐖 Breeds " + str(v) +  " livestock.\n"
 			"products":
 				out += "📦 Produces " + str(v) +  " products.\n"
+			"sand":
+				out += "📦 Mines " + str(v) +  " sand.\n"
 			"nature":
 				out += "🌿 Gives " + str(v) +  " nature points.\n"
 			"entertainment":

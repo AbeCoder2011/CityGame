@@ -1,0 +1,390 @@
+[gd_scene format=3 uid="uid://dwde3p2a17841"]
+
+[ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Code/GameController.gd" id="1_jw32o"]
+[ext_resource type="Texture2D" uid="uid://jt4e480cvn71" path="res://Assets/grid.png" id="1_rgh2o"]
+[ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/Tilesheets/BuildingTiles/tiles.png" id="2_pbw6q"]
+[ext_resource type="Script" uid="uid://yp6ns8gc2orq" path="res://Code/Camera.gd" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://wivfjwj1whwj" path="res://Scenes/UI.tscn" id="4_jw32o"]
+[ext_resource type="Script" uid="uid://dggin4vvri22y" path="res://Code/builder.gd" id="5_pbw6q"]
+[ext_resource type="Script" uid="uid://decspchyliyr2" path="res://Code/buildingmanager.gd" id="6_v1gob"]
+[ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="8_vy5pj"]
+[ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Scenes/Terrain.gd" id="9_bmxlf"]
+[ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Scenes/train_animation.gd" id="10_4kpch"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
+texture = ExtResource("8_vy5pj")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+0:2/0 = 0
+15:15/0 = 0
+0:3/0 = 0
+0:4/0 = 0
+0:5/0 = 0
+0:6/0 = 0
+0:7/0 = 0
+0:8/0 = 0
+0:9/0 = 0
+0:10/0 = 0
+0:11/0 = 0
+0:12/0 = 0
+0:13/0 = 0
+0:14/0 = 0
+0:15/0 = 0
+1:2/0 = 0
+1:3/0 = 0
+1:4/0 = 0
+1:5/0 = 0
+1:6/0 = 0
+1:7/0 = 0
+1:8/0 = 0
+1:9/0 = 0
+1:10/0 = 0
+1:11/0 = 0
+1:12/0 = 0
+1:13/0 = 0
+1:14/0 = 0
+1:15/0 = 0
+2:1/0 = 0
+2:2/0 = 0
+2:3/0 = 0
+2:4/0 = 0
+2:5/0 = 0
+2:6/0 = 0
+2:7/0 = 0
+2:8/0 = 0
+2:9/0 = 0
+2:10/0 = 0
+2:11/0 = 0
+2:12/0 = 0
+2:13/0 = 0
+2:14/0 = 0
+2:15/0 = 0
+3:0/0 = 0
+3:1/0 = 0
+3:2/0 = 0
+3:3/0 = 0
+3:4/0 = 0
+3:5/0 = 0
+3:6/0 = 0
+3:7/0 = 0
+3:8/0 = 0
+3:9/0 = 0
+3:10/0 = 0
+3:11/0 = 0
+3:12/0 = 0
+3:13/0 = 0
+3:14/0 = 0
+3:15/0 = 0
+4:0/0 = 0
+4:1/0 = 0
+4:2/0 = 0
+4:3/0 = 0
+4:4/0 = 0
+4:5/0 = 0
+4:6/0 = 0
+4:7/0 = 0
+4:8/0 = 0
+4:9/0 = 0
+4:10/0 = 0
+4:11/0 = 0
+4:12/0 = 0
+4:13/0 = 0
+4:14/0 = 0
+4:15/0 = 0
+5:0/0 = 0
+5:1/0 = 0
+5:2/0 = 0
+5:3/0 = 0
+5:4/0 = 0
+5:5/0 = 0
+5:6/0 = 0
+5:7/0 = 0
+5:8/0 = 0
+5:9/0 = 0
+5:10/0 = 0
+5:11/0 = 0
+5:12/0 = 0
+5:13/0 = 0
+5:14/0 = 0
+5:15/0 = 0
+6:0/0 = 0
+6:1/0 = 0
+6:2/0 = 0
+6:3/0 = 0
+6:4/0 = 0
+6:5/0 = 0
+6:6/0 = 0
+6:7/0 = 0
+6:8/0 = 0
+6:9/0 = 0
+6:10/0 = 0
+6:11/0 = 0
+6:12/0 = 0
+6:13/0 = 0
+6:14/0 = 0
+6:15/0 = 0
+7:0/0 = 0
+7:1/0 = 0
+7:2/0 = 0
+7:3/0 = 0
+7:4/0 = 0
+7:5/0 = 0
+7:6/0 = 0
+7:7/0 = 0
+7:8/0 = 0
+7:9/0 = 0
+7:10/0 = 0
+7:11/0 = 0
+7:12/0 = 0
+7:13/0 = 0
+7:14/0 = 0
+7:15/0 = 0
+8:0/0 = 0
+8:1/0 = 0
+8:2/0 = 0
+8:3/0 = 0
+8:4/0 = 0
+8:5/0 = 0
+8:6/0 = 0
+8:7/0 = 0
+8:8/0 = 0
+8:9/0 = 0
+8:10/0 = 0
+8:11/0 = 0
+8:12/0 = 0
+8:13/0 = 0
+8:14/0 = 0
+8:15/0 = 0
+9:0/0 = 0
+9:1/0 = 0
+9:2/0 = 0
+9:3/0 = 0
+9:4/0 = 0
+9:5/0 = 0
+9:6/0 = 0
+9:7/0 = 0
+9:8/0 = 0
+9:9/0 = 0
+9:10/0 = 0
+9:11/0 = 0
+9:12/0 = 0
+9:13/0 = 0
+9:14/0 = 0
+9:15/0 = 0
+10:0/0 = 0
+10:1/0 = 0
+10:2/0 = 0
+10:3/0 = 0
+10:4/0 = 0
+10:5/0 = 0
+10:6/0 = 0
+10:7/0 = 0
+10:8/0 = 0
+10:9/0 = 0
+10:10/0 = 0
+10:11/0 = 0
+10:12/0 = 0
+10:13/0 = 0
+10:14/0 = 0
+10:15/0 = 0
+11:0/0 = 0
+11:1/0 = 0
+11:2/0 = 0
+11:3/0 = 0
+11:4/0 = 0
+11:5/0 = 0
+11:6/0 = 0
+11:7/0 = 0
+11:8/0 = 0
+11:9/0 = 0
+11:10/0 = 0
+11:11/0 = 0
+11:12/0 = 0
+11:13/0 = 0
+11:14/0 = 0
+11:15/0 = 0
+12:0/0 = 0
+12:1/0 = 0
+12:2/0 = 0
+12:3/0 = 0
+12:4/0 = 0
+12:5/0 = 0
+12:6/0 = 0
+12:7/0 = 0
+12:8/0 = 0
+12:9/0 = 0
+12:10/0 = 0
+12:11/0 = 0
+12:12/0 = 0
+12:13/0 = 0
+12:14/0 = 0
+12:15/0 = 0
+13:0/0 = 0
+13:1/0 = 0
+13:2/0 = 0
+13:3/0 = 0
+13:4/0 = 0
+13:5/0 = 0
+13:6/0 = 0
+13:7/0 = 0
+13:8/0 = 0
+13:9/0 = 0
+13:10/0 = 0
+13:11/0 = 0
+13:12/0 = 0
+13:13/0 = 0
+13:14/0 = 0
+13:15/0 = 0
+14:0/0 = 0
+14:1/0 = 0
+14:2/0 = 0
+14:3/0 = 0
+14:4/0 = 0
+14:5/0 = 0
+14:6/0 = 0
+14:7/0 = 0
+14:8/0 = 0
+14:9/0 = 0
+14:10/0 = 0
+14:11/0 = 0
+14:12/0 = 0
+14:13/0 = 0
+14:14/0 = 0
+14:15/0 = 0
+15:0/0 = 0
+15:1/0 = 0
+15:2/0 = 0
+15:3/0 = 0
+15:4/0 = 0
+15:5/0 = 0
+15:6/0 = 0
+15:7/0 = 0
+15:8/0 = 0
+15:9/0 = 0
+15:10/0 = 0
+15:11/0 = 0
+15:12/0 = 0
+15:13/0 = 0
+15:14/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_jnsvb"]
+sources/0 = SubResource("TileSetAtlasSource_4kpch")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbw6q"]
+atlas = ExtResource("2_pbw6q")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="GDScript" id="GDScript_50glp"]
+resource_name = "AreaSpawner"
+script/source = "extends Node2D
+
+const STARTER = Vector2i(0,0)
+
+var Area = preload(\"res://Scenes/area.tscn\")
+
+var OpenAreas : Array[Vector2i] = [Vector2i(0,0)]
+
+var total_buys = 0
+
+var area_positions : Dictionary[Vector2i,Node2D] = {}
+
+
+func GenerateAreas():
+	total_buys = max(len(OpenAreas) - 1,0)
+	for x in range(-10,11):
+		for y in range(-10,11):
+			if Vector2i(x,y) in OpenAreas:
+				continue
+			var a : Node2D = Area.instantiate()
+			a.position = Vector2(x*288,y*288)
+			a.area = Vector2i(x,y)
+			area_positions[Vector2i(x,y)] = a
+			add_child(a)
+	Recalculate()
+
+func DeleteMe(n:Node2D):
+	area_positions.erase(area_positions.keys()[area_positions.values().find(n)])
+
+func Recalculate():
+	var new_cost = int(108 + 5 * (5 *total_buys**2) * total_buys)
+	var searches = []
+	for n in OpenAreas:
+		if not searches.has(Vector2i(n.x + 1, n.y)):
+			searches.append(Vector2i(n.x + 1, n.y))
+		if not searches.has(Vector2i(n.x - 1, n.y)):
+			searches.append(Vector2i(n.x - 1, n.y))
+		if not searches.has(Vector2i(n.x, n.y + 1)):
+			searches.append(Vector2i(n.x, n.y + 1))
+		if not searches.has(Vector2i(n.x, n.y - 1)):
+			searches.append(Vector2i(n.x, n.y - 1))
+	for n in searches:
+		if area_positions.has(n):
+			area_positions[n].cost = new_cost
+			area_positions[n].Update()
+"
+
+[node name="Main" type="Node2D" unique_id=1367820127]
+script = ExtResource("1_jw32o")
+
+[node name="Background" type="Node2D" parent="." unique_id=981482509]
+z_index = -1
+
+[node name="Grid" type="Sprite2D" parent="Background" unique_id=681625552]
+z_index = 1
+texture_repeat = 2
+position = Vector2(-3024, -3024)
+texture = ExtResource("1_rgh2o")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 6000, 6000)
+
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=256848337]
+z_index = -1
+scale = Vector2(3, 3)
+tile_set = SubResource("TileSet_jnsvb")
+script = ExtResource("9_bmxlf")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1874523406]
+zoom = Vector2(2, 2)
+limit_left = -2880
+limit_top = -2880
+limit_right = 2880
+limit_bottom = 2880
+script = ExtResource("3_v1gob")
+
+[node name="UI" parent="." unique_id=790133659 instance=ExtResource("4_jw32o")]
+
+[node name="Builder" type="Node2D" parent="." unique_id=485491484]
+script = ExtResource("5_pbw6q")
+
+[node name="BuildingPreview" type="Sprite2D" parent="Builder" unique_id=730157116]
+modulate = Color(1, 1, 1, 0.5372549)
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_pbw6q")
+centered = false
+
+[node name="Buildings" type="Node2D" parent="." unique_id=1447662016]
+script = ExtResource("6_v1gob")
+
+[node name="Timer" type="Timer" parent="Buildings" unique_id=2016130931]
+wait_time = 0.5
+autostart = true
+
+[node name="Autosaver" type="Timer" parent="." unique_id=292409366]
+
+[node name="Areas" type="Node2D" parent="." unique_id=621043817]
+script = SubResource("GDScript_50glp")
+
+[node name="TrainAnimation" type="Node2D" parent="." unique_id=53925479]
+script = ExtResource("10_4kpch")
+
+[node name="TrainTimer" type="Timer" parent="TrainAnimation" unique_id=1632609789]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
+[connection signal="timeout" from="Autosaver" to="." method="SaveGame"]
+[connection signal="timeout" from="TrainAnimation/TrainTimer" to="TrainAnimation" method="_on_train_timer_timeout"]

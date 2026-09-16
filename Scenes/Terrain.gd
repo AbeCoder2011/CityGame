@@ -21,6 +21,8 @@ func get_tile(coords:Vector2i) -> int:
 			res = 4 # Any Type of Mountain
 		Vector2i(0,4):
 			res = 5 # Wheat field
+		Vector2i(0,3),Vector2i(1,3),Vector2i(2,3),Vector2i(3,3):
+			res = 6 # Any desert tile
 	return res
 
 func _ready():
