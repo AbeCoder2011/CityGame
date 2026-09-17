@@ -255,6 +255,12 @@ const BuildingData := {
 		"cost": 1000000000, # 1b
 		"description": "Mines raw gems from adjacent mountains. (within [b]one[/b] tile)"
 	},
+	"Fishing Boat":{
+		"atlas_coords": Vector2i(0, 3),
+		"cost": 1000000, # 1m
+		"description": "Fishes up rare fish from the bottom of the ocean",
+		"forcedeepwater": true,
+	},
 	"Sand Mine":{
 		"atlas_coords": Vector2i(3,10),
 		"cost": 1000000000000, # 1T

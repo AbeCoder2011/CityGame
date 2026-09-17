@@ -23,6 +23,8 @@ func get_tile(coords:Vector2i) -> int:
 			res = 5 # Wheat field
 		Vector2i(0,3),Vector2i(1,3),Vector2i(2,3),Vector2i(3,3):
 			res = 6 # Any desert tile
+		Vector2i(1,1):
+			res = 7 # Deep Water
 	return res
 
 func _ready():
@@ -55,8 +57,10 @@ func Generate() -> void:
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 			var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 			var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
-			if (height < 0 && rainfall >= 0.2) or (height <= -0.15 && rainfall >= 0): # Water
+			if (height < 0 && rainfall >= 0.2) or height <= -0.15: # Water
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
+				if height <= -0.3:
+					set_cell(Vector2i(x,y),0,Vector2i(1,1)) # Deep Water
 			else: # Land
 				set_cell(Vector2i(x,y),0,Vector2i(0,0)) # Plains
 				if rainfall <= -0.05 && temp >= 0.2: # Desert

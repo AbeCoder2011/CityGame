@@ -916,10 +916,9 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Fishing Hut"
 
-[node name="Gap11" type="Control" parent="UI/Building/Categories/Stores" unique_id=617173708]
-custom_minimum_size = Vector2(68, 68)
+[node name="BasicHouse17" parent="UI/Building/Categories/Stores" unique_id=1448815145 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-mouse_filter = 2
+Building_Name = "Fishing Boat"
 
 [node name="BasicHouse16" parent="UI/Building/Categories/Stores" unique_id=161507077 instance=ExtResource("5_qwshj")]
 layout_mode = 2
