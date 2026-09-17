@@ -86,6 +86,9 @@ Large Factory
 	Airport
 	city hall (building costs - 10%)
 	Tax office (income from all pop in city)
+	Petroleum refinement to turn into plastic or petroleum can be burned for energy
+	Sand refined into silicon to make semiconductors and computers
+	Uranium enrichment for nuclear power plants
 
 --- Achievement plans
 	Avogaadro's dream: get 6.02 * 10^23 coins
