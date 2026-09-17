@@ -50,8 +50,8 @@ func Generate() -> void:
 	temperature_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	temperature_noise.fractal_octaves = 2
 	height_noise.offset = Vector3(50,50,50)
-	for x in range(-60, 60):
-		for y in range(-60, 60):
+	for x in range(- Global.MAP_SIZE.x * 6, Global.MAP_SIZE.x * 6):
+		for y in range(- Global.MAP_SIZE.y * 6, Global.MAP_SIZE.y * 6):
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 			var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 			var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)

@@ -294,8 +294,8 @@ var area_positions : Dictionary[Vector2i,Node2D] = {}
 
 func GenerateAreas():
 	total_buys = max(len(OpenAreas) - 1,0)
-	for x in range(-10,11):
-		for y in range(-10,11):
+	for x in range(0 - Global.MAP_SIZE.x,Global.MAP_SIZE.x + 1):
+		for y in range(0 - Global.MAP_SIZE.y,Global.MAP_SIZE.y + 1):
 			if Vector2i(x,y) in OpenAreas:
 				continue
 			var a : Node2D = Area.instantiate()

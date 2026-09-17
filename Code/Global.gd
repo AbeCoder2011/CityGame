@@ -10,6 +10,9 @@ extends Node
 
 @export var Zoom := 1.0
 
+# ACTUAL SIZE IS DOUBLE!!!!!!!
+const MAP_SIZE = Vector2i(20,20)
+
 const BuildingTilemap = preload("res://Assets/Tilesheets/BuildingTiles/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
 
@@ -263,7 +266,7 @@ const BuildingData := {
 	"Smeltery":{
 		"atlas_coords": Vector2i(3,11),
 		"cost": 1000000000000, # 1T
-		"description": "Smelts sand into glass."
+		"description": "Smelts sand into silicon."
 	},
 	# --- Trains
 	"Train Station":{
@@ -328,8 +331,8 @@ const UnlockRequirements := {
 	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
 
 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
-	#"Train Station": [{"type":"population","amount":1500}],
-	#"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
+	"Train Station": [{"type":"population","amount":1500}],
+	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
 	"Mine": [{"type":"building_count","building":"Train Station","amount":3}],
 	"Ore Extractor": [{"type":"building_count","building":"Train Station","amount":3}],
 	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
@@ -344,13 +347,14 @@ const ORDER = {
 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
-	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine"],
+	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
 	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
 	["Fishing Hut"]:[4,"Seafood Market"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
-	 ["Wind Turbine"]:[5,"Wind Turbine"]
+	["Wind Turbine"]:[5,"Wind Turbine"],
+	["Sand Mine"]:[4,"Smeltery"]
 }
 
 const REVERSE_UPDATE = {

@@ -610,7 +610,7 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var flour = SumProperty(pos, size, ["Mill"], 4, "flour",[],true)
 			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 4, "products",[],true)
 			return [{"money": pop * (min(meat, flour, products) * 0.05) * log(min(meat, flour, products)+1) / log(1.1)},{"population":pop,"products":products,"meat":meat,"flour":flour}]
- 
+ 		
 		"Mall":
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 6, "population")
 			var shops = CountNearby(pos,size, SHOP_NAMES, 2,["Mall"])
@@ -645,12 +645,11 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var desert = Count_Terrain_Nearby(pos,size,4,6,true)
 			var population = SumProperty(pos,size,HOUSING_NAMES,2,"population")
 			var boost = 1 if population >= 16 else 0
-			return [{"sand": boost * desert},{"desert":desert,"population":population,"gets_pop_boost":boost >= 16}]
+			return [{"sand": boost * desert},{"desert":desert,"population":population,"gets_pop_boost":boost == 1}]
 		"Smeltery":
 			var sand = SumProperty(pos,size,["Sand Mine"],4,"sand",[],true)
 			var power = SumProperty(pos,size, POWER_GENERATOR_NAMES, 2, "power")
-			return [{"glass":sand * max(log(power+1),1)},{"sand":sand}]
-		
+			return [{"silicon":sand * max(log(power+1),1)},{"sand":sand}]
 		"Jewlery Store":
 			var gemstones = SumProperty(pos,size,["Ore Extractor"],5,"gemstones",[],true)
 			var pop = SumProperty(pos,size,HOUSING_NAMES,5,"population")

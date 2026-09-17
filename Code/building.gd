@@ -280,6 +280,8 @@ func GetBuildingInfo() -> String:
 				out += "🐖 Breeds " + str(v) +  " livestock.\n"
 			"products":
 				out += "📦 Produces " + str(v) +  " products.\n"
+			"silicon":
+				out += "🪨 Makes " + str(v) +  " silicon.\n"
 			"sand":
 				out += "📦 Mines " + str(v) +  " sand.\n"
 			"nature":

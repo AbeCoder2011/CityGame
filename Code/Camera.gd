@@ -1,6 +1,12 @@
 extends Camera2D
 var right_clicked = false
 
+func _ready() -> void:
+	limit_left = - Global.MAP_SIZE.x * 288
+	limit_right = Global.MAP_SIZE.x * 288
+	limit_top = - Global.MAP_SIZE.y * 288
+	limit_bottom = Global.MAP_SIZE.y * 288
+
 
 func _physics_process(_delta: float) -> void:
 	var dir = Vector2(Input.get_axis("left","right"),Input.get_axis("up","down")).normalized()
@@ -12,11 +18,12 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	print(zoom)
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			zoom *= 0.9
-			if zoom.x < 0.7:
-				zoom = Vector2(0.7,0.7)
+			if zoom.x < 0.05:
+				zoom = Vector2(0.05,0.05)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			zoom *= 1.1
 			if zoom.x > 15:

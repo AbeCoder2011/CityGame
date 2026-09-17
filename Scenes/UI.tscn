@@ -1284,7 +1284,6 @@ libraries/ = SubResource("AnimationLibrary_b1goy")
 
 [node name="Pause" type="Control" parent="UI" unique_id=898323941]
 process_mode = 3
-visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -1321,6 +1320,7 @@ text = "Paused"
 label_settings = SubResource("LabelSettings_o2ick")
 
 [node name="Main" type="Control" parent="UI/Pause" unique_id=1234459914]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1397,7 +1397,6 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Settings" type="Control" parent="UI/Pause" unique_id=156668415]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1438,14 +1437,14 @@ offset_right = 391.0
 text = "Game saved."
 horizontal_alignment = 1
 
-[node name="Sound" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=779837859]
+[node name="Audio" type="Button" parent="UI/Pause/Settings/VBoxContainer" unique_id=779837859]
 custom_minimum_size = Vector2(300, 65)
 layout_mode = 2
 theme = ExtResource("9_b1goy")
 theme_override_font_sizes/font_size = 32
-text = "- Sound -"
+text = "- Audio -"
 
-[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Sound" unique_id=2115536823]
+[node name="Label" type="Label" parent="UI/Pause/Settings/VBoxContainer/Audio" unique_id=2115536823]
 visible = false
 layout_mode = 0
 offset_top = -34.0
@@ -1622,7 +1621,7 @@ popup/item_1/id = 1
 popup/item_2/text = "   Scientific Notation (1.234e7)"
 popup/item_2/id = 2
 
-[node name="Sound" type="Control" parent="UI/Pause" unique_id=69168596]
+[node name="Audio" type="Control" parent="UI/Pause" unique_id=69168596]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1632,8 +1631,80 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Pause/Audio" unique_id=1308002891]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 319.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="UI/Pause/Audio/HBoxContainer" unique_id=815873369]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Master" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=267524788]
+layout_mode = 2
+text = "Master Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="MasterSlider" type="HSlider" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=127804658]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=1815293871]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SFX" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=1735432419]
+layout_mode = 2
+text = "Sound Effects Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SFXslider" type="HSlider" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=1757458521]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap2" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=767022348]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Music" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=261438963]
+layout_mode = 2
+text = "Music Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="MusicSlider" type="HSlider" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=2074271222]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap3" type="Label" parent="UI/Pause/Audio/HBoxContainer/1" unique_id=1799644069]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
 [node name="Video" type="Control" parent="UI/Pause" unique_id=1594882553]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1641,6 +1712,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Pause/Video" unique_id=1079591759]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 319.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="UI/Pause/Video/HBoxContainer" unique_id=716821101]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Mode" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1415996452]
+layout_mode = 2
+text = "Window Mode"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="ModeDropdown" type="OptionButton" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1845542660]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "   Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "   Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "   Exclusive Fullscreen"
+popup/item_2/id = 2
+
+[node name="Gap3" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1876731428]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Size" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=2014102480]
+layout_mode = 2
+text = "Window Size"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SizeDropdown" type="OptionButton" parent="UI/Pause/Video/HBoxContainer/1" unique_id=237262993]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 0
+item_count = 4
+popup/item_0/text = "   1600 x 900"
+popup/item_0/id = 3
+popup/item_1/text = "   1920 × 1080"
+popup/item_1/id = 0
+popup/item_2/text = "   1920 × 1200"
+popup/item_2/id = 1
+popup/item_3/text = "   3840 x 2160"
+popup/item_3/id = 2
+
+[node name="Gap4" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=146848426]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
 
 [node name="Accesibility" type="Control" parent="UI/Pause" unique_id=1141455254]
 visible = false
@@ -1820,7 +1951,7 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="pressed" from="UI/Pause/Main/VBoxContainer/SaveAndReturn" to="." method="_on_save_and_return_pressed"]
 [connection signal="pressed" from="UI/Pause/Main/VBoxContainer/SaveAndQuit" to="." method="_on_save_and_quit_pressed"]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/General" to="." method="SubSetting" binds= ["general"]]
-[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Sound" to="." method="SubSetting" binds= ["sound"]]
+[connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Audio" to="." method="SubSetting" binds= ["audio"]]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Accesibility" to="." method="SubSetting" binds= ["accesibilty"]]
 [connection signal="pressed" from="UI/Pause/Settings/VBoxContainer/Back" to="." method="_on_back_settings_pressed"]
@@ -1831,5 +1962,8 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/DisableIncomeNumber" to="." method="SetSettingBool" binds= ["disable_income_popup"]]
 [connection signal="toggled" from="UI/Pause/General/HBoxContainer/1/ShowBuildingGrid" to="." method="SetSettingBool" binds= ["show_building_grid"]]
 [connection signal="item_selected" from="UI/Pause/General/HBoxContainer/2/NumberFormatButton" to="." method="SetOptionID" binds= ["number_notation"]]
+[connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/MasterSlider" to="." method="SetSettingValue" binds= ["master_volume"]]
+[connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/SFXslider" to="." method="SetSettingValue" binds= ["sfx_volume"]]
+[connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/MusicSlider" to="." method="SetSettingValue" binds= ["music_volume"]]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

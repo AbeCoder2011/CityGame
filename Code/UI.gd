@@ -4,6 +4,19 @@ var already_unlocked := []
 # main, pause, settings, general_settings, video_settings, sound_settings, accesibility_settings, 
 var menu = "main"
 
+const WINDOW_SIZES = [
+	Vector2i(1600,900),
+	Vector2i(1920,1080),
+	Vector2i(1920,1200),
+	Vector2i(3840,2160),
+]
+
+const WINDOW_MODES = [
+	Window.MODE_WINDOWED,
+	Window.MODE_FULLSCREEN,
+	Window.MODE_EXCLUSIVE_FULLSCREEN,
+]
+
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
@@ -136,7 +149,7 @@ func _on_settings_pressed() -> void:
 func _on_back_settings_pressed() -> void:
 	$UI/Pause/Settings.hide()
 	$UI/Pause/General.hide()
-	$UI/Pause/Sound.hide()
+	$UI/Pause/Audio.hide()
 	$UI/Pause/Video.hide()
 	$UI/Pause/Accesibility.hide()
 	$UI/Pause/Main.show()
@@ -144,7 +157,7 @@ func _on_back_settings_pressed() -> void:
 
 func _on_back_sub_setting_pressed() -> void:
 	$UI/Pause/General.hide()
-	$UI/Pause/Sound.hide()
+	$UI/Pause/Audio.hide()
 	$UI/Pause/Video.hide()
 	$UI/Pause/Accesibility.hide()
 	$UI/Pause/Settings.show()
@@ -152,7 +165,7 @@ func _on_back_sub_setting_pressed() -> void:
 
 func SubSetting(nam:String):
 	$UI/Pause/General.hide()
-	$UI/Pause/Sound.hide()
+	$UI/Pause/Audio.hide()
 	$UI/Pause/Video.hide()
 	$UI/Pause/Accesibility.hide()
 	
@@ -160,9 +173,9 @@ func SubSetting(nam:String):
 		"general":
 			$UI/Pause/General.show()
 			menu = "general_settings"
-		"sound":
-			menu = "sound_settings"
-			$UI/Pause/Sound.show()
+		"audio":
+			menu = "audio_settings"
+			$UI/Pause/Audio.show()
 		"video":
 			menu = "video_settings"
 			$UI/Pause/Video.show()
@@ -178,6 +191,15 @@ func SetSettingValue(new_value:float,nam:String):
 			$"UI/Pause/General/HBoxContainer/1/CamSpeed".text = "Camera Speed (" + str(int(new_value)) + "px)"
 		"autosave_interval":
 			$"UI/Pause/General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value)) + "s)"
+		"master_volume":
+			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"),new_value)
+			$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Master Volume (%d%s)" % [(new_value * 100),"%"]
+		"sfx_volume":
+			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("SFX"),new_value)
+			$"UI/Pause/Audio/HBoxContainer/1/SFX".text = "Sound Effects Volume (%d%s)" % [(new_value * 100),"%"]
+		"music_volume":
+			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"),new_value)
+			$"UI/Pause/Audio/HBoxContainer/1/Music".text = "Music Volume (%d%s)" % [(new_value * 100),"%"]
 	SaveSettings()
 
 func SetSettingBool(new_state:bool,nam:String):
@@ -192,6 +214,11 @@ func SetSettingBool(new_state:bool,nam:String):
 
 func SetOptionID(new_id:int,nam:String):
 	Global.Settings[nam] = new_id
+	match nam:
+		"window_size":
+			get_window().size = WINDOW_SIZES[new_id]
+		"window_mode":
+			get_window().mode = WINDOW_MODES[new_id]
 
 func SaveSettings() -> void:
 	var settings = ConfigFile.new()
@@ -224,6 +251,18 @@ func LoadSettings() -> void:
 			"show_building_grid":
 				$"UI/Pause/General/HBoxContainer/1/ShowBuildingGrid".button_pressed = v
 				$"../Background/Grid".visible = v
+			"master_volume":
+				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"),v)
+				$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Master Volume (%d%s)" % [(v * 100),"%"]
+				$"UI/Pause/Audio/HBoxContainer/1/MasterSlider".value = v
+			"sfx_volume":
+				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("SFX"),v)
+				$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Sound Effects Volume (%d%s)" % [(v * 100),"%"]
+				$"UI/Pause/Audio/HBoxContainer/1/SFXslider".value = v
+			"music_volume":
+				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"),v)
+				$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Music Volume (%d%s)" % [(v * 100),"%"]
+				$"UI/Pause/Audio/HBoxContainer/1/MusicSlider".value = v
 			_:
 				print("idk! ",nam,"   ",v)
 				

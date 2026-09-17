@@ -64,4 +64,8 @@ bbcode_enabled = true
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AreaDisabler" type="VisibleOnScreenEnabler2D" parent="." unique_id=819607364]
+rect = Rect2(-168, -168, 336, 336)
+enable_mode = 1
+
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
