@@ -354,6 +354,7 @@ const ORDER = {
 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
 	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
+	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[1,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
 	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
@@ -394,7 +395,13 @@ func _unhandled_input(event: InputEvent) -> void:
 func GetBigNumber(i:float) -> String:
 	if i >= 1000000:
 		var big = Big.new(i)
-		return(big.toMetricSymbol())
+		match Settings.get("number_notation"):
+			1:
+				return(big.toMetricName())
+			2:
+				return(big.toScientific())
+			_:
+				return(big.toMetricSymbol())
 	elif i >= 1000:
 		var base = floor(i / 1000)
 		return(str(int(base)) + "," + ("%03d" % (int(i) % 1000)))

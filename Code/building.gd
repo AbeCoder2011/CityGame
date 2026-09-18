@@ -54,7 +54,6 @@ func _on_mouse_enter() -> void:
 	$Info.show()
 	$Lines.show()
 	UpdateData()
-	print(Claims)
 	$"../../UI".ShowInfo(GetBuildingInfo())
 
 
@@ -215,6 +214,8 @@ func GetBuildingInfo() -> String:
 					out += "👥 " + str(v) + " population nearby.\n"
 			"base_pop":
 				out += "👥 " + str(v) + " base population.\n"
+			"happiness":
+				out += "😊 Happiness value: " + str(int(v / inputs.get("population",1))) + "\n"
 			"wheat":
 				out += "🌾 " + str(v) +  " wheat nearby.\n"
 			"flour":

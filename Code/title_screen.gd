@@ -14,7 +14,6 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
-	print("back!")
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
 	Global.First = false
@@ -33,6 +32,9 @@ func mouse_exit(_id:int):
 	$NewGame/Vbox/Description.text = ""
 
 func difficulty_pressed(id:int):
+	for n in $NewGame/Vbox.get_children():
+		if n is Button:
+			n.disabled = true
 	Global.Difficulty = id
 	Global.LoadSettings["load"] = false
 	$Fade/Anim.play("fade_out")
@@ -50,6 +52,7 @@ func _on_new_game_pressed() -> void:
 
 
 func _on_continue_pressed() -> void:
+	$Main/Vbox/Continue.disabled = true
 	Global.LoadSettings["load"] = true
 	$Fade/Anim.play("fade_out")
 	await $Fade/Anim.animation_finished

@@ -1283,6 +1283,7 @@ libraries/ = SubResource("AnimationLibrary_b1goy")
 
 [node name="Pause" type="Control" parent="UI" unique_id=898323941]
 process_mode = 3
+visible = false
 z_index = 5
 layout_mode = 1
 anchors_preset = 15
@@ -1319,7 +1320,6 @@ text = "Paused"
 label_settings = SubResource("LabelSettings_o2ick")
 
 [node name="Main" type="Control" parent="UI/Pause" unique_id=1234459914]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1396,6 +1396,7 @@ text = "Game saved."
 horizontal_alignment = 1
 
 [node name="Settings" type="Control" parent="UI/Pause" unique_id=156668415]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1704,6 +1705,7 @@ layout_mode = 2
 label_settings = SubResource("LabelSettings_80bsu")
 
 [node name="Video" type="Control" parent="UI/Pause" unique_id=1594882553]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1736,7 +1738,7 @@ label_settings = SubResource("LabelSettings_80bsu")
 [node name="ModeDropdown" type="OptionButton" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1845542660]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-selected = 0
+selected = 1
 item_count = 3
 popup/item_0/text = "   Windowed"
 popup/item_0/id = 0
@@ -1757,7 +1759,7 @@ label_settings = SubResource("LabelSettings_80bsu")
 [node name="SizeDropdown" type="OptionButton" parent="UI/Pause/Video/HBoxContainer/1" unique_id=237262993]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-selected = 0
+selected = 1
 item_count = 4
 popup/item_0/text = "   1600 x 900"
 popup/item_0/id = 3
@@ -1769,6 +1771,27 @@ popup/item_3/text = "   3840 x 2160"
 popup/item_3/id = 2
 
 [node name="Gap4" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=146848426]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="FPS" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=2017967872]
+layout_mode = 2
+text = "Maximum FPS (Unlimited)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="FPSSlider" type="HSlider" parent="UI/Pause/Video/HBoxContainer/1" unique_id=617513026]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 10.0
+max_value = 300.0
+step = 10.0
+value = 300.0
+tick_count = 10
+ticks_on_borders = true
+ticks_position = 3
+
+[node name="Gap5" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=834150697]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_80bsu")
 
@@ -1964,5 +1987,8 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/MasterSlider" to="." method="SetSettingValue" binds= ["master_volume"]]
 [connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/SFXslider" to="." method="SetSettingValue" binds= ["sfx_volume"]]
 [connection signal="value_changed" from="UI/Pause/Audio/HBoxContainer/1/MusicSlider" to="." method="SetSettingValue" binds= ["music_volume"]]
+[connection signal="item_selected" from="UI/Pause/Video/HBoxContainer/1/ModeDropdown" to="." method="SetOptionID" binds= ["window_mode"]]
+[connection signal="item_selected" from="UI/Pause/Video/HBoxContainer/1/SizeDropdown" to="." method="SetOptionID" binds= ["window_size"]]
+[connection signal="value_changed" from="UI/Pause/Video/HBoxContainer/1/FPSSlider" to="." method="SetSettingValue" binds= ["max_fps"]]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

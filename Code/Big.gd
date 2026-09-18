@@ -25,25 +25,45 @@ const suffixes_metric_symbol: Dictionary[int, String] = {
 	4: "T", 
 	5: "Q", 
 	6: "Qi", 
-	7: "S", 
+	7: "Sx", 
 	8: "Sp", 
-	9: "O", 
-	10: "N",
+	9: "Oc", 
+	10: "No",
+	11: "Dc",
+	12: "U",
+	13: "D",
+	14: "T",
+	15: "Qt",
+	16: "Qd",
+	17: "Sd",
+	18: "St",
+	19: "O",
+	20: "N",
 }
 ## Metric Name Suffixes
 const suffixes_metric_name: Dictionary[int, String] = {
 	0: "", 
-	1: "kilo", 
-	2: "mega", 
-	3: "giga", 
-	4: "tera", 
-	5: "peta", 
-	6: "exa", 
-	7: "zetta", 
-	8: "yotta", 
-	9: "ronna", 
-	10: "quetta", 
-}
+	1: " Thousand", 
+	2: " Million", 
+	3: " Billion", 
+	4: " Trillion", 
+	5: " Quadrillion", 
+	6: " Quintillion", 
+	7: " Sextillion", 
+	8: " Septillion", 
+	9: " Octillion", 
+	10: " Nonillion", 
+	11: " Decillion", 
+	12: " Undecillion", 
+	13: " Duodecillion", 
+	14: " Tredecillion", 
+	15: " Quattuordecillion", 
+	16: " Quindecillion", 
+	17: " Sexdecillion", 
+	18: " Septendecillion", 
+	19: " Octdodecillion", 
+	20: " Novemdecillion", 
+} 
 
 ## AA suffixes keps in dictionary to prevent generating each of them again and again
 static var suffixes_aa: Dictionary[int, String] = {
@@ -925,7 +945,8 @@ func toLongName(no_decimals_on_small_values = false, european_system = false) ->
 func toMetricSymbol(no_decimals_on_small_values = false) -> String:
 	@warning_ignore("integer_division")
 	var target:int = int(exponent / 3)
-
+	if target > 20:
+		return "Infinite"
 	if not suffixes_metric_symbol.has(target):
 		return toScientific()
 	else:
@@ -936,6 +957,8 @@ func toMetricSymbol(no_decimals_on_small_values = false) -> String:
 func toMetricName(no_decimals_on_small_values = false) -> String:
 	@warning_ignore("integer_division")
 	var target:int = int(exponent / 3)
+	if target > 20:
+		return "Infinite"
 
 	if not suffixes_metric_name.has(target):
 		return toScientific()

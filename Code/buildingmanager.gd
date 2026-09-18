@@ -315,10 +315,7 @@ func CalculateHapiness():
 	var total = 0
 	var amount = 0
 	for b in AllHousingBuildings:
-		if b["name"] == "Low-Budget Apartment":
-			total += 50 * b["node"].inputs.get("population",0)
-		else:
-			total += GetHappinessValue(b["pos"],b["name"],b["node"]) * b["node"].inputs.get("population",0)
+		total += b["node"].extra_data.get("happiness",0)
 		amount += b["node"].inputs.get("population",0)
 	if amount == 0:
 		Global.Happiness = 100.0
@@ -417,7 +414,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 		var this_nam = b["name"]
 		if this_nam in affected:
 			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
-				if b["name"] == "Wind Turbine":
+				if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
 					next_updates.append(b)
 				else:
 					for n in GetRecomputePath(b,false,true):
@@ -490,7 +487,7 @@ func RecomputePopulation():
 	#$"../UI".CheckBuildingUnlocks()
 
 func SetValues(b:Dictionary):
-	var data : Array = CalculateBuildingOutput(b["name"],b["pos"])
+	var data : Array = CalculateBuildingOutput(b["name"],b["pos"],b["node"])
 	var values = data.pop_front()
 	if not data == []:
 		var extra = data.pop_back()
@@ -500,7 +497,7 @@ func SetValues(b:Dictionary):
 	b["node"].Claims = b["claims"]
 	b["node"].UpdateData()
 
-func CalculateBuildingOutput(nam,pos) -> Array:
+func CalculateBuildingOutput(nam,pos,node) -> Array:
 	var size = GetSize(nam)
 	match nam:
 		"Basic House":
@@ -508,42 +505,56 @@ func CalculateBuildingOutput(nam,pos) -> Array:
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 2 * (1 + 0.01 * nature) else 1
-			return [{"population": 2 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":2,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 2 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":2,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Double House":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
-			return [{"population": 4 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 4 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
 		"Small Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			return [{"population": 8 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 8 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
 		"Large Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
-			return [{"population": 24 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 24 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
 		"Mega Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
-			return [{"population": 64 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 64 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
 		"Giant Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
 			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
-			return [{"population": 256 * penalty * population_boost * (1 + 0.01 * nature)},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature}]
+			var pop = 256 * penalty * population_boost * (1 + 0.01 * nature)
+			var happiness = GetHappinessValue(pos,nam,node) * pop
+			return [{"population": pop},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
-			return [{"population": 16 * population_boost * (1 + 0.01 * nature)},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature}]
+			var pop = 16 * population_boost * (1 + 0.01 * nature)
+			var happiness = 50 * pop
+			return [{"population": pop},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature,"hapiness":happiness}]
 		"Small Supermarket":
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 1, "population")
 			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 6, "products",[],true)

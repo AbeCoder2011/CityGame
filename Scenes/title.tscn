@@ -506,6 +506,8 @@ theme_override_colors/font_focus_color = Color(0.3882353, 1, 0.03529412, 1)
 theme_override_colors/font_pressed_color = Color(0.3882353, 1, 0.03529412, 1)
 theme_override_colors/font_hover_color = Color(0.3882353, 1, 0.03529412, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.3882353, 1, 0.03529412, 1)
+theme_override_colors/font_disabled_color = Color(0.3882353, 1, 0.03529412, 1)
+theme_override_colors/font_outline_color = Color(0.3882353, 1, 0.03529412, 1)
 text = "Very Easy Mode"
 
 [node name="2" type="Button" parent="NewGame/Vbox" unique_id=1622431760]
@@ -517,6 +519,8 @@ theme_override_colors/font_focus_color = Color(0.25490198, 0.64705884, 0, 1)
 theme_override_colors/font_pressed_color = Color(0.25490198, 0.64705884, 0, 1)
 theme_override_colors/font_hover_color = Color(0.25490198, 0.64705884, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.25490198, 0.64705884, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.25490198, 0.64705884, 0, 1)
+theme_override_colors/font_outline_color = Color(0.25490198, 0.64705884, 0, 1)
 text = "Easy Mode
 "
 
@@ -535,6 +539,8 @@ theme_override_colors/font_focus_color = Color(0.76, 0.1368, 0.19911993, 1)
 theme_override_colors/font_pressed_color = Color(0.76, 0.1368, 0.19911993, 1)
 theme_override_colors/font_hover_color = Color(0.76, 0.1368, 0.19911993, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.76, 0.1368, 0.19911993, 1)
+theme_override_colors/font_disabled_color = Color(0.76, 0.1368, 0.19911993, 1)
+theme_override_colors/font_outline_color = Color(0.76, 0.1368, 0.19911993, 1)
 text = "Hard Mode"
 
 [node name="5" type="Button" parent="NewGame/Vbox" unique_id=1406481520]
@@ -546,6 +552,8 @@ theme_override_colors/font_focus_color = Color(0.88, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0.88, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0.88, 0, 0, 1)
 theme_override_colors/font_hover_pressed_color = Color(0.88, 0, 0, 1)
+theme_override_colors/font_disabled_color = Color(0.88, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0.88, 0, 0, 1)
 text = "HELL Mode"
 
 [node name="Back" type="Button" parent="NewGame/Vbox" unique_id=614694233]

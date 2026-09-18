@@ -339,7 +339,7 @@ position = Vector2(-3024, -3024)
 texture = ExtResource("1_rgh2o")
 centered = false
 region_enabled = true
-region_rect = Rect2(0, 0, 6000, 6000)
+region_rect = Rect2(0, 0, 5760, 6000)
 
 [node name="Terrain" type="TileMapLayer" parent="." unique_id=256848337]
 z_index = -1

@@ -200,6 +200,13 @@ func SetSettingValue(new_value:float,nam:String):
 		"music_volume":
 			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"),new_value)
 			$"UI/Pause/Audio/HBoxContainer/1/Music".text = "Music Volume (%d%s)" % [(new_value * 100),"%"]
+		"max_fps":
+			if new_value >= 300:
+				Engine.max_fps = 0
+				$"UI/Pause/Video/HBoxContainer/1/FPS".text = "Maximum FPS (Unlimited)"
+			else:
+				Engine.max_fps = int(new_value)
+				$"UI/Pause/Video/HBoxContainer/1/FPS".text = "Maximum FPS (%d fps)" % new_value
 	SaveSettings()
 
 func SetSettingBool(new_state:bool,nam:String):
@@ -251,6 +258,8 @@ func LoadSettings() -> void:
 			"show_building_grid":
 				$"UI/Pause/General/HBoxContainer/1/ShowBuildingGrid".button_pressed = v
 				$"../Background/Grid".visible = v
+			"number_format":
+				$"UI/Pause/General/HBoxContainer/2/NumberFormatButton".select(v)
 			"master_volume":
 				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"),v)
 				$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Master Volume (%d%s)" % [(v * 100),"%"]
@@ -263,14 +272,15 @@ func LoadSettings() -> void:
 				AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Music"),v)
 				$"UI/Pause/Audio/HBoxContainer/1/Master".text = "Music Volume (%d%s)" % [(v * 100),"%"]
 				$"UI/Pause/Audio/HBoxContainer/1/MusicSlider".value = v
+			"max_fps":
+				if v >= 300:
+					Engine.max_fps = 0
+					$"UI/Pause/Video/HBoxContainer/1/FPS".text = "Maximum FPS (Unlimited)"
+				else:
+					Engine.max_fps = v
+					$"UI/Pause/Video/HBoxContainer/1/FPS".text = "Maximum FPS (%d fps)" % v
+					
 			_:
 				print("idk! ",nam,"   ",v)
 				
 	print("Settings Loaded! ")
-				
-				
-				
-				
-				
-				
-				

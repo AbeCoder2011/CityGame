@@ -23,6 +23,8 @@ func _ready() -> void:
 	Global.CurrentBuilding = "None"
 	$Autosaver.wait_time = AUTOSAVE_INTERVAL
 	$Autosaver.start()
+	$Background/Grid.position = (Global.MAP_SIZE * 6 * 48 * -1)
+	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Global.MAP_SIZE * 6 * 48 * 2))
 	if Global.LoadSettings["load"]:
 		LoadGame()
 	else:
