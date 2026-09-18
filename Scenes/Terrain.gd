@@ -3,6 +3,7 @@ extends TileMapLayer
 var height_noise = FastNoiseLite.new()
 var rainfall_noise = FastNoiseLite.new()
 var temperature_noise = FastNoiseLite.new()
+var hiddenlayer = []
 const NOISE_SCALE = 3
 @export var seed = 0
 
@@ -26,6 +27,8 @@ func get_tile(coords:Vector2i) -> int:
 		Vector2i(1,1):
 			res = 7 # Deep Water
 	return res
+func get_hiddenlayer_value(coords: Vector2i) -> float:
+	return hiddenlayer[coords.y + Global.MAP_SIZE.y * 6][coords.x + Global.MAP_SIZE.x * 6]
 
 func _ready():
 	if Global.LoadSettings["load"] == false:
@@ -40,6 +43,8 @@ func _unhandled_input(event: InputEvent) -> void:
 func Generate() -> void:
 	var random = RandomNumberGenerator.new()
 	random.seed = seed
+	var hiddenlayerrandom = RandomNumberGenerator.new()
+	hiddenlayerrandom.seed = seed + 5
 	height_noise.seed = seed
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	height_noise.offset = Vector3(50,50,50)
@@ -52,11 +57,16 @@ func Generate() -> void:
 	temperature_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	temperature_noise.fractal_octaves = 2
 	height_noise.offset = Vector3(50,50,50)
-	for x in range(- Global.MAP_SIZE.x * 6, Global.MAP_SIZE.x * 6):
-		for y in range(- Global.MAP_SIZE.y * 6, Global.MAP_SIZE.y * 6):
+	for y in range(- Global.MAP_SIZE.x * 6, Global.MAP_SIZE.x * 6):
+		hiddenlayer.append([])
+		for x in range(- Global.MAP_SIZE.y * 6, Global.MAP_SIZE.y * 6):
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 			var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 			var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
+			if random.randi_range(0, 3) == 0:
+				hiddenlayer[y + Global.MAP_SIZE.y * 6].append(random.randf_range(0, 1))
+			else:
+				hiddenlayer[y + Global.MAP_SIZE.y * 6].append(0.0)
 			if (height < 0 && rainfall >= 0.2) or height <= -0.15: # Water
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 				if height <= -0.3:
