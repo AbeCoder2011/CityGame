@@ -8,6 +8,7 @@ var BuildingCollections : Dictionary[Vector2i,Array] = {}
 var AllHousingBuildings = []
 var AllTrainRelatedBuildings = []
 var AllPowerRelatedBuildings = []
+var AllFishingBoats = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
@@ -414,7 +415,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 		var this_nam = b["name"]
 		if this_nam in affected:
 			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
-				if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
+				if b["name"] == "Wind Turbine": #or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
 					next_updates.append(b)
 				else:
 					for n in GetRecomputePath(b,false,true):
