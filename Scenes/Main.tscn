@@ -309,7 +309,7 @@ func DeleteMe(n:Node2D):
 	area_positions.erase(area_positions.keys()[area_positions.values().find(n)])
 
 func Recalculate():
-	var new_cost = int(108 + 5 * (5 *total_buys**2) * total_buys)
+	var new_cost = int(100 * floor(1.5**total_buys))
 	var searches = []
 	for n in OpenAreas:
 		if not searches.has(Vector2i(n.x + 1, n.y)):
