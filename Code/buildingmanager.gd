@@ -516,7 +516,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
 			var pop = 4 * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Small Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -524,7 +524,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
 			var pop = 8 * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Large Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -532,7 +532,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
 			var pop = 24 * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Mega Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -540,7 +540,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
 			var pop = 64 * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Giant Apartment Complex":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -548,14 +548,14 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
 			var pop = 256 * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var population_boost = 2 if power > 16 * (1 + 0.01 * nature) else 1
 			var pop = 16 * population_boost * (1 + 0.01 * nature)
 			var happiness = 50 * pop
-			return [{"population": pop},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature,"hapiness":happiness}]
+			return [{"population": pop},{"base_pop":16,"power_boost":power,"power_boost_mult":population_boost,"nature":nature,"happiness":happiness}]
 		"Small Supermarket":
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 1, "population")
 			var products = SumProperty(pos, size, ["Small Factory","Large Factory"], 6, "products",[],true)
