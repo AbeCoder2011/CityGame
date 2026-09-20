@@ -67,6 +67,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 			AllPowerRelatedBuildings.append(this_b)
 		"Train Station","Rail":
 			AllTrainRelatedBuildings.append(this_b)
+		"Fishing Boat":
+			AllFishingBoats.append(this_b)
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
@@ -252,6 +254,26 @@ func SumAllProperties(pos:Vector2i, size:Vector2i, radius:int):
 				already_checked_buildings.append(b)
 	return properties
 
+func FindConnectedFishingBoats(pos) -> Array:
+	var b = flood_fill(pos,[])
+	return b
+
+func flood_fill(pos,visited : Array) -> Array:
+	if pos in visited:
+		return []
+	for n in AllFishingBoats:
+		if pos == n["pos"]:
+			visited.append(pos)
+			return [pos]
+	var boats = []
+	for d in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
+		if $"../Terrain".get_tile(pos + d) == 1 or $"../Terrain".get_tile(pos + d) == 7:
+			visited.append(pos)
+			for n in flood_fill(pos + d,visited):
+				if n not in boats:
+					boats.append(n)
+	return boats
+
 func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 	var thermal = CountNearby(pos,size, ["Thermal Power Plant"], 6)
 	var nuclear = CountNearby(pos,size, ["Nuclear Power Plant"], 8)
@@ -330,10 +352,10 @@ func GetHappinessValue(pos:Vector2i,nam:String,node:Node2D) -> int:
 	var nature = SumProperty(pos, GetSize(nam), ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 	var industry = IndustryPenalty(pos,GetSize(nam))
 	var my_pop = max(node.inputs.get("population",0),1)
-	var around_pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,1,"population")
+	var around_pop = SumProperty(pos,GetSize(nam),HOUSING_NAMES,1,"population",[],false,false)
 	var pop_ratio = float(around_pop) / float(max(my_pop,1))
-	var boost = clamp(sqrt(250 / max(float(my_pop), 250)),0.1,1)
-	var calc = min(1 / pop_ratio * 4 * boost,1)
+	var boost = clamp(8 / my_pop,.4,4)
+	var calc = min(1 / pop_ratio * boost,1)
 	return min(max((base * calc + (entertainment * 4) + (nature / 8)) * industry,0),300)
 # --- Tick ------------------------------------------------------
 
@@ -351,6 +373,8 @@ func Tick():
 					AllPowerRelatedBuildings.erase(n)
 				"Train Station","Rail":
 					AllTrainRelatedBuildings.erase(n)
+				"Fishing Boat":
+					AllFishingBoats.erase(n)
 			if is_instance_valid(n):
 				n.queue_free()
 			housing_edited = false
@@ -401,21 +425,33 @@ func RecomputeStations():
 		network_inventories.append([stations,inv])
 
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
+	var affection_range : int = 0
 	var affected = []
+	print(this_b,"-------------------------------")
 	for n in Global.ORDER.keys():
+		print(n)
 		if this_b["name"] in n:
-			affected = Global.ORDER[n].duplicate()
+			var values = Global.ORDER[n].duplicate()
+			var rangee = values.pop_front()
+			affected.append_array(values)
+			if affection_range < rangee:
+				affection_range = rangee
+			print(values," <---")
 	if affected.is_empty():
 		return [] if not_self else [this_b]
-	var affection_range : int = affected.pop_front()
 	
 	var next_updates := [] if not_self else [this_b]
+	
+	if this_b["name"] == "Fishing Boat":
+		for n in AllFishingBoats:
+			next_updates.append(n)
+		return next_updates
 	
 	for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),affection_range):
 		var this_nam = b["name"]
 		if this_nam in affected:
 			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
-				if b["name"] == "Wind Turbine": #or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
+				if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
 					next_updates.append(b)
 				else:
 					for n in GetRecomputePath(b,false,true):
@@ -666,6 +702,10 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var gemstones = SumProperty(pos,size,["Ore Extractor"],5,"gemstones",[],true)
 			var pop = SumProperty(pos,size,HOUSING_NAMES,5,"population")
 			return [{"money":gemstones * pop * 10},{"population":pop,"gemstones":gemstones}]
+		"Fishing Dock":
+			var boats = FindConnectedFishingBoats(pos)
+			return [{"nature":len(boats)}]
+		
 		_:
 			return [{}]
 	

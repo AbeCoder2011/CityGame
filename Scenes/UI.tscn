@@ -1051,6 +1051,10 @@ Building_Name = "Sand Mine"
 layout_mode = 2
 Building_Name = "Smeltery"
 
+[node name="BasicHouse6" parent="UI/Building/Categories/Production Industry" unique_id=1306129068 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Fishing Dock"
+
 [node name="Trains" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
 visible = false
 layout_mode = 1
@@ -1792,6 +1796,34 @@ ticks_on_borders = true
 ticks_position = 3
 
 [node name="Gap5" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=834150697]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Graphics" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1225439109]
+layout_mode = 2
+text = "Graphics"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="GraphicsDropdown" type="OptionButton" parent="UI/Pause/Video/HBoxContainer/1" unique_id=1713178056]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 1
+allow_reselect = true
+item_count = 6
+popup/item_0/text = "   Minimal"
+popup/item_0/id = 3
+popup/item_1/text = "   Low"
+popup/item_1/id = 0
+popup/item_2/text = "   Medium"
+popup/item_2/id = 1
+popup/item_3/text = "   High"
+popup/item_3/id = 2
+popup/item_4/text = "   Very High"
+popup/item_4/id = 4
+popup/item_5/text = "   Ultra"
+popup/item_5/id = 5
+
+[node name="Gap6" type="Label" parent="UI/Pause/Video/HBoxContainer/1" unique_id=245988847]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_80bsu")
 

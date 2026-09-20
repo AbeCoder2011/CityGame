@@ -16,6 +16,8 @@ var BuildableAreas := [Rect2(-3,-3,6,6)]
 
 var UnlockedBuildings := {}
 
+var time : float = 0
+
 func _ready() -> void:
 	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
 	Global.Population = 0
@@ -40,6 +42,16 @@ func _ready() -> void:
 			$UI.already_unlocked.append(n)
 	await get_tree().process_frame
 	#GenerateEnvironment()
+
+# Time lol
+#func _process(delta: float) -> void:
+	#time += 100 * delta
+	#if time >= 2400:
+		#time = 0
+	#if time < 800 or time > 1900:
+		#modulate = Color(.27,.27,.27)
+	#else:
+		#modulate = Color(1,1,1)
 
 func UpdateCityStats():
 	$UI.UpdateCityStats()
