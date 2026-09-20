@@ -630,7 +630,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Seafood Market":
 			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
 			var pop = SumProperty(pos, Vector2i(2,2), HOUSING_NAMES,4,"population")
-			return [{"money":pop*fish}]
+			return [{"money":pop*floor(log(fish+1))}]
 		"Transformator Building":
 			return [{"power": global_power},{"global_power":global_power}]
 		"Thermal Power Plant","Small Solar Farm":
@@ -638,7 +638,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm":
 			return [{"power": 45}]
 		"Wind Turbine":
-			return [{"power": int(floor(50.0 / (2 ** CountNearby(pos, size,["Wind Turbine"],2))))}]
+			return [{"power": int(floor(200.0 / (2 ** CountNearby(pos, size,["Wind Turbine"],2))))}]
 		"Small Wheatfield":
 			return [{"wheat": 1}]
 		
@@ -679,7 +679,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Large Park":
 			return [{"nature":18}]
 		"Theme Park":
-			return [{"entertainment":5}]
+			return [{"entertainment":12}]
 		"Cinema":
 			return [{"entertainment":2}]
 		"Mine":
@@ -690,7 +690,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var ores = SumProperty(pos,size,["Mine"],3,"ores",[],true)
 			return [{"gemstones":ores * .2},{"ores":ores}]
 		"Sand Mine":
-			var desert = Count_Terrain_Nearby(pos,size,4,6,true)
+			var desert = Count_Terrain_Nearby(pos,size,6,4,true)
 			var population = SumProperty(pos,size,HOUSING_NAMES,2,"population")
 			var boost = 1 if population >= 16 else 0
 			return [{"sand": boost * desert},{"desert":desert,"population":population,"gets_pop_boost":boost == 1}]

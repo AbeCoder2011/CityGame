@@ -119,12 +119,12 @@ const BuildingData := {
 	},
 	"Fishing Hut":{
 		"atlas_coords": Vector2i(4,2),
-		"cost": 15000,
+		"cost": 5000,
 		"description": "Fishes for various different sea creatures and sells them to nearby population (Within [b]three[/b] tiles). Must be next to water"
 	},
 	"Seafood Market":{
 		"atlas_coords": Vector2i(12,2),
-		"cost": 5000,
+		"cost": 15000,
 		"size": Vector2i(2,2),
 		"description": "A large market for buying an selling seafood (within [b]four[/b] tiles). Boosted by population within [b]four[/b] tiles."
 	},
@@ -296,7 +296,7 @@ const BuildingData := {
 	# --- Entertainment
 	"Theme Park":{
 		"atlas_coords": Vector2i(18,18),
-		"cost": 5000000,
+		"cost": 10000000,
 		"size":Vector2(2,2),
 		"description":"A theme park for people to enjoy themselves. Give happiness to population within [b]four[/b] tiles",
 	},
