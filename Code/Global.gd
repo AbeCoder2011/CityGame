@@ -261,7 +261,7 @@ const BuildingData := {
 	"Fishing Boat":{
 		"atlas_coords": Vector2i(0, 3),
 		"cost": 1000000, # 1m
-		"description": "Fishes up rare fish from the bottom of the ocean",
+		"description": "Fishes up rare fish from the bottom of the ocean. Boosted by empty deep water adjacent. Must be placed on deep water",
 		"forcedeepwater": true,
 	},
 	"Sand Mine":{
@@ -278,7 +278,8 @@ const BuildingData := {
 		"atlas_coords": Vector2i(12,4),
 		"cost": 10000000, # 10M
 		"forcewater":true,
-		"description": "Smelts sand into silicon."
+		"nexttoland":true,
+		"description": "Takes fish from all fishing boats on the same body of water within 30 tiles. Must be placed on water next to land"
 	},
 	# --- Trains
 	"Train Station":{
