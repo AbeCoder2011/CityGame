@@ -633,7 +633,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
 			var rarefish = SumProperty(pos,Vector2i(2,2),["Fishing Dock"],4,"exoticfish")
 			var pop = SumProperty(pos, Vector2i(2,2), HOUSING_NAMES,4,"population")
-			return [{"money":pop*floor(log(fish+1)) + pop*floor(log(rarefish*+1)*rarefish*0.2)}]
+			return [{"money":pop*floor(log(fish+1)) + pop*floor(log(rarefish*10+1)*rarefish*0.2)}]
 		"Transformator Building":
 			return [{"power": global_power},{"global_power":global_power}]
 		"Thermal Power Plant","Small Solar Farm":
