@@ -73,7 +73,7 @@ func UpdateData():
 		$Lines.add_child(l)
 	
 	match building_name:
-		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall":
+		"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall","Seafood Market":
 			$Info/TextureRect.texture.region = Rect2(0,0,16,16)
 			$Info.text = Global.GetBigNumber(inputs.get("money",0) * 2) + "/s"
 		"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex":
