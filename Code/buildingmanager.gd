@@ -9,6 +9,7 @@ var AllHousingBuildings = []
 var AllTrainRelatedBuildings = []
 var AllPowerRelatedBuildings = []
 var AllFishingBoats = []
+var AllFishingDocks = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
@@ -69,6 +70,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 			AllTrainRelatedBuildings.append(this_b)
 		"Fishing Boat":
 			AllFishingBoats.append(this_b)
+		"Fishing Dock":
+			AllFishingDocks.append(this_b)
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
@@ -377,6 +380,8 @@ func Tick():
 					AllTrainRelatedBuildings.erase(n)
 				"Fishing Boat":
 					AllFishingBoats.erase(n)
+				"Fishing Dock":
+					AllFishingDocks.erase(n)
 			if is_instance_valid(n):
 				n.queue_free()
 			housing_edited = false
@@ -447,7 +452,8 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 	if this_b["name"] == "Fishing Boat":
 		for n in AllFishingBoats:
 			next_updates.append(n)
-		#return next_updates
+		for n in AllFishingDocks:
+			next_updates.append(n)
 	
 	for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),affection_range):
 		var this_nam = b["name"]

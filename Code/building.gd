@@ -301,4 +301,3 @@ func GetBuildingInfo() -> String:
 				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
 	return out
 	
-#papyrus_knight
