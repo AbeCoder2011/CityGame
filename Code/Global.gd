@@ -276,7 +276,7 @@ const BuildingData := {
 	},
 	"Fishing Dock":{
 		"atlas_coords": Vector2i(12,4),
-		"cost": 100000000000000000, # 1T
+		"cost": 10000000, # 10M
 		"forcewater":true,
 		"description": "Smelts sand into silicon."
 	},
@@ -364,7 +364,8 @@ const ORDER = {
 	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
 	["Mine"]:[4,"Ore Extractor"],
 	["Ore Extractor"]:[5,"Jewlery Store"],
-	["Fishing Hut"]:[4,"Seafood Market"],
+	["Fishing Boat"]:[100,"Fishing Dock"],
+	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
 	["Wind Turbine"]:[5,"Wind Turbine"],
 	["Sand Mine"]:[4,"Smeltery"]

@@ -261,14 +261,16 @@ func FindConnectedFishingBoats(pos) -> Array:
 func flood_fill(pos,visited : Array) -> Array:
 	if pos in visited:
 		return []
+	var boats = []
 	for n in AllFishingBoats:
 		if pos == n["pos"]:
-			visited.append(pos)
-			return [pos]
-	var boats = []
+			boats.append(pos)
 	for d in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
+		if pos+d in visited:
+			continue
 		if $"../Terrain".get_tile(pos + d) == 1 or $"../Terrain".get_tile(pos + d) == 7:
-			visited.append(pos)
+			if not pos in visited:
+				visited.append(pos)
 			for n in flood_fill(pos + d,visited):
 				if n not in boats:
 					boats.append(n)
@@ -445,7 +447,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 	if this_b["name"] == "Fishing Boat":
 		for n in AllFishingBoats:
 			next_updates.append(n)
-		return next_updates
+		#return next_updates
 	
 	for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),affection_range):
 		var this_nam = b["name"]
@@ -629,8 +631,9 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			return [{"fish": floor(pop / 8.0) * water},{"population":pop,"water":water}]
 		"Seafood Market":
 			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
+			var rarefish = SumProperty(pos,Vector2i(2,2),["Fishing Dock"],4,"exoticfish")
 			var pop = SumProperty(pos, Vector2i(2,2), HOUSING_NAMES,4,"population")
-			return [{"money":pop*floor(log(fish+1))}]
+			return [{"money":pop*floor(log(fish+1)) + pop*floor(log(rarefish*+1)*rarefish*0.2)}]
 		"Transformator Building":
 			return [{"power": global_power},{"global_power":global_power}]
 		"Thermal Power Plant","Small Solar Farm":
@@ -704,7 +707,10 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			return [{"money":gemstones * pop * 10},{"population":pop,"gemstones":gemstones}]
 		"Fishing Dock":
 			var boats = FindConnectedFishingBoats(pos)
-			return [{"nature":len(boats)}]
+			var fish = 0
+			for b in boats:
+				fish += Count_Terrain_Nearby(b,Vector2(1,1),7,1,true)
+			return [{"exoticfish":fish}]
 		
 		_:
 			return [{}]
