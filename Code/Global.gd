@@ -26,6 +26,8 @@ const IconTilemap = preload("res://Assets/icons.png")
 
 @export var Settings = {}
 
+const AroundTiles = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
+
 const BuildingData := {
 	"None":{
 		"atlas_coords": Vector2i(0,12),

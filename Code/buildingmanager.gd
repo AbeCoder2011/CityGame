@@ -434,16 +434,13 @@ func RecomputeStations():
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
 	var affection_range : int = 0
 	var affected = []
-	print(this_b,"-------------------------------")
 	for n in Global.ORDER.keys():
-		print(n)
 		if this_b["name"] in n:
 			var values = Global.ORDER[n].duplicate()
 			var rangee = values.pop_front()
 			affected.append_array(values)
 			if affection_range < rangee:
 				affection_range = rangee
-			print(values," <---")
 	if affected.is_empty():
 		return [] if not_self else [this_b]
 	
