@@ -21,6 +21,10 @@ Music="*uid://cedpg40fm8shm"
 YggdrasilLoader="*uid://dqbvvuokqq4um"
 YggdrasilSerializer="*uid://g5grx5mhggq2"
 
+[debug]
+
+settings/gdscript/max_call_stack=2047
+
 [display]
 
 window/size/viewport_width=1940

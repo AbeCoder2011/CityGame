@@ -1044,10 +1044,12 @@ layout_mode = 2
 Building_Name = "Mine"
 
 [node name="BasicHouse4" parent="UI/Building/Categories/Production Industry" unique_id=523922328 instance=ExtResource("5_qwshj")]
+visible = false
 layout_mode = 2
 Building_Name = "Sand Mine"
 
 [node name="BasicHouse5" parent="UI/Building/Categories/Production Industry" unique_id=1739314986 instance=ExtResource("5_qwshj")]
+visible = false
 layout_mode = 2
 Building_Name = "Smeltery"
 

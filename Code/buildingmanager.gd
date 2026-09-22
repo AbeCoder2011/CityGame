@@ -258,11 +258,12 @@ func SumAllProperties(pos:Vector2i, size:Vector2i, radius:int):
 	return properties
 
 func FindConnectedFishingBoats(pos) -> Array:
-	var b = flood_fill(pos,[])
+	var b = flood_fill(pos,[], pos)
 	return b
 
-func flood_fill(pos,visited : Array) -> Array:
-	if pos in visited:
+func flood_fill(pos,visited : Array, startingpos) -> Array:
+	print(pos, startingpos, InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30))
+	if pos in visited or InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30):
 		return []
 	var boats = []
 	for n in AllFishingBoats:
@@ -274,7 +275,7 @@ func flood_fill(pos,visited : Array) -> Array:
 		if $"../Terrain".get_tile(pos + d) == 1 or $"../Terrain".get_tile(pos + d) == 7:
 			if not pos in visited:
 				visited.append(pos)
-			for n in flood_fill(pos + d,visited):
+			for n in flood_fill(pos + d,visited, startingpos):
 				if n not in boats:
 					boats.append(n)
 	return boats
