@@ -285,6 +285,8 @@ func GetBuildingInfo() -> String:
 				out += "🪨 Makes " + str(v) +  " silicon.\n"
 			"sand":
 				out += "📦 Mines " + str(v) +  " sand.\n"
+			"exoticfish":
+				out += "🐠 Catches " + str(v) + " exotic fish.\n"
 			"nature":
 				out += "🌿 Gives " + str(v) +  " nature points.\n"
 			"entertainment":
