@@ -259,24 +259,25 @@ func SumAllProperties(pos:Vector2i, size:Vector2i, radius:int):
 
 func FindConnectedFishingBoats(pos) -> Array:
 	var b = flood_fill(pos,[], pos)
-	return b
+	return b.values()
 
-func flood_fill(pos,visited : Array, startingpos) -> Array:
+func flood_fill(pos,visited : Array, startingpos) -> Dictionary:
 	if pos in visited or not InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),15):
-		return []
-	var boats = []
+		return {}
+	var boats := {}
 	for n in AllFishingBoats:
 		if pos == n["pos"]:
-			boats.append(pos)
+			boats[pos] = n
 	for d in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]:
 		if pos+d in visited:
 			continue
 		if $"../Terrain".get_tile(pos + d) == 1 or $"../Terrain".get_tile(pos + d) == 7:
 			if not pos in visited:
 				visited.append(pos)
-			for n in flood_fill(pos + d,visited, startingpos):
+			var boatss : Dictionary = flood_fill(pos + d,visited, startingpos)
+			for n in boatss.keys():
 				if n not in boats:
-					boats.append(n)
+					boats[n] = boatss[n]
 	return boats
 
 func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
@@ -325,15 +326,26 @@ func CalculateStationConnections():
 				networks.erase(other)
 	station_networks = networks
 
-func FindNetwork(pos:Vector2i,stations,searched:Array = []) -> Array:
+func FindNetwork(pos:Vector2i,stations,last_dir:Vector2i = Vector2i.ZERO,searched:Array = []) -> Array:
 	if pos in searched:
 		return []
 	for n in AllTrainRelatedBuildings:
 		if n["name"] == "Rail" and n["pos"] == pos:
 			var s : Array = []
+			if n["node"].bridge_rail == true:
+				match n["node"].horizontal_bridge:
+					true:
+						searched.append(pos)
+						print(Vector2i(last_dir.x, 0))
+						s.append_array(FindNetwork(pos + Vector2i(last_dir.x, 0),stations,last_dir,searched))
+					false:
+						searched.append(pos)
+						print(Vector2i(0, last_dir.y))
+						s.append_array(FindNetwork(pos + Vector2i(0, last_dir.y),stations,last_dir,searched))
+				return s
 			for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
 				searched.append(pos)
-				s.append_array(FindNetwork(pos + dir,stations,searched))
+				s.append_array(FindNetwork(pos + dir,stations,dir,searched))
 			return s
 		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
 			return([n])
@@ -712,14 +724,18 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var boats = FindConnectedFishingBoats(pos)
 			var fish = 0
 			for b in boats:
-				if ClaimCollections.get("exoticfish",{}).get(b) != null:
+				if ClaimCollections.get("exoticfish",{}).get(b["pos"]) != null:
 					break
-				ClaimCollections.get("exoticfish",{})[b] = pos
+				ClaimCollections.get("exoticfish",{})[b["pos"]] = pos
 				for n in BuildingCollections[GetCollectionPos(pos)]:
 					if n["pos"] == pos:
-						n["claims"][b] = "exoticfish"
+						n["claims"][b["pos"]] = "exoticfish"
 						break
-				fish += Count_Terrain_Nearby(b,Vector2(1,1),7,1,true)
+				var my_fish = Count_Terrain_Nearby(b["pos"],Vector2(1,1),7,1,true)
+				fish += my_fish
+				
+				b["node"].extra_data = {"deep_water":my_fish}
+				
 			return [{"exoticfish":fish}]
 		_:
 			return [{}]

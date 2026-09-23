@@ -1,8 +1,0 @@
-[gd_resource type="Resource" script_class="YggdrasilRegistry" format=3 uid="uid://bi8kk43jhva8p"]
-
-[ext_resource type="Script" uid="uid://f8j2ty6n8q1d" path="res://addons/yggdrasil/scripts/resources/yggdrasil_registry.gd" id="1_t36cu"]
-[ext_resource type="Resource" uid="uid://b12ci3alqrrjq" path="res://yggdrasil_data/New Group/new_group.tres" id="1_tvxfb"]
-
-[resource]
-script = ExtResource("1_t36cu")
-groups = [ExtResource("1_tvxfb")]

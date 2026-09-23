@@ -332,6 +332,8 @@ const UnlockRequirements := {
 	"Lumber Mill":[{"type":"population","amount":150}],
 	"Fish Market":[{"type":"population","amount":40}],
 	"Fishing Hut":[{"type":"population","amount":40}],
+	"Fishing Dock":[{"type":"building_count","building":"Fishing Boat","amount":1}],
+	"Fishing Boat":[{"type":"building_count","building":"Seafood Market","amount":1}],
 	
 	"Small Solar Farm": [{"type":"money","amount":1000}],
 	"Nuclear Power Plant": [{"type":"population","amount":300}],

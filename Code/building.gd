@@ -8,6 +8,9 @@ var use_power := false
 var building_name = ""
 
 var grid_pos := Vector2i.ZERO
+
+var bridge_rail = false
+var horizontal_bridge = true
 var rail_connections := {"l":false,"r":false,"u":false,"d":false}
 
 var Claims : Dictionary = {}
@@ -141,7 +144,7 @@ func UpdateData():
 func _on_pressed() -> void:
 	if Global.Tool == 2:
 		hide()
-		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 2)
+		Global.Money += floor(Global.BuildingData[building_name]["cost"] / 4)
 		Global.BuildingUses[building_name] -= 1
 		$"..".AddToRemovalList({"pos":grid_pos,"name":building_name,"node":self,"claims":Claims})
 	if Global.Tool == 0:
@@ -171,45 +174,55 @@ func UpdateRailSprite() -> void:
 		rail_connections["d"] = true
 	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
 		rail_connections["u"] = true
-	if $"../../Terrain".get_tile(grid_pos) == 1:
+	if $"../../Terrain".get_tile(grid_pos) in [1,7]:
 		water = 32
-	
-	if rail_connections["l"] and rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,80 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 0
-	elif rail_connections["l"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 0
-	elif rail_connections["l"] and rail_connections["u"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 90
-	elif rail_connections["l"] and rail_connections["u"] and rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 180
-	elif rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(288,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 270
-	elif rail_connections["l"] and rail_connections["u"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 0
-	elif rail_connections["u"] and rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 90
-	elif rail_connections["r"] and rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 180
-	elif rail_connections["d"] and rail_connections["l"]:
-		$Sprite.texture.region = Rect2(Vector2(304,96 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 270
-	elif rail_connections["u"] or rail_connections["d"]:
-		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 0
-	elif rail_connections["l"] or rail_connections["r"]:
-		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 90
+		bridge_rail = true
+	if bridge_rail:
+		if rail_connections["r"] or rail_connections["l"]:
+			$Sprite.texture.region = Rect2(Vector2(288,112), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+			horizontal_bridge = true
+		else:
+			$Sprite.texture.region = Rect2(Vector2(304,112), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+			horizontal_bridge = false
 	else:
-		$Sprite.texture.region = Rect2(Vector2(304,80 + water), Vector2(16,16))
-		$Sprite.rotation_degrees = 0
+		if rail_connections["l"] and rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(288,80), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+		elif rail_connections["l"] and rail_connections["r"] and rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+		elif rail_connections["l"] and rail_connections["u"] and rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 90
+		elif rail_connections["l"] and rail_connections["u"] and rail_connections["r"]:
+			$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 180
+		elif rail_connections["u"] and rail_connections["r"] and rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(288,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 270
+		elif rail_connections["l"] and rail_connections["u"]:
+			$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+		elif rail_connections["u"] and rail_connections["r"]:
+			$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 90
+		elif rail_connections["r"] and rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 180
+		elif rail_connections["d"] and rail_connections["l"]:
+			$Sprite.texture.region = Rect2(Vector2(304,96), Vector2(16,16))
+			$Sprite.rotation_degrees = 270
+		elif rail_connections["u"] or rail_connections["d"]:
+			$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
+		elif rail_connections["l"] or rail_connections["r"]:
+			$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+			$Sprite.rotation_degrees = 90
+		else:
+			$Sprite.texture.region = Rect2(Vector2(304,80), Vector2(16,16))
+			$Sprite.rotation_degrees = 0
 	
 func GetSize(n) -> Vector2i:
 	return Global.BuildingData[n].get("size",Vector2i(1,1))
@@ -253,6 +266,8 @@ func GetBuildingInfo() -> String:
 				out += "💎 " + str(v) +  " gemstones nearby.\n"
 			"water":
 				out += "🌊 " + str(v) +  " water tiles nearby.\n"
+			"deep_water":
+				out += "💦 " + str(v) +  " deep water tiles nearby.\n"
 			"mountains":
 				out += "⛰️ " + str(v) +  " mountain tiles nearby.\n"
 			"desert":
