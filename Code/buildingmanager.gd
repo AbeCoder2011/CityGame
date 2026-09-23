@@ -262,7 +262,6 @@ func FindConnectedFishingBoats(pos) -> Array:
 	return b
 
 func flood_fill(pos,visited : Array, startingpos) -> Array:
-	print(pos, startingpos, InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30))
 	if pos in visited or not InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30):
 		return []
 	var boats = []
@@ -713,9 +712,15 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var boats = FindConnectedFishingBoats(pos)
 			var fish = 0
 			for b in boats:
+				if ClaimCollections.get("exoticfish",{}).get(b) != null:
+					break
+				ClaimCollections.get("exoticfish",{})[b] = pos
+				for n in BuildingCollections[GetCollectionPos(pos)]:
+					if n["pos"] == pos:
+						n["claims"][b] = "exoticfish"
+						break
 				fish += Count_Terrain_Nearby(b,Vector2(1,1),7,1,true)
 			return [{"exoticfish":fish}]
-		
 		_:
 			return [{}]
 	

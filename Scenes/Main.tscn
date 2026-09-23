@@ -386,5 +386,5 @@ wait_time = 10.0
 autostart = true
 
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
-[connection signal="timeout" from="Autosaver" to="." method="SaveGame"]
+[connection signal="timeout" from="Autosaver" to="." method="SaveGame" binds= [true]]
 [connection signal="timeout" from="TrainAnimation/TrainTimer" to="TrainAnimation" method="_on_train_timer_timeout"]

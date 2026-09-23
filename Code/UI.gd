@@ -279,7 +279,8 @@ func LoadSettings() -> void:
 				else:
 					Engine.max_fps = v
 					$"UI/Pause/Video/HBoxContainer/1/FPS".text = "Maximum FPS (%d fps)" % v
-					
+			"autosave_interval":
+				$"../Autosaver".wait_time = Global.Settings.get("autosave_interval",60)
 			_:
 				print("idk! ",nam,"   ",v)
 				

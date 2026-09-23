@@ -23,7 +23,7 @@ func _ready() -> void:
 	Global.Population = 0
 	Global.BuildingUses = {}
 	Global.CurrentBuilding = "None"
-	$Autosaver.wait_time = AUTOSAVE_INTERVAL
+	$Autosaver.wait_time = Global.Settings.get("autosave_interval",60)
 	$Autosaver.start()
 	$Background/Grid.position = (Global.MAP_SIZE * 6 * 48 * -1)
 	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Global.MAP_SIZE * 6 * 48 * 2))
@@ -145,7 +145,9 @@ func CheckBuildingUnlocks(current_building_counts:Dictionary):
 const SAVE_PATH := "user://saves/"
 const SAVE_NAME := "save.tres"
 const SAVE_FILE := preload("res://Code/SaveFile.gd")
-func SaveGame():
+func SaveGame(autosave=false):
+	if autosave and not Global.Settings.get("autosave",true):
+		return
 	DirAccess.make_dir_absolute(SAVE_PATH)
 	var save = {
 		"ub": UnlockedBuildings,
