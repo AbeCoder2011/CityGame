@@ -263,7 +263,7 @@ func FindConnectedFishingBoats(pos) -> Array:
 
 func flood_fill(pos,visited : Array, startingpos) -> Array:
 	print(pos, startingpos, InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30))
-	if pos in visited or InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30):
+	if pos in visited or not InRange(pos, startingpos, Vector2i(1,1), Vector2i(1,1),30):
 		return []
 	var boats = []
 	for n in AllFishingBoats:
