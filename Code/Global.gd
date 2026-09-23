@@ -281,7 +281,7 @@ const BuildingData := {
 		"cost": 10000000, # 10M
 		"forcewater":true,
 		"nexttoland":true,
-		"description": "Takes fish from all fishing boats on the same body of water within 30 tiles. Must be placed on water next to land"
+		"description": "Takes fish from all fishing boats on the same body of water within a radius of 15 tiles. Must be placed on water next to land"
 	},
 	# --- Trains
 	"Train Station":{
