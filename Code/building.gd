@@ -50,7 +50,7 @@ func init_building(nam,pos) -> void:
 					print("rot!",t,"  ",n)
 					print(Vector2(Vector2i.ZERO - n).angle())
 					print(rad_to_deg(Vector2(Vector2i.ZERO - n).angle()))
-					$Sprite.rotation = rad_to_deg(Vector2(Vector2i.ZERO - n).angle()) - 90
+					$Sprite.rotation = Vector2(Vector2i.ZERO - n).angle() - PI/2
 					return
 		_:
 			$Info/TextureRect.texture.atlas = Global.IconTilemap
