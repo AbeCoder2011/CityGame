@@ -91,19 +91,48 @@ Large Factory
 	Uranium enrichment for nuclear power plants
 
 --- Achievement plans
-	Avogaadro's dream: get 6.02 * 10^23 coins
-	Monopoly: have 8 bakeries all taking from only 1 mill
-	Megacorporation: build 100 of the same building
-	Walmart: Have 50 large supermarkets in your city
-	I woulds say "Speak of the devil", but it's rude to talk about somebody who's listening: have exactly 666,666 coins
-	give a man a fish, he'll be fed for a day: build 5 fishing huts
-	teach a man to fish, he'll be fed for his life: build 10 fishing huts
-	teach a man to fish exoticly, he'll be extraordinarily rich: build 5 exotic fishing huts
-	i'm sure this won't cause any environmental effects in 150 years: build 15 factories
-	why: build 500 small supermarkets
-	easy as pi: get 314.159.265.358.979.323 (314.15Q) coins
+	Avogaadro's dream:	 									get 6.02 * 10^23 coins
+	Megacorporation:						 				build 50 of the same building
+	Walmart:				 							Have 50 large supermarkets in your city
+	It's rude to talk about somebody who's listening: 						have exactly 666,666 coins
+	give a man a fish, he'll be fed for a day: 							build 5 fishing huts
+	teach a man to fish, he'll be fed for his life: 						build 10 fishing huts
+	teach a man to fish exoticly, he'll be extraordinarily rich: 					build 5 exotic fishing huts
+	Money above climate:						 				build 30 factories
+	why: 												build 100 small supermarkets
+	easy as pi: 											get 314.15 Q coins
+	WHY:												build 150 basic houses
+	Silicon Valley:											build 4 smelteries near a mountain
+	Detroit:											Have your happiness go below 15
+	Fresh Start:											Have > 1B Coins, but 0 buildings
+	Minimalist:											Have 1M coins without ever having more than 10 buildings 
+	Ultimate Minimalist:										Have 1M coins without ever having more than 5 buildings
+
+
+	NORMAL:
+
+	First step to greatness:									build a supermarket
+	Loaf of bread:											Build a Bakery
+	Steam age:											Build your first train network
+	Money above happiness:										Build a Low-Budget Apartment
+	Highrise:											Build a Large Apartment Complex
+	Not vegetarian:											Build a Animal Farm
+	Air Conditioning:										Build 4 Malls
+	That reminds me of somthing… :									Build a Gemstone Extractor
+	Turns with the wind:										Build a Wind Turbine
+	Nobody likes forests anyway:									Build five Lumbermills
+	Aboslute Cinema:										Build a cinema
+	Global warming:											Build ten Large Factories
+	Gordon Ramsey:											Build a Luxury Restaurant
+	Dessert:											Build a Sand Mine
 	
-	
+	Hamlet:												Have a population of 10
+	Village:											Have a population of 50
+	Town:												Have a population of 100
+	City:												Have a population of 5,000
+	Metropolis:											Have a population of 50,000
+	Megalopolis:											Have a population of 200,000
+
 
 TODO
 - 2x2 
