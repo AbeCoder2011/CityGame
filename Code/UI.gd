@@ -23,6 +23,14 @@ func _ready() -> void:
 	if FileAccess.file_exists("user://settings.cfg"):
 		LoadSettings()
 
+func Hover(nam,desc):
+	$UI/Achievements/Container/Container/Name.text = nam
+	$UI/Achievements/Container/Container/Description.text = desc
+
+func StopHover():
+	$UI/Achievements/Container/Container/Name.text = ""
+	$UI/Achievements/Container/Container/Description.text = ""
+
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
 		n.hide()

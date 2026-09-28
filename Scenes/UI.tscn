@@ -13,6 +13,7 @@
 [ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="10_n04ve"]
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
+[ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
 atlas = ExtResource("1_nxvpl")
@@ -366,9 +367,6 @@ _data = {
 atlas = ExtResource("9_wunin")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
-atlas = ExtResource("1_nxvpl")
-
 [sub_resource type="Animation" id="Animation_wi7yl"]
 resource_name = "Close"
 length = 0.3
@@ -400,7 +398,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_5q4fb"]
 resource_name = "Open"
-length = 0.19999999999999998
+length = 0.2
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -461,14 +459,25 @@ _data = {
 &"RESET": SubResource("Animation_mqm5i")
 }
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
+atlas = ExtResource("1_nxvpl")
+
 [sub_resource type="LabelSettings" id="LabelSettings_tgu54"]
-font_size = 48
-outline_size = 5
+font_size = 240
+outline_size = 25
 outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_61h6g"]
 atlas = ExtResource("9_wunin")
 region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8o083"]
+font = ExtResource("11_b1goy")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_bdmmk"]
+font = ExtResource("11_b1goy")
+font_size = 24
 
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
@@ -1905,6 +1914,9 @@ offset_bottom = -100.000244
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Animation" type="AnimationPlayer" parent="UI/Achievements" unique_id=274783105]
+libraries/ = SubResource("AnimationLibrary_jnovg")
+
 [node name="Background" type="NinePatchRect" parent="UI/Achievements" unique_id=1833794775]
 layout_mode = 1
 anchors_preset = -1
@@ -1922,17 +1934,15 @@ patch_margin_bottom = 9
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
-[node name="Animation" type="AnimationPlayer" parent="UI/Achievements" unique_id=274783105]
-libraries/ = SubResource("AnimationLibrary_jnovg")
-
 [node name="Label" type="Label" parent="UI/Achievements" unique_id=615586228]
 layout_mode = 0
 offset_left = 32.0
 offset_top = 28.0
 offset_right = 141.0
 offset_bottom = 51.0
+scale = Vector2(0.2, 0.2)
 theme_override_fonts/font = ExtResource("11_b1goy")
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 240
 text = "Achievements"
 label_settings = SubResource("LabelSettings_tgu54")
 
@@ -1953,6 +1963,166 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_61h6g")
+
+[node name="Container" type="HBoxContainer" parent="UI/Achievements" unique_id=1377154629]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = 120.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Achievements" type="GridContainer" parent="UI/Achievements/Container" unique_id=265903457]
+layout_mode = 2
+size_flags_horizontal = 3
+columns = 18
+
+[node name="Achievement" parent="UI/Achievements/Container/Achievements" unique_id=1327841122 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement2" parent="UI/Achievements/Container/Achievements" unique_id=381782094 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement3" parent="UI/Achievements/Container/Achievements" unique_id=556486356 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement4" parent="UI/Achievements/Container/Achievements" unique_id=102952520 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement5" parent="UI/Achievements/Container/Achievements" unique_id=140114583 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement6" parent="UI/Achievements/Container/Achievements" unique_id=1495895172 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement7" parent="UI/Achievements/Container/Achievements" unique_id=1291210958 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement8" parent="UI/Achievements/Container/Achievements" unique_id=1995624997 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement9" parent="UI/Achievements/Container/Achievements" unique_id=2005761629 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement10" parent="UI/Achievements/Container/Achievements" unique_id=1997508973 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement11" parent="UI/Achievements/Container/Achievements" unique_id=422979840 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement12" parent="UI/Achievements/Container/Achievements" unique_id=174033115 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement13" parent="UI/Achievements/Container/Achievements" unique_id=1904187748 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement14" parent="UI/Achievements/Container/Achievements" unique_id=65125069 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement15" parent="UI/Achievements/Container/Achievements" unique_id=736814426 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement16" parent="UI/Achievements/Container/Achievements" unique_id=1675276817 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement17" parent="UI/Achievements/Container/Achievements" unique_id=2114579686 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement18" parent="UI/Achievements/Container/Achievements" unique_id=1685738482 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement19" parent="UI/Achievements/Container/Achievements" unique_id=1151117847 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement20" parent="UI/Achievements/Container/Achievements" unique_id=1241908328 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement21" parent="UI/Achievements/Container/Achievements" unique_id=926900769 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement22" parent="UI/Achievements/Container/Achievements" unique_id=1293281049 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement23" parent="UI/Achievements/Container/Achievements" unique_id=740559897 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement24" parent="UI/Achievements/Container/Achievements" unique_id=775318298 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement25" parent="UI/Achievements/Container/Achievements" unique_id=101701276 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement26" parent="UI/Achievements/Container/Achievements" unique_id=831791568 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement27" parent="UI/Achievements/Container/Achievements" unique_id=2135342485 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement28" parent="UI/Achievements/Container/Achievements" unique_id=1786974723 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement29" parent="UI/Achievements/Container/Achievements" unique_id=2039042530 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement30" parent="UI/Achievements/Container/Achievements" unique_id=899489164 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement31" parent="UI/Achievements/Container/Achievements" unique_id=76824171 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement32" parent="UI/Achievements/Container/Achievements" unique_id=170342925 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement33" parent="UI/Achievements/Container/Achievements" unique_id=1967357885 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement34" parent="UI/Achievements/Container/Achievements" unique_id=966191390 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement35" parent="UI/Achievements/Container/Achievements" unique_id=1440773466 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement36" parent="UI/Achievements/Container/Achievements" unique_id=468042245 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement37" parent="UI/Achievements/Container/Achievements" unique_id=202744800 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement38" parent="UI/Achievements/Container/Achievements" unique_id=942237047 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement39" parent="UI/Achievements/Container/Achievements" unique_id=1527139659 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement40" parent="UI/Achievements/Container/Achievements" unique_id=1282627754 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Achievement41" parent="UI/Achievements/Container/Achievements" unique_id=839062350 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Container" type="VBoxContainer" parent="UI/Achievements/Container" unique_id=1915710981]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="Name" type="Label" parent="UI/Achievements/Container/Container" unique_id=778688003]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+text = "teach a man to fish exoticly, he'll be extraordinarily rich"
+label_settings = SubResource("LabelSettings_8o083")
+autowrap_mode = 2
+
+[node name="Description" type="Label" parent="UI/Achievements/Container/Container" unique_id=1712314054]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Hello "
+label_settings = SubResource("LabelSettings_bdmmk")
+autowrap_mode = 2
+clip_text = true
 
 [node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
 visible = false

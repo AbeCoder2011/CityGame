@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://67l0v3xxg7r5"]
+
+[ext_resource type="Texture2D" uid="uid://86ojm1cesf1k" path="res://Assets/Tilesheets/UI/achievements.png" id="1_nccir"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc83r"]
+atlas = ExtResource("1_nccir")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="GDScript" id="GDScript_wi7yl"]
+script/source = "extends TextureRect
+
+var atlas = preload(\"res://Assets/Tilesheets/UI/achievements.png\")
+
+@export var AchievementName = \"Avogaadro's dream\"
+var description = \"\"
+
+func _ready() -> void:
+	var data = Global.ACHIEVEMENTS[AchievementName][\"data\"]
+	description = data[\"desc\"]
+	texture = AtlasTexture.new()
+	texture.atlas = atlas
+	texture.region = Rect2(data[\"atlas\"] * 32,Vector2(16,16))
+	print(data)
+	$Button.connect(\"mouse_entered\",$\"../../../../..\".Hover.bind(AchievementName,description))
+	$Button.connect(\"mouse_exited\",$\"../../../../..\".StopHover)
+"
+
+[node name="Achievement" type="TextureRect" unique_id=1327841122]
+custom_minimum_size = Vector2(72, 72)
+texture = SubResource("AtlasTexture_yc83r")
+script = SubResource("GDScript_wi7yl")
+
+[node name="Button" type="Button" parent="." unique_id=1642321123]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true

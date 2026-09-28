@@ -339,48 +339,264 @@ const UnlockRequirements := {
 	"Nuclear Power Plant": [{"type":"population","amount":300}],
 	"Large Thermal Power Plant": [{"type":"building_count","building":"Thermal Power Plant","amount":2}],
 	"Large Solar Farm": [{"type":"building_count","building":"Small Solar Farm","amount":2}],
-
-	"Small Park": [{"type":"building_count","building":"Pocket Park","amount":2}],
-	"Fountain Park": [{"type":"money","amount":500}],
-	"Large Park": [{"type":"population","amount":200}],
-	"Large Forest": [{"type":"building_count","building":"Small Forest","amount":2}],
-	"Large Mountain": [{"type":"money","amount":2000}],
-	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
-
-	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
-	"Train Station": [{"type":"population","amount":1500}],
-	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
-	"Mine": [{"type":"building_count","building":"Train Station","amount":3}],
-	"Ore Extractor": [{"type":"building_count","building":"Train Station","amount":3}],
-	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
-}
-
+ 
+ 	"Small Park": [{"type":"building_count","building":"Pocket Park","amount":2}],
+ 	"Fountain Park": [{"type":"money","amount":500}],
+ 	"Large Park": [{"type":"population","amount":200}],
+ 	"Large Forest": [{"type":"building_count","building":"Small Forest","amount":2}],
+ 	"Large Mountain": [{"type":"money","amount":2000}],
+ 	"Large Wheatfield": [{"type":"building_count","building":"Small Wheatfield","amount":3}],
+ 
+ 	"Large Factory": [{"type":"building_count","building":"Small Factory","amount":3}],
+ 	"Train Station": [{"type":"population","amount":1500}],
+ 	"Rail": [{"type":"building_count","building":"Train Station","amount":1}],
+ 	"Mine": [{"type":"building_count","building":"Train Station","amount":3}],
+ 	"Ore Extractor": [{"type":"building_count","building":"Train Station","amount":3}],
+ 	"Jewlery Store": [{"type":"building_count","building":"Train Station","amount":3}],
+} 
+ 
 const ORDER = {
-	["Small Wheatfield","Large Wheatfield"]:[5,"Mill"],
-	["Mill"]:[4,"Bakery","Restaurant"],
-	["Animal Farm"]:[4,"Butcher"],
-	["Butcher"]:[4,"Restaurant"],
-	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Wind Turbine"]:[4,"Transformator Building", "Small Factory", "Large Factory"],
-	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
-	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
-	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
-	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
-	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex",""]:[1,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
-	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
-	["Mine"]:[4,"Ore Extractor"],
-	["Ore Extractor"]:[5,"Jewlery Store"],
-	#["Fishing Boat"]:[100,"Fishing Dock"],
-	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
-	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
-	["Wind Turbine"]:[5,"Wind Turbine"],
-	["Sand Mine"]:[4,"Smeltery"]
-}
-#
-#const REVERSE_UPDATE = {
-	#["Butcher"]:["Animal Farm"],
-	#["Mill"]:["Small Wheatfield","Large Wheatfield"],
-	#["Bakery","Restaurant"]:["Mill"],
-#}
+ 	["Small Wheatfield","Large Wheatfield"]:[5,"Mill"],
+ 	["Mill"]:[4,"Bakery","Restaurant"],
+ 	["Animal Farm"]:[4,"Butcher"],
+ 	["Butcher"]:[4,"Restaurant"],
+ 	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Wind Turbine"]:[4,"Transformator Building", "Small Factory", "Large Factory"],
+ 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+ 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+ 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
+ 	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
+ 	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex",""]:[1,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+ 	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Maket"]:[2,"Mall"],
+ 	["Mine"]:[4,"Ore Extractor"],
+ 	["Ore Extractor"]:[5,"Jewlery Store"],
+ 	#["Fishing Boat"]:[100,"Fishing Dock"],
+ 	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
+  	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
+  	["Wind Turbine"]:[5,"Wind Turbine"],
+  	["Sand Mine"]:[4,"Smeltery"]
+}  
+  
+const ACHIEVEMENTS = {
+	"Avogaadro's dream": {
+		"data":{
+			"desc":"Obtain 6.02e23 coins.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "money",
+		"amount": 6.02e23
+	},
+	"Megacorporation": {
+		"data":{
+			"desc":"Build 50 buildings of any type.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Any",
+		"amount": 50
+	},
+	"Walmart": {
+		"data":{
+			"desc":"Obtain 6.02e23 coins.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Large Supermarket",
+		"amount": 50
+	},
+	"It's rude to talk about somebody who's listening": {
+		"data":{
+			"desc":"Obtain EXACTLY 666666 coins.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "money",
+		"amount": 666666,
+		"exact": true # Exact on the integer, decimals don't matter
+	},
+	"give a man a fish, he'll be fed for a day": {
+		"data":{
+			"desc":"Build 5 Fishing Huts.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Fishing Hut",
+		"amount": 5
+	},
+	"teach a man to fish, he'll be fed for his life": {
+		"data":{
+			"desc":"Build 10 Fishing Huts.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Fishing Hut",
+		"amount": 10
+	},
+	"teach a man to fish exoticly, he'll be extraordinarily rich": {
+		"data":{
+			"desc":"Build 5 Fishing Boats.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Fishing Boat",
+		"amount": 5
+	},
+	"Money above climate": {
+		"data":{
+			"desc":"Build 50 Factories of any type.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Factory",
+		"amount": 30
+	},
+	"why": {
+		"data":{
+			"desc":"Build 100 Small Supermarkets of any type.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Small Supermarket",
+		"amount": 100
+	},
+	"easy as pi": {
+		"data":{
+			"desc":"Build 50 Factories of any type.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "money",
+		"amount": 314.15e15 # 314.15 Quadrillion
+	},
+	"WHY": {
+		"data":{
+			"desc":"Build 50 Factories of any type.",
+			"atlas":Vector2.ZERO
+		},
+		"type": "building",
+		"name": "Basic House",
+		"amount": 150
+	},
+	"Silicon Valley": {},
+	"Detroit": {},
+	"Fresh Start": {},
+	"Minimalist": {},
+	"Ultimate Minimalist": {},
+	
+	"First step to greatness": {
+		"type": "building",
+		"name": "Small Supermarket",
+		"amount": 1
+	},
+	"Loaf of bread": {
+		"type": "building",
+		"name": "Bakery",
+		"amount": 1
+	},
+	"Steam age": {
+		"type": "building",
+		"name": "Train Station",
+		"amount": 2
+	},
+	"Money above happiness": {
+		"type": "building",
+		"name": "Low-Budget Apartment",
+		"amount": 1
+	},
+	"Highrise": {
+		"type": "building",
+		"name": "Large Apartment Complex",
+		"amount": 1
+	},
+	"Not vegetarian": {
+		"type": "building",
+		"name": "Animal Farm",
+		"amount": 1
+	},
+	"Air Conditioning": {
+		"type": "building",
+		"name": "Mall",
+		"amount": 4
+	},
+	"That reminds me of somthing… ": {
+		"type": "building",
+		"name": "Gemstone Extractor",
+		"amount": 1
+	},
+	"Turns with the wind": {
+		"type": "building",
+		"name": "Wind Turbine",
+		"amount": 1
+	},
+	"Nobody likes forests anyway": {
+		"type": "building",
+		"name": "Lumbermill",
+		"amount": 5
+	},
+	"Aboslute Cinema": {
+		"type": "building",
+		"name": "Cinema",
+		"amount": 1
+	},
+	"Global warming": {
+		"type": "building",
+		"name": "Large Factory",
+		"amount": 10
+	},
+	"Gordon Ramsey": {
+		"type": "building",
+		"name": "Luxury Restaurant",
+		"amount": 1
+	},
+	"Dessert": {
+		"type": "building",
+		"name": "Sand Mine",
+		"amount": 1
+	},
+
+	"Elon Musk": {
+		"type": "income",
+		"amount": 30000
+	},
+	"Millionare": {
+		"type": "income",
+		"amount": 1e6
+	},
+	"Billionare": {
+		"type": "income",
+		"amount": 1e9
+	},
+	"Trillionare": {
+		"type": "income",
+		"amount": 1e12
+	},
+	"Quadrillionare": {
+		"type": "income",
+		"amount": 1e15
+	},
+
+	"Hamlet": {
+		"type": "population",
+		"amount": 10
+	},
+	"Village": {
+		"type": "population",
+		"amount": 50
+	},
+	"Town": {
+		"type": "population",
+		"amount": 100
+	},
+	"City": {
+		"type": "population",
+		"amount": 5000
+	},
+	"Metropolis": {
+		"type": "population",
+		"amount": 50000
+	},
+	"Megalopolis": {
+		"type": "population",
+		"amount": 200000
+	},
+};
 
 const RailIndexes = {
 }

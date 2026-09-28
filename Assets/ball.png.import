@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://do1occ54m41fj"
-path="res://.godot/imported/blank_icon.png-449a0f7e3389ce6c90a435c12f01bb8d.ctex"
+uid="uid://eccvxdkp4v1h"
+path="res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/yggdrasil/blank_icon.png"
-dest_files=["res://.godot/imported/blank_icon.png-449a0f7e3389ce6c90a435c12f01bb8d.ctex"]
+source_file="res://Assets/ball.png"
+dest_files=["res://.godot/imported/ball.png-1953c7d658a9d52aab6b71a2f962f6ac.ctex"]
 
 [params]
 
