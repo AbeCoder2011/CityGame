@@ -2124,6 +2124,12 @@ label_settings = SubResource("LabelSettings_bdmmk")
 autowrap_mode = 2
 clip_text = true
 
+[node name="Progress" type="ProgressBar" parent="UI/Achievements/Container/Container" unique_id=1377876299]
+custom_minimum_size = Vector2(1, 40)
+layout_mode = 2
+size_flags_vertical = 1
+value = 4.59
+
 [node name="BuildingInfo" type="Control" parent="UI" unique_id=698699237]
 visible = false
 layout_mode = 1

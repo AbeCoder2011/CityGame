@@ -215,7 +215,6 @@ randomness = 0.62
 process_material = SubResource("ParticleProcessMaterial_o2ick")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=432252880]
-visible = false
 position = Vector2(24, 24.000002)
 scale = Vector2(3, 3)
 texture = SubResource("AtlasTexture_v1gob")

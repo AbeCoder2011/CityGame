@@ -14,15 +14,21 @@ var atlas = preload(\"res://Assets/Tilesheets/UI/achievements.png\")
 @export var AchievementName = \"Avogaadro's dream\"
 var description = \"\"
 
-func _ready() -> void:
+var Unlocked = false
+var Progress = 0
+
+func Update():
 	var data = Global.ACHIEVEMENTS[AchievementName][\"data\"]
 	description = data[\"desc\"]
+	name = AchievementName
 	texture = AtlasTexture.new()
 	texture.atlas = atlas
 	texture.region = Rect2(data[\"atlas\"] * 32,Vector2(16,16))
 	print(data)
 	$Button.connect(\"mouse_entered\",$\"../../../../..\".Hover.bind(AchievementName,description))
 	$Button.connect(\"mouse_exited\",$\"../../../../..\".StopHover)
+
+	
 "
 
 [node name="Achievement" type="TextureRect" unique_id=1327841122]

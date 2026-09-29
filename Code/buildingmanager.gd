@@ -48,7 +48,8 @@ func AddToRemovalList(b:Dictionary):
 			var neighbor_pos = b["pos"] + offset
 			if Rails.has(neighbor_pos):
 				Rails[neighbor_pos].UpdateRailSprite()
-	Global.Money += Global.BuildingData[b["name"]]["cost"] * 0.5
+	var b_amounts = GetBuildingAmounts()
+	$"..".CheckAchievementProgress(b_amounts,true)
 	$"../UI".UpdateCityStats()
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
@@ -188,6 +189,7 @@ func GetBuildingAmounts() -> Dictionary:
 	for coll in BuildingCollections.values():
 		for b in coll:
 			counts[b["name"]] = counts.get(b["name"], 0) + 1
+			counts["total"] = counts.get("total",0) + 1
 	return counts
 
 # Count buildings of given names within radius of pos
@@ -409,6 +411,8 @@ func Tick():
 				CalculateHapiness()
 				RecomputePopulation()
 		DestroyedBuildings.clear()
+		var b_amounts = GetBuildingAmounts()
+		$"..".CheckAchievementProgress(b_amounts,true)
 	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
 	var disable_income_popup = Global.Settings.get("disable_income_popup",false)
@@ -421,7 +425,9 @@ func Tick():
 	Global.Money += money_total * Global.Happiness / 100
 	Global.Income = money_total * Global.Happiness / 100
 	$"..".UpdateCityStats()
-	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
+	var b_amounts = GetBuildingAmounts()
+	$"..".CheckAchievementProgress(b_amounts)
+	$"..".CheckBuildingUnlocks(b_amounts)
 	$"../UI".CheckBuildingUnlocks()
 	
 

@@ -15,6 +15,7 @@ var starter_buildings = [{ "pos": Vector2i(-2, -1), "name": "Basic House"}, { "p
 var BuildableAreas := [Rect2(-3,-3,6,6)]
 
 var UnlockedBuildings := {}
+var BuildingAmounts := {}
 
 var time : float = 0
 
@@ -55,6 +56,57 @@ func _ready() -> void:
 
 func UpdateCityStats():
 	$UI.UpdateCityStats()
+
+func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -> void:
+	BuildingAmounts = b_amounts
+	for n in Global.ACHIEVEMENTS.keys():
+		var prog = []
+		for p in Global.ACHIEVEMENTS[n]["requirements"]:
+			if something_happened or p["type"] == "money":
+				prog.append(GetRequirementProgress(p))
+		if prog.is_empty():
+			continue
+		var unlock = true
+		for d in prog:
+			if d is bool and not d:
+				unlock = false
+			elif d is bool and d:
+				continue
+			elif d is int:
+				unlock = d
+				break
+		Global.SetAchievementProgress(n, unlock)
+	
+
+func GetRequirementProgress(d : Dictionary) -> Variant:
+	match d["type"]:
+		"income":
+			return GetValueReached(Global.Income,d["amount"],d.get("exact",false))
+		"happiness":
+			return GetValueReached(Global.Happiness,d["amount"],d.get("exact",false))
+		"money":
+			return GetValueReached(Global.Money,d["amount"],d.get("exact",false))
+		"population":
+			return GetValueReached(Global.Population,d["amount"],d.get("exact",false))
+		"building":
+			if d.has("name"):
+				return GetValueReached(BuildingAmounts.get(d["name"],0),d["amount"],d.get("exact",false))
+			return GetValueReached(BuildingAmounts.get("total",0),d["amount"],d.get("exact",false))
+		_:
+			printerr(d["type"]," is not configured in the achievement checker!")
+	return false
+
+func GetValueReached(v:float,target:float,exact=false) -> Variant:
+	if exact:
+		return v == target
+	else:
+		if v >= target:
+			return true
+		else:
+			if v != 0.0:
+				print(v / target * 100)
+			return int(floor(v / target * 100))
+	
 
 func GenerateEnvironment():
 	terrain_noise.seed = randi()
@@ -133,10 +185,7 @@ func CheckBuildingUnlocks(current_building_counts:Dictionary):
 					if current_building_counts.get(r["building"], 0) >= r["amount"]:
 						UnlockedBuildings[b] = true
 				"total_buildings":
-					var total = 0
-					for c in current_building_counts.values():
-						total += c
-					if total >= r["amount"]:
+					if current_building_counts["total"] >= r["amount"]:
 						UnlockedBuildings[b] = true
 
 

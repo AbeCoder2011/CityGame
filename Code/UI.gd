@@ -4,6 +4,8 @@ var already_unlocked := []
 # main, pause, settings, general_settings, video_settings, sound_settings, accesibility_settings, 
 var menu = "main"
 
+var Progresses = {}
+
 const WINDOW_SIZES = [
 	Vector2i(1600,900),
 	Vector2i(1920,1080),
@@ -22,10 +24,23 @@ func _ready() -> void:
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
 	if FileAccess.file_exists("user://settings.cfg"):
 		LoadSettings()
-
+	var i = 0
+	for n in $UI/Achievements/Container/Achievements.get_children():
+		n.AchievementName = Global.ACHIEVEMENTS.keys()[i]
+		i += 1
+		n.Update()
 func Hover(nam,desc):
 	$UI/Achievements/Container/Container/Name.text = nam
 	$UI/Achievements/Container/Container/Description.text = desc
+	var p = Progresses.get(nam,false)
+	if p is bool and p:
+		$UI/Achievements/Container/Container/Progress.hide()
+	else:
+		$UI/Achievements/Container/Container/Progress.show()
+		if p is bool and not p:
+			$UI/Achievements/Container/Container/Progress.value = 0
+		else:
+			$UI/Achievements/Container/Container/Progress.value = Progresses[nam]
 
 func StopHover():
 	$UI/Achievements/Container/Container/Name.text = ""
@@ -124,6 +139,16 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func _on_save_pressed() -> void:
 	$"..".SaveGame()
+
+func UpdateAchievementProgress(nam:String):
+	var prog = Global.GetAchievementProgress(nam)
+	$UI/Achievements/Container/Achievements.get_node(nam).Unlocked = (prog == true)
+	if prog is int:
+		$UI/Achievements/Container/Achievements.get_node(nam).Progress = prog
+	if prog == false:
+		$UI/Achievements/Container/Achievements.get_node(nam).Progress = 0
+	$UI/Achievements/Container/Achievements.get_node(nam).Update()
+	Progresses[nam] = prog
 
 
 func _on_close_pressed() -> void:
