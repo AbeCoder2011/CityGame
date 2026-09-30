@@ -1991,6 +1991,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Achievement4" parent="UI/Achievements/Container/Achievements" unique_id=102952520 instance=ExtResource("14_wi7yl")]
+modulate = Color(0.5137255, 0.5137255, 0.5137255, 1)
 layout_mode = 2
 
 [node name="Achievement5" parent="UI/Achievements/Container/Achievements" unique_id=140114583 instance=ExtResource("14_wi7yl")]

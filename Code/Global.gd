@@ -10,6 +10,8 @@ extends Node
 
 @export var Zoom := 1.0
 
+var AchievementProgress = {}
+
 # ACTUAL SIZE IS DOUBLE!!!!!!!
 const MAP_SIZE = Vector2i(20,20)
 
@@ -375,520 +377,194 @@ const ORDER = {
   	["Wind Turbine"]:[5,"Wind Turbine"],
   	["Sand Mine"]:[4,"Smeltery"]
 }  
-  
+
+# ============================================================
+# Global.gd — REPLACE const ACHIEVEMENTS with this
+# Atlas: 16 per row, +1 per achievement (41 total -> 3 rows)
+# ============================================================
 const ACHIEVEMENTS = {
+	# --- Secret (row 0)
 	"Avogaadro's dream": {
-		"data":{
-			"desc":"Obtain 6.02e23 coins.",
-			"atlas":Vector2(0,0)
-		},
-		"requirements":[
-			{
-				"type": "money",
-				"amount": 6.02e23
-			}
-		]
+		"data": {"desc": "Obtain 6.02e23 coins.", "atlas": Vector2(0,0)},
+		"requirements": [{"type": "money", "amount": 6.02e23}]
 	},
 	"Megacorporation": {
-		"data":{
-			"desc":"Build 50 buildings of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"amount": 50
-			}
-		]
+		"data": {"desc": "Have 50 buildings.", "atlas": Vector2(1,0)},
+		"requirements": [{"type": "building", "amount": 50}]
 	},
 	"Walmart": {
-		"data":{
-			"desc":"Obtain 6.02e23 coins.",
-			"atlas":Vector2(2,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Large Supermarket",
-				"amount": 50
-			}
-		]
+		"data": {"desc": "Build 50 Large Supermarkets.", "atlas": Vector2(2,0)},
+		"requirements": [{"type": "building", "name": "Large Supermarket", "amount": 50}]
 	},
 	"It's rude to talk about somebody who's listening": {
-		"data":{
-			"desc":"Obtain EXACTLY 666666 coins.",
-			"atlas":Vector2(3,0)
-		},
-		"requirements":[
-			{
-				"type": "money",
-				"amount": 666666,
-				"exact": true # Exact on the integer, decimals don't matter
-			}
-		]
+		"data": {"desc": "Have exactly 666,666 coins.", "atlas": Vector2(3,0)},
+		"requirements": [{"type": "money", "amount": 666666, "exact": true}]
 	},
 	"give a man a fish, he'll be fed for a day": {
-		"data":{
-			"desc":"Build 5 Fishing Huts.",
-			"atlas":Vector2(4,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Fishing Hut",
-				"amount": 5
-			}
-		]
+		"data": {"desc": "Build 5 Fishing Huts.", "atlas": Vector2(4,0)},
+		"requirements": [{"type": "building", "name": "Fishing Hut", "amount": 5}]
 	},
 	"teach a man to fish, he'll be fed for his life": {
-		"data":{
-			"desc":"Build 10 Fishing Huts.",
-			"atlas":Vector2(5,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Fishing Hut",
-				"amount": 10
-			}
-		]
+		"data": {"desc": "Build 10 Fishing Huts.", "atlas": Vector2(5,0)},
+		"requirements": [{"type": "building", "name": "Fishing Hut", "amount": 10}]
 	},
 	"teach a man to fish exoticly, he'll be extraordinarily rich": {
-		"data":{
-			"desc":"Build 5 Fishing Boats.",
-			"atlas":Vector2(6,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Fishing Boat",
-				"amount": 5
-			}
-		]
+		"data": {"desc": "Build 5 Fishing Boats.", "atlas": Vector2(6,0)},
+		"requirements": [{"type": "building", "name": "Fishing Boat", "amount": 5}]
 	},
 	"Money above climate": {
-		"data":{
-			"desc":"Build 30 Factories of any type.",
-			"atlas":Vector2(7,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Small Factory",
-				"amount": 30
-			}
-		]
+		"data": {"desc": "Build 30 Small Factories.", "atlas": Vector2(7,0)},
+		"requirements": [{"type": "building", "name": "Small Factory", "amount": 30}]
 	},
 	"why": {
-		"data":{
-			"desc":"Build 100 Small Supermarkets of any type.",
-			"atlas":Vector2(8,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Small Supermarket",
-				"amount": 100
-			}
-		]
+		"data": {"desc": "Build 100 Small Supermarkets.", "atlas": Vector2(8,0)},
+		"requirements": [{"type": "building", "name": "Small Supermarket", "amount": 100}]
 	},
 	"easy as pi": {
-		"data":{
-			"desc":"Have 314.15Q coins.",
-			"atlas":Vector2(9,0)
-		},
-		"requirements":[
-			{
-				"type": "money",
-				"amount": 314.15e15 # 314.15 Quadrillion
-			}
-		]
+		"data": {"desc": "Have 314.15Q coins.", "atlas": Vector2(9,0)},
+		"requirements": [{"type": "money", "amount": 314.15e15}]
 	},
 	"WHY": {
-		"data":{
-			"desc":"Build 150 Small Housing of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Basic House",
-				"amount": 150
-			}
-		]
+		"data": {"desc": "Build 150 Basic Houses.", "atlas": Vector2(10,0)},
+		"requirements": [{"type": "building", "name": "Basic House", "amount": 150}]
 	},
 	"Silicon Valley": {
-		"data":{
-			"desc":"Build 150 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[] # TODO: no conditions defined yet
+		"data": {"desc": "Build 4 Smelteries.", "atlas": Vector2(11,0)},
+		"requirements": [{"type": "building", "name": "Smeltery", "amount": 4}]
 	},
 	"Detroit": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type":"happiness",
-				"amount":15,
-				"less":true,
-			},{
-				"type":"population",
-				"amount":1000
-			}
+		"data": {"desc": "Reach 1,000 population with happiness below 15.", "atlas": Vector2(12,0)},
+		"requirements": [
+			{"type": "happiness", "amount": 15, "less": true},
+			{"type": "population", "amount": 1000}
 		]
 	},
 	"Fresh Start": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type":"money",
-				"amount":1e9
-			},{
-				"type":"building",
-				"amount":0,
-				"exact":true
-			}
+		"data": {"desc": "Have 1B coins with no buildings.", "atlas": Vector2(13,0)},
+		"requirements": [
+			{"type": "money", "amount": 1e9},
+			{"type": "building", "amount": 0, "exact": true}
 		]
 	},
 	"Minimalist": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[] # TODO: no conditions defined yet
+		"data": {"desc": "Reach 1M coins without ever having more than 10 buildings.", "atlas": Vector2(14,0)},
+		"requirements": [
+			{"type": "money", "amount": 1e6},
+			{"type": "peak_buildings", "amount": 10}
+		]
 	},
 	"Ultimate Minimalist": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[] # TODO: no conditions defined yet
-	},
-	
-	"First step to greatness": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Small Supermarket",
-				"amount": 1
-			}
+		"data": {"desc": "Reach 1M coins without ever having more than 5 buildings.", "atlas": Vector2(15,0)},
+		"requirements": [
+			{"type": "money", "amount": 1e6},
+			{"type": "peak_buildings", "amount": 5}
 		]
+	},
+
+	# --- Normal (row 1)
+	"First step to greatness": {
+		"data": {"desc": "Build a Small Supermarket.", "atlas": Vector2(0,1)},
+		"requirements": [{"type": "building", "name": "Small Supermarket", "amount": 1}]
 	},
 	"Loaf of bread": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Bakery",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Bakery.", "atlas": Vector2(1,1)},
+		"requirements": [{"type": "building", "name": "Bakery", "amount": 1}]
 	},
 	"Steam age": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Train Station",
-				"amount": 2
-			}
-		]
+		"data": {"desc": "Build 2 Train Stations.", "atlas": Vector2(2,1)},
+		"requirements": [{"type": "building", "name": "Train Station", "amount": 2}]
 	},
 	"Money above happiness": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Low-Budget Apartment",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Low-Budget Apartment.", "atlas": Vector2(3,1)},
+		"requirements": [{"type": "building", "name": "Low-Budget Apartment", "amount": 1}]
 	},
 	"Highrise": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Large Apartment Complex",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Large Apartment Complex.", "atlas": Vector2(4,1)},
+		"requirements": [{"type": "building", "name": "Large Apartment Complex", "amount": 1}]
 	},
 	"Not vegetarian": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Animal Farm",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build an Animal Farm.", "atlas": Vector2(5,1)},
+		"requirements": [{"type": "building", "name": "Animal Farm", "amount": 1}]
 	},
 	"Air Conditioning": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Mall",
-				"amount": 4
-			}
-		]
+		"data": {"desc": "Build 4 Malls.", "atlas": Vector2(6,1)},
+		"requirements": [{"type": "building", "name": "Mall", "amount": 4}]
 	},
 	"That reminds me of somthing… ": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Gemstone Extractor",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build an Ore Extractor.", "atlas": Vector2(7,1)},
+		"requirements": [{"type": "building", "name": "Ore Extractor", "amount": 1}]
 	},
 	"Turns with the wind": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Wind Turbine",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Wind Turbine.", "atlas": Vector2(8,1)},
+		"requirements": [{"type": "building", "name": "Wind Turbine", "amount": 1}]
 	},
 	"Nobody likes forests anyway": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Lumbermill",
-				"amount": 5
-			}
-		]
+		"data": {"desc": "Build 5 Lumber Mills.", "atlas": Vector2(9,1)},
+		"requirements": [{"type": "building", "name": "Lumber Mill", "amount": 5}]
 	},
 	"Aboslute Cinema": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Cinema",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Cinema.", "atlas": Vector2(10,1)},
+		"requirements": [{"type": "building", "name": "Cinema", "amount": 1}]
 	},
 	"Global warming": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Large Factory",
-				"amount": 10
-			}
-		]
+		"data": {"desc": "Build 10 Large Factories.", "atlas": Vector2(11,1)},
+		"requirements": [{"type": "building", "name": "Large Factory", "amount": 10}]
 	},
 	"Gordon Ramsey": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Luxury Restaurant",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Restaurant.", "atlas": Vector2(12,1)},
+		"requirements": [{"type": "building", "name": "Restaurant", "amount": 1}]
 	},
 	"Dessert": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "building",
-				"name": "Sand Mine",
-				"amount": 1
-			}
-		]
+		"data": {"desc": "Build a Sand Mine.", "atlas": Vector2(13,1)},
+		"requirements": [{"type": "building", "name": "Sand Mine", "amount": 1}]
 	},
-
 	"Elon Musk": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "income",
-				"amount": 30000
-			}
-		]
+		"data": {"desc": "Earn 30K coins per second.", "atlas": Vector2(14,1)},
+		"requirements": [{"type": "income", "amount": 30000}]
 	},
 	"Millionare": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "income",
-				"amount": 1e6
-			}
-		]
+		"data": {"desc": "Earn 1M coins per second.", "atlas": Vector2(15,1)},
+		"requirements": [{"type": "income", "amount": 1e6}]
 	},
+
+	# --- (row 2)
 	"Billionare": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "income",
-				"amount": 1e9
-			}
-		]
+		"data": {"desc": "Earn 1B coins per second.", "atlas": Vector2(0,2)},
+		"requirements": [{"type": "income", "amount": 1e9}]
 	},
 	"Trillionare": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "income",
-				"amount": 1e12
-			}
-		]
+		"data": {"desc": "Earn 1T coins per second.", "atlas": Vector2(1,2)},
+		"requirements": [{"type": "income", "amount": 1e12}]
 	},
 	"Quadrillionare": {
-		"data":{
-			"desc":"Build 50 Factories of any type.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "income",
-				"amount": 1e15
-			}
-		]
+		"data": {"desc": "Earn 1Q coins per second.", "atlas": Vector2(2,2)},
+		"requirements": [{"type": "income", "amount": 1e15}]
 	},
-
 	"Hamlet": {
-		"data":{
-			"desc":"Have 10 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 10
-			}
-		]
+		"data": {"desc": "Reach 10 citizens.", "atlas": Vector2(3,2)},
+		"requirements": [{"type": "population", "amount": 10}]
 	},
 	"Village": {
-		"data":{
-			"desc":"Have 50 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 50
-			}
-		]
+		"data": {"desc": "Reach 50 citizens.", "atlas": Vector2(4,2)},
+		"requirements": [{"type": "population", "amount": 50}]
 	},
 	"Town": {
-		"data":{
-			"desc":"Have 100 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 100
-			}
-		]
+		"data": {"desc": "Reach 100 citizens.", "atlas": Vector2(5,2)},
+		"requirements": [{"type": "population", "amount": 100}]
 	},
 	"City": {
-		"data":{
-			"desc":"Have 5,000 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 5000
-			}
-		]
+		"data": {"desc": "Reach 5,000 citizens.", "atlas": Vector2(6,2)},
+		"requirements": [{"type": "population", "amount": 5000}]
 	},
 	"Metropolis": {
-		"data":{
-			"desc":"Have 50,000 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 50000
-			}
-		]
+		"data": {"desc": "Reach 50,000 citizens.", "atlas": Vector2(7,2)},
+		"requirements": [{"type": "population", "amount": 50000}]
 	},
 	"Megalopolis": {
-		"data":{
-			"desc":"Have 200,000 citizens in your city.",
-			"atlas":Vector2(1,0)
-		},
-		"requirements":[
-			{
-				"type": "population",
-				"amount": 200000
-			}
-		]
-	},
+		"data": {"desc": "Reach 200,000 citizens.", "atlas": Vector2(8,2)},
+		"requirements": [{"type": "population", "amount": 200000}]
+	}
 }
-
 const RailIndexes = {
 }
 @export var Money := 100.0
@@ -930,34 +606,25 @@ func GetBigNumber(i:float) -> String:
 		else:
 			return(str(snapped(i,0.5)))
 
+func UpdateAchievementProgress(Changes:Dictionary):
+	LoadAchievementProgress()
+	for n in Changes.keys():
+		AchievementProgress[n] = Changes[n]
+	SaveAchievementProgress()
+
 func IsAchievementUnlocked(nam:String) -> bool:
-	var progress = ResourceLoader.load("user://achievements.tres").save
-	if not progress.has(nam):
-		printerr("Achievement completion not found for ",nam)
-	return progress.get(nam,false)
+	if AchievementProgress.get(nam,false) is bool and AchievementProgress.get(nam,false):
+		return true
+	return false
 
-func GetAchievementProgress(nam:String) -> int:
-	var progress = ResourceLoader.load("user://achievements.tres").save
-	if not progress.has(nam):
-		printerr("Achievement progress not found for ",nam)
-	return progress.get(nam,false) == true
+func GetAchievementProgress(nam:String) -> Variant:
+	return AchievementProgress.get(nam,false)
 
-func SetAchievementProgress(nam:String,progress:Variant):
-	DirAccess.make_dir_absolute("user://")
-	var data
-	if FileAccess.file_exists("user://achievements.tres"):
-		data = ResourceLoader.load("user://achievements.tres").get("save")
-	else:
-		data = {}
-	if progress is int:
-		if data.get(nam,false) is int:
-			if data.get(nam,false) > progress:
-				data[nam] = progress
-		else:
-			data[nam] = progress
-	else:
-		if data.get(nam,false) is bool and not data.get(nam,false) and progress == true:
-			data[nam] = progress
+func SaveAchievementProgress():
 	var new = SaveFile.new()
-	new.save = data
+	new.save = AchievementProgress
 	ResourceSaver.save(new,"user://achievements.tres")
+
+func LoadAchievementProgress():
+	AchievementProgress = ResourceLoader.load("user://achievements.tres").save
+	

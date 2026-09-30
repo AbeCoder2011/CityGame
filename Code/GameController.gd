@@ -42,7 +42,6 @@ func _ready() -> void:
 		if UnlockedBuildings[n]:
 			$UI.already_unlocked.append(n)
 	await get_tree().process_frame
-	#GenerateEnvironment()
 
 # Time lol
 #func _process(delta: float) -> void:
@@ -59,6 +58,7 @@ func UpdateCityStats():
 
 func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -> void:
 	BuildingAmounts = b_amounts
+	var changes = {}
 	for n in Global.ACHIEVEMENTS.keys():
 		var prog = []
 		for p in Global.ACHIEVEMENTS[n]["requirements"]:
@@ -75,7 +75,14 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 			elif d is int:
 				unlock = d
 				break
-		Global.SetAchievementProgress(n, unlock)
+		if not is_same(Global.AchievementProgress.get(n,false),unlock):
+			changes[n] = unlock
+			
+	if not changes.is_empty():
+		Global.UpdateAchievementProgress(changes)
+		for n in changes.keys():
+			$UI.UpdateAchievementProgress(n)
+	
 	
 
 func GetRequirementProgress(d : Dictionary) -> Variant:
@@ -96,6 +103,7 @@ func GetRequirementProgress(d : Dictionary) -> Variant:
 			printerr(d["type"]," is not configured in the achievement checker!")
 	return false
 
+# Takes a value and target, returns the percentage of completion, or true if completed, or false if the value is still 0
 func GetValueReached(v:float,target:float,exact=false) -> Variant:
 	if exact:
 		return v == target
@@ -103,8 +111,6 @@ func GetValueReached(v:float,target:float,exact=false) -> Variant:
 		if v >= target:
 			return true
 		else:
-			if v != 0.0:
-				print(v / target * 100)
 			return int(floor(v / target * 100))
 	
 
@@ -206,6 +212,7 @@ func SaveGame(autosave=false):
 		"happ":Global.Happiness,
 		"uses":Global.BuildingUses,
 		"diff":Global.Difficulty,
+		"peak":$Buildings.PeakBuildings,
 		"open_areas":$Areas.OpenAreas,
 		"buildable":BuildableAreas,
 		"seed": $"Terrain".seed,
@@ -235,6 +242,7 @@ func LoadGame():
 	$Areas.OpenAreas = save["open_areas"]
 	$Areas.GenerateAreas()
 	$"Terrain".Generate()
+	$Buildings.PeakBuildings = save["peak"]
 	for coll in save["buildings"].values():
 		for b in coll:
 			$Buildings.NewBuilding(b["name"],b["pos"],false)

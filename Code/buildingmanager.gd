@@ -13,6 +13,7 @@ var AllFishingDocks = []
 var Rails : Dictionary[Vector2i, Node2D] = {}
 var DestroyedBuildings = []
 
+var PeakBuildings = 0
 
 var ClaimCollections : Dictionary[String,Dictionary]= {}
 
@@ -411,8 +412,6 @@ func Tick():
 				CalculateHapiness()
 				RecomputePopulation()
 		DestroyedBuildings.clear()
-		var b_amounts = GetBuildingAmounts()
-		$"..".CheckAchievementProgress(b_amounts,true)
 	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
 	var disable_income_popup = Global.Settings.get("disable_income_popup",false)
@@ -426,10 +425,11 @@ func Tick():
 	Global.Income = money_total * Global.Happiness / 100
 	$"..".UpdateCityStats()
 	var b_amounts = GetBuildingAmounts()
+	if b_amounts.get("total",0) > PeakBuildings:
+		PeakBuildings = b_amounts.get("total",0)
 	$"..".CheckAchievementProgress(b_amounts)
 	$"..".CheckBuildingUnlocks(b_amounts)
 	$"../UI".CheckBuildingUnlocks()
-	
 
 func Recompute(b:Dictionary):
 	SetValues(b)
