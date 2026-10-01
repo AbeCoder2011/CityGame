@@ -18,15 +18,13 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action("zoom_out"):
+		zoom *= 0.9
+		zoom = clamp(zoom,Vector2(0.05,0.05),Vector2(15,15))
+	elif event.is_action("zoom_in"):
+		zoom *= 1.1
+		zoom = clamp(zoom,Vector2(0.05,0.05),Vector2(15,15))
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			zoom *= 0.9
-			if zoom.x < 0.05:
-				zoom = Vector2(0.05,0.05)
-		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			zoom *= 1.1
-			if zoom.x > 15:
-				zoom = Vector2(15,15)
 		Global.Zoom = zoom.x
 		if event.is_action("move_camera") and event.is_pressed():
 			right_clicked = true
@@ -37,3 +35,4 @@ func _input(event: InputEvent) -> void:
 		position -= event.relative / zoom
 		position.x = clamp(position.x, limit_left, limit_right)
 		position.y = clamp(position.y, limit_top, limit_bottom)
+	

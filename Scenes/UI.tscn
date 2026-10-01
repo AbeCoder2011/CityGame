@@ -1468,6 +1468,14 @@ layout_mode = 2
 [node name="Achievement16" parent="UI/Achievements/Container/Achievements" unique_id=1675276817 instance=ExtResource("14_wi7yl")]
 layout_mode = 2
 
+[node name="Gap" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=839547529]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap2" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=2126011057]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
 [node name="Achievement17" parent="UI/Achievements/Container/Achievements" unique_id=2114579686 instance=ExtResource("14_wi7yl")]
 layout_mode = 2
 
@@ -1510,6 +1518,22 @@ layout_mode = 2
 [node name="Achievement30" parent="UI/Achievements/Container/Achievements" unique_id=899489164 instance=ExtResource("14_wi7yl")]
 layout_mode = 2
 
+[node name="Gap3" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=792063859]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap4" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1519368863]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap5" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1125295616]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap7" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1445556461]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
 [node name="Achievement31" parent="UI/Achievements/Container/Achievements" unique_id=76824171 instance=ExtResource("14_wi7yl")]
 layout_mode = 2
 
@@ -1523,6 +1547,58 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Achievement35" parent="UI/Achievements/Container/Achievements" unique_id=1440773466 instance=ExtResource("14_wi7yl")]
+layout_mode = 2
+
+[node name="Gap6" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=514772827]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap8" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1995909249]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap9" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1774996762]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap10" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=893106504]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap11" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=937066503]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap12" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=805996695]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap13" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1143976525]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap14" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1218935676]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap15" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=2038167611]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap16" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=871355491]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap17" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1594621528]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap18" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=522320250]
+custom_minimum_size = Vector2(72, 72)
+layout_mode = 2
+
+[node name="Gap19" type="Control" parent="UI/Achievements/Container/Achievements" unique_id=1674242075]
+custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
 
 [node name="Achievement36" parent="UI/Achievements/Container/Achievements" unique_id=468042245 instance=ExtResource("14_wi7yl")]

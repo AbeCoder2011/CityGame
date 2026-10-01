@@ -16,9 +16,7 @@ func _process(delta: float) -> void:
 			$BuildingPreview.modulate = Color(1, 1, 1,.5)
 	else:
 		$BuildingPreview.hide()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("build") and event.is_pressed() and Global.Tool == 1:
+	if Input.is_action_pressed("build") and Global.Tool == 1:
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		
