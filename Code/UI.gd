@@ -17,6 +17,11 @@ func _ready() -> void:
 		n.AchievementName = Global.ACHIEVEMENTS.keys()[i]
 		i += 1
 		n.Update()
+	await get_tree().process_frame
+	i = 0
+	for n in $UI/Achievements/Container/Achievements.get_children():
+		UpdateAchievementProgress(Global.ACHIEVEMENTS.keys()[i])
+		i += 1
 
 func Hover(nam,desc):
 	now_hover = nam

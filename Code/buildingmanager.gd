@@ -96,6 +96,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		CalculateHapiness()
 		RecomputePopulation()
 	var b_amounts = GetBuildingAmounts()
+	print(b_amounts)
 	$"..".CheckAchievementProgress(b_amounts,true)
 
 func DeselectOthers():

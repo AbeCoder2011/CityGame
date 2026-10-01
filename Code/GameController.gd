@@ -67,6 +67,8 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 		for p in Global.ACHIEVEMENTS[n]["requirements"]:
 			if something_happened or p["type"] == "money":
 				prog.append(GetRequirementProgress(p))
+				if n == "First step to greatness":
+					print(prog)
 		if prog.is_empty():
 			continue
 		var unlock = true

@@ -18,6 +18,9 @@ const MAP_SIZE = Vector2i(20,20)
 const BuildingTilemap = preload("res://Assets/Tilesheets/BuildingTiles/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
 
+func _ready() -> void:
+	LoadAchievementProgress()
+
 # Tool 0 = Select
 #      1 = Draw
 #      2 = Erase
@@ -378,12 +381,7 @@ const ORDER = {
   	["Sand Mine"]:[4,"Smeltery"]
 }  
 
-# ============================================================
-# Global.gd — REPLACE const ACHIEVEMENTS with this
-# Atlas: 16 per row, +1 per achievement (41 total -> 3 rows)
-# ============================================================
 const ACHIEVEMENTS = {
-	# --- Secret (row 0)
 	"Avogaadro's dream": {
 		"data": {"desc": "Obtain 6.02e23 coins.", "atlas": Vector2(0,0)},
 		"requirements": [{"type": "money", "amount": 6.02e23}]

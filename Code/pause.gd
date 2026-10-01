@@ -109,7 +109,7 @@ func SetSettingBool(new_state:bool,nam:String):
 			$"General/HBoxContainer/1/AutosaveIntervalSlider".visible = new_state
 		"show_building_grid":
 			if !main_menu:
-				$"../Background/Grid".visible = new_state
+				$"../../../Background/Grid".visible = new_state
 	SaveSettings()
 
 func SetOptionID(new_id:int,nam:String):
@@ -153,7 +153,7 @@ func LoadSettings() -> void:
 			"show_building_grid":
 				$"General/HBoxContainer/1/ShowBuildingGrid".button_pressed = v
 				if !main_menu:
-					$"../Background/Grid".visible = v
+					$"../../../Background/Grid".visible = v
 			"number_format":
 				$"General/HBoxContainer/2/NumberFormatButton".select(v)
 			"master_volume":
@@ -178,6 +178,10 @@ func LoadSettings() -> void:
 			"autosave_interval":
 				if !main_menu:
 					$"../Autosaver".wait_time = Global.Settings.get("autosave_interval",60)
+			"window_size":
+				get_window().size = WINDOW_SIZES[v]
+			"window_mode":
+				get_window().mode = WINDOW_MODES[v]
 			_:
 				print("idk! ",nam,"   ",v)
 				
@@ -193,4 +197,4 @@ func _on_save_and_quit_pressed() -> void:
 
 
 func _on_continue_pressed() -> void:
-	$"../.."._on_continue_pressed()	
+	$"../.."._on_continue_pressed()

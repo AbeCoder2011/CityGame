@@ -557,6 +557,7 @@ popup/item_3/text = "   3840 x 2160"
 popup/item_3/id = 2
 script = SubResource("GDScript_b1goy")
 setting_name = "window_size"
+setting_type = "Dropdown"
 
 [node name="Gap4" type="Label" parent="Video/HBoxContainer/1" unique_id=1138219485]
 layout_mode = 2
@@ -626,7 +627,10 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
+[connection signal="pressed" from="Main/VBoxContainer/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/SaveAndReturn" to="." method="_on_save_and_return_pressed"]
+[connection signal="pressed" from="Main/VBoxContainer/SaveAndQuit" to="." method="_on_save_and_quit_pressed"]
 [connection signal="pressed" from="Settings/VBoxContainer/General" to="." method="SubSetting" binds= ["general"]]
 [connection signal="pressed" from="Settings/VBoxContainer/Audio" to="." method="SubSetting" binds= ["audio"]]
 [connection signal="pressed" from="Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]

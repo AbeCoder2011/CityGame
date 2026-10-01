@@ -25,7 +25,6 @@ func Update():
 	name = AchievementName
 	texture = AtlasTexture.new()
 	texture.atlas = atlas
-	print(data[\"atlas\"])
 	texture.region = Rect2(data[\"atlas\"] * 16,Vector2(16,16))
 	if not Unlocked:
 		modulate = Color.from_hsv(0,0,0.51)
