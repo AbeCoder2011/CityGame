@@ -461,49 +461,48 @@ const ACHIEVEMENTS = {
 		]
 	},
 
-	# --- Normal (row 1)
 	"First step to greatness": {
-		"data": {"desc": "Build a Small Supermarket.", "atlas": Vector2(0,1)},
+		"data": {"desc": "Build a Small Supermarket.", "atlas": Vector2(5,1)},
 		"requirements": [{"type": "building", "name": "Small Supermarket", "amount": 1}]
 	},
 	"Loaf of bread": {
-		"data": {"desc": "Build a Bakery.", "atlas": Vector2(1,1)},
+		"data": {"desc": "Build a Bakery.", "atlas": Vector2(6,1)},
 		"requirements": [{"type": "building", "name": "Bakery", "amount": 1}]
 	},
 	"Steam age": {
-		"data": {"desc": "Build 2 Train Stations.", "atlas": Vector2(2,1)},
+		"data": {"desc": "Build 2 Train Stations.", "atlas": Vector2(7,1)},
 		"requirements": [{"type": "building", "name": "Train Station", "amount": 2}]
 	},
 	"Money above happiness": {
-		"data": {"desc": "Build a Low-Budget Apartment.", "atlas": Vector2(3,1)},
+		"data": {"desc": "Build a Low-Budget Apartment.", "atlas": Vector2(8,1)},
 		"requirements": [{"type": "building", "name": "Low-Budget Apartment", "amount": 1}]
 	},
 	"Highrise": {
-		"data": {"desc": "Build a Large Apartment Complex.", "atlas": Vector2(4,1)},
+		"data": {"desc": "Build a Large Apartment Complex.", "atlas": Vector2(9,1)},
 		"requirements": [{"type": "building", "name": "Large Apartment Complex", "amount": 1}]
 	},
 	"Not vegetarian": {
-		"data": {"desc": "Build an Animal Farm.", "atlas": Vector2(5,1)},
+		"data": {"desc": "Build an Animal Farm.", "atlas": Vector2(10,1)},
 		"requirements": [{"type": "building", "name": "Animal Farm", "amount": 1}]
 	},
 	"Air Conditioning": {
-		"data": {"desc": "Build 4 Malls.", "atlas": Vector2(6,1)},
+		"data": {"desc": "Build 4 Malls.", "atlas": Vector2(11,1)},
 		"requirements": [{"type": "building", "name": "Mall", "amount": 4}]
 	},
 	"That reminds me of somthing… ": {
-		"data": {"desc": "Build an Ore Extractor.", "atlas": Vector2(7,1)},
+		"data": {"desc": "Build an Ore Extractor.", "atlas": Vector2(12,1)},
 		"requirements": [{"type": "building", "name": "Ore Extractor", "amount": 1}]
 	},
 	"Turns with the wind": {
-		"data": {"desc": "Build a Wind Turbine.", "atlas": Vector2(8,1)},
+		"data": {"desc": "Build a Wind Turbine.", "atlas": Vector2(13,1)},
 		"requirements": [{"type": "building", "name": "Wind Turbine", "amount": 1}]
 	},
 	"Nobody likes forests anyway": {
-		"data": {"desc": "Build 5 Lumber Mills.", "atlas": Vector2(9,1)},
+		"data": {"desc": "Build 5 Lumber Mills.", "atlas": Vector2(14,1)},
 		"requirements": [{"type": "building", "name": "Lumber Mill", "amount": 5}]
 	},
 	"Aboslute Cinema": {
-		"data": {"desc": "Build a Cinema.", "atlas": Vector2(10,1)},
+		"data": {"desc": "Build a Cinema.", "atlas": Vector2(15,1)},
 		"requirements": [{"type": "building", "name": "Cinema", "amount": 1}]
 	},
 	"Global warming": {
@@ -519,49 +518,48 @@ const ACHIEVEMENTS = {
 		"requirements": [{"type": "building", "name": "Sand Mine", "amount": 1}]
 	},
 	"Elon Musk": {
-		"data": {"desc": "Earn 30K coins per second.", "atlas": Vector2(14,1)},
+		"data": {"desc": "Earn 30K coins per second.", "atlas": Vector2(0,2)},
 		"requirements": [{"type": "income", "amount": 30000}]
 	},
 	"Millionare": {
-		"data": {"desc": "Earn 1M coins per second.", "atlas": Vector2(15,1)},
+		"data": {"desc": "Earn 1M coins per second.", "atlas": Vector2(1,2)},
 		"requirements": [{"type": "income", "amount": 1e6}]
 	},
 
-	# --- (row 2)
 	"Billionare": {
-		"data": {"desc": "Earn 1B coins per second.", "atlas": Vector2(0,2)},
+		"data": {"desc": "Earn 1B coins per second.", "atlas": Vector2(2,2)},
 		"requirements": [{"type": "income", "amount": 1e9}]
 	},
 	"Trillionare": {
-		"data": {"desc": "Earn 1T coins per second.", "atlas": Vector2(1,2)},
+		"data": {"desc": "Earn 1T coins per second.", "atlas": Vector2(3,2)},
 		"requirements": [{"type": "income", "amount": 1e12}]
 	},
 	"Quadrillionare": {
-		"data": {"desc": "Earn 1Q coins per second.", "atlas": Vector2(2,2)},
+		"data": {"desc": "Earn 1Q coins per second.", "atlas": Vector2(4,2)},
 		"requirements": [{"type": "income", "amount": 1e15}]
 	},
 	"Hamlet": {
-		"data": {"desc": "Reach 10 citizens.", "atlas": Vector2(3,2)},
+		"data": {"desc": "Reach 10 citizens.", "atlas": Vector2(0,1)},
 		"requirements": [{"type": "population", "amount": 10}]
 	},
 	"Village": {
-		"data": {"desc": "Reach 50 citizens.", "atlas": Vector2(4,2)},
+		"data": {"desc": "Reach 50 citizens.", "atlas": Vector2(1,1)},
 		"requirements": [{"type": "population", "amount": 50}]
 	},
 	"Town": {
-		"data": {"desc": "Reach 100 citizens.", "atlas": Vector2(5,2)},
+		"data": {"desc": "Reach 100 citizens.", "atlas": Vector2(2,1)},
 		"requirements": [{"type": "population", "amount": 100}]
 	},
 	"City": {
-		"data": {"desc": "Reach 5,000 citizens.", "atlas": Vector2(6,2)},
+		"data": {"desc": "Reach 5,000 citizens.", "atlas": Vector2(3,1)},
 		"requirements": [{"type": "population", "amount": 5000}]
 	},
 	"Metropolis": {
-		"data": {"desc": "Reach 50,000 citizens.", "atlas": Vector2(7,2)},
+		"data": {"desc": "Reach 50,000 citizens.", "atlas": Vector2(4,1)},
 		"requirements": [{"type": "population", "amount": 50000}]
 	},
 	"Megalopolis": {
-		"data": {"desc": "Reach 200,000 citizens.", "atlas": Vector2(8,2)},
+		"data": {"desc": "Reach 200,000 citizens.", "atlas": Vector2(4,1)}, #NEEDS A SPRITE
 		"requirements": [{"type": "population", "amount": 200000}]
 	}
 }
@@ -626,5 +624,7 @@ func SaveAchievementProgress():
 	ResourceSaver.save(new,"user://achievements.tres")
 
 func LoadAchievementProgress():
-	AchievementProgress = ResourceLoader.load("user://achievements.tres").save
-	
+	if FileAccess.file_exists("user://achievements.tres"):
+		AchievementProgress = ResourceLoader.load("user://achievements.tres").save
+	else:
+		AchievementProgress = {}

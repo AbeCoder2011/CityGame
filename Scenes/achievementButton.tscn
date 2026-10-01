@@ -37,6 +37,14 @@ func Update():
 		$Button.connect(\"mouse_exited\",$\"../../../../..\".StopHover)
 "
 
+[sub_resource type="Gradient" id="Gradient_nccir"]
+offsets = PackedFloat32Array(0.49440297)
+colors = PackedColorArray(0.596875, 0.5954295, 0.36558595, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_bdmmk"]
+gradient = SubResource("Gradient_nccir")
+width = 32
+
 [node name="Achievement" type="TextureRect" unique_id=1327841122]
 custom_minimum_size = Vector2(72, 72)
 texture = SubResource("AtlasTexture_yc83r")
@@ -50,3 +58,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 flat = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1278288306]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture1D_bdmmk")

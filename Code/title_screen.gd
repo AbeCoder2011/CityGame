@@ -24,6 +24,8 @@ func _ready() -> void:
 			n.mouse_entered.connect(mouse_enter.bind(int(n.name)))
 			n.mouse_exited.connect(mouse_exit.bind(int(n.name)))
 			n.pressed.connect(difficulty_pressed.bind(int(n.name)))
+	if FileAccess.file_exists("user://settings.cfg"):
+		$Pause.LoadSettings()
 
 func mouse_enter(id:int):
 	$NewGame/Vbox/Description.text = DifficultyDescriptions[id]
@@ -44,7 +46,9 @@ func difficulty_pressed(id:int):
 func _on_back_pressed() -> void:
 	$NewGame.hide()
 	$Credits.hide()
+	$Pause.hide()
 	$Main.show()
+	
 
 func _on_new_game_pressed() -> void:
 	$Main.hide()
@@ -66,3 +70,9 @@ func _on_credits_pressed() -> void:
 
 func _on_quit_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_settings_pressed() -> void:
+	$Main.hide()
+	$Pause.show()
+	$Pause._on_settings_pressed()

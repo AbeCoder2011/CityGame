@@ -1,0 +1,634 @@
+[gd_scene format=3 uid="uid://cehxlwe5maud2"]
+
+[ext_resource type="Script" uid="uid://brv26f4bc0orw" path="res://Code/pause.gd" id="1_3fojq"]
+[ext_resource type="FontFile" uid="uid://py4esdlcnc82" path="res://Assets/GoogleSansFlex.ttf" id="1_e0jm0"]
+[ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="2_3fojq"]
+[ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="3_nsogc"]
+[ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="4_0pswh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o2ick"]
+font = ExtResource("1_e0jm0")
+font_size = 55
+
+[sub_resource type="LabelSettings" id="LabelSettings_b1goy"]
+font = ExtResource("1_e0jm0")
+font_size = 40
+
+[sub_resource type="LabelSettings" id="LabelSettings_80bsu"]
+font = ExtResource("4_0pswh")
+font_size = 25
+
+[sub_resource type="GDScript" id="GDScript_b1goy"]
+script/source = "extends Control
+
+@export var setting_name = \"\"
+@export_enum(\"Slider\",\"Toggle\",\"Dropdown\") var setting_type : String = \"Slider\"
+
+func _ready() -> void:
+	match setting_type:
+		\"Slider\":
+			connect(\"value_changed\", $\"../../../..\".SetSettingValue.bind(setting_name))
+		\"Toggle\":
+			connect(\"toggled\", $\"../../../..\".SetSettingBool.bind(setting_name))
+		\"Dropdown\":
+			connect(\"item_selected\", $\"../../../..\".SetOptionID.bind(setting_name))
+		_:
+			pass
+"
+
+[sub_resource type="LabelSettings" id="LabelSettings_n04ve"]
+font = ExtResource("4_0pswh")
+font_size = 19
+
+[node name="Pause" type="Control" unique_id=2017614116]
+process_mode = 3
+visible = false
+z_index = 5
+layout_mode = 3
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+theme = ExtResource("3_nsogc")
+script = ExtResource("1_3fojq")
+
+[node name="Base" type="Control" parent="." unique_id=797250811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Base" unique_id=1339154886]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.25275353, 0.2527536, 0.2527535, 0.70980394)
+
+[node name="Paused" type="Label" parent="Base" unique_id=1237822376]
+layout_mode = 0
+offset_left = 92.0
+offset_top = 70.0
+offset_right = 273.0
+offset_bottom = 140.0
+text = "Paused"
+label_settings = SubResource("LabelSettings_o2ick")
+
+[node name="Main" type="Control" parent="." unique_id=222952119]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main" unique_id=1854182763]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 176.0
+offset_right = 503.0
+offset_bottom = 710.0
+theme_override_constants/separation = 24
+
+[node name="Continue" type="Button" parent="Main/VBoxContainer" unique_id=1295895357]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Continue -"
+
+[node name="Label" type="Label" parent="Main/VBoxContainer/Continue" unique_id=1969698471]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Settings" type="Button" parent="Main/VBoxContainer" unique_id=2017342015]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Settings -"
+
+[node name="Label" type="Label" parent="Main/VBoxContainer/Settings" unique_id=1603015545]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="SaveAndReturn" type="Button" parent="Main/VBoxContainer" unique_id=821667705]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Quit to menu -"
+
+[node name="Label" type="Label" parent="Main/VBoxContainer/SaveAndReturn" unique_id=1919634329]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="SaveAndQuit" type="Button" parent="Main/VBoxContainer" unique_id=1027038630]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Quit to desktop -"
+
+[node name="Label" type="Label" parent="Main/VBoxContainer/SaveAndQuit" unique_id=1168615826]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Settings" type="Control" parent="." unique_id=1134757120]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SettingsText" type="Label" parent="Settings" unique_id=1239172460]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 84.0
+offset_right = 493.0
+offset_bottom = 135.0
+text = "- Settings -"
+label_settings = SubResource("LabelSettings_b1goy")
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Settings" unique_id=1174317045]
+layout_mode = 0
+offset_left = 93.0
+offset_top = 176.0
+offset_right = 1420.0
+offset_bottom = 252.0
+theme_override_constants/separation = 24
+
+[node name="General" type="Button" parent="Settings/VBoxContainer" unique_id=1062625531]
+custom_minimum_size = Vector2(300, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- General -"
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/General" unique_id=184202898]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Audio" type="Button" parent="Settings/VBoxContainer" unique_id=1032769230]
+custom_minimum_size = Vector2(300, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Audio -"
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Audio" unique_id=244941950]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Video" type="Button" parent="Settings/VBoxContainer" unique_id=1671571009]
+custom_minimum_size = Vector2(300, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Video -"
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Video" unique_id=1909296878]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Accesibility" type="Button" parent="Settings/VBoxContainer" unique_id=808936636]
+custom_minimum_size = Vector2(300, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Accesibility -"
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Accesibility" unique_id=201559598]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="Back" type="Button" parent="Settings/VBoxContainer" unique_id=2136199502]
+modulate = Color(0.606085, 0.60608506, 0.606085, 1)
+custom_minimum_size = Vector2(300, 65)
+layout_mode = 2
+theme = ExtResource("2_3fojq")
+theme_override_font_sizes/font_size = 32
+text = "- Back -"
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Back" unique_id=880606327]
+visible = false
+layout_mode = 0
+offset_top = -34.0
+offset_right = 391.0
+text = "Game saved."
+horizontal_alignment = 1
+
+[node name="General" type="Control" parent="." unique_id=2106435442]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("3_nsogc")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="General" unique_id=1742406853]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 319.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="General/HBoxContainer" unique_id=91532389]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="CamSpeed" type="Label" parent="General/HBoxContainer/1" unique_id=1181173392]
+layout_mode = 2
+text = "Camera Speed (8px)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="CamSpeedSlider" type="HSlider" parent="General/HBoxContainer/1" unique_id=1451204209]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 2.0
+max_value = 50.0
+value = 12.0
+tick_count = 8
+ticks_on_borders = true
+ticks_position = 3
+script = SubResource("GDScript_b1goy")
+setting_name = "camera_speed"
+
+[node name="Gap" type="Label" parent="General/HBoxContainer/1" unique_id=5409171]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Autosave" type="CheckButton" parent="General/HBoxContainer/1" unique_id=905783154]
+layout_mode = 2
+button_pressed = true
+text = "Autosave"
+script = SubResource("GDScript_b1goy")
+setting_name = "autosave"
+setting_type = "Toggle"
+
+[node name="Gap4" type="Label" parent="General/HBoxContainer/1" unique_id=1512595983]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="AutosaveInterval2" type="Label" parent="General/HBoxContainer/1" unique_id=1146436254]
+layout_mode = 2
+text = "Autosave Interval (60s)"
+label_settings = SubResource("LabelSettings_n04ve")
+
+[node name="AutosaveIntervalSlider" type="HSlider" parent="General/HBoxContainer/1" unique_id=711919980]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("3_nsogc")
+min_value = 10.0
+max_value = 300.0
+step = 10.0
+value = 60.0
+tick_count = 30
+ticks_on_borders = true
+ticks_position = 3
+script = SubResource("GDScript_b1goy")
+setting_name = "autosave_interval"
+
+[node name="Gap2" type="Label" parent="General/HBoxContainer/1" unique_id=1484437535]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="DisableUnlockNotifcation" type="CheckBox" parent="General/HBoxContainer/1" unique_id=2023269999]
+layout_mode = 2
+text = "Disable new building unlock notification"
+autowrap_mode = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "disable_unlock_notification"
+setting_type = "Toggle"
+
+[node name="Gap3" type="Label" parent="General/HBoxContainer/1" unique_id=1032555521]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="DisableIncomeNumber" type="CheckBox" parent="General/HBoxContainer/1" unique_id=1953793625]
+layout_mode = 2
+text = "Disable income number popup"
+autowrap_mode = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "disable_income_popup"
+setting_type = "Toggle"
+
+[node name="Gap5" type="Label" parent="General/HBoxContainer/1" unique_id=1055463793]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="ShowBuildingGrid" type="CheckBox" parent="General/HBoxContainer/1" unique_id=1534486798]
+layout_mode = 2
+button_pressed = true
+text = "Show building grid"
+autowrap_mode = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "show_building_grid"
+setting_type = "Toggle"
+
+[node name="2" type="VBoxContainer" parent="General/HBoxContainer" unique_id=589538624]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="NumberFormat" type="Label" parent="General/HBoxContainer/2" unique_id=1327837130]
+layout_mode = 2
+text = "Number Format"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="NumberFormatButton" type="OptionButton" parent="General/HBoxContainer/2" unique_id=1105142031]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "   Metric Symbol (12.34M)"
+popup/item_0/id = 0
+popup/item_1/text = "   Metric Names (12.34 Million)"
+popup/item_1/id = 1
+popup/item_2/text = "   Scientific Notation (1.234e7)"
+popup/item_2/id = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "number_format"
+setting_type = "Dropdown"
+
+[node name="Audio" type="Control" parent="." unique_id=1290293471]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Audio" unique_id=835721591]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 319.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="Audio/HBoxContainer" unique_id=1523600416]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Master" type="Label" parent="Audio/HBoxContainer/1" unique_id=944801644]
+layout_mode = 2
+text = "Master Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="MasterSlider" type="HSlider" parent="Audio/HBoxContainer/1" unique_id=707729265]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+script = SubResource("GDScript_b1goy")
+setting_name = "master_volume"
+
+[node name="Gap" type="Label" parent="Audio/HBoxContainer/1" unique_id=890394748]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SFX" type="Label" parent="Audio/HBoxContainer/1" unique_id=524340737]
+layout_mode = 2
+text = "Sound Effects Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SFXslider" type="HSlider" parent="Audio/HBoxContainer/1" unique_id=1014583715]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_on_borders = true
+ticks_position = 3
+script = SubResource("GDScript_b1goy")
+setting_name = "sfx_volume"
+
+[node name="Gap2" type="Label" parent="Audio/HBoxContainer/1" unique_id=158433205]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Music" type="Label" parent="Audio/HBoxContainer/1" unique_id=1687277998]
+layout_mode = 2
+text = "Music Volume (100%)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="MusicSlider" type="HSlider" parent="Audio/HBoxContainer/1" unique_id=1582480408]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.01
+value = 1.0
+ticks_on_borders = true
+ticks_position = 3
+script = SubResource("GDScript_b1goy")
+setting_name = "music_volume"
+
+[node name="Gap3" type="Label" parent="Audio/HBoxContainer/1" unique_id=1656318183]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Video" type="Control" parent="." unique_id=597202459]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Video" unique_id=489240010]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 319.0
+offset_right = -40.0
+offset_bottom = -40.0
+mouse_filter = 2
+theme_override_constants/separation = 80
+
+[node name="1" type="VBoxContainer" parent="Video/HBoxContainer" unique_id=2009025359]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="Mode" type="Label" parent="Video/HBoxContainer/1" unique_id=703844699]
+layout_mode = 2
+text = "Window Mode"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="ModeDropdown" type="OptionButton" parent="Video/HBoxContainer/1" unique_id=149353972]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 1
+item_count = 3
+popup/item_0/text = "   Windowed"
+popup/item_0/id = 0
+popup/item_1/text = "   Fullscreen"
+popup/item_1/id = 1
+popup/item_2/text = "   Exclusive Fullscreen"
+popup/item_2/id = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "window_mode"
+setting_type = "Dropdown"
+
+[node name="Gap3" type="Label" parent="Video/HBoxContainer/1" unique_id=463602375]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Size" type="Label" parent="Video/HBoxContainer/1" unique_id=857462320]
+layout_mode = 2
+text = "Window Size"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="SizeDropdown" type="OptionButton" parent="Video/HBoxContainer/1" unique_id=630415719]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 1
+item_count = 4
+popup/item_0/text = "   1600 x 900"
+popup/item_0/id = 3
+popup/item_1/text = "   1920 × 1080"
+popup/item_1/id = 0
+popup/item_2/text = "   1920 × 1200"
+popup/item_2/id = 1
+popup/item_3/text = "   3840 x 2160"
+popup/item_3/id = 2
+script = SubResource("GDScript_b1goy")
+setting_name = "window_size"
+
+[node name="Gap4" type="Label" parent="Video/HBoxContainer/1" unique_id=1138219485]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="FPS" type="Label" parent="Video/HBoxContainer/1" unique_id=888733945]
+layout_mode = 2
+text = "Maximum FPS (Unlimited)"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="FPSSlider" type="HSlider" parent="Video/HBoxContainer/1" unique_id=324766090]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 10.0
+max_value = 300.0
+step = 10.0
+value = 300.0
+tick_count = 10
+ticks_on_borders = true
+ticks_position = 3
+script = SubResource("GDScript_b1goy")
+setting_name = "max_fps"
+
+[node name="Gap5" type="Label" parent="Video/HBoxContainer/1" unique_id=257203958]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Graphics" type="Label" parent="Video/HBoxContainer/1" unique_id=890283567]
+layout_mode = 2
+text = "Graphics preset"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="GraphicsDropdown" type="OptionButton" parent="Video/HBoxContainer/1" unique_id=381180893]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+selected = 1
+allow_reselect = true
+item_count = 6
+popup/item_0/text = "   Minimal"
+popup/item_0/id = 3
+popup/item_1/text = "   Low"
+popup/item_1/id = 0
+popup/item_2/text = "   Medium"
+popup/item_2/id = 1
+popup/item_3/text = "   High"
+popup/item_3/id = 2
+popup/item_4/text = "   Very High"
+popup/item_4/id = 4
+popup/item_5/text = "   Ultra"
+popup/item_5/id = 5
+script = SubResource("GDScript_b1goy")
+setting_name = "graphics_preset"
+setting_type = "Dropdown"
+
+[node name="Gap6" type="Label" parent="Video/HBoxContainer/1" unique_id=2045477004]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Accesibility" type="Control" parent="." unique_id=353762962]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[connection signal="pressed" from="Main/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Settings/VBoxContainer/General" to="." method="SubSetting" binds= ["general"]]
+[connection signal="pressed" from="Settings/VBoxContainer/Audio" to="." method="SubSetting" binds= ["audio"]]
+[connection signal="pressed" from="Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]
+[connection signal="pressed" from="Settings/VBoxContainer/Accesibility" to="." method="SubSetting" binds= ["accesibility"]]
+[connection signal="pressed" from="Settings/VBoxContainer/Back" to="." method="_on_back_settings_pressed"]

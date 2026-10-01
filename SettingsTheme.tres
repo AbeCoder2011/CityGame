@@ -40,8 +40,58 @@ corner_radius_bottom_left = 5
 expand_margin_top = 8.0
 expand_margin_bottom = 8.0
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o2ick"]
-bg_color = Color(0.203125, 0.25, 0.21875, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q5g10"]
+bg_color = Color(0.29160002, 0.36, 0.31326002, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1782, 0.22, 0.19143666, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_24ppn"]
+bg_color = Color(0.25545898, 0.315625, 0.27477837, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1782, 0.22, 0.19143666, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hhaq4"]
+bg_color = Color(0.2187, 0.27, 0.23494501, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1782, 0.22, 0.19143666, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bk4gu"]
+bg_color = Color(0.3159, 0.39, 0.33936498, 1)
+border_color = Color(0.1782, 0.22, 0.19143666, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1mgv5"]
+bg_color = Color(0.25545898, 0.315625, 0.27477837, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.1782, 0.22, 0.19143666, 1)
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrwci"]
+bg_color = Color(0.25545898, 0.315625, 0.27477837, 1)
 
 [resource]
 CheckBox/constants/h_separation = 19
@@ -59,7 +109,11 @@ HSlider/styles/grabber_area = SubResource("StyleBoxFlat_icxdm")
 HSlider/styles/slider = SubResource("StyleBoxFlat_7bt4v")
 OptionButton/constants/arrow_margin = 13
 OptionButton/fonts/font = ExtResource("1_24ppn")
-OptionButton/styles/focus = SubResource("StyleBoxFlat_o2ick")
-OptionButton/styles/hover = SubResource("StyleBoxFlat_o2ick")
-OptionButton/styles/normal = SubResource("StyleBoxFlat_o2ick")
-OptionButton/styles/pressed = SubResource("StyleBoxFlat_o2ick")
+OptionButton/styles/focus = SubResource("StyleBoxFlat_q5g10")
+OptionButton/styles/hover = SubResource("StyleBoxFlat_q5g10")
+OptionButton/styles/normal = SubResource("StyleBoxFlat_24ppn")
+OptionButton/styles/pressed = SubResource("StyleBoxFlat_hhaq4")
+PopupMenu/fonts/font = ExtResource("1_24ppn")
+PopupMenu/styles/hover = SubResource("StyleBoxFlat_bk4gu")
+PopupMenu/styles/panel = SubResource("StyleBoxFlat_1mgv5")
+PopupPanel/styles/panel = SubResource("StyleBoxFlat_yrwci")

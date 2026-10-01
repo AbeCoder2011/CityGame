@@ -95,6 +95,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	if housing_edited:
 		CalculateHapiness()
 		RecomputePopulation()
+	var b_amounts = GetBuildingAmounts()
+	$"..".CheckAchievementProgress(b_amounts,true)
 
 func DeselectOthers():
 	deselect.emit()

@@ -60,6 +60,9 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 	BuildingAmounts = b_amounts
 	var changes = {}
 	for n in Global.ACHIEVEMENTS.keys():
+		if Global.IsAchievementUnlocked(n):
+			continue 
+		
 		var prog = []
 		for p in Global.ACHIEVEMENTS[n]["requirements"]:
 			if something_happened or p["type"] == "money":
@@ -88,7 +91,7 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 func GetRequirementProgress(d : Dictionary) -> Variant:
 	match d["type"]:
 		"income":
-			return GetValueReached(Global.Income,d["amount"],d.get("exact",false))
+			return GetValueReached(Global.Income * 2,d["amount"],d.get("exact",false))
 		"happiness":
 			return GetValueReached(Global.Happiness,d["amount"],d.get("exact",false))
 		"money":
@@ -99,6 +102,8 @@ func GetRequirementProgress(d : Dictionary) -> Variant:
 			if d.has("name"):
 				return GetValueReached(BuildingAmounts.get(d["name"],0),d["amount"],d.get("exact",false))
 			return GetValueReached(BuildingAmounts.get("total",0),d["amount"],d.get("exact",false))
+		"peak_buildings":
+			return GetValueReached($Buildings.PeakBuildings,d["amount"],d.get("exact",false))
 		_:
 			printerr(d["type"]," is not configured in the achievement checker!")
 	return false
@@ -106,7 +111,7 @@ func GetRequirementProgress(d : Dictionary) -> Variant:
 # Takes a value and target, returns the percentage of completion, or true if completed, or false if the value is still 0
 func GetValueReached(v:float,target:float,exact=false) -> Variant:
 	if exact:
-		return v == target
+		return floor(v) == target
 	else:
 		if v >= target:
 			return true

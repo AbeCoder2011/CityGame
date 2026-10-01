@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="3_fp2oq"]
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="3_yosvi"]
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="4_q2qps"]
+[ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="6_2qdx2"]
 
 [sub_resource type="Animation" id="Animation_ekrfg"]
 length = 0.001
@@ -464,6 +465,12 @@ layout_mode = 2
 theme = ExtResource("4_q2qps")
 text = "- New game -"
 
+[node name="Settings" type="Button" parent="Main/Vbox" unique_id=40458825]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+theme = ExtResource("4_q2qps")
+text = "- Settings -"
+
 [node name="Credits" type="Button" parent="Main/Vbox" unique_id=577322329]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
@@ -632,8 +639,13 @@ color = Color(0, 0, 0, 1)
 [node name="Anim" type="AnimationPlayer" parent="Fade" unique_id=109089973]
 libraries/ = SubResource("AnimationLibrary_2qdx2")
 
+[node name="Pause" parent="." unique_id=2017614116 instance=ExtResource("6_2qdx2")]
+layout_mode = 1
+anchors_preset = 15
+
 [connection signal="pressed" from="Main/Vbox/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Main/Vbox/NewGame" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="Main/Vbox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Main/Vbox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Main/Vbox/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="NewGame/Vbox/Back" to="." method="_on_back_pressed"]
