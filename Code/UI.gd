@@ -166,7 +166,6 @@ func _on_continue_pressed() -> void:
 
 func _on_save_and_return_pressed() -> void:
 	$"..".SaveGame()
-	print("a")
 	$UI/Fade/AnimationPlayer.play("fade_out")
 	await $UI/Fade/AnimationPlayer.animation_finished
 	get_tree().paused = false
@@ -176,3 +175,8 @@ func _on_save_and_quit_pressed() -> void:
 	$"..".SaveGame()
 	get_tree().paused = false
 	get_tree().quit()
+
+func SetLoadProgress(nam:String,prog:int):
+	$UI/Fade.queue_redraw()
+	$UI/Fade/Label.text = nam
+	$UI/Fade/ProgressBar.value = prog

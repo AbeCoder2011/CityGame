@@ -17,7 +17,6 @@ const WINDOW_MODES = [
 	Window.MODE_EXCLUSIVE_FULLSCREEN,
 ]
 func _ready() -> void:
-	print(get_parent().name)
 	main_menu = (get_parent().name == "Title")
 	if main_menu:
 		$Base/Paused.text = "Settings"
@@ -131,7 +130,6 @@ func LoadSettings() -> void:
 	var settings = ConfigFile.new()
 	settings.load("user://settings.cfg")
 	Global.Settings = settings.get_value("Settings","dict",{})
-	print(Global.Settings)
 	for nam in Global.Settings.keys():
 		var v = Global.Settings[nam]
 		match nam:
@@ -149,7 +147,6 @@ func LoadSettings() -> void:
 				$"General/HBoxContainer/1/CamSpeedSlider".value = v
 			"number_notation":
 				$"General/HBoxContainer/2/NumberFormatButton".select(v)
-				print(v)
 			"show_building_grid":
 				$"General/HBoxContainer/1/ShowBuildingGrid".button_pressed = v
 				if !main_menu:

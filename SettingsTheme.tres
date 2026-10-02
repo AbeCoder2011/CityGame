@@ -93,6 +93,20 @@ corner_detail = 1
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrwci"]
 bg_color = Color(0.25545898, 0.315625, 0.27477837, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bmxlf"]
+bg_color = Color(0.3447005, 0.43124998, 0.24796873, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4kpch"]
+bg_color = Color(0.20462951, 0.29062498, 0.15439452, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [resource]
 CheckBox/constants/h_separation = 19
 CheckBox/font_sizes/font_size = 22
@@ -117,3 +131,7 @@ PopupMenu/fonts/font = ExtResource("1_24ppn")
 PopupMenu/styles/hover = SubResource("StyleBoxFlat_bk4gu")
 PopupMenu/styles/panel = SubResource("StyleBoxFlat_1mgv5")
 PopupPanel/styles/panel = SubResource("StyleBoxFlat_yrwci")
+ProgressBar/colors/font_color = Color(0.878125, 1, 0.883457, 1)
+ProgressBar/fonts/font = ExtResource("1_24ppn")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_bmxlf")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_4kpch")

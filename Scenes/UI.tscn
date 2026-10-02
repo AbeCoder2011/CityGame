@@ -7,8 +7,9 @@
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="6_xjg7p"]
 [ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="8_b1goy"]
-[ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Scenes/toolbar.gd" id="9_j04uc"]
+[ext_resource type="Script" uid="uid://d2hbcdfoy5p5y" path="res://Code/toolbar.gd" id="9_j04uc"]
 [ext_resource type="Texture2D" uid="uid://bqx7br3m688fx" path="res://Assets/UI.png" id="9_wunin"]
+[ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="10_n04ve"]
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
@@ -258,55 +259,55 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
+tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0, 0, 1)]
+"update": 1,
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_n04ve"]
 resource_name = "fade_in"
-length = 0.5000166815683246
+length = 0.5
 step = 0.16666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:color")
-tracks/0/interp = 2
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5000167),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_jnovg"]
@@ -328,14 +329,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:color")
+tracks/1/path = NodePath(".:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wi7yl"]
@@ -344,6 +345,9 @@ _data = {
 &"fade_in": SubResource("Animation_n04ve"),
 &"fade_out": SubResource("Animation_jnovg")
 }
+
+[sub_resource type="LabelSettings" id="LabelSettings_bmxlf"]
+font = ExtResource("11_b1goy")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bdmmk"]
 atlas = ExtResource("9_wunin")
@@ -1039,12 +1043,10 @@ layout_mode = 2
 Building_Name = "Mine"
 
 [node name="BasicHouse4" parent="UI/Building/Categories/Production Industry" unique_id=523922328 instance=ExtResource("5_qwshj")]
-visible = false
 layout_mode = 2
 Building_Name = "Sand Mine"
 
 [node name="BasicHouse5" parent="UI/Building/Categories/Production Industry" unique_id=1739314986 instance=ExtResource("5_qwshj")]
-visible = false
 layout_mode = 2
 Building_Name = "Smeltery"
 
@@ -1288,7 +1290,6 @@ anchors_preset = 15
 
 [node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
 process_mode = 3
-visible = false
 z_index = 20
 layout_mode = 1
 anchors_preset = 15
@@ -1297,11 +1298,42 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("10_n04ve")
 color = Color(0, 0, 0, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Fade" unique_id=217332684]
 libraries/ = SubResource("AnimationLibrary_wi7yl")
-autoplay = &"fade_in"
+
+[node name="Label" type="Label" parent="UI/Fade" unique_id=538952984]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.438
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 700.0
+offset_top = 64.96002
+offset_right = -700.0
+offset_bottom = -519.0
+text = "Generating Terrain..."
+label_settings = SubResource("LabelSettings_bmxlf")
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/Fade" unique_id=161832013]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 700.0
+offset_right = -700.0
+offset_bottom = -985.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 30.0
+
+[node name="Gap6" type="Control" parent="UI/Fade" unique_id=291782168]
+custom_minimum_size = Vector2(72, 72)
+anchors_preset = 0
 
 [node name="Toolbar" type="Control" parent="UI" unique_id=99239621]
 layout_mode = 1

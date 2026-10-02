@@ -6,11 +6,11 @@ var BuildingScene = preload("res://Scenes/building.tscn")
 # EXAMPLE: [{"pos":Vector2i(23,33),"name":"Basic House","node":[NODE]}]
 var BuildingCollections : Dictionary[Vector2i,Array] = {}
 var AllHousingBuildings = []
-var AllTrainRelatedBuildings = []
+var AllTrainStations = []
 var AllPowerRelatedBuildings = []
 var AllFishingBoats = []
 var AllFishingDocks = []
-var Rails : Dictionary[Vector2i, Node2D] = {}
+var Rails : Dictionary[Vector2i, Dictionary] = {}
 var DestroyedBuildings = []
 
 var PeakBuildings = 0
@@ -43,12 +43,12 @@ const FIXED_VALUES = [
 const MOVABLE_PROPERTIES = ["products","flour","electronics","livestock","meat","ores","gemstones"]
 func AddToRemovalList(b:Dictionary):
 	DestroyedBuildings.append(b)
-	if Rails.has(b["pos"]) and Rails[b["pos"]] == b["node"]:
+	if Rails.has(b["pos"]) and Rails[b["pos"]]["node"] == b["node"]:
 		Rails.erase(b["pos"])
 		for offset in [Vector2i(1,0), Vector2i(-1,0), Vector2i(0,1), Vector2i(0,-1)]:
 			var neighbor_pos = b["pos"] + offset
 			if Rails.has(neighbor_pos):
-				Rails[neighbor_pos].UpdateRailSprite()
+				Rails[neighbor_pos]["node"].UpdateRailSprite()
 	var b_amounts = GetBuildingAmounts()
 	$"..".CheckAchievementProgress(b_amounts,true)
 	$"../UI".UpdateCityStats()
@@ -57,8 +57,6 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var b : Node2D = BuildingScene.instantiate()
 	b.position = location * 48
 	add_child(b)
-	if nam == "Rail":
-		Rails[location] = b
 	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
 	var this_b := {"name":nam,"pos":location,"node":b,"claims":{}}
@@ -68,8 +66,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	match nam:
 		"Transformator Building":
 			AllPowerRelatedBuildings.append(this_b)
-		"Train Station","Rail":
-			AllTrainRelatedBuildings.append(this_b)
+		"Train Station":
+			AllTrainStations.append(this_b)
 		"Fishing Boat":
 			AllFishingBoats.append(this_b)
 		"Fishing Dock":
@@ -80,6 +78,8 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
 		RecomputeStations()
+	if nam == "Rail":
+		Rails[location] = this_b
 	#if housing has been edited: recalculate stats etc
 	housing_edited = false
 	for n in GetRecomputePath(this_b):
@@ -96,7 +96,6 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		CalculateHapiness()
 		RecomputePopulation()
 	var b_amounts = GetBuildingAmounts()
-	print(b_amounts)
 	$"..".CheckAchievementProgress(b_amounts,true)
 
 func DeselectOthers():
@@ -132,8 +131,7 @@ func _get_nearby_buildings(pos:Vector2i,size:Vector2i,radius:int) -> Array:
 		for celly in range(bottom_left.y, top_right.y + 1):
 			if BuildingCollections.has(Vector2i(cellx,celly)):
 				for b in BuildingCollections[Vector2i(cellx,celly)]:
-					if not b in seen:
-						seen.append(b)
+					seen.append(b)
 						
 	return seen
 
@@ -298,9 +296,7 @@ func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 func CalculateStationConnections():
 	var stations = []
 	var networks : Array[Array] = []
-	for n in AllTrainRelatedBuildings:
-		if n["name"] == "Train Station":
-			stations.append(n)
+	stations.append_array(AllTrainStations)
 	for st in stations:
 		var connections = [st]
 		for dir in [Vector2i.LEFT,Vector2i.UP,Vector2i(1,-1),Vector2i(2,0),Vector2i(2,1),Vector2i(1,2),Vector2i(0,2),Vector2i(-1,1)]:
@@ -335,26 +331,24 @@ func CalculateStationConnections():
 func FindNetwork(pos:Vector2i,stations,last_dir:Vector2i = Vector2i.ZERO,searched:Array = []) -> Array:
 	if pos in searched:
 		return []
-	for n in AllTrainRelatedBuildings:
-		if n["name"] == "Rail" and n["pos"] == pos:
-			var s : Array = []
-			if n["node"].bridge_rail == true:
-				match n["node"].horizontal_bridge:
-					true:
-						searched.append(pos)
-						print(Vector2i(last_dir.x, 0))
-						s.append_array(FindNetwork(pos + Vector2i(last_dir.x, 0),stations,last_dir,searched))
-					false:
-						searched.append(pos)
-						print(Vector2i(0, last_dir.y))
-						s.append_array(FindNetwork(pos + Vector2i(0, last_dir.y),stations,last_dir,searched))
-				return s
-			for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
-				searched.append(pos)
-				s.append_array(FindNetwork(pos + dir,stations,dir,searched))
-			return s
+	for n in AllTrainStations:
 		if n["name"] == "Train Station" and Rect2(n["pos"],Vector2(2,2)).has_point(pos):
 			return([n])
+	if Rails.keys().has(pos):
+		var s : Array = []
+		if Rails[pos]["node"].bridge_rail == true:
+			match Rails[pos]["node"].horizontal_bridge:
+				true:
+					searched.append(pos)
+					s.append_array(FindNetwork(pos + Vector2i(last_dir.x, 0),stations,last_dir,searched))
+				false:
+					searched.append(pos)
+					s.append_array(FindNetwork(pos + Vector2i(0, last_dir.y),stations,last_dir,searched))
+			return s
+		for dir in [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.DOWN,Vector2i.UP]:
+			searched.append(pos)
+			s.append_array(FindNetwork(pos + dir,stations,dir,searched))
+		return s
 	return []
 
 func CalculateHapiness():
@@ -395,7 +389,7 @@ func Tick():
 				"Transformator Building":
 					AllPowerRelatedBuildings.erase(n)
 				"Train Station","Rail":
-					AllTrainRelatedBuildings.erase(n)
+					AllTrainStations.erase(n)
 				"Fishing Boat":
 					AllFishingBoats.erase(n)
 				"Fishing Dock":
@@ -454,14 +448,14 @@ func RecomputeStations():
 
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
 	var affection_range : int = 0
-	var affected = []
+	var affected = [] 
+	var ranges = {}# KEY: BUILDINGS, VALUE: RANGE
 	for n in Global.ORDER.keys():
 		if this_b["name"] in n:
 			var values = Global.ORDER[n].duplicate()
 			var rangee = values.pop_front()
 			affected.append_array(values)
-			if affection_range < rangee:
-				affection_range = rangee
+			ranges[values] = rangee
 	if affected.is_empty():
 		return [] if not_self else [this_b]
 	
@@ -472,26 +466,29 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 			next_updates.append(n)
 		for n in AllFishingDocks:
 			next_updates.append(n)
-	
-	for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),affection_range):
-		var this_nam = b["name"]
-		if this_nam in affected:
-			if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),affection_range):
-				if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
-					next_updates.append(b)
-				else:
-					for n in GetRecomputePath(b,false,true):
-						if next_updates.has(n):
-							next_updates.erase(n)
-						next_updates.append(n)
-		if this_nam == "Train Station" and not dont_recompute_stations:
-			for nw in station_networks:
-				for st in nw:
-					next_updates.append(st)
-					for n in GetStationRecomputePath(st["pos"]):
-						if next_updates.has(n):
-							next_updates.erase(n)
-						next_updates.append(n)
+	var station_found = false
+	for buildings_affected in ranges.keys():
+		for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),ranges[buildings_affected]):
+			var this_nam = b["name"]
+			if this_nam in buildings_affected:
+				if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),ranges[buildings_affected]):
+					if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
+						next_updates.append(b)
+					else:
+						for n in GetRecomputePath(b,false,true):
+							if next_updates.has(n):
+								next_updates.erase(n)
+							next_updates.append(n)
+			if this_nam == "Train Station" and not dont_recompute_stations:
+				station_found = true
+	if station_found:
+		for nw in station_networks:
+			for st in nw:
+				next_updates.append(st)
+				for n in GetStationRecomputePath(st["pos"]):
+					if next_updates.has(n):
+						next_updates.erase(n)
+					next_updates.append(n)
 	return next_updates
 
 func GetStationRecomputePath(pos:Vector2i) -> Array:

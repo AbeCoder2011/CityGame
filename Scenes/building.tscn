@@ -204,12 +204,14 @@ autoplay = "default"
 frame_progress = 0.8725548
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=980647061]
+visible = false
 z_index = -1
 position = Vector2(24, 24.000002)
 scale = Vector2(3, 3)
 emitting = false
 amount = 34
 texture = ExtResource("3_n4bpb")
+one_shot = true
 explosiveness = 1.0
 randomness = 0.62
 process_material = SubResource("ParticleProcessMaterial_o2ick")

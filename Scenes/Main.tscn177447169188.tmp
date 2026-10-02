@@ -293,7 +293,7 @@ var area_positions : Dictionary[Vector2i,Node2D] = {}
 
 
 func GenerateAreas():
-	$\"../UI\".SetLoadProgress(\"Placing Areas...\",0)
+	$\"../UI\".SetLoadProgress(\"Spawning Areas...\",0)
 	await get_tree().process_frame
 	total_buys = max(len(OpenAreas) - 1,0)
 	var i = 0

@@ -1,5 +1,8 @@
 [gd_scene format=3 uid="uid://bfpx0lu58a1g0"]
 
+[ext_resource type="Theme" uid="uid://cpn8tkdf1fjpx" path="res://AreaTheme.tres" id="1_oujlu"]
+[ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="2_x45ud"]
+
 [sub_resource type="GDScript" id="GDScript_50glp"]
 resource_name = "Area"
 script/source = "extends Node2D
@@ -41,18 +44,9 @@ offset_left = -48.0
 offset_top = 48.0
 offset_right = 48.0
 offset_bottom = 72.0
+theme = ExtResource("1_oujlu")
+theme_override_fonts/font = ExtResource("2_x45ud")
 text = "Unlock!"
-flat = true
-
-[node name="ColorRect" type="ColorRect" parent="Button" unique_id=285477905]
-z_index = -1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 1
 
 [node name="Label" type="RichTextLabel" parent="." unique_id=1426613104]
 offset_left = -144.0
@@ -66,6 +60,7 @@ vertical_alignment = 1
 
 [node name="AreaDisabler" type="VisibleOnScreenEnabler2D" parent="." unique_id=819607364]
 rect = Rect2(-168, -168, 336, 336)
+show_rect = false
 enable_mode = 1
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

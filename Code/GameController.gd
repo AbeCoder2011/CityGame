@@ -1,5 +1,6 @@
 extends Node2D
 
+signal finished
 
 var terrain_noise := FastNoiseLite.new()
 var type_noise := FastNoiseLite.new()
@@ -20,29 +21,59 @@ var BuildingAmounts := {}
 var time : float = 0
 
 func _ready() -> void:
+	$UI.SetLoadProgress("Setting Values...",0)
 	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
 	Global.Population = 0
 	Global.BuildingUses = {}
 	Global.CurrentBuilding = "None"
+	Global.LoadAchievementProgress()
 	$Autosaver.wait_time = Global.Settings.get("autosave_interval",60)
 	$Autosaver.start()
-	$Background/Grid.position = (Global.MAP_SIZE * 6 * 48 * -1)
-	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Global.MAP_SIZE * 6 * 48 * 2))
+	$Background/Grid.position = (Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * -1)
+	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * 2))
+	
 	if Global.LoadSettings["load"]:
 		LoadGame()
+		await finished
+		$"UI".SetLoadProgress("Loading save...",100)
+		await get_tree().process_frame
+		$Areas.GenerateAreas()
+		await finished
+		$"UI".SetLoadProgress("Loading save...",100)
+		await get_tree().process_frame
+		$"Terrain".Generate()
+		await finished
+		$"UI".SetLoadProgress("Generating Terrain...",100)
+		await get_tree().process_frame
 	else:
+		print("no load")
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
 				$Buildings.NewBuilding(n["name"],n["pos"],false)
+		print("areas start")
 		$Areas.GenerateAreas()
+		await finished
+		$"UI".SetLoadProgress("Placing Areas...",100)
+		await get_tree().process_frame
+		print("areas done")
+		$"Terrain".seed = randi()
+		$"Terrain".Generate()
+		await finished
+		$"UI".SetLoadProgress("Generating Terrain...",100)
+		await get_tree().process_frame
+	$UI.SetLoadProgress("Finishing Up...",0)
+	await get_tree().process_frame
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
 		if not UnlockedBuildings.get(n,false):
 			UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
 		if UnlockedBuildings[n]:
 			$UI.already_unlocked.append(n)
+	$UI.SetLoadProgress("Finishing Up...",100)
 	await get_tree().process_frame
-
+	$"UI/UI/Fade/Label".hide()
+	$"UI/UI/Fade/ProgressBar".hide()
+	$"UI/UI/Fade/AnimationPlayer".play("fade_in")
 # Time lol
 #func _process(delta: float) -> void:
 	#time += 100 * delta
@@ -67,8 +98,6 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 		for p in Global.ACHIEVEMENTS[n]["requirements"]:
 			if something_happened or p["type"] == "money":
 				prog.append(GetRequirementProgress(p))
-				if n == "First step to greatness":
-					print(prog)
 		if prog.is_empty():
 			continue
 		var unlock = true
@@ -219,6 +248,7 @@ func SaveGame(autosave=false):
 		"happ":Global.Happiness,
 		"uses":Global.BuildingUses,
 		"diff":Global.Difficulty,
+		"settings":Global.GameSettings,
 		"peak":$Buildings.PeakBuildings,
 		"open_areas":$Areas.OpenAreas,
 		"buildable":BuildableAreas,
@@ -230,6 +260,8 @@ func SaveGame(autosave=false):
 	print("Game saved succesfully!")
 
 func LoadGame():
+	$UI.SetLoadProgress("Loading save...",0)
+	await get_tree().process_frame
 	if not ResourceLoader.exists(SAVE_PATH + SAVE_NAME):
 		print("Savefile not found!")
 		return
@@ -242,19 +274,34 @@ func LoadGame():
 	Global.Happiness = save["happ"]
 	Global.BuildingUses = save["uses"]
 	Global.Difficulty = save["diff"]
+	Global.GameSettings = save.get("settings",{})
+	print("Save Settings: ",save.get("settings",{}))
 	$"Terrain".seed = save.get("seed", randi())
 	UnlockedBuildings = save.get("ub",{})
 	$"UI".CheckBuildingUnlocks()
 	BuildableAreas = save.get("buildable",[Rect2(-3,-3,6,6)])
 	$Areas.OpenAreas = save["open_areas"]
-	$Areas.GenerateAreas()
-	$"Terrain".Generate()
 	$Buildings.PeakBuildings = save["peak"]
+	var length = len(save["buildings"].values())
+	var i = 0.0
+	print(length)
+	print(i)
+	
 	for coll in save["buildings"].values():
+		var coll_size = len(coll)
+		var last = i
+		var this_i = 0
 		for b in coll:
 			$Buildings.NewBuilding(b["name"],b["pos"],false)
+			this_i += 1
+				
+		i = last
+		i += 1.0
+		print(i/length)
+		$UI.SetLoadProgress("Loading save...",clamp(floor(i/length*100),0,100))
+		await get_tree().process_frame
 	print("Loaded save!")
-	
+	finished.emit()
 	
 
 func DeleteSave():
@@ -263,3 +310,9 @@ func DeleteSave():
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		SaveGame()
+#
+#func SetLoadProgress(nam:String,prog:int):
+	#$UI/Fade/Label.text = nam
+	#$UI/Fade/ProgressBar.value = prog
+	
+	

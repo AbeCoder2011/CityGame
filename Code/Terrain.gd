@@ -28,19 +28,17 @@ func get_tile(coords:Vector2i) -> int:
 			res = 7 # Deep Water
 	return res
 func get_hiddenlayer_value(coords: Vector2i) -> float:
-	return hiddenlayer[coords.y + Global.MAP_SIZE.y * 6][coords.x + Global.MAP_SIZE.x * 6]
-
-func _ready():
-	if Global.LoadSettings["load"] == false:
-		seed = randi()
-		Generate()
+	return hiddenlayer[coords.y + Global.LoadSettings.get("map_size",20) * 6][coords.x + Global.MAP_SIZE.x * 6]
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("reroll_seed") and event.is_pressed():
 		seed = randi()
 		print(seed)
 		Generate()
+
 func Generate() -> void:
+	$"../UI".SetLoadProgress("Generating Terrain...",0)
+	await get_tree().process_frame
 	var random = RandomNumberGenerator.new()
 	random.seed = seed
 	var hiddenlayerrandom = RandomNumberGenerator.new()
@@ -57,16 +55,18 @@ func Generate() -> void:
 	temperature_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	temperature_noise.fractal_octaves = 2
 	height_noise.offset = Vector3(50,50,50)
-	for y in range(- Global.MAP_SIZE.x * 6, Global.MAP_SIZE.x * 6):
+	var i = 0
+	var total = (Global.GameSettings.get("map_size",20) * 12 + 6) ** 2
+	for y in range(- Global.GameSettings.get("map_size",20) * 6 - 3, Global.GameSettings.get("map_size",20) * 6 + 3):
 		hiddenlayer.append([])
-		for x in range(- Global.MAP_SIZE.y * 6, Global.MAP_SIZE.y * 6):
+		for x in range(- Global.GameSettings.get("map_size",20) * 6 - 3, Global.GameSettings.get("map_size",20) * 6 + 3):
 			var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 			var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 			var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
 			if random.randi_range(0, 3) == 0:
-				hiddenlayer[y + Global.MAP_SIZE.y * 6].append(random.randf_range(0, 1))
+				hiddenlayer[y + Global.GameSettings.get("map_size",20) * 6 + 3].append(random.randf_range(0, 1))
 			else:
-				hiddenlayer[y + Global.MAP_SIZE.y * 6].append(0.0)
+				hiddenlayer[y + Global.GameSettings.get("map_size",20) * 6 + 3].append(0.0)
 			if (height < 0 && rainfall >= 0.2) or height <= -0.15: # Water
 				set_cell(Vector2i(x,y),0,Vector2i(1,0))
 				if height <= -0.3:
@@ -90,3 +90,10 @@ func Generate() -> void:
 						set_cell(Vector2i(x,y),0,Vector2i(2 + random.randi_range(0,1),0)) # Mountain
 						if rainfall >= 0.25:
 							set_cell(Vector2i(x,y),0,Vector2i(2 + random.randi_range(0,1),1))
+			i += 1
+			if i % 100000 == 0:
+				print(i," - ",total)
+				$"../UI".SetLoadProgress("Generating Terrain...",(i/total*100))
+				await get_tree().process_frame
+	print("klar")
+	$"..".finished.emit()

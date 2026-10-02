@@ -37,9 +37,9 @@ func init_building(nam,pos) -> void:
 		"Rail":
 			var other_rails = $"..".Rails
 			var locations = [Vector2i(pos.x+1,pos.y),Vector2i(pos.x-1,pos.y),Vector2i(pos.x,pos.y+1),Vector2i(pos.x,pos.y-1)]
-			for n : Vector2i in other_rails:
+			for n : Vector2i in other_rails.keys():
 				if n in locations:
-					other_rails[n].UpdateRailSprite()
+					other_rails[n]["node"].UpdateRailSprite()
 			$HoverDetection.size = GetSize(nam) * 48
 			UpdateRailSprite()
 		"Fishing Dock":
@@ -48,11 +48,7 @@ func init_building(nam,pos) -> void:
 			$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,GetSize(nam)*16)
 			for n : Vector2i in Global.AroundTiles:
 				var t = $"../../Terrain".get_tile(grid_pos + n)
-				print(t)
 				if t not in [1,7]:
-					print("rot!",t,"  ",n)
-					print(Vector2(Vector2i.ZERO - n).angle())
-					print(rad_to_deg(Vector2(Vector2i.ZERO - n).angle()))
 					$Sprite.rotation = Vector2(Vector2i.ZERO - n).angle() - PI/2
 					return
 		_:

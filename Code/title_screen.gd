@@ -20,7 +20,7 @@ func _ready() -> void:
 	if not HasSave():
 		$Main/Vbox/Continue.hide()
 	for n : Control in $NewGame/Vbox.get_children():
-		if not n.name in ["Back","Description","Difficulty"]:
+		if not n.name in ["Back","Description","Difficulty","ExtraSettings"]:
 			n.mouse_entered.connect(mouse_enter.bind(int(n.name)))
 			n.mouse_exited.connect(mouse_exit.bind(int(n.name)))
 			n.pressed.connect(difficulty_pressed.bind(int(n.name)))
@@ -67,7 +67,6 @@ func _on_credits_pressed() -> void:
 	$Credits.show()
 	$Main.hide()
 
-
 func _on_quit_pressed() -> void:
 	get_tree().quit()
 
@@ -76,3 +75,9 @@ func _on_settings_pressed() -> void:
 	$Main.hide()
 	$Pause.show()
 	$Pause._on_settings_pressed()
+
+func OnSettingChanged(new_value:Variant,nam:String):
+	Global.GameSettings[nam] = new_value
+	match nam:
+		"map_size":
+			$NewGame/ExtraSettings/Label2.text = "Map size (%dx%d)" % [floor(new_value * 6),floor(new_value * 6)]

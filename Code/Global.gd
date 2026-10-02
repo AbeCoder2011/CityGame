@@ -3,8 +3,10 @@ extends Node
 @export var First := true
 
 @export var LoadSettings := {
-	"load":true
+	"load":true,
 }
+
+@export var GameSettings := {}
 
 @export var Difficulty = 3
 
@@ -12,14 +14,9 @@ extends Node
 
 var AchievementProgress = {}
 
-# ACTUAL SIZE IS DOUBLE!!!!!!!
-const MAP_SIZE = Vector2i(20,20)
-
 const BuildingTilemap = preload("res://Assets/Tilesheets/BuildingTiles/tiles.png")
 const IconTilemap = preload("res://Assets/icons.png")
 
-func _ready() -> void:
-	LoadAchievementProgress()
 
 # Tool 0 = Select
 #      1 = Draw

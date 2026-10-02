@@ -2,10 +2,10 @@ extends Camera2D
 var right_clicked = false
 
 func _ready() -> void:
-	limit_left = - Global.MAP_SIZE.x * 288
-	limit_right = Global.MAP_SIZE.x * 288
-	limit_top = - Global.MAP_SIZE.y * 288
-	limit_bottom = Global.MAP_SIZE.y * 288
+	limit_left = - Global.GameSettings.get("map_size",20) * 288 - 144
+	limit_right = Global.GameSettings.get("map_size",20) * 288 + 144
+	limit_top = - Global.GameSettings.get("map_size",20) * 288 - 144
+	limit_bottom = Global.GameSettings.get("map_size",20) * 288 + 144
 
 
 func _physics_process(_delta: float) -> void:
