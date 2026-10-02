@@ -13,6 +13,7 @@ config_version=5
 config/name="CityGame"
 run/main_scene="uid://dqpqod4dp5ena"
 config/features=PackedStringArray("4.7", "Forward Plus")
+boot_splash/bg_color=Color(0.2122578, 0.315625, 0.18641602, 1)
 
 [autoload]
 
