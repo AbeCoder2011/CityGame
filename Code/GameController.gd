@@ -21,6 +21,7 @@ var BuildingAmounts := {}
 var time : float = 0
 
 func _ready() -> void:
+	Global.SetCurrentFrameTime()
 	$UI.SetLoadProgress("Setting Values...",0)
 	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
 	Global.Population = 0
@@ -294,11 +295,12 @@ func LoadGame():
 		for b in coll:
 			$Buildings.NewBuilding(b["name"],b["pos"],false)
 			this_i += 1
-				
+			$UI.SetLoadProgress("Loading save...",clamp(floor(i/length*100),0,100))
+			await Global.CheckFrame()
 		i = last
 		i += 1.0
 		print(i/length)
-		$UI.SetLoadProgress("Loading save...",clamp(floor(i/length*100),0,100))
+		
 		await get_tree().process_frame
 	print("Loaded save!")
 	finished.emit()

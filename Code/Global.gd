@@ -623,3 +623,15 @@ func LoadAchievementProgress():
 		AchievementProgress = ResourceLoader.load("user://achievements.tres").save
 	else:
 		AchievementProgress = {}
+
+var frame_start = 0
+const MAX_MS_PER_FRAME = 50
+
+func SetCurrentFrameTime():
+	frame_start = Time.get_ticks_msec()
+
+func CheckFrame():
+	if Time.get_ticks_msec() - frame_start > MAX_MS_PER_FRAME:
+		await get_tree().process_frame
+		frame_start = Time.get_ticks_msec()
+		

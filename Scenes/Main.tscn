@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="8_vy5pj"]
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Code/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Code/train_animation.gd" id="10_4kpch"]
+[ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_grg3l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -302,18 +303,23 @@ func GenerateAreas():
 		for y in range(0 - Global.GameSettings.get(\"map_size\",20),Global.GameSettings.get(\"map_size\",20) + 1):
 			if Vector2i(x,y) in OpenAreas:
 				continue
-			var a : Node2D = Area.instantiate()
-			a.position = Vector2(x*288,y*288)
-			a.area = Vector2i(x,y)
-			area_positions[Vector2i(x,y)] = a
-			add_child(a)
+			$AreaBackground.set_cell(Vector2i(x,y),0,Vector2i(0,0))
 			i += 1
-			if i % 3000 == 0:
-				$\"../UI\".SetLoadProgress(\"Placing Areas...\",i/total*100)
-				await get_tree().process_frame
+			$\"../UI\".SetLoadProgress(\"Placing Areas...\",i/total*100)
+			await Global.CheckFrame()
 	Recalculate()
 	$\"..\".finished.emit()
 	print(\"kalaar\")
+
+func SpawnArea(pos:Vector2i):
+	# Spawn Area
+	var a : Node2D = Area.instantiate()
+	a.position = Vector2(pos.x*288,pos.y*288)
+	a.area = Vector2i(pos.x,pos.y)
+	area_positions[Vector2i(pos.x,pos.y)] = a
+	add_child(a)
+	# Remove Tilemap Position
+	$AreaBackground.erase_cell(pos)
 
 func DeleteMe(n:Node2D):
 	area_positions.erase(area_positions.keys()[area_positions.values().find(n)])
@@ -322,6 +328,8 @@ func Recalculate():
 	var new_cost = int(100 * 1.5**total_buys)
 	var searches = []
 	for n in OpenAreas:
+		if abs(n.x) > Global.GameSettings.get(\"map_size\",20) or abs(n.y) > Global.GameSettings.get(\"map_size\",20):
+			continue
 		if not searches.has(Vector2i(n.x + 1, n.y)):
 			searches.append(Vector2i(n.x + 1, n.y))
 		if not searches.has(Vector2i(n.x - 1, n.y)):
@@ -330,11 +338,24 @@ func Recalculate():
 			searches.append(Vector2i(n.x, n.y + 1))
 		if not searches.has(Vector2i(n.x, n.y - 1)):
 			searches.append(Vector2i(n.x, n.y - 1))
+	
 	for n in searches:
-		if area_positions.has(n):
-			area_positions[n].cost = new_cost
-			area_positions[n].Update()
+		if n in OpenAreas:
+			continue
+		if not area_positions.has(n):
+			SpawnArea(n)
+		area_positions[n].cost = new_cost
+		area_positions[n].Update()
 "
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_frkhe"]
+texture = ExtResource("10_grg3l")
+texture_region_size = Vector2i(288, 288)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bmxlf"]
+tile_size = Vector2i(288, 288)
+sources/0 = SubResource("TileSetAtlasSource_frkhe")
 
 [node name="Main" type="Node2D" unique_id=1367820127]
 script = ExtResource("1_jw32o")
@@ -387,6 +408,10 @@ autostart = true
 
 [node name="Areas" type="Node2D" parent="." unique_id=621043817]
 script = SubResource("GDScript_50glp")
+
+[node name="AreaBackground" type="TileMapLayer" parent="Areas" unique_id=1248307847]
+position = Vector2(-144, -144)
+tile_set = SubResource("TileSet_bmxlf")
 
 [node name="TrainAnimation" type="Node2D" parent="." unique_id=53925479]
 script = ExtResource("10_4kpch")

@@ -91,9 +91,7 @@ func Generate() -> void:
 						if rainfall >= 0.25:
 							set_cell(Vector2i(x,y),0,Vector2i(2 + random.randi_range(0,1),1))
 			i += 1
-			if i % 100000 == 0:
-				print(i," - ",total)
-				$"../UI".SetLoadProgress("Generating Terrain...",(i/total*100))
-				await get_tree().process_frame
+			$"../UI".SetLoadProgress("Generating Terrain...",(i/total*100))
+			await Global.CheckFrame()
 	print("klar")
 	$"..".finished.emit()
