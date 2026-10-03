@@ -7,6 +7,9 @@ var random = RandomNumberGenerator.new()
 var hiddenlayerrandom = RandomNumberGenerator.new()
 var hiddenlayer = []
 const NOISE_SCALE = 3
+
+var rivers_starting_points : Array[Vector2i]= []
+
 @export var seed = 0
 
 func get_tile(coords:Vector2i) -> int:
@@ -47,15 +50,15 @@ func SetUpNoiseMaps(s:int):
 	height_noise.seed = s
 	height_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	height_noise.offset = Vector3(50,50,50)
-	height_noise.fractal_octaves = 2
+	height_noise.fractal_octaves = 2	
 	rainfall_noise.seed = s + 1
 	rainfall_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	rainfall_noise.fractal_octaves = 3
-	height_noise.offset = Vector3(50,50,50)
+	rainfall_noise.offset = Vector3(50,50,50)
 	temperature_noise.seed = s+2
 	temperature_noise.noise_type = FastNoiseLite.TYPE_PERLIN
 	temperature_noise.fractal_octaves = 2
-	height_noise.offset = Vector3(50,50,50)
+	temperature_noise.offset = Vector3(50,50,50)
 	random.seed = s
 	hiddenlayerrandom.seed = s + 5
 
@@ -65,6 +68,9 @@ func Generate() -> void:
 	SetUpNoiseMaps(seed)
 	var i = 0.0
 	var total = (Global.GameSettings.get("map_size",20) * 12 + 6) ** 2
+	
+	rivers_starting_points = []
+	
 	for y in range(- Global.GameSettings.get("map_size",20) * 6 - 3, Global.GameSettings.get("map_size",20) * 6 + 3):
 		hiddenlayer.append([])
 		for x in range(- Global.GameSettings.get("map_size",20) * 6 - 3, Global.GameSettings.get("map_size",20) * 6 + 3):
@@ -75,21 +81,24 @@ func Generate() -> void:
 			set_cell(Vector2i(x,y),0,FindTerrainTile(x,y))
 			i += 1.0
 			if floor(int(i)) % 1000 == 0:
-				print(i,"   ",total)
-				print((i/total*100))
 				$"../UI".SetLoadProgress("Generating Terrain...",int(floor(i/total*100)))
 				await Global.CheckFrame()
+	
+	for n in rivers_starting_points:
+		for tile in GetRiverPath(n):
+			set_cell(tile,0,Vector2i(1,0))
+	
+	
 	print("klar")
 	$"..".finished.emit()
 
-func FindTerrainTile(x:int,y:int,s=0) -> Vector2i:
+func GetTileHeight(x,y) -> float:
+	return height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
+
+func FindTerrainTile(x:int,y:int) -> Vector2i:
 	var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 	var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 	var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
-	if s != 0:
-		height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
-		rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
-		temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
 	
 	if (height < 0 && rainfall >= 0.2) or height <= -0.15:
 		if height <= -0.3:
@@ -99,19 +108,19 @@ func FindTerrainTile(x:int,y:int,s=0) -> Vector2i:
 	if height >= 0.4 && rainfall <= -0.05 && temp >= 0.2:
 		if random.randi_range(0, 5) == 0:
 			return Vector2i(3, 3)
-
-	
-	if height > 0.35:
-		if rainfall >= 0.25:
-			return Vector2i(2 + random.randi_range(0, 1), 1) # Forest Mountain
-		return Vector2i(2 + random.randi_range(0, 1), 0) # Mountain
-
-	# Desert
+		return Vector2i(0, 3)
 	if rainfall <= -0.05 && temp >= 0.2:
 		if rainfall >= -0.3 && random.randi_range(0, 15) == 0:
 			return Vector2i(1 + random.randi_range(0, 1), 3) # Cactus
-		return Vector2i(0, 3) # Normal
-
+		return Vector2i(0, 3) # Normal deserrt
+	
+	if height > 0.35 and random.randi_range(0, 5) == 0:
+		if rainfall >= 0.25:
+			if random.randi_range(0,15) == 0:
+				rivers_starting_points.append(Vector2i(x,y))
+			return Vector2i(2 + random.randi_range(0, 1), 1) # Forest Mountain
+		return Vector2i(2 + random.randi_range(0, 1), 0) # Mountain
+	
 	# Wheat
 	if rainfall >= 0.1 && rainfall <= 0.15 && height <= 0.1:
 		return Vector2i(0, 4)
@@ -124,12 +133,40 @@ func FindTerrainTile(x:int,y:int,s=0) -> Vector2i:
 
 	# Plains
 	return Vector2i(0, 0)
+
+func GetRiverPath(pos:Vector2i,i=0) -> Array:
+	if i > 300:
+		return []
 	
+	var h = GetTileHeight(pos.x,pos.y)
+	if h < -0.15:
+		return []
+	var dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
+	
+	var best_height := 1.0
+	var best_dir := Vector2i.ZERO
+	
+	for x in range(4):
+		var dir = dirs[random.randi_range(0,len(dirs) - 1)]
+		dirs.erase(dir)
+		var new_pos = pos + dir
+		var height = GetTileHeight(new_pos.x,new_pos.y)
+		if height < best_height:
+			best_dir = dir
+			best_height = height
+
+	#if best_height < h:
+	if not best_dir == Vector2i.ZERO:
+		var next : Array = GetRiverPath(pos + best_dir,i+1)
+		next.append(pos)
+		return next
+	return []
+
 
 func ValidateSeed(s:int) -> bool:
 	SetUpNoiseMaps(s)
 	for x in range(-3,3):
 		for y in range(-3,3):
-			if FindTerrainTile(x,y,s) not in [Vector2i(1, 1),Vector2i(1, 0)]:
+			if FindTerrainTile(x,y) not in [Vector2i(1, 1),Vector2i(1, 0)]:
 				return true
 	return false

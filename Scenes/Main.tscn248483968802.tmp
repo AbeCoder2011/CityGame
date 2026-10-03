@@ -377,6 +377,7 @@ z_index = -1
 scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_jnsvb")
 script = ExtResource("9_bmxlf")
+seed = null
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1874523406]
 zoom = Vector2(2, 2)
