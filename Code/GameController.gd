@@ -34,36 +34,52 @@ func _ready() -> void:
 	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * 2))
 	
 	if Global.LoadSettings["load"]:
+		
 		LoadGame()
+		
 		await finished
 		$"UI".SetLoadProgress("Loading save...",100)
 		await get_tree().process_frame
+		
 		$Areas.GenerateAreas()
+		
 		await finished
 		$"UI".SetLoadProgress("Loading save...",100)
 		await get_tree().process_frame
+		
 		$"Terrain".Generate()
+		
 		await finished
 		$"UI".SetLoadProgress("Generating Terrain...",100)
 		await get_tree().process_frame
 	else:
-		print("no load")
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
 				$Buildings.NewBuilding(n["name"],n["pos"],false)
-		print("areas start")
+		
 		$Areas.GenerateAreas()
+		
 		await finished
 		$"UI".SetLoadProgress("Placing Areas...",100)
 		await get_tree().process_frame
-		print("areas done")
-		$"Terrain".seed = randi()
+		
+		# Find valid non-water seed
+		var valid = false
+		var s = 0
+		while not valid:
+			s = randi()
+			valid = $Terrain.ValidateSeed(s)
+			print(s," is valid ",valid)
+		$"Terrain".seed = s
 		$"Terrain".Generate()
+		
 		await finished
 		$"UI".SetLoadProgress("Generating Terrain...",100)
 		await get_tree().process_frame
+		
 	$UI.SetLoadProgress("Finishing Up...",0)
 	await get_tree().process_frame
+	
 	UpdateCityStats()
 	for n in Global.BuildingData.keys():
 		if not UnlockedBuildings.get(n,false):

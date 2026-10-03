@@ -77,7 +77,14 @@ func _on_settings_pressed() -> void:
 	$Pause._on_settings_pressed()
 
 func OnSettingChanged(new_value:Variant,nam:String):
-	Global.GameSettings[nam] = new_value
+	if nam == "map_size":
+		Global.GameSettings[nam] = int(floor(new_value))
+	else:
+		Global.GameSettings[nam] = new_value
 	match nam:
 		"map_size":
 			$NewGame/ExtraSettings/Label2.text = "Map size (%dx%d)" % [floor(new_value * 6),floor(new_value * 6)]
+
+
+func _on_extra_settings_pressed() -> void:
+	$NewGame/ExtraSettings.visible = !$NewGame/ExtraSettings.visible

@@ -601,6 +601,7 @@ scroll_active = false
 scroll_following = true
 
 [node name="ExtraSettings" type="VBoxContainer" parent="NewGame" unique_id=789329582]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
@@ -628,7 +629,9 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 min_value = 3.0
+max_value = 300.0
 value = 20.0
+rounded = true
 
 [node name="Credits" type="Control" parent="." unique_id=2103616721]
 visible = false
@@ -700,6 +703,7 @@ anchors_preset = 15
 [connection signal="pressed" from="Main/Vbox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Main/Vbox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Main/Vbox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="NewGame/Vbox/ExtraSettings" to="." method="_on_extra_settings_pressed"]
 [connection signal="pressed" from="NewGame/Vbox/Back" to="." method="_on_back_pressed"]
 [connection signal="value_changed" from="NewGame/ExtraSettings/MapSize" to="." method="OnSettingChanged" binds= ["map_size"]]
 [connection signal="pressed" from="Credits/Back" to="." method="_on_back_pressed"]
