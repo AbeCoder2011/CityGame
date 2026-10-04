@@ -88,6 +88,7 @@ func _ready() -> void:
 			$UI.already_unlocked.append(n)
 	$UI.SetLoadProgress("Finishing Up...",100)
 	await get_tree().process_frame
+	$UI.UpdateAchievements()
 	$"UI/UI/Fade/Label".hide()
 	$"UI/UI/Fade/ProgressBar".hide()
 	$"UI/UI/Fade/AnimationPlayer".play("fade_in")

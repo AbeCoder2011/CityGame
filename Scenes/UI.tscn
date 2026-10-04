@@ -445,9 +445,6 @@ _data = {
 &"RESET": SubResource("Animation_mqm5i")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
-atlas = ExtResource("1_nxvpl")
-
 [sub_resource type="LabelSettings" id="LabelSettings_tgu54"]
 font_size = 240
 outline_size = 25
@@ -495,7 +492,16 @@ offset_right = 394.97998
 offset_bottom = -20.0
 grow_vertical = 0
 
-[node name="Background" type="NinePatchRect" parent="UI/Tools" unique_id=1713079574]
+[node name="Main" type="Control" parent="UI/Tools" unique_id=392432698]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = 153.0
+offset_bottom = -5.0
+
+[node name="Background" type="NinePatchRect" parent="UI/Tools/Main" unique_id=1713079574]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -509,7 +515,7 @@ patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
-[node name="Selection" type="TextureRect" parent="UI/Tools" unique_id=475266104]
+[node name="Selection" type="TextureRect" parent="UI/Tools/Main" unique_id=475266104]
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 1
 anchors_preset = -1
@@ -521,24 +527,20 @@ offset_bottom = 35.0
 grow_vertical = 2
 texture = SubResource("AtlasTexture_aehul")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Tools" unique_id=1331652337]
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Tools/Main" unique_id=1331652337]
 layout_mode = 1
-anchors_preset = -1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 5.0
-offset_top = 5.0
-offset_right = -5.0
-offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Select" type="Button" parent="UI/Tools/HBoxContainer" unique_id=740946215]
+[node name="Select" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=740946215]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 flat = true
 
-[node name="Mouse" type="TextureRect" parent="UI/Tools/HBoxContainer/Select" unique_id=1994169647]
+[node name="Mouse" type="TextureRect" parent="UI/Tools/Main/HBoxContainer/Select" unique_id=1994169647]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -547,12 +549,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_dewlx")
 
-[node name="Draw" type="Button" parent="UI/Tools/HBoxContainer" unique_id=1403676064]
+[node name="Draw" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=1403676064]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 flat = true
 
-[node name="Pencil" type="TextureRect" parent="UI/Tools/HBoxContainer/Draw" unique_id=1729267903]
+[node name="Pencil" type="TextureRect" parent="UI/Tools/Main/HBoxContainer/Draw" unique_id=1729267903]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -561,12 +563,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_hfhsn")
 
-[node name="Destroy" type="Button" parent="UI/Tools/HBoxContainer" unique_id=835524992]
+[node name="Destroy" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=835524992]
 custom_minimum_size = Vector2(60, 0)
 layout_mode = 2
 flat = true
 
-[node name="Eraser" type="TextureRect" parent="UI/Tools/HBoxContainer/Destroy" unique_id=1770598157]
+[node name="Eraser" type="TextureRect" parent="UI/Tools/Main/HBoxContainer/Destroy" unique_id=1770598157]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1388,6 +1390,7 @@ grow_vertical = 2
 libraries/ = SubResource("AnimationLibrary_jnovg")
 
 [node name="Background" type="NinePatchRect" parent="UI/Achievements" unique_id=1833794775]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.333
@@ -1395,12 +1398,12 @@ anchor_bottom = 0.333
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(3, 3)
-texture = SubResource("AtlasTexture_hdgct")
+texture = ExtResource("1_nxvpl")
 region_rect = Rect2(132, 201, 98, 26)
-patch_margin_left = 74
-patch_margin_top = 9
-patch_margin_right = 84
-patch_margin_bottom = 9
+patch_margin_left = 45
+patch_margin_top = 15
+patch_margin_right = 54
+patch_margin_bottom = 10
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 1
 
@@ -1728,8 +1731,8 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 👥 5 population nearby
 [img]res://Assets/coin.png[/img] 20/s"
 
-[connection signal="pressed" from="UI/Tools/HBoxContainer/Select" to="." method="_on_select_pressed"]
-[connection signal="pressed" from="UI/Tools/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
-[connection signal="pressed" from="UI/Tools/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
+[connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
+[connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
+[connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]

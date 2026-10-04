@@ -83,11 +83,15 @@ func Generate() -> void:
 			if floor(int(i)) % 1000 == 0:
 				$"../UI".SetLoadProgress("Generating Terrain...",int(floor(i/total*100)))
 				await Global.CheckFrame()
-	
-	for n in rivers_starting_points:
-		for tile in GetRiverPath(n):
-			set_cell(tile,0,Vector2i(1,0))
-	
+	i = 0.0
+	total = len(rivers_starting_points)
+	$"../UI".SetLoadProgress("Placing rivers...",0)
+	#for n in rivers_starting_points:
+		#set_cells_terrain_connect(GetRiverPath(n).keys(),0,1)
+		#i += 1.0
+		#$"../UI".SetLoadProgress("Placing rivers...",int(floor(i/total*100)))
+		#await Global.CheckFrame()
+	#
 	
 	print("klar")
 	$"..".finished.emit()
@@ -117,7 +121,8 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	if height > 0.35 and random.randi_range(0, 5) == 0:
 		if rainfall >= 0.25:
 			if random.randi_range(0,15) == 0:
-				rivers_starting_points.append(Vector2i(x,y))
+				var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
+				rivers_starting_points.append(Vector2i(x,y) + dir)
 			return Vector2i(2 + random.randi_range(0, 1), 1) # Forest Mountain
 		return Vector2i(2 + random.randi_range(0, 1), 0) # Mountain
 	
@@ -134,33 +139,36 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	# Plains
 	return Vector2i(0, 0)
 
-func GetRiverPath(pos:Vector2i,i=0) -> Array:
-	if i > 300:
-		return []
+func GetRiverPath(pos:Vector2i,i=0) -> Dictionary:
+	if i > 30:
+		return {}
 	
 	var h = GetTileHeight(pos.x,pos.y)
 	if h < -0.15:
-		return []
+		return {pos:true}
 	var dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 	
 	var best_height := 1.0
-	var best_dir := Vector2i.ZERO
+	var best_dirs := []
 	
 	for x in range(4):
 		var dir = dirs[random.randi_range(0,len(dirs) - 1)]
 		dirs.erase(dir)
 		var new_pos = pos + dir
 		var height = GetTileHeight(new_pos.x,new_pos.y)
-		if height < best_height:
-			best_dir = dir
+		if height < h:
+			best_dirs.append(dir)
 			best_height = height
-
-	#if best_height < h:
-	if not best_dir == Vector2i.ZERO:
-		var next : Array = GetRiverPath(pos + best_dir,i+1)
-		next.append(pos)
+			break
+	
+	if not best_dirs.is_empty():
+		var next : Dictionary = {}
+		for n in best_dirs:
+			for t in GetRiverPath(pos + n,i+1):
+				next[t] = true
+			next[pos] = true
 		return next
-	return []
+	return {}
 
 
 func ValidateSeed(s:int) -> bool:

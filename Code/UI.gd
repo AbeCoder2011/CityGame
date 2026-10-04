@@ -12,6 +12,9 @@ func _ready() -> void:
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
 	if FileAccess.file_exists("user://settings.cfg"):
 		$UI/Pause.LoadSettings()
+
+
+func UpdateAchievements():
 	var i = 0
 	for n in $UI/Achievements/Container/Achievements.get_children():
 		if n.name.begins_with("Gap"):
@@ -71,20 +74,20 @@ func _on_select_pressed() -> void:
 	if Global.Tool == 1:
 		$UI/Building/AnimationPlayer.play("hide")
 	Global.Tool = 0
-	$UI/Tools/Selection.offset_left = 3
+	$UI/Tools/Main/Selection.offset_left = 3
 
 func _on_draw_pressed() -> void:
 	if Global.Tool != 1:
 		$UI/Building/AnimationPlayer.play("show")
 	Global.Tool = 1
-	$UI/Tools/Selection.offset_left = 66
+	$UI/Tools/Main/Selection.offset_left = 66
 	
 
 func _on_destroy_pressed() -> void:
 	if Global.Tool == 1:
 		$UI/Building/AnimationPlayer.play("hide")
 	Global.Tool = 2
-	$UI/Tools/Selection.offset_left = 128
+	$UI/Tools/Main/Selection.offset_left = 128
 
 func UpdateCityStats():
 	$UI/CityInfo/Info/Money/Label.text = Global.GetBigNumber(Global.Money)
