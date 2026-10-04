@@ -1,6 +1,20 @@
 extends Camera2D
 var right_clicked = false
 
+var trauma = 0.0
+var trauma_power = 2
+var max_offset = Vector2(100,100)
+func _process(delta: float) -> void:
+	if trauma:
+		trauma = max(trauma - 0.5 * delta, 0)
+		shake()
+func shake():
+	var amount = pow(trauma, trauma_power) * (1 / zoom.x)
+	offset.x = max_offset.x * amount * randf_range(-1, 1)
+	offset.y = max_offset.y * amount * randf_range(-1, 1)
+func traumatize(amount):
+	trauma = min(trauma + amount, 0.2)
+
 func _ready() -> void:
 	limit_left = - Global.MAP_SIZE.x * 288
 	limit_right = Global.MAP_SIZE.x * 288

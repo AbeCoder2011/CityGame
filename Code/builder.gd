@@ -24,6 +24,7 @@ func _process(delta: float) -> void:
 			return
 
 		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
+			$"../Camera".traumatize(0.15)
 			Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
 			$"..".UpdateCityStats()
 			$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)

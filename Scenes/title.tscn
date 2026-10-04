@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="3_yosvi"]
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="4_q2qps"]
 [ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="6_2qdx2"]
+[ext_resource type="Script" uid="uid://b6n1phl4cjj7c" path="res://Scenes/button_move_on_hover.gd" id="6_3eqdi"]
 
 [sub_resource type="Animation" id="Animation_ekrfg"]
 length = 0.001
@@ -173,8 +174,6 @@ texture = ExtResource("2_ekrfg")
 19:10/0 = 0
 1:11/0 = 0
 2:11/0 = 0
-18:11/0 = 0
-19:11/0 = 0
 1:12/0 = 0
 0:13/0 = 0
 0:17/0 = 0
@@ -206,6 +205,8 @@ texture = ExtResource("2_ekrfg")
 19:6/0 = 0
 18:6/0 = 0
 18:5/0 = 0
+19:11/0 = 0
+18:11/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_o2ick"]
 sources/0 = SubResource("TileSetAtlasSource_fp2oq")
@@ -386,7 +387,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 0.59607846)
+color = Color(0, 0, 0, 0.30588236)
 metadata/_edit_use_anchors_ = true
 
 [node name="BG1" type="TileMapLayer" parent="Base/Background" unique_id=676651217]
@@ -456,33 +457,43 @@ theme_override_constants/separation = 30
 [node name="Continue" type="Button" parent="Main/Vbox" unique_id=1404892707]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_transform_enabled = true
 theme = ExtResource("4_q2qps")
 text = "- Continue -"
+script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Button" parent="Main/Vbox" unique_id=1221196535]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_transform_enabled = true
 theme = ExtResource("4_q2qps")
 text = "- New game -"
+script = ExtResource("6_3eqdi")
 
 [node name="Settings" type="Button" parent="Main/Vbox" unique_id=40458825]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_transform_enabled = true
 theme = ExtResource("4_q2qps")
 text = "- Settings -"
+script = ExtResource("6_3eqdi")
 
 [node name="Credits" type="Button" parent="Main/Vbox" unique_id=577322329]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_transform_enabled = true
 theme = ExtResource("4_q2qps")
 text = "- Credits -
 "
+script = ExtResource("6_3eqdi")
 
 [node name="Quit" type="Button" parent="Main/Vbox" unique_id=1988601232]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+offset_transform_enabled = true
 theme = ExtResource("4_q2qps")
 text = "- Quit Game -"
+script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Control" parent="." unique_id=653756544]
 visible = false
@@ -516,6 +527,7 @@ theme_override_colors/font_hover_pressed_color = Color(0.3882353, 1, 0.03529412,
 theme_override_colors/font_disabled_color = Color(0.3882353, 1, 0.03529412, 1)
 theme_override_colors/font_outline_color = Color(0.3882353, 1, 0.03529412, 1)
 text = "Very Easy Mode"
+script = ExtResource("6_3eqdi")
 
 [node name="2" type="Button" parent="NewGame/Vbox" unique_id=1622431760]
 custom_minimum_size = Vector2(0, 70)
@@ -530,12 +542,14 @@ theme_override_colors/font_disabled_color = Color(0.25490198, 0.64705884, 0, 1)
 theme_override_colors/font_outline_color = Color(0.25490198, 0.64705884, 0, 1)
 text = "Easy Mode
 "
+script = ExtResource("6_3eqdi")
 
 [node name="3" type="Button" parent="NewGame/Vbox" unique_id=205700015]
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 theme = ExtResource("4_q2qps")
 text = "Normal Mode"
+script = ExtResource("6_3eqdi")
 
 [node name="4" type="Button" parent="NewGame/Vbox" unique_id=683050711]
 custom_minimum_size = Vector2(0, 70)
@@ -549,6 +563,7 @@ theme_override_colors/font_hover_pressed_color = Color(0.76, 0.1368, 0.19911993,
 theme_override_colors/font_disabled_color = Color(0.76, 0.1368, 0.19911993, 1)
 theme_override_colors/font_outline_color = Color(0.76, 0.1368, 0.19911993, 1)
 text = "Hard Mode"
+script = ExtResource("6_3eqdi")
 
 [node name="5" type="Button" parent="NewGame/Vbox" unique_id=1406481520]
 custom_minimum_size = Vector2(0, 70)
@@ -562,6 +577,7 @@ theme_override_colors/font_hover_pressed_color = Color(0.88, 0, 0, 1)
 theme_override_colors/font_disabled_color = Color(0.88, 0, 0, 1)
 theme_override_colors/font_outline_color = Color(0.88, 0, 0, 1)
 text = "HELL Mode"
+script = ExtResource("6_3eqdi")
 
 [node name="Back" type="Button" parent="NewGame/Vbox" unique_id=614694233]
 modulate = Color(0.606085, 0.60608506, 0.606085, 1)
@@ -569,6 +585,7 @@ custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
 theme = ExtResource("4_q2qps")
 text = "← Back "
+script = ExtResource("6_3eqdi")
 
 [node name="Description" type="RichTextLabel" parent="NewGame/Vbox" unique_id=1066776898]
 layout_mode = 2

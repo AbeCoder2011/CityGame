@@ -20,7 +20,7 @@ func play_random_song() -> void:
 	randomize()
 	index = randi_range(0,len(songs) - 1)
 	while last_song_index == index:
-		index = randi_range(0,len(songs))
+		index = randi_range(0,len(songs)-1)
 	stream = songs[index]
 	play()
 	last_song_index = index
