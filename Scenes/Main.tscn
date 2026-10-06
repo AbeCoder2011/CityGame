@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dwde3p2a17841"]
+[gd_scene format=4 uid="uid://dwde3p2a17841"]
 
 [ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Code/GameController.gd" id="1_jw32o"]
 [ext_resource type="Texture2D" uid="uid://jt4e480cvn71" path="res://Assets/grid.png" id="1_rgh2o"]
@@ -429,9 +429,117 @@ terrain_set_0/terrain_1/name = "Water"
 terrain_set_0/terrain_1/color = Color(0, 1, 0.3062501, 1)
 sources/0 = SubResource("TileSetAtlasSource_4kpch")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pbw6q"]
-atlas = ExtResource("2_pbw6q")
-region = Rect2(0, 0, 16, 16)
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_grg3l"]
+texture = ExtResource("2_pbw6q")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+11:0/0 = 0
+19:0/0 = 0
+0:1/0 = 0
+0:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+0:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+17:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+7:4/0 = 0
+12:4/0 = 0
+7:5/0 = 0
+8:5/0 = 0
+9:5/0 = 0
+10:5/0 = 0
+18:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+18:6/0 = 0
+19:6/0 = 0
+0:7/0 = 0
+18:7/0 = 0
+19:7/0 = 0
+0:10/0 = 0
+3:10/0 = 0
+4:10/0 = 0
+0:11/0 = 0
+4:11/0 = 0
+1:12/0 = 0
+0:13/0 = 0
+0:14/0 = 0
+1:14/0 = 0
+2:14/0 = 0
+19:14/0 = 0
+0:17/0 = 0
+1:17/0 = 0
+0:18/0 = 0
+1:18/0 = 0
+17:18/0 = 0
+3:0/size_in_atlas = Vector2i(1, 2)
+3:0/0 = 0
+3:0/0/texture_origin = Vector2i(0, -8)
+4:0/size_in_atlas = Vector2i(2, 2)
+4:0/0 = 0
+4:0/0/texture_origin = Vector2i(-8, -8)
+6:0/size_in_atlas = Vector2i(2, 2)
+6:0/0 = 0
+6:0/0/texture_origin = Vector2i(-8, -8)
+8:2/size_in_atlas = Vector2i(2, 2)
+8:2/0 = 0
+8:2/0/texture_origin = Vector2i(-8, -8)
+1:2/size_in_atlas = Vector2i(2, 2)
+1:2/0 = 0
+1:2/0/texture_origin = Vector2i(-8, -8)
+10:2/size_in_atlas = Vector2i(2, 2)
+10:2/0 = 0
+10:2/0/texture_origin = Vector2i(-8, -8)
+12:2/size_in_atlas = Vector2i(2, 2)
+12:2/0 = 0
+18:3/size_in_atlas = Vector2i(2, 2)
+18:3/0 = 0
+18:3/0/texture_origin = Vector2i(-8, -8)
+17:0/size_in_atlas = Vector2i(2, 2)
+17:0/0 = 0
+17:0/0/texture_origin = Vector2i(-8, -8)
+3:4/size_in_atlas = Vector2i(2, 2)
+3:4/0 = 0
+3:4/0/texture_origin = Vector2i(-8, -8)
+5:4/size_in_atlas = Vector2i(2, 2)
+5:4/0 = 0
+5:4/0/texture_origin = Vector2i(-8, -8)
+3:6/size_in_atlas = Vector2i(2, 2)
+3:6/0 = 0
+3:6/0/texture_origin = Vector2i(-8, -8)
+1:10/size_in_atlas = Vector2i(2, 2)
+1:10/0 = 0
+1:10/0/texture_origin = Vector2i(-8, -8)
+3:11/0 = 0
+0:15/size_in_atlas = Vector2i(2, 2)
+0:15/0 = 0
+0:15/0/texture_origin = Vector2i(-8, -8)
+18:12/size_in_atlas = Vector2i(1, 2)
+18:12/0 = 0
+18:12/0/texture_origin = Vector2i(0, -8)
+19:11/size_in_atlas = Vector2i(1, 3)
+19:11/0 = 0
+19:11/0/texture_origin = Vector2i(0, -16)
+17:11/size_in_atlas = Vector2i(2, 1)
+17:11/0 = 0
+17:11/0/texture_origin = Vector2i(-8, 0)
+18:18/size_in_atlas = Vector2i(2, 2)
+18:18/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_o2ick"]
+sources/0 = SubResource("TileSetAtlasSource_grg3l")
 
 [sub_resource type="GDScript" id="GDScript_50glp"]
 resource_name = "AreaSpawner"
@@ -546,11 +654,12 @@ script = ExtResource("3_v1gob")
 [node name="Builder" type="Node2D" parent="." unique_id=485491484]
 script = ExtResource("5_pbw6q")
 
-[node name="BuildingPreview" type="Sprite2D" parent="Builder" unique_id=730157116]
+[node name="BuildingPreview" type="TileMapLayer" parent="Builder" unique_id=1164774474]
 modulate = Color(1, 1, 1, 0.5372549)
+position = Vector2(-408, -235)
 scale = Vector2(3, 3)
-texture = SubResource("AtlasTexture_pbw6q")
-centered = false
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAACAAIAAAAAAAAAAAACAAEAAAAAAAAAAAACAAAAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_o2ick")
 
 [node name="Buildings" type="Node2D" parent="." unique_id=1447662016]
 script = ExtResource("6_v1gob")

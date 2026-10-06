@@ -30,7 +30,12 @@ Money + (Population [5] * (1 + Products [10])
 Mill
 
 Distribution Center
-hhhhh
+
+Products + (Small Factory [4] + (4 * Large Factory [5]))
+
+Electronics Store
+
+Money + (Population [6])
 
 Cafe
 
@@ -86,8 +91,6 @@ Large Factory
 	Uranium enrichment for nuclear power plants
 
 --- Achievement plans
-	SECRET (all textures complete3):
-	
 	Avogaadro's dream:	 									get 6.02 * 10^23 coins
 	Megacorporation:						 				build 50 of the same building
 	Walmart:				 							Have 50 large supermarkets in your city
@@ -100,11 +103,11 @@ Large Factory
 	easy as pi: 											get 314.15 Q coins
 	WHY:												build 150 basic houses
 	Silicon Valley:											build 4 smelteries near a mountain
-	Detroit:											Have your happiness go below 15
+	Detroit:											Have your happiness go below 15, with at least a population of 1000
 	Fresh Start:											Have > 1B Coins, but 0 buildings
-	Minimalist:											Have 1M coins without ever having more than 10 buildings 
-	Ultimate Minimalist:										Have 1M coins without ever having more than 5 buildings
-
+	Minimalist:											Have 1M coins without ever unlocking a new area
+	Ultimate Minimalist:										Have 1M coins without ever having more than 10 buildings 
+	
 
 	NORMAL:
 
@@ -122,12 +125,21 @@ Large Factory
 	Global warming:											Build ten Large Factories
 	Gordon Ramsey:											Build a Luxury Restaurant
 	Dessert:											Build a Sand Mine
+
+
+	Elon Musk:											Get 30K coins per second
+	Millionare:											Get 1M coins per second
+	Billionare:											Get 1B coins per second
+	Trillionare:											Get 1T coins per second
+	Quadrillionare:											Get 1Q coins per second
+
 	
 	Hamlet:												Have a population of 10
 	Village:											Have a population of 50
 	Town:												Have a population of 100
 	City:												Have a population of 5,000
 	Metropolis:											Have a population of 50,000
+	Megalopolis:											Have a population of 200,000
 
 
 TODO

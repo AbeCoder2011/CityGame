@@ -22,6 +22,10 @@ const IconTilemap = preload("res://Assets/icons.png")
 #      1 = Draw
 #      2 = Erase
 @export var Tool := 0
+# 0 = Single
+# 1 = Rectangle
+# 2 = Grid
+@export var BuildingTool := 1
 
 # Name of building that is now being built
 @export var CurrentBuilding := "None"
@@ -625,13 +629,12 @@ func LoadAchievementProgress():
 		AchievementProgress = {}
 
 var frame_start = 0
-const MAX_MS_PER_FRAME = 50
 
 func SetCurrentFrameTime():
 	frame_start = Time.get_ticks_msec()
 
-func CheckFrame():
-	if Time.get_ticks_msec() - frame_start > MAX_MS_PER_FRAME:
+func CheckFrame(ms:int = 50):
+	if Time.get_ticks_msec() - frame_start > ms:
 		await get_tree().process_frame
 		frame_start = Time.get_ticks_msec()
 		

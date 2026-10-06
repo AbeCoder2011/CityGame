@@ -36,6 +36,7 @@ offset_top = -144.0
 offset_right = 144.0
 offset_bottom = 144.0
 pivot_offset_ratio = Vector2(0.5, 0.5)
+mouse_filter = 2
 color = Color(0.36862746, 0.36862746, 0.36862746, 0.78431374)
 
 [node name="Button" type="Button" parent="." unique_id=1338862209]

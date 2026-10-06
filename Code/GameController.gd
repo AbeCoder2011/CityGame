@@ -69,7 +69,6 @@ func _ready() -> void:
 		while not valid:
 			s = randi()
 			valid = $Terrain.ValidateSeed(s)
-			print(s," is valid ",valid)
 		$"Terrain".seed = s
 		$"Terrain".Generate()
 		
@@ -254,8 +253,6 @@ func LoadGame():
 	$Buildings.PeakBuildings = save["peak"]
 	var length = len(save["buildings"].values())
 	var i = 0.0
-	print(length)
-	print(i)
 	
 	for coll in save["buildings"].values():
 		var coll_size = len(coll)
@@ -268,7 +265,6 @@ func LoadGame():
 			await Global.CheckFrame()
 		i = last
 		i += 1.0
-		print(i/length)
 		
 		await get_tree().process_frame
 	print("Loaded save!")

@@ -121,7 +121,6 @@ func SetOptionID(new_id:int,nam:String):
 	SaveSettings()
 
 func SaveSettings() -> void:
-	print("saving ",Global.Settings)
 	var settings = ConfigFile.new()
 	settings.set_value("Settings","dict",Global.Settings)
 	settings.save("user://settings.cfg")

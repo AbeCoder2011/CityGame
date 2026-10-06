@@ -42,7 +42,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		while not valid:
 			s = randi()
 			valid = ValidateSeed(s)
-			print(s," is valid ",valid)
 		seed = s
 		Generate()
 
@@ -93,7 +92,6 @@ func Generate() -> void:
 		#await Global.CheckFrame()
 	#
 	
-	print("klar")
 	$"..".finished.emit()
 
 func GetTileHeight(x,y) -> float:

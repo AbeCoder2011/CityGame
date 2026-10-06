@@ -183,3 +183,16 @@ func SetLoadProgress(nam:String,prog:int):
 	$UI/Fade.queue_redraw()
 	$UI/Fade/Label.text = nam
 	$UI/Fade/ProgressBar.value = prog
+
+
+func _on_single_pressed() -> void:
+	Global.BuildingTool = 0
+	$UI/Tools/Tools/Selection.offset_left = 0
+
+func _on_rectangle_pressed() -> void:
+	Global.BuildingTool = 1
+	$UI/Tools/Tools/Selection.offset_left = 42
+
+func _on_grid_pressed() -> void:
+	Global.BuildingTool = 2
+	$UI/Tools/Tools/Selection.offset_left = 85

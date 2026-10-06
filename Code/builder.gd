@@ -1,36 +1,82 @@
 extends Node2D
 
+var StartingPoint : Vector2i
+var dragging = false
 
-func _process(delta: float) -> void:
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action("build") and Global.Tool == 1:
+		match Global.BuildingTool:
+			0:
+				if event.is_released():
+					var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
+					var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
+					TryPlace(grid_pos,grid_size)
+			1:
+				if event.is_pressed():
+					dragging = true
+					StartingPoint = floor(get_local_mouse_position() / 48)
+				else:
+					dragging = false
+					SetBuildingPreview()
+					var EndPoint = floor(get_local_mouse_position() / 48)
+					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
+					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
+					var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
+					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
+						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
+							TryPlace(Vector2i(x,y),grid_size)
+							print(x," - ",y)
+							await Global.CheckFrame(50)
+
+	SetBuildingPreview()
+
+func SetBuildingPreview():
 	if Global.Tool == 1:
 		$BuildingPreview.show()
 		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
-		$BuildingPreview.position = Vector2(grid_pos) * 48
 
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		var atlas_pos = Global.BuildingData[Global.CurrentBuilding]["atlas_coords"]
-		$BuildingPreview.texture.region = Rect2(atlas_pos * 16, Vector2(grid_size) * 16)
 		if IsColliding(grid_pos, grid_size,Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false),Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false),Global.BuildingData.get(Global.CurrentBuilding).get("forcedeepwater",false), Global.BuildingData.get(Global.CurrentBuilding).get("nexttoland",false)):
 			$BuildingPreview.modulate = Color(1, 0.4, 0.4,.5)
 		else:
 			$BuildingPreview.modulate = Color(1, 1, 1,.5)
+		match Global.BuildingTool:
+			0:
+				$BuildingPreview.clear()
+				$BuildingPreview.set_cell(Vector2i.ZERO,0,atlas_pos)
+				$BuildingPreview.position = Vector2(grid_pos) * 48
+			1:
+				$BuildingPreview.clear()
+				if dragging:
+					$BuildingPreview.position = Vector2.ZERO
+					var EndPoint = floor(get_local_mouse_position() / 48)
+					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
+					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
+					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
+						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
+							$BuildingPreview.set_cell(Vector2i(x,y),0,atlas_pos)
+				else:
+					$BuildingPreview.set_cell(Vector2i.ZERO,0,atlas_pos)
+					$BuildingPreview.position = Vector2(grid_pos) * 48
+
+			_:
+				pass
 	else:
 		$BuildingPreview.hide()
-	if Input.is_action_pressed("build") and Global.Tool == 1:
-		var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
-		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
-		
-		if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false), Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false),Global.BuildingData.get(Global.CurrentBuilding).get("forcedeepwater",false),Global.BuildingData.get(Global.CurrentBuilding).get("nexttoland",false)):
-			return
 
-		if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
-			$"../Camera".traumatize(0.15)
-			Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
-			$"..".UpdateCityStats()
-			$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
-			Global.BuildingUses.set(Global.CurrentBuilding,Global.BuildingUses.get_or_add(Global.CurrentBuilding,0) + 1	)
-		else:
-			$"../UI".insufficient_funds()
+func TryPlace(grid_pos:Vector2i ,grid_size:Vector2i):
+	if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false), Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false),Global.BuildingData.get(Global.CurrentBuilding).get("forcedeepwater",false),Global.BuildingData.get(Global.CurrentBuilding).get("nexttoland",false)):
+		return
+
+	if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
+		$"../Camera".traumatize(0.15)
+		Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
+		$"..".UpdateCityStats()
+		$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
+		Global.BuildingUses.set(Global.CurrentBuilding,Global.BuildingUses.get_or_add(Global.CurrentBuilding,0) + 1	)
+	else:
+		$"../UI".insufficient_funds()
 
 func GetBuildingSize(building_name: String) -> Vector2i:
 	return Global.BuildingData[building_name].get("size", Vector2i(1, 1))

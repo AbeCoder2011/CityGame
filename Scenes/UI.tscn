@@ -30,6 +30,18 @@ region = Rect2(16, 0, 16, 16)
 atlas = ExtResource("11_vqx31")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqm5i"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jnovg"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13dyv"]
+atlas = ExtResource("11_vqx31")
+region = Rect2(32, 16, 16, 16)
+
 [sub_resource type="Animation" id="Animation_xjg7p"]
 length = 0.001
 tracks/0/type = "value"
@@ -494,12 +506,15 @@ grow_vertical = 0
 
 [node name="Main" type="Control" parent="UI/Tools" unique_id=392432698]
 layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 5.0
 offset_top = 5.0
 offset_right = 153.0
 offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="NinePatchRect" parent="UI/Tools/Main" unique_id=1713079574]
 layout_mode = 1
@@ -576,6 +591,90 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_o2ick")
+
+[node name="Tools" type="Control" parent="UI/Tools" unique_id=81532629]
+layout_mode = 1
+anchor_top = -0.625
+anchor_right = 0.586
+anchor_bottom = -0.075
+offset_left = 5.0
+offset_right = -0.11654663
+
+[node name="Background" type="NinePatchRect" parent="UI/Tools/Tools" unique_id=2884107]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(99, 0, 32, 32)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Selection" type="TextureRect" parent="UI/Tools/Tools" unique_id=1690063050]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -23.0
+offset_right = 45.0
+offset_bottom = 22.0
+grow_vertical = 2
+texture = SubResource("AtlasTexture_aehul")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Tools/Tools" unique_id=1611331166]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Single" type="Button" parent="UI/Tools/Tools/HBoxContainer" unique_id=1947235769]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+flat = true
+
+[node name="Mouse" type="TextureRect" parent="UI/Tools/Tools/HBoxContainer/Single" unique_id=398575673]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_mqm5i")
+
+[node name="Rectangle" type="Button" parent="UI/Tools/Tools/HBoxContainer" unique_id=645578903]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+flat = true
+
+[node name="Pencil" type="TextureRect" parent="UI/Tools/Tools/HBoxContainer/Rectangle" unique_id=1859126541]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_jnovg")
+
+[node name="Grid" type="Button" parent="UI/Tools/Tools/HBoxContainer" unique_id=821565181]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+flat = true
+
+[node name="Eraser" type="TextureRect" parent="UI/Tools/Tools/HBoxContainer/Grid" unique_id=1084864504]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_13dyv")
 
 [node name="Building" type="Control" parent="UI" unique_id=35165732]
 visible = false
@@ -1390,7 +1489,6 @@ grow_vertical = 2
 libraries/ = SubResource("AnimationLibrary_jnovg")
 
 [node name="Background" type="NinePatchRect" parent="UI/Achievements" unique_id=1833794775]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.333
@@ -1734,5 +1832,8 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
+[connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Single" to="." method="_on_single_pressed"]
+[connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Rectangle" to="." method="_on_rectangle_pressed"]
+[connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
