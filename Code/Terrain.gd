@@ -85,11 +85,11 @@ func Generate() -> void:
 	i = 0.0
 	total = len(rivers_starting_points)
 	$"../UI".SetLoadProgress("Placing rivers...",0)
-	#for n in rivers_starting_points:
-		#set_cells_terrain_connect(GetRiverPath(n).keys(),0,1)
-		#i += 1.0
-		#$"../UI".SetLoadProgress("Placing rivers...",int(floor(i/total*100)))
-		#await Global.CheckFrame()
+	for n in rivers_starting_points:
+		set_cells_terrain_connect(GetRiverPath(n).keys(),0,1)
+		i += 1.0
+		$"../UI".SetLoadProgress("Placing rivers...",int(floor(i/total*100)))
+		await Global.CheckFrame()
 	#
 	
 	$"..".finished.emit()
@@ -116,7 +116,7 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 			return Vector2i(1 + random.randi_range(0, 1), 3) # Cactus
 		return Vector2i(0, 3) # Normal deserrt
 	
-	if height > 0.35 and random.randi_range(0, 5) == 0:
+	if height > 0.35 * Global.GameSettings.get("mountain_amount",1) and random.randi_range(0, 5) == 0:
 		if rainfall >= 0.25:
 			if random.randi_range(0,15) == 0:
 				var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]

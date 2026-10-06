@@ -35,13 +35,13 @@ func _input(event: InputEvent) -> void:
 	if event.is_action("zoom_out"):
 		var mouse_pos = get_local_mouse_position()
 		zoom *= 0.9
-		zoom = clamp(zoom,Vector2(0.05,0.05),Vector2(15,15))
+		zoom = clamp(zoom,Vector2(0.005,0.005),Vector2(15,15))
 		await get_tree().process_frame
 		global_position += mouse_pos - get_local_mouse_position()
 	elif event.is_action("zoom_in"):
 		var mouse_pos = get_local_mouse_position()
 		zoom *= 1.1
-		zoom = clamp(zoom,Vector2(0.05,0.05),Vector2(15,15))
+		zoom = clamp(zoom,Vector2(0.005,0.005),Vector2(15,15))
 		await get_tree().process_frame
 		global_position += mouse_pos - get_local_mouse_position()
 	if event is InputEventMouseButton:

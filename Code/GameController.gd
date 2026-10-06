@@ -5,9 +5,6 @@ signal finished
 var terrain_noise := FastNoiseLite.new()
 var type_noise := FastNoiseLite.new()
 
-const MAP_RADIUS := 60         # generates a MAP_RADIUS x MAP_RADIUS area centered on 0,0
-const CLUSTER_THRESHOLD := -0.4 # higher = fewer, tighter clusters. lower = more coverage
-const FILL_CHANCE := 1      # even inside a cluster, skip some tiles to leave gaps
 const AUTOSAVE_INTERVAL := 60.0
 
 var occupied := {}  # Vector2i -> true, tracks all claimed tiles (including multi-tile footprints)
@@ -17,6 +14,8 @@ var BuildableAreas := [Rect2(-3,-3,6,6)]
 
 var UnlockedBuildings := {}
 var BuildingAmounts := {}
+
+var SaveBuildings := {}
 
 var time : float = 0
 
@@ -52,6 +51,13 @@ func _ready() -> void:
 		await finished
 		$"UI".SetLoadProgress("Generating Terrain...",100)
 		await get_tree().process_frame
+		
+		SpawnBuildings()
+		
+		await finished
+		$"UI".SetLoadProgress("Spawning Buildings...",100)
+		await get_tree().process_frame
+		
 	else:
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
@@ -251,26 +257,24 @@ func LoadGame():
 	BuildableAreas = save.get("buildable",[Rect2(-3,-3,6,6)])
 	$Areas.OpenAreas = save["open_areas"]
 	$Buildings.PeakBuildings = save["peak"]
-	var length = len(save["buildings"].values())
-	var i = 0.0
+	SaveBuildings = save["buildings"]
+	print("Loaded save!")
+	finished.emit()
 	
-	for coll in save["buildings"].values():
+func SpawnBuildings():
+	var length = len(SaveBuildings.values())
+	var i = 0.0
+	for coll in SaveBuildings.values():
 		var coll_size = len(coll)
 		var last = i
 		var this_i = 0
 		for b in coll:
 			$Buildings.NewBuilding(b["name"],b["pos"],false)
 			this_i += 1
-			$UI.SetLoadProgress("Loading save...",clamp(floor(i/length*100),0,100))
+			$UI.SetLoadProgress("Spawning Buildings...",clamp(floor(i/length*100),0,100))
 			await Global.CheckFrame()
 		i = last
 		i += 1.0
-		
-		await get_tree().process_frame
-	print("Loaded save!")
-	finished.emit()
-	
-
 func DeleteSave():
 	DirAccess.remove_absolute(SAVE_PATH + SAVE_NAME)
 

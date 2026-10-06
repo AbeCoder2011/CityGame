@@ -73,12 +73,14 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _on_select_pressed() -> void:
 	if Global.Tool == 1:
 		$UI/Building/AnimationPlayer.play("hide")
+		$UI/Tools/Tools.hide()
 	Global.Tool = 0
 	$UI/Tools/Main/Selection.offset_left = 3
 
 func _on_draw_pressed() -> void:
 	if Global.Tool != 1:
 		$UI/Building/AnimationPlayer.play("show")
+		$UI/Tools/Tools.show()
 	Global.Tool = 1
 	$UI/Tools/Main/Selection.offset_left = 66
 	
@@ -86,6 +88,7 @@ func _on_draw_pressed() -> void:
 func _on_destroy_pressed() -> void:
 	if Global.Tool == 1:
 		$UI/Building/AnimationPlayer.play("hide")
+		$UI/Tools/Tools.hide()
 	Global.Tool = 2
 	$UI/Tools/Main/Selection.offset_left = 128
 

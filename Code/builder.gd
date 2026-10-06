@@ -3,7 +3,7 @@ extends Node2D
 var StartingPoint : Vector2i
 var dragging = false
 
-func _unhandled_input(event: InputEvent) -> void:
+func _input(event: InputEvent) -> void:
 	if event.is_action("build") and Global.Tool == 1:
 		match Global.BuildingTool:
 			0:

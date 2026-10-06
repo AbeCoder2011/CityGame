@@ -83,7 +83,7 @@ func OnSettingChanged(new_value:Variant,nam:String):
 		Global.GameSettings[nam] = new_value
 	match nam:
 		"map_size":
-			$NewGame/ExtraSettings/Label2.text = "Map size (%dx%d)" % [floor(new_value * 6),floor(new_value * 6)]
+			$NewGame/ExtraSettings/Label.text = "Map size (%dx%d)" % [floor(new_value * 12 + 6),floor(new_value * 12 + 6)]
 
 
 func _on_extra_settings_pressed() -> void:

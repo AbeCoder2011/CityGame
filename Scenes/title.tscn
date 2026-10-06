@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="4_q2qps"]
 [ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="6_2qdx2"]
 [ext_resource type="Script" uid="uid://b6n1phl4cjj7c" path="res://Scenes/button_move_on_hover.gd" id="6_3eqdi"]
+[ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="7_yu0ss"]
 
 [sub_resource type="Animation" id="Animation_ekrfg"]
 length = 0.001
@@ -264,6 +265,10 @@ font = ExtResource("3_fp2oq")
 font_size = 32
 font_color = Color(0.47553682, 0.47553688, 0.47553682, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_aehul"]
+font = ExtResource("3_fp2oq")
+font_size = 32
+
 [sub_resource type="Animation" id="Animation_q2qps"]
 length = 0.001
 tracks/0/type = "value"
@@ -437,6 +442,7 @@ text = "V0.9 "
 label_settings = SubResource("LabelSettings_tgu54")
 
 [node name="Main" type="Control" parent="." unique_id=2000390083]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -496,7 +502,6 @@ text = "- Quit Game -"
 script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Control" parent="." unique_id=653756544]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -579,6 +584,14 @@ theme_override_colors/font_outline_color = Color(0.88, 0, 0, 1)
 text = "HELL Mode"
 script = ExtResource("6_3eqdi")
 
+[node name="ExtraSettings" type="Button" parent="NewGame/Vbox" unique_id=517900293]
+custom_minimum_size = Vector2(0, 70)
+layout_mode = 2
+theme = ExtResource("4_q2qps")
+theme_override_colors/font_color = Color(0.584375, 0.584375, 0.584375, 1)
+text = "Custom Settings"
+script = ExtResource("6_3eqdi")
+
 [node name="Back" type="Button" parent="NewGame/Vbox" unique_id=614694233]
 modulate = Color(0.606085, 0.60608506, 0.606085, 1)
 custom_minimum_size = Vector2(0, 70)
@@ -594,6 +607,120 @@ bbcode_enabled = true
 text = "[font_size=32][font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]"
 scroll_active = false
 scroll_following = true
+
+[node name="ExtraSettings" type="VBoxContainer" parent="NewGame" unique_id=1666546286]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_left = 616.0
+offset_top = 250.0
+offset_right = 1116.0
+offset_bottom = -20.0
+grow_vertical = 2
+theme = ExtResource("7_yu0ss")
+theme_override_constants/separation = 30
+
+[node name="Label2" type="Label" parent="NewGame/ExtraSettings" unique_id=357233094]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Label" type="Label" parent="NewGame/ExtraSettings" unique_id=887763386]
+layout_mode = 2
+text = "Map size (200x200)"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="HSlider" type="HSlider" parent="NewGame/ExtraSettings" unique_id=1110000044]
+layout_mode = 2
+min_value = 2.0
+max_value = 300.0
+value = 20.0
+
+[node name="ExtraSettings2" type="VBoxContainer" parent="NewGame" unique_id=1671092917]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_bottom = 1.0
+offset_left = 1177.0
+offset_top = 250.0
+offset_right = 1856.0
+offset_bottom = -20.0
+grow_vertical = 2
+theme = ExtResource("7_yu0ss")
+theme_override_constants/separation = 30
+
+[node name="Label2" type="Label" parent="NewGame/ExtraSettings2" unique_id=740114941]
+layout_mode = 2
+text = "Custom Terrain Settings"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Water" type="HBoxContainer" parent="NewGame/ExtraSettings2" unique_id=1312284161]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NewGame/ExtraSettings2/Water" unique_id=605906562]
+layout_mode = 2
+text = "  Water"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="HSlider" type="HSlider" parent="NewGame/ExtraSettings2/Water" unique_id=509363278]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 2.0
+step = 0.02
+value = 1.0
+
+[node name="Forest" type="HBoxContainer" parent="NewGame/ExtraSettings2" unique_id=55673995]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NewGame/ExtraSettings2/Forest" unique_id=1590188592]
+layout_mode = 2
+text = "  Forests"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="HSlider" type="HSlider" parent="NewGame/ExtraSettings2/Forest" unique_id=301645449]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 2.0
+step = 0.02
+value = 1.0
+
+[node name="Mountains" type="HBoxContainer" parent="NewGame/ExtraSettings2" unique_id=155565466]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NewGame/ExtraSettings2/Mountains" unique_id=628899005]
+layout_mode = 2
+text = "  Mountains"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="HSlider" type="HSlider" parent="NewGame/ExtraSettings2/Mountains" unique_id=1185160750]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 2.0
+step = 0.02
+value = 1.0
+
+[node name="Wheat fields" type="HBoxContainer" parent="NewGame/ExtraSettings2" unique_id=975047240]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="NewGame/ExtraSettings2/Wheat fields" unique_id=1603478631]
+layout_mode = 2
+text = "  Wheat fields"
+label_settings = SubResource("LabelSettings_aehul")
+
+[node name="HSlider" type="HSlider" parent="NewGame/ExtraSettings2/Wheat fields" unique_id=393072767]
+custom_minimum_size = Vector2(390, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+max_value = 2.0
+step = 0.02
+value = 1.0
 
 [node name="Credits" type="Control" parent="." unique_id=2103616721]
 visible = false
@@ -665,5 +792,11 @@ anchors_preset = 15
 [connection signal="pressed" from="Main/Vbox/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Main/Vbox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="Main/Vbox/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="NewGame/Vbox/ExtraSettings" to="." method="_on_extra_settings_pressed"]
 [connection signal="pressed" from="NewGame/Vbox/Back" to="." method="_on_back_pressed"]
+[connection signal="value_changed" from="NewGame/ExtraSettings/HSlider" to="." method="OnSettingChanged" binds= ["map_size"]]
+[connection signal="value_changed" from="NewGame/ExtraSettings2/Water/HSlider" to="." method="OnSettingChanged" binds= ["water_amount"]]
+[connection signal="value_changed" from="NewGame/ExtraSettings2/Forest/HSlider" to="." method="OnSettingChanged" binds= ["forest_amount"]]
+[connection signal="value_changed" from="NewGame/ExtraSettings2/Mountains/HSlider" to="." method="OnSettingChanged" binds= ["mountain_amount"]]
+[connection signal="value_changed" from="NewGame/ExtraSettings2/Wheat fields/HSlider" to="." method="OnSettingChanged" binds= ["wheat_field_amount"]]
 [connection signal="pressed" from="Credits/Back" to="." method="_on_back_pressed"]

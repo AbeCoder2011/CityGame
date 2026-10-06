@@ -593,6 +593,7 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_o2ick")
 
 [node name="Tools" type="Control" parent="UI/Tools" unique_id=81532629]
+visible = false
 layout_mode = 1
 anchor_top = -0.625
 anchor_right = 0.586
