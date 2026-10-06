@@ -640,7 +640,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Bakery":
 			var flour = SumProperty(pos, size, ["Mill"], 3, "flour",[],true)
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 3, "population")
-			return [{"money": (flour/40) * int(log(4*flour+1)) * pop * 0.2},{"population":pop,"flour":flour}]
+			return [{"money": flour * pop * 0.1},{"population":pop,"flour":flour}]
 		"Lumber Mill":
 			var sparse_forests = Count_Terrain_Nearby(pos,size, 2, 1,true)
 			var dense_forests  = Count_Terrain_Nearby(pos,size, 3, 1,true)
@@ -685,8 +685,11 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
  		
 		"Mall":
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 6, "population")
-			var shops = CountNearby(pos,size, SHOP_NAMES, 2,["Mall"])
-			return [{"money": pop * shops},{"population":pop,"shops_nearby":shops}]
+			var shopnames_without_mall = SHOP_NAMES
+			shopnames_without_mall.erase("Mall")
+			var shopincome = SumProperty(pos,size, shopnames_without_mall, 2,"money")
+			var shopsnearby = CountNearby(pos, size, SHOP_NAMES, 2, ["Mall"])
+			return [{"money": pop * shopsnearby * log(shopincome + 1)},{"population":pop,"shops_nearby":shopsnearby}]
 		"Small Factory":
 			var power = SumProperty(pos,size, POWER_GENERATOR_NAMES, 2, "power")
 			return [{"products":max(4*log(power+1),1)},{"power_boost":power}]

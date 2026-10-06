@@ -20,6 +20,7 @@ var SaveBuildings := {}
 var time : float = 0
 
 func _ready() -> void:
+	$UI.UpdateAchievements()
 	Global.SetCurrentFrameTime()
 	$UI.SetLoadProgress("Setting Values...",0)
 	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
@@ -93,7 +94,6 @@ func _ready() -> void:
 			$UI.already_unlocked.append(n)
 	$UI.SetLoadProgress("Finishing Up...",100)
 	await get_tree().process_frame
-	$UI.UpdateAchievements()
 	$"UI/UI/Fade/Label".hide()
 	$"UI/UI/Fade/ProgressBar".hide()
 	$"UI/UI/Fade/AnimationPlayer".play("fade_in")
