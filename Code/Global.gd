@@ -92,7 +92,7 @@ const BuildingData := {
 	},
 	"Restaurant":{
 		"atlas_coords": Vector2i(3,3),
-		"cost": 1000000, #1m
+		"cost": 10000000, #10m
 		"description": "Earns money from nearby population (within [b]five[/b] tiles), but only if meat, flour and products are nearby (within [b]four[/b] tiles)."
 	},
 	"Mill":{
@@ -139,7 +139,7 @@ const BuildingData := {
 	"Mall":{
 		"atlas_coords": Vector2i(8,2),
 		"size": Vector2i(2,2),
-		"cost": 200000, # 200k
+		"cost": 500000, # 500k
 		"description": "A large mall combining several shops into one huge aircooled building. Earns money from nearby population (within [b]six[/b] tiles), boosted by all shops around (within [b]two[/b] tiles)."
 	},
 	"Butcher":{
