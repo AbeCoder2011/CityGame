@@ -281,6 +281,7 @@ func SpawnBuildings():
 			await Global.CheckFrame()
 		i = last
 		i += 1.0
+	finished.emit()
 func DeleteSave():
 	DirAccess.remove_absolute(SAVE_PATH + SAVE_NAME)
 
