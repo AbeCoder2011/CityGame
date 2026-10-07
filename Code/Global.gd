@@ -375,7 +375,7 @@ const ORDER = {
  	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Market"]:[2,"Mall"],
  	["Mine"]:[4,"Ore Extractor"],
  	["Ore Extractor"]:[5,"Jewlery Store"],
- 	#["Fishing Boat"]:[100,"Fishing Dock"],
+ 	["Fishing Boat"]:[40,"Fishing Dock"],
  	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
   	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
   	["Wind Turbine"]:[5,"Wind Turbine"],
