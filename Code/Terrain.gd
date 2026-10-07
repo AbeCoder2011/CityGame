@@ -86,7 +86,7 @@ func Generate() -> void:
 	total = len(rivers_starting_points)
 	$"../UI".SetLoadProgress("Placing rivers...",0)
 	for n in rivers_starting_points:
-		set_cells_terrain_connect(GetRiverPath(n).keys(),0,1)
+		set_cells_terrain_connect(GetRiverPath(n,n).keys(),0,1)
 		i += 1.0
 		$"../UI".SetLoadProgress("Placing rivers...",int(floor(i/total*100)))
 		await Global.CheckFrame()
@@ -96,6 +96,8 @@ func Generate() -> void:
 
 func GetTileHeight(x,y) -> float:
 	return height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
+func GetTileRainfall(x,y) -> float:
+	return rainfall_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
 
 func FindTerrainTile(x:int,y:int) -> Vector2i:
 	var height = height_noise.get_noise_2d(x*NOISE_SCALE,y*NOISE_SCALE)
@@ -105,6 +107,11 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	if (height < 0 && rainfall >= 0.2) or height <= -0.15:
 		if height <= -0.3:
 			return Vector2i(1, 1) # Deep Water
+		if random.randi_range(0,4) == 0:
+			var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
+			var newpos = Vector2i(x,y) + dir
+			if GetTileHeight(newpos.x,newpos.y) > -0.15:
+				rivers_starting_points.append(Vector2i(x,y) + dir)
 		return Vector2i(1, 0) # Water
 	# Desert Mountain
 	if height >= 0.4 && rainfall <= -0.05 && temp >= 0.2:
@@ -114,16 +121,15 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	if rainfall <= -0.05 && temp >= 0.2:
 		if rainfall >= -0.3 && random.randi_range(0, 15) == 0:
 			return Vector2i(1 + random.randi_range(0, 1), 3) # Cactus
-		return Vector2i(0, 3) # Normal deserrt
+		return Vector2i(0, 3) # Normal desert
 	
 	if height > 0.35 * Global.GameSettings.get("mountain_amount",1) and random.randi_range(0, 5) == 0:
-		if rainfall >= 0.25:
-			if random.randi_range(0,15) == 0:
-				var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
-				rivers_starting_points.append(Vector2i(x,y) + dir)
+		if rainfall >= 0.15:
+			#if random.randi_range(0,2) == 0:
+				#var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
+				#rivers_starting_points.append(Vector2i(x,y) + dir)
 			return Vector2i(2 + random.randi_range(0, 1), 1) # Forest Mountain
 		return Vector2i(2 + random.randi_range(0, 1), 0) # Mountain
-	
 	# Wheat
 	if rainfall >= 0.1 && rainfall <= 0.15 && height <= 0.1:
 		return Vector2i(0, 4)
@@ -137,13 +143,13 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	# Plains
 	return Vector2i(0, 0)
 
-func GetRiverPath(pos:Vector2i,i=0) -> Dictionary:
-	if i > 30:
+func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
+	if i > 100:
 		return {}
 	
 	var h = GetTileHeight(pos.x,pos.y)
-	if h < -0.15:
-		return {pos:true}
+	if h <= -0.15 or (h <= 0 && GetTileRainfall(pos.x,pos.y)>0.2):
+		return {}
 	var dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 	
 	var best_height := 1.0
@@ -153,16 +159,33 @@ func GetRiverPath(pos:Vector2i,i=0) -> Dictionary:
 		var dir = dirs[random.randi_range(0,len(dirs) - 1)]
 		dirs.erase(dir)
 		var new_pos = pos + dir
+		if startpos.distance_to(new_pos) < startpos.distance_to(pos):
+			continue
 		var height = GetTileHeight(new_pos.x,new_pos.y)
-		if height < h:
+		# GetTileHeight(new_pos.x + dir.y, new_pos.y + dir.x) > height-0.1 && GetTileHeight(new_pos.x-dir.y, new_pos.y-dir.x) > height-0.1
+		if (height - 0.1) <= h && GetTileRainfall(new_pos.x, new_pos.y) >= 0.15:
 			best_dirs.append(dir)
 			best_height = height
 			break
+	dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
+	if best_dirs.is_empty():
+		for x in range(4):
+			var dir = dirs[random.randi_range(0,len(dirs) - 1)]
+			dirs.erase(dir)
+			var new_pos = pos + dir
+			if startpos.distance_to(new_pos) < startpos.distance_to(pos):
+				continue
+			var height = GetTileHeight(new_pos.x,new_pos.y)
+			# GetTileHeight(new_pos.x + dir.y, new_pos.y + dir.x) > height-0.1 && GetTileHeight(new_pos.x-dir.y, new_pos.y-dir.x) > height-0.1
+			if (height - 0.17) <= h && GetTileRainfall(new_pos.x, new_pos.y) >= 0.15:
+				best_dirs.append(dir)
+				best_height = height
+				break
 	
 	if not best_dirs.is_empty():
 		var next : Dictionary = {}
 		for n in best_dirs:
-			for t in GetRiverPath(pos + n,i+1):
+			for t in GetRiverPath(pos + n,startpos,i+1):
 				next[t] = true
 			next[pos] = true
 		return next
