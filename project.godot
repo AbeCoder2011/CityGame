@@ -28,7 +28,6 @@ settings/gdscript/max_call_stack=2047
 
 window/size/viewport_width=1940
 window/size/viewport_height=1080
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 mouse_cursor/custom_image="uid://coeaeqqbaqnu5"

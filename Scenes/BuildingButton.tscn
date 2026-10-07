@@ -40,6 +40,7 @@ outline_color = Color(0, 0, 0, 1)
 
 [node name="BasicHouse" type="Button" unique_id=238029415]
 custom_minimum_size = Vector2(68, 68)
+mouse_filter = 1
 flat = true
 script = ExtResource("1_r70a3")
 
@@ -66,6 +67,7 @@ offset_top = 2.0
 offset_right = 18.0
 offset_bottom = 18.0
 scale = Vector2(4, 4)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_aehul")
 stretch_mode = 2
 
@@ -86,6 +88,7 @@ offset_top = 2.0
 offset_right = 33.25
 offset_bottom = 29.75
 scale = Vector2(4, 4)
+mouse_filter = 1
 texture = SubResource("AtlasTexture_00us2")
 patch_margin_left = 14
 patch_margin_top = 14
@@ -102,6 +105,7 @@ offset_left = -271.0
 offset_right = -203.25
 offset_bottom = 72.0
 scale = Vector2(4, 4)
+mouse_filter = 1
 texture = SubResource("AtlasTexture_o2ick")
 region_rect = Rect2(0, 0, 22, 19)
 patch_margin_left = 1

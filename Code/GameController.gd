@@ -69,13 +69,18 @@ func _ready() -> void:
 		await finished
 		$"UI".SetLoadProgress("Placing Areas...",100)
 		await get_tree().process_frame
-		
-		# Find valid non-water seed
-		var valid = false
 		var s = 0
-		while not valid:
-			s = randi()
-			valid = $Terrain.ValidateSeed(s)
+		print(Global.GameSettings)
+		if Global.GameSettings.get("seed") == null:
+			print("no seed set")
+			# Find valid non-water seed
+			var valid = false
+			while not valid:
+				s = randi()
+				valid = $Terrain.ValidateSeed(s)
+		else:
+			s = Global.GameSettings.get("seed",-1)
+			print("seed set: ",s)
 		$"Terrain".seed = s
 		$"Terrain".Generate()
 		
@@ -262,6 +267,7 @@ func LoadGame():
 	finished.emit()
 	
 func SpawnBuildings():
+	await get_tree().process_frame
 	var length = len(SaveBuildings.values())
 	var i = 0.0
 	for coll in SaveBuildings.values():

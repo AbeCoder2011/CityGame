@@ -10,6 +10,11 @@ const DifficultyDescriptions = {
 
 const SAVE_PATH := "user://saves/"
 const SAVE_NAME := "save.tres"
+
+const MiniTileMap = {
+	
+}
+
 func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
@@ -17,6 +22,7 @@ func _ready() -> void:
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
 	Global.First = false
+	RerollSeed()
 	if not HasSave():
 		$Main/Vbox/Continue.hide()
 	for n : Control in $NewGame/Vbox.get_children():
@@ -77,14 +83,38 @@ func _on_settings_pressed() -> void:
 	$Pause._on_settings_pressed()
 
 func OnSettingChanged(new_value:Variant,nam:String):
-	if nam == "map_size":
-		Global.GameSettings[nam] = int(floor(new_value))
-	else:
-		Global.GameSettings[nam] = new_value
+	print(nam," ---> ",new_value)
+	match nam:
+		"map_size":
+			Global.GameSettings[nam] = int(floor(new_value))
+		"seed":
+			if is_same(new_value,""):
+				Global.GameSettings.erase(nam)
+				$NewGame/ExtraSettings/Control.hide()
+			else:
+				Global.GameSettings[nam] = int(new_value)
+				$NewGame/ExtraSettings/Control.show()
+		_:
+			Global.GameSettings[nam] = new_value
 	match nam:
 		"map_size":
 			$NewGame/ExtraSettings/Label.text = "Map size (%dx%d)" % [floor(new_value * 12 + 6),floor(new_value * 12 + 6)]
-
-
+		"seed":
+			$NewGame/ExtraSettings/Control/TileMapLayer.clear()
+			$NewGame/ExtraSettings/Control/TileMapLayer.seed = int(new_value)
+			$NewGame/ExtraSettings/Control/TileMapLayer.SetUpNoiseMaps(int(new_value))
+			print(Global.GameSettings)
+			for x in range(-30,30):
+				for y in range(-30,30):
+					var tile = $NewGame/ExtraSettings/Control/TileMapLayer.FindTerrainTile(x,y)
+					$NewGame/ExtraSettings/Control/TileMapLayer.set_cell(Vector2i(x+30,y+30),0,tile)
 func _on_extra_settings_pressed() -> void:
 	$NewGame/ExtraSettings.visible = !$NewGame/ExtraSettings.visible
+	$NewGame/ExtraSettings2.visible = !$NewGame/ExtraSettings2.visible
+
+func RerollSeed() -> void:
+	var s : int = -1
+	while not $NewGame/ExtraSettings/Control/TileMapLayer.ValidateSeed(s) or s == -1:
+		s = randi()
+	$NewGame/ExtraSettings/HBoxContainer/Seed.text = str(s)
+	OnSettingChanged(s,"seed")

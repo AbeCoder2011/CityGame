@@ -561,6 +561,7 @@ text = "V0.9 "
 label_settings = SubResource("LabelSettings_tgu54")
 
 [node name="Main" type="Control" parent="." unique_id=2000390083]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -620,7 +621,6 @@ text = "- Quit Game -"
 script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Control" parent="." unique_id=653756544]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -728,7 +728,6 @@ scroll_active = false
 scroll_following = true
 
 [node name="ExtraSettings" type="VBoxContainer" parent="NewGame" unique_id=1666546286]
-visible = false
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 1
 anchors_preset = -1
