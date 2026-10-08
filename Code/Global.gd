@@ -76,10 +76,11 @@ const BuildingData := {
 	"Small Motel":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
-		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+		"description": "A small motel with space for a few tourists"
 	},
 	"Small Roadside Hotel":{
 		"atlas_coords": Vector2i(1,1),
+		"size":Vector2i(2,1),
 		"cost": 400,
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},

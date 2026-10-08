@@ -929,6 +929,11 @@ mouse_filter = 2
 layout_mode = 2
 Building_Name = "Small Roadside Hotel"
 
+[node name="Gap8" type="Control" parent="UI/Building/Categories/Housing" unique_id=7764593]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
 [node name="BasicHouse9" parent="UI/Building/Categories/Housing" unique_id=1045401900 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Medium Hotel"

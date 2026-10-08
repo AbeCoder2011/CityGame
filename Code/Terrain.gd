@@ -86,7 +86,8 @@ func Generate() -> void:
 	total = len(rivers_starting_points)
 	$"../UI".SetLoadProgress("Placing rivers...",0)
 	for n in rivers_starting_points:
-		set_cells_terrain_connect(GetRiverPath(n,n).keys(),0,1)
+		for c in GetRiverPath(n,n):
+			set_cell(c,0,Vector2i(1,0))
 		i += 1.0
 		$"../UI".SetLoadProgress("Placing rivers...",int(floor(i/total*100)))
 		await Global.CheckFrame()

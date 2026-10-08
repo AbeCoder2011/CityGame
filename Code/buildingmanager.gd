@@ -445,6 +445,8 @@ func RecomputeStations():
 			for n in i.keys():
 				inv[n] = inv.get(n,0) + i[n]
 		network_inventories.append([stations,inv])
+		for st in nw:
+			st["node"].extra_data = {"inventory":inv}
 
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
 	var affection_range : int = 0

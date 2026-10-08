@@ -227,7 +227,9 @@ func GetSize(n) -> Vector2i:
 func GetBuildingInfo() -> String:
 	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]" + building_name + "\n"
 	for d in extra_data.keys():
-		var v = int(extra_data[d])
+		var v = extra_data[d]
+		if not extra_data[d] is Dictionary:
+			v = int(extra_data[d])
 		match d:
 			"population":
 				if extra_data.has("gets_pop_boost"):
@@ -284,6 +286,11 @@ func GetBuildingInfo() -> String:
 				out += "🔋 Global power grid has " + str(v) +  " power.\n"
 			"power":
 				out += "🔋 Generates " + str(v) +  " energy.\n"
+			"inventory":
+				out += "📦 Network Inventory: \n"
+				for n in v.keys():
+					if v[n] > 0:
+						out += " - %s x %s\n" % [str(int(v[n])),str(n)]
 			"power_boost_mult","gets_pop_boost":
 				pass
 			_:
