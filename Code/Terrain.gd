@@ -104,8 +104,21 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 	var rainfall = rainfall_noise.get_noise_2d(x*NOISE_SCALE*2,y*NOISE_SCALE*2)
 	var temp = temperature_noise.get_noise_2d(x*NOISE_SCALE * 0.25,y*NOISE_SCALE * 0.25)
 	
-	if (height < 0 && rainfall >= 0.2) or height <= -0.15:
-		if height <= -0.3:
+	# Wheat fields - Inversed
+	var wf_i = 1 / Global.GameSettings.get("wheat_field_amount",1)
+	# Wheat fields
+	var wf = Global.GameSettings.get("wheat_field_amount",1)
+	# Forest - Inversed
+	var f_i = 1 / Global.GameSettings.get("forest_amount",1)
+	# Mountain - Inversed
+	var m_i = 1 / Global.GameSettings.get("mountain_amount",1)
+	# Water
+	var w = Global.GameSettings.get("water_amount",1)
+	# Desert
+	var d = Global.GameSettings.get("desert_amount",1)
+	
+	if (height < -0.6 + (0.6 * w) && rainfall >= -0.2 + (0.4 * w)) or height <= -0.55 + (0.4 * w):
+		if height <= -0.7 + (0.4 * w):
 			return Vector2i(1, 1) # Deep Water
 		if random.randi_range(0,4) == 0:
 			var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
@@ -113,30 +126,32 @@ func FindTerrainTile(x:int,y:int) -> Vector2i:
 			if GetTileHeight(newpos.x,newpos.y) > -0.15:
 				rivers_starting_points.append(Vector2i(x,y) + dir)
 		return Vector2i(1, 0) # Water
+	
+	
 	# Desert Mountain
-	if height >= 0.4 && rainfall <= -0.05 && temp >= 0.2:
+	if height >= 0 + (0.4 * m_i) && rainfall <= -0.45 + (0.4 * d) && temp >= 0.4 - (0.2 * d):
 		if random.randi_range(0, 5) == 0:
 			return Vector2i(3, 3)
 		return Vector2i(0, 3)
-	if rainfall <= -0.05 && temp >= 0.2:
+	if rainfall <= -0.45 + (0.4 * d) && temp >= 0.4 - (0.2 * d):
 		if rainfall >= -0.3 && random.randi_range(0, 15) == 0:
 			return Vector2i(1 + random.randi_range(0, 1), 3) # Cactus
 		return Vector2i(0, 3) # Normal desert
 	
-	if height > 0.35 * Global.GameSettings.get("mountain_amount",1) and random.randi_range(0, 5) == 0:
-		if rainfall >= 0.15:
+	if height > 0.35 * m_i and random.randi_range(0, 5) == 0:
+		if rainfall >= 0.15 * f_i:
 			#if random.randi_range(0,2) == 0:
 				#var dir = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN][random.randi_range(0,3)]
 				#rivers_starting_points.append(Vector2i(x,y) + dir)
 			return Vector2i(2 + random.randi_range(0, 1), 1) # Forest Mountain
 		return Vector2i(2 + random.randi_range(0, 1), 0) # Mountain
 	# Wheat
-	if rainfall >= 0.1 && rainfall <= 0.15 && height <= 0.1:
+	if rainfall >= 0.1 * wf_i && rainfall <= 0.15 * wf && height <= 0.1 * wf:
 		return Vector2i(0, 4)
 
 	# Forest
-	if height >= 0.15 && rainfall > 0.12:
-		if rainfall >= 0.3:
+	if height >= -0.3 + (0.45 * f_i) && rainfall > -0.12 * (0.24 * f_i):
+		if rainfall >= 0.3 * f_i:
 			return Vector2i(0, 1) # dense
 		return Vector2i(0, 2) # sparse
 
@@ -147,8 +162,10 @@ func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
 	if i > 100:
 		return {}
 	
+	var w = Global.GameSettings.get("water_amount",1)
+	
 	var h = GetTileHeight(pos.x,pos.y)
-	if h <= -0.15 or (h <= 0 && GetTileRainfall(pos.x,pos.y)>0.2):
+	if (h < -0.6 + (0.6 * w) && GetTileRainfall(pos.x,pos.y) >= -0.2 + (0.4 * w)) or h <= -0.55 + (0.4 * w):
 		return {}
 	var dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 	
@@ -193,9 +210,12 @@ func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
 
 
 func ValidateSeed(s:int) -> bool:
+	var terrain_tiles = 0
 	SetUpNoiseMaps(s)
 	for x in range(-3,3):
 		for y in range(-3,3):
 			if FindTerrainTile(x,y) not in [Vector2i(1, 1),Vector2i(1, 0)]:
-				return true
+				terrain_tiles += 1
+				if terrain_tiles > 5:
+					return true
 	return false

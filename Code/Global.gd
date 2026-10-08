@@ -73,7 +73,32 @@ const BuildingData := {
 		"cost": 50000,
 		"description": "One huge building housing an absurd amount of people in a single building. Population drops near industry buildings."
 	},
-	"Low-Budget Apartment":{
+	"Small Motel":{
+		"atlas_coords": Vector2i(0,1),
+		"cost": 400,
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+	},
+	"Small Roadside Hotel":{
+		"atlas_coords": Vector2i(1,1),
+		"cost": 400,
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+	},
+	"Medium Hotel":{
+		"atlas_coords": Vector2i(0,1),
+		"cost": 400,
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+	},
+	"Large Hotel":{
+		"atlas_coords": Vector2i(0,1),
+		"cost": 400,
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+	},
+	"Luxury Hotel":{
+		"atlas_coords": Vector2i(0,1),
+		"cost": 400,
+		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
+	},
+	"Large Luxury Hotel":{
 		"atlas_coords": Vector2i(0,1),
 		"cost": 400,
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
@@ -323,8 +348,16 @@ const UnlockRequirements := {
 	"Small Apartment Complex": [{"type":"population","amount":40}],
 	"Large Apartment Complex": [{"type":"population","amount":150}],
 	"Mega Apartment Complex": [{"type":"population","amount":400}],
-	"Giant Apartment Complex": [{"type":"population","amount":1000}],
-	"Low-Budget Apartment": [{"type":"population","amount":80}],
+	"Giant Apartment Complex": [{"type":"population","amount":5000}],
+	"Small Motel": [{"type":"population","amount":10000}],
+	"Small Roadside Hotel": [{"type":"population","amount":10000}],
+	"Medium Hotel": [{"type":"population","amount":10000}],
+	"Large Hotel": [{"type":"population","amount":10000}],
+	"Luxury Hotel": [{"type":"population","amount":10000}],
+	"Large Luxury Hotel": [{"type":"population","amount":10000}],
+	
+	
+	
 	
 	"Large Supermarket": [{"type":"building_count","building":"Small Supermarket","amount":3}],
 	"Mill": [{"type":"building_count","building":"Cafe","amount":2}],

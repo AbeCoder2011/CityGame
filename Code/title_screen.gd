@@ -19,6 +19,7 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
+	Global.GameSettings = {}
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
 	Global.First = false
@@ -94,27 +95,33 @@ func OnSettingChanged(new_value:Variant,nam:String):
 			else:
 				Global.GameSettings[nam] = int(new_value)
 				$NewGame/ExtraSettings/Control.show()
+		"water_amount","forest_amount","mountain_amount","wheat_field_amount","desert_amount":
+			Global.GameSettings[nam] = new_value
+			GenerateTerrainPreview(Global.GameSettings.get("seed",0))
 		_:
 			Global.GameSettings[nam] = new_value
 	match nam:
 		"map_size":
 			$NewGame/ExtraSettings/Label.text = "Map size (%dx%d)" % [floor(new_value * 12 + 6),floor(new_value * 12 + 6)]
 		"seed":
-			$NewGame/ExtraSettings/Control/TileMapLayer.clear()
-			$NewGame/ExtraSettings/Control/TileMapLayer.seed = int(new_value)
-			$NewGame/ExtraSettings/Control/TileMapLayer.SetUpNoiseMaps(int(new_value))
-			print(Global.GameSettings)
-			for x in range(-30,30):
-				for y in range(-30,30):
-					var tile = $NewGame/ExtraSettings/Control/TileMapLayer.FindTerrainTile(x,y)
-					$NewGame/ExtraSettings/Control/TileMapLayer.set_cell(Vector2i(x+30,y+30),0,tile)
+			GenerateTerrainPreview(int(new_value))
+
 func _on_extra_settings_pressed() -> void:
 	$NewGame/ExtraSettings.visible = !$NewGame/ExtraSettings.visible
 	$NewGame/ExtraSettings2.visible = !$NewGame/ExtraSettings2.visible
 
 func RerollSeed() -> void:
 	var s : int = -1
-	while not $NewGame/ExtraSettings/Control/TileMapLayer.ValidateSeed(s) or s == -1:
+	while not $NewGame/ExtraSettings/Control/MiniTerrain.ValidateSeed(s) or s == -1:
 		s = randi()
 	$NewGame/ExtraSettings/HBoxContainer/Seed.text = str(s)
 	OnSettingChanged(s,"seed")
+
+func GenerateTerrainPreview(s:int):
+	$NewGame/ExtraSettings/Control/MiniTerrain.clear()
+	$NewGame/ExtraSettings/Control/MiniTerrain.seed = int(s)
+	$NewGame/ExtraSettings/Control/MiniTerrain.SetUpNoiseMaps(int(s))
+	print(Global.GameSettings)
+	for x in range(-33,33):
+		for y in range(-33,33):
+			$NewGame/ExtraSettings/Control/MiniTerrain.set_cell(Vector2i(x+33,y+33),0,$NewGame/ExtraSettings/Control/MiniTerrain.FindTerrainTile(x,y))

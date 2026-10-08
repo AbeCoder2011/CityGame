@@ -32,17 +32,15 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action("zoom_out"):
+	if event.is_action("zoom_out") and event.is_pressed():
 		var mouse_pos = get_local_mouse_position()
-		zoom *= 0.9
+		zoom *= 1 / 1.2
 		zoom = clamp(zoom,Vector2(0.005,0.005),Vector2(15,15))
-		await get_tree().process_frame
 		global_position += mouse_pos - get_local_mouse_position()
-	elif event.is_action("zoom_in"):
+	elif event.is_action("zoom_in") and event.is_pressed():
 		var mouse_pos = get_local_mouse_position()
-		zoom *= 1.1
+		zoom *= 1.2
 		zoom = clamp(zoom,Vector2(0.005,0.005),Vector2(15,15))
-		await get_tree().process_frame
 		global_position += mouse_pos - get_local_mouse_position()
 	if event is InputEventMouseButton:
 		Global.Zoom = zoom.x

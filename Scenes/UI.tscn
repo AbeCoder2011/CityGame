@@ -901,7 +901,52 @@ mouse_filter = 2
 
 [node name="BasicHouse6" parent="UI/Building/Categories/Housing" unique_id=1985056110 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Low-Budget Apartment"
+Building_Name = "Small Motel"
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Housing" unique_id=14341495]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap4" type="Control" parent="UI/Building/Categories/Housing" unique_id=775485147]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap5" type="Control" parent="UI/Building/Categories/Housing" unique_id=416927235]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap6" type="Control" parent="UI/Building/Categories/Housing" unique_id=342106779]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap7" type="Control" parent="UI/Building/Categories/Housing" unique_id=40940019]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse8" parent="UI/Building/Categories/Housing" unique_id=1770986171 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Small Roadside Hotel"
+
+[node name="BasicHouse9" parent="UI/Building/Categories/Housing" unique_id=1045401900 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Medium Hotel"
+
+[node name="BasicHouse10" parent="UI/Building/Categories/Housing" unique_id=432602409 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Hotel"
+
+[node name="BasicHouse11" parent="UI/Building/Categories/Housing" unique_id=1589837338 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Luxury Hotel"
+
+[node name="BasicHouse12" parent="UI/Building/Categories/Housing" unique_id=2090267847 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Luxury Hotel"
 
 [node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
 visible = false
