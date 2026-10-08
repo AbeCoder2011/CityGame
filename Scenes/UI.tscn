@@ -691,7 +691,6 @@ offset_right = 589.00146
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
-mouse_filter = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Building" unique_id=1778311167]
 libraries/ = SubResource("AnimationLibrary_j04uc")
@@ -703,7 +702,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 texture = ExtResource("1_nxvpl")
 region_rect = Rect2(99, 0, 32, 32)
 patch_margin_left = 3
@@ -848,7 +846,6 @@ anchor_bottom = 1.0
 offset_right = -80.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 1
 
 [node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
 layout_mode = 1
@@ -1545,7 +1542,6 @@ anchor_bottom = 0.333
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(3, 3)
-mouse_filter = 0
 texture = ExtResource("1_nxvpl")
 region_rect = Rect2(132, 201, 98, 26)
 patch_margin_left = 45
