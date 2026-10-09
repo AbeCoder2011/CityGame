@@ -628,7 +628,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			return [{"money": 0.75 * pop * (1 + 0.25 * products)},{"population":pop,"products":products}]
 
 		"Mill":
-			var wheat = Count_Terrain_Nearby(pos, Vector2i(1, 1), 5, 5)
+			var wheat = Count_Terrain_Nearby(pos, Vector2i(1, 1), 5, 5, true)
 			return [{"flour": wheat},{"wheat":wheat}]
 		
 		"Electronics Store":
@@ -687,9 +687,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
  		
 		"Mall":
 			var pop = SumProperty(pos, size, HOUSING_NAMES, 6, "population")
-			var shopnames_without_mall = SHOP_NAMES
-			shopnames_without_mall.erase("Mall")
-			var shopincome = SumProperty(pos,size, shopnames_without_mall, 2,"money")
+			var shopincome = SumProperty(pos,size, SHOP_NAMES, 2,"money",["Mall"])
 			var shopsnearby = CountNearby(pos, size, SHOP_NAMES, 2, ["Mall"])
 			return [{"money": pop * shopsnearby * log(shopincome + 1)},{"population":pop,"shops_nearby":shopsnearby}]
 		"Small Factory":

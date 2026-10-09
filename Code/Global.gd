@@ -388,8 +388,8 @@ const UnlockRequirements := {
 	"Animal Farm":[{"type":"building_count","building":"Mill","amount":2}],
 	"Butcher":[{"type":"building_count","building":"Animal Farm","amount":1}],
 	"Lumber Mill":[{"type":"population","amount":150}],
-	"Seafood Market":[{"type":"population","amount":40}],
-	"Fishing Hut":[{"type":"population","amount":40}],
+	"Seafood Market":[{"type":"building_count","building":"Fishing Hut","amount":1}],
+	"Fishing Hut":[{"type":"population","amount":100}],
 	"Fishing Dock":[{"type":"building_count","building":"Fishing Boat","amount":1}],
 	"Fishing Boat":[{"type":"building_count","building":"Seafood Market","amount":1}],
 	
