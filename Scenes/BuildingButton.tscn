@@ -88,7 +88,6 @@ offset_top = 2.0
 offset_right = 33.25
 offset_bottom = 29.75
 scale = Vector2(4, 4)
-mouse_filter = 1
 texture = SubResource("AtlasTexture_00us2")
 patch_margin_left = 14
 patch_margin_top = 14

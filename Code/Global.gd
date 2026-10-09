@@ -340,6 +340,24 @@ const BuildingData := {
 		"cost": 1000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
+	"Airport Terminal":{
+		"atlas_coords": Vector2i(17,11),
+		"size": Vector2i(2,1),
+		"cost": 1000000,
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
+	},
+	"Air Traffic Control Tower":{
+		"atlas_coords": Vector2i(18,12),
+		"size": Vector2i(1,2),
+		"cost": 1000000,
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
+	},
+	"Airport Runway":{
+		"atlas_coords": Vector2i(19,11),
+		"size": Vector2i(1,3),
+		"cost": 1000000,
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
+	},
 }
 
 @export var BuildingUses := {}

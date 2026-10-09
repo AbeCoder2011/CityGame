@@ -19,6 +19,7 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
+	GetAutoSaves()
 	Global.GameSettings = {}
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
@@ -52,6 +53,7 @@ func difficulty_pressed(id:int):
 
 func _on_back_pressed() -> void:
 	$NewGame.hide()
+	$LoadGame.hide()
 	$Credits.hide()
 	$Pause.hide()
 	$Main.show()
@@ -93,7 +95,10 @@ func OnSettingChanged(new_value:Variant,nam:String):
 				Global.GameSettings.erase(nam)
 				$NewGame/ExtraSettings/Control.hide()
 			else:
-				Global.GameSettings[nam] = int(new_value)
+				if str(new_value).is_valid_int():
+					Global.GameSettings[nam] = int(new_value)
+				else:
+					Global.GameSettings[nam] = hash(new_value)
 				$NewGame/ExtraSettings/Control.show()
 		"water_amount","forest_amount","mountain_amount","wheat_field_amount","desert_amount":
 			Global.GameSettings[nam] = new_value
@@ -104,7 +109,7 @@ func OnSettingChanged(new_value:Variant,nam:String):
 		"map_size":
 			$NewGame/ExtraSettings/Label.text = "Map size (%dx%d)" % [floor(new_value * 12 + 6),floor(new_value * 12 + 6)]
 		"seed":
-			GenerateTerrainPreview(int(new_value))
+			GenerateTerrainPreview(int(Global.GameSettings.get(nam,0)))
 
 func _on_extra_settings_pressed() -> void:
 	$NewGame/ExtraSettings.visible = !$NewGame/ExtraSettings.visible
@@ -125,3 +130,19 @@ func GenerateTerrainPreview(s:int):
 	for x in range(-33,33):
 		for y in range(-33,33):
 			$NewGame/ExtraSettings/Control/MiniTerrain.set_cell(Vector2i(x+33,y+33),0,$NewGame/ExtraSettings/Control/MiniTerrain.FindTerrainTile(x,y))
+
+func GetAutoSaves():
+	DirAccess.make_dir_absolute("user://autosaves/")
+	
+	var dir := DirAccess.open("user://autosaves/")
+	dir.list_dir_begin()
+	for n in dir.get_files():
+		var l = Label.new()
+		l.text = str(n)
+		
+		$LoadGame/Vbox.add_child(l)
+
+
+func _on_load_game_pressed() -> void:
+	$Main.hide()
+	$LoadGame.show()

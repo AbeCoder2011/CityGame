@@ -30,6 +30,7 @@ func _ready() -> void:
 	Global.LoadAchievementProgress()
 	$Autosaver.wait_time = Global.Settings.get("autosave_interval",60)
 	$Autosaver.start()
+	
 	$Background/Grid.position = (Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * -1)
 	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * 2))
 	
@@ -237,6 +238,11 @@ func SaveGame(autosave=false):
 	var resource = SAVE_FILE.new()
 	resource.save = save
 	ResourceSaver.save(resource, SAVE_PATH + SAVE_NAME)
+	
+	DirAccess.make_dir_absolute("user://autosaves/")
+	var time = Time.get_datetime_dict_from_system()
+	var string = str(time["year"]) + "-" + str(time["month"]) + "-" + str(time["day"]) + "-" + str(time["hour"]) + "-" + str(time["minute"]) + "-" + str(time["second"])
+	ResourceSaver.save(resource, "user://autosaves/" + string + ".tres")
 	print("Game saved succesfully!")
 
 func LoadGame():
@@ -282,6 +288,7 @@ func SpawnBuildings():
 		i = last
 		i += 1.0
 	finished.emit()
+
 func DeleteSave():
 	DirAccess.remove_absolute(SAVE_PATH + SAVE_NAME)
 

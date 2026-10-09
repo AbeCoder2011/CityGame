@@ -810,12 +810,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_wunin")
 
-[node name="Trains" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1494350006]
+[node name="Transport" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1494350006]
 custom_minimum_size = Vector2(0, 58)
 layout_mode = 2
 flat = true
 
-[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Trains" unique_id=1231663145]
+[node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Transport" unique_id=1231663145]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1206,7 +1206,7 @@ Building_Name = "Smeltery"
 layout_mode = 2
 Building_Name = "Fishing Dock"
 
-[node name="Trains" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
+[node name="Transport" type="GridContainer" parent="UI/Building/Categories" unique_id=25598216]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -1222,18 +1222,45 @@ theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 6
 
-[node name="BasicHouse" parent="UI/Building/Categories/Trains" unique_id=955909677 instance=ExtResource("5_qwshj")]
+[node name="BasicHouse" parent="UI/Building/Categories/Transport" unique_id=955909677 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Train Station"
 
-[node name="Gap" type="Control" parent="UI/Building/Categories/Trains" unique_id=1200093197]
+[node name="Gap" type="Control" parent="UI/Building/Categories/Transport" unique_id=1200093197]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BasicHouse2" parent="UI/Building/Categories/Trains" unique_id=1373562305 instance=ExtResource("5_qwshj")]
+[node name="BasicHouse2" parent="UI/Building/Categories/Transport" unique_id=1373562305 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Rail"
+
+[node name="BasicHouse3" parent="UI/Building/Categories/Transport" unique_id=792829299 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Airport Terminal"
+
+[node name="Gap2" type="Control" parent="UI/Building/Categories/Transport" unique_id=575872611]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse4" parent="UI/Building/Categories/Transport" unique_id=1620995757 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Air Traffic Control Tower"
+
+[node name="Gap3" type="Control" parent="UI/Building/Categories/Transport" unique_id=851578345]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap4" type="Control" parent="UI/Building/Categories/Transport" unique_id=897254980]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse5" parent="UI/Building/Categories/Transport" unique_id=1702545463 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Airport Runway"
 
 [node name="Entertainment" type="GridContainer" parent="UI/Building/Categories" unique_id=50405458]
 visible = false

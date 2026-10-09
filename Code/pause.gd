@@ -82,6 +82,8 @@ func SetSettingValue(new_value:float,nam:String):
 			$"General/HBoxContainer/1/CamSpeed".text = "Camera Speed (" + str(int(new_value)) + "px)"
 		"autosave_interval":
 			$"General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value)) + "s)"
+			if not main_menu:
+				$"../../../Autosaver".wait_time = new_value
 		"master_volume":
 			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"),new_value)
 			$"Audio/HBoxContainer/1/Master".text = "Master Volume (%d%s)" % [(new_value * 100),"%"]
