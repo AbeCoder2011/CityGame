@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="8_6aagf"]
 [ext_resource type="Texture2D" uid="uid://cttf2gksrqm33" path="res://Assets/Tilesheets/mini-terraintiles.png" id="9_kyk5u"]
 [ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_cwqts"]
+[ext_resource type="PackedScene" uid="uid://c43sbtln8dpg3" path="res://Scenes/SaveButton.tscn" id="11_th2ad"]
 
 [sub_resource type="Animation" id="Animation_ekrfg"]
 length = 0.001
@@ -954,6 +955,10 @@ layout_mode = 2
 theme = ExtResource("4_q2qps")
 text = "← Back "
 script = ExtResource("6_3eqdi")
+
+[node name="Button" parent="LoadGame/Vbox" unique_id=2121744020 instance=ExtResource("11_th2ad")]
+layout_mode = 2
+SaveName = null
 
 [node name="TextureRect" type="TextureRect" parent="LoadGame" unique_id=1004904639]
 layout_mode = 0

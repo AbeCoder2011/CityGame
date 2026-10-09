@@ -81,7 +81,7 @@ func SetSettingValue(new_value:float,nam:String):
 		"camera_speed":
 			$"General/HBoxContainer/1/CamSpeed".text = "Camera Speed (" + str(int(new_value)) + "px)"
 		"autosave_interval":
-			$"General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value)) + "s)"
+			$"General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value) / 60) + "m)"
 			if not main_menu:
 				$"../../../Autosaver".wait_time = new_value
 		"master_volume":

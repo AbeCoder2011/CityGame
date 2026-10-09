@@ -237,6 +237,7 @@ func SaveGame(autosave=false):
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
+	resource.image = get_viewport().get_texture().get_image()
 	ResourceSaver.save(resource, SAVE_PATH + SAVE_NAME)
 	
 	DirAccess.make_dir_absolute("user://autosaves/")
@@ -248,13 +249,28 @@ func SaveGame(autosave=false):
 func LoadGame():
 	$UI.SetLoadProgress("Loading save...",0)
 	await get_tree().process_frame
-	if not ResourceLoader.exists(SAVE_PATH + SAVE_NAME):
-		print("Savefile not found!")
-		return
-	var save = ResourceLoader.load(SAVE_PATH + SAVE_NAME).get("save")
-	if save == null:
-		print("Savefile not found or null!")
-		return
+	var save
+	if Global.LoadSettings.get("custom_save") == null:
+		if not ResourceLoader.exists(SAVE_PATH + SAVE_NAME):
+			print("Savefile not found!")
+			finished.emit()
+			return
+		save = ResourceLoader.load(SAVE_PATH + SAVE_NAME).get("save")
+		if save == null:
+			print("Savefile not found or null!")
+			finished.emit()
+			return
+	else:
+		if not ResourceLoader.exists("user://autosaves/" + str(Global.LoadSettings.get("custom_save"))):
+			print("Custom Savefile not found!")
+			finished.emit()
+			return
+		save = ResourceLoader.load("user://autosaves/" + str(Global.LoadSettings.get("custom_save"))).get("save")
+		if save == null:
+			print("Custom Savefile not found or null!")
+			finished.emit()
+			return
+	
 	Global.Money = save["money"]
 	Global.Population = save["pop"]
 	Global.Happiness = save["happ"]

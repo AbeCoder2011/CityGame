@@ -45,6 +45,7 @@ process_mode = 3
 visible = false
 z_index = 5
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -321,7 +322,7 @@ label_settings = SubResource("LabelSettings_80bsu")
 
 [node name="AutosaveInterval2" type="Label" parent="General/HBoxContainer/1" unique_id=1146436254]
 layout_mode = 2
-text = "Autosave Interval (60s)"
+text = "Autosave Interval (3m)"
 label_settings = SubResource("LabelSettings_n04ve")
 
 [node name="AutosaveIntervalSlider" type="HSlider" parent="General/HBoxContainer/1" unique_id=711919980]
@@ -329,10 +330,10 @@ custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 3
 theme = ExtResource("3_nsogc")
-min_value = 10.0
-max_value = 300.0
-step = 10.0
-value = 60.0
+min_value = 60.0
+max_value = 1200.0
+step = 60.0
+value = 180.0
 tick_count = 30
 ticks_on_borders = true
 ticks_position = 3

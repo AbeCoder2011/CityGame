@@ -8,8 +8,12 @@ const DifficultyDescriptions = {
 	5:"[font_size=24][font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]The hardest difficulty for CityScape. Building prices scale very quickly, and you start with a small budget. ",
 }
 
+var SaveButton = preload("res://Scenes/SaveButton.tscn")
+
 const SAVE_PATH := "user://saves/"
 const SAVE_NAME := "save.tres"
+
+var Textures = {}
 
 const MiniTileMap = {
 	
@@ -67,6 +71,13 @@ func _on_new_game_pressed() -> void:
 func _on_continue_pressed() -> void:
 	$Main/Vbox/Continue.disabled = true
 	Global.LoadSettings["load"] = true
+	$Fade/Anim.play("fade_out")
+	await $Fade/Anim.animation_finished
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+
+func LoadAutosave(n:String) -> void:
+	Global.LoadSettings["load"] = true
+	Global.LoadSettings["custom_save"] = n
 	$Fade/Anim.play("fade_out")
 	await $Fade/Anim.animation_finished
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
@@ -137,12 +148,33 @@ func GetAutoSaves():
 	var dir := DirAccess.open("user://autosaves/")
 	dir.list_dir_begin()
 	for n in dir.get_files():
-		var l = Label.new()
-		l.text = str(n)
+		var l = SaveButton.instantiate()
 		
+		l.SaveName = n
+		Textures[n] = ImageTexture.create_from_image(ResourceLoader.load("user://autosaves/" + n).get("image"))
+		l.text = FormatSaveName(n)
 		$LoadGame/Vbox.add_child(l)
-
+	dir.list_dir_end()
 
 func _on_load_game_pressed() -> void:
 	$Main.hide()
 	$LoadGame.show()
+
+
+func FormatSaveName(txt:String):
+	var new = txt.rstrip(".tres")
+	new = new.split("-")
+	if len(new) < 6:
+		printerr("kut ",new)
+		return txt
+	var out = "%s-%s-%s - %02d:%02d:%02d" % [new[2],new[1],new[0],int(new[3]),int(new[4]),int(new[5])]
+	return out
+
+func OnHover(nam:String):
+	var img = Textures.get(nam)
+	$LoadGame/TextureRect.texture = img
+	$LoadGame/TextureRect.show()
+
+func OnNotHover():
+	$LoadGame/TextureRect.hide()
+	

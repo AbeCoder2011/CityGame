@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://c43sbtln8dpg3"]
+
+[sub_resource type="GDScript" id="GDScript_qh4d7"]
+script/source = "extends Button
+
+@export var SaveName : String
+
+func _ready() -> void:
+	pressed.connect($\"../../..\".LoadAutosave.bind(SaveName))
+	mouse_entered.connect($\"../../..\".OnHover.bind(SaveName))
+	mouse_exited.connect($\"../../..\".OnNotHover)
+"
+
+[node name="Button" type="Button" unique_id=2121744020]
+custom_minimum_size = Vector2(0, 40)
+text = "2026-10-9-9-39-5.tres"
+script = SubResource("GDScript_qh4d7")

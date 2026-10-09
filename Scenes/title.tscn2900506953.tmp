@@ -943,8 +943,8 @@ anchors_preset = -1
 anchor_bottom = 1.0
 offset_left = 60.0
 offset_top = 250.0
-offset_right = 560.0
 offset_bottom = -20.0
+grow_vertical = 2
 theme_override_constants/separation = 30
 
 [node name="Back" type="Button" parent="LoadGame/Vbox" unique_id=1498917647]
@@ -955,13 +955,10 @@ theme = ExtResource("4_q2qps")
 text = "← Back "
 script = ExtResource("6_3eqdi")
 
-[node name="TextureRect" type="TextureRect" parent="LoadGame" unique_id=1004904639]
-layout_mode = 0
-offset_left = 628.0
-offset_top = 264.0
-offset_right = 1128.0
-offset_bottom = 764.0
-expand_mode = 1
+[node name="Button" type="Button" parent="LoadGame/Vbox" unique_id=2106888257]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "2026-10-9-9-39-5.tres"
 
 [node name="Credits" type="Control" parent="." unique_id=2103616721]
 visible = false
@@ -1026,6 +1023,7 @@ libraries/ = SubResource("AnimationLibrary_2qdx2")
 
 [node name="Pause" parent="." unique_id=2017614116 instance=ExtResource("6_2qdx2")]
 layout_mode = 1
+anchors_preset = 15
 
 [connection signal="pressed" from="Main/Vbox/Continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="Main/Vbox/NewGame" to="." method="_on_new_game_pressed"]
