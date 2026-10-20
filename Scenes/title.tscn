@@ -397,6 +397,13 @@ texture_region_size = Vector2i(45, 45)
 tile_size = Vector2i(45, 45)
 sources/0 = SubResource("TileSetAtlasSource_th2ad")
 
+[sub_resource type="LabelSettings" id="LabelSettings_cwqts"]
+font = ExtResource("3_fp2oq")
+font_size = 26
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0.25937498, 0, 0, 1)
+
 [sub_resource type="Animation" id="Animation_q2qps"]
 length = 0.001
 tracks/0/type = "value"
@@ -638,7 +645,6 @@ text = "- Quit Game -"
 script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Control" parent="." unique_id=653756544]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -928,7 +934,27 @@ max_value = 2.0
 step = 0.2
 value = 1.0
 
+[node name="HackedLabel" type="Label" parent="NewGame" unique_id=1709896149]
+visible = false
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+offset_bottom = -50.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "HACKED SAVE"
+label_settings = SubResource("LabelSettings_cwqts")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="LoadGame" type="Control" parent="." unique_id=1972003103]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -962,6 +988,7 @@ offset_top = 264.0
 offset_right = 1128.0
 offset_bottom = 764.0
 expand_mode = 1
+stretch_mode = 4
 
 [node name="Credits" type="Control" parent="." unique_id=2103616721]
 visible = false

@@ -17,7 +17,6 @@ var BuildingAmounts := {}
 
 var SaveBuildings := {}
 
-var time : float = 0
 
 func _ready() -> void:
 	$UI.UpdateAchievements()
@@ -45,7 +44,7 @@ func _ready() -> void:
 		$Areas.GenerateAreas()
 		
 		await finished
-		$"UI".SetLoadProgress("Loading save...",100)
+		$"UI".SetLoadProgress("Placing areas...",100)
 		await get_tree().process_frame
 		
 		$"Terrain".Generate()
@@ -61,6 +60,13 @@ func _ready() -> void:
 		await get_tree().process_frame
 		
 	else:
+		
+		if Global.GameSettings.get("hacked",false):
+			Global.Money = 1e80
+			for n in Global.BuildingData.keys():
+				get_node("/root/Main").UnlockedBuildings[n] = true
+			get_node("/root/Main/UI").CheckBuildingUnlocks()
+		
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
 				$Buildings.NewBuilding(n["name"],n["pos"],false)
@@ -237,14 +243,33 @@ func SaveGame(autosave=false):
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
-	resource.image = get_viewport().get_texture().get_image()
 	ResourceSaver.save(resource, SAVE_PATH + SAVE_NAME)
-	
+	if autosave:
+		resource.image = await CaptureCityImage()
+		MakeAutosave(resource)
+		DeleteOldAutosaves()
+	print("Game saved succesfully!")
+
+func MakeAutosave(r:Resource):
 	DirAccess.make_dir_absolute("user://autosaves/")
 	var time = Time.get_datetime_dict_from_system()
 	var string = str(time["year"]) + "-" + str(time["month"]) + "-" + str(time["day"]) + "-" + str(time["hour"]) + "-" + str(time["minute"]) + "-" + str(time["second"])
-	ResourceSaver.save(resource, "user://autosaves/" + string + ".tres")
-	print("Game saved succesfully!")
+	ResourceSaver.save(r, "user://autosaves/" + string + ".tres")
+
+func DeleteOldAutosaves():
+	var dir := DirAccess.open("user://autosaves/")
+	dir.list_dir_begin()
+	var files : Array = dir.get_files()
+	files.reverse()
+	if len(files) > 12:
+		var i = 0
+		for n in files:
+			i += 1
+			print("%d: %s" % [i,n])
+			if i > 12:
+				DirAccess.remove_absolute("user://autosaves/" + n)
+		pass # DELETE OLD AUTOSAVES
+	
 
 func LoadGame():
 	$UI.SetLoadProgress("Loading save...",0)
@@ -281,6 +306,11 @@ func LoadGame():
 	$"Terrain".seed = save.get("seed", randi())
 	UnlockedBuildings = save.get("ub",{})
 	$"UI".CheckBuildingUnlocks()
+	if Global.GameSettings.get("hacked",false):
+		for n in Global.BuildingData.keys():
+			get_node("/root/Main").UnlockedBuildings[n] = true
+		get_node("/root/Main/UI").CheckBuildingUnlocks()
+	$UI/UI/HackedLabel.visible = Global.GameSettings.get("hacked",false)
 	BuildableAreas = save.get("buildable",[Rect2(-3,-3,6,6)])
 	$Areas.OpenAreas = save["open_areas"]
 	$Buildings.PeakBuildings = save["peak"]
@@ -316,4 +346,40 @@ func _notification(what: int) -> void:
 	#$UI/Fade/Label.text = nam
 	#$UI/Fade/ProgressBar.value = prog
 	
-	
+func GetCityRect() -> Rect2:
+	var rect := Rect2()
+	var empty := true
+	for coll in $Buildings.BuildingCollections.values():
+		for b in coll:
+			var r := Rect2(Vector2(b["pos"]) * 48, Vector2($Buildings.GetSize(b["name"])) * 48)
+			if empty:
+				rect = r 
+			else:
+				rect.merge(r)
+			empty = false
+	if empty:  # default area
+		var a : Rect2 = BuildableAreas[0]
+		rect = Rect2(a.position * 48, a.size * 48)
+	rect = rect.grow(96)  # make it bigger so it is cleaner
+	return rect
+
+func CaptureCityImage(img_size := Vector2i(480, 270)) -> Image:
+	var city_rect := GetCityRect()
+
+	var new_vp := SubViewport.new()
+	new_vp.size = img_size
+	new_vp.world_2d = get_viewport().world_2d
+	new_vp.render_target_update_mode = SubViewport.UPDATE_ONCE
+	var camera := Camera2D.new()
+	new_vp.add_child(camera)
+	add_child(new_vp)
+
+	camera.global_position = city_rect.get_center()
+	var z : float = min(img_size.x / city_rect.size.x, img_size.y / city_rect.size.y)
+	camera.zoom = Vector2(z, z)
+
+	$Builder/BuildingPreview.hide()  # it lives in the world, so hide it for the capture
+	await RenderingServer.frame_post_draw
+	var img := new_vp.get_texture().get_image()
+	new_vp.queue_free()
+	return img

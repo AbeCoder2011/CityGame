@@ -85,23 +85,27 @@ const BuildingData := {
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	"Medium Hotel":{
-		"atlas_coords": Vector2i(0,1),
+		"atlas_coords": Vector2i(8,0),
+		"size":Vector2i(1,2),
 		"cost": 400,
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	"Large Hotel":{
-		"atlas_coords": Vector2i(0,1),
+		"atlas_coords": Vector2i(9,0),
 		"cost": 400,
+		"size":Vector2i(2,2),
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	"Luxury Hotel":{
-		"atlas_coords": Vector2i(0,1),
+		"atlas_coords": Vector2i(11,0),
+		"size":Vector2i(1,2),
 		"cost": 400,
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	"Large Luxury Hotel":{
-		"atlas_coords": Vector2i(0,1),
+		"atlas_coords": Vector2i(12,0),
 		"cost": 400,
+		"size":Vector2i(3,2),
 		"description": "A low budget building housing many people. Population does not drop near industry buildings, but it has a fixed happiness rate of 50."
 	},
 	# --- Stores
@@ -629,12 +633,9 @@ func GetBuildingCost(nam) -> int:
 	var increase : float = {1:1.05,2:1.1,3:1.3,4:1.4,5:1.5}[Difficulty]
 	return base * (increase ** mult)
 
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action("Abe") and event.is_pressed():
-		Money *= 1.5
-		for n in Global.BuildingData.keys():
-			get_node("/root/Main").UnlockedBuildings[n] = true
-		get_node("/root/Main/UI").CheckBuildingUnlocks()
+#func _unhandled_input(event: InputEvent) -> void:
+	#if event.is_action("Abe") and event.is_pressed():
+		#Money *= 1.5
 
 func GetBigNumber(i:float) -> String:
 	if i >= 1000000:

@@ -16,9 +16,11 @@ func _ready() -> void:
 		#if not building_size == Vector2(1,1):
 			#$Locked.scale = Vector2(3.09375,3.09375)
 	$Texture.texture.region = Rect2(Global.BuildingData[Building_Name]["atlas_coords"] * 16,building_size * 16)
+	var but_size = (building_size * 16 * 4) + (building_size * 2) - Vector2(4,4)
+	size = but_size - Vector2(4,4)
 	$Texture/HoverDetection.size = Vector2(building_size * 16)  + Vector2(.5,.5)
-	$Texture.scale = Vector2(4,4) - Vector2(.125,.125) + building_size * .125
-	$LockedTexture.scale = Vector2(4,4) - Vector2(.125,.125) + building_size * .125
+	$Texture.size = but_size
+	$LockedTexture.size = but_size
 	$LockedTexture.size = building_size * 16
 	name = Building_Name
 	pressed.connect(SelectBuilding)

@@ -39,6 +39,11 @@ func _ready() -> void:
 	if FileAccess.file_exists("user://settings.cfg"):
 		$Pause.LoadSettings()
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("HACK"):
+		OnSettingChanged(not Global.GameSettings.get("hacked",false),"hacked")
+		# ^^^ Invert the value, if it doesn't exist: defaults to: not false (true)
+
 func mouse_enter(id:int):
 	$NewGame/Vbox/Description.text = DifficultyDescriptions[id]
 
@@ -121,7 +126,8 @@ func OnSettingChanged(new_value:Variant,nam:String):
 			$NewGame/ExtraSettings/Label.text = "Map size (%dx%d)" % [floor(new_value * 12 + 6),floor(new_value * 12 + 6)]
 		"seed":
 			GenerateTerrainPreview(int(Global.GameSettings.get(nam,0)))
-
+		"hacked":
+			$NewGame/HackedLabel.visible = Global.GameSettings.get("hacked",false)
 func _on_extra_settings_pressed() -> void:
 	$NewGame/ExtraSettings.visible = !$NewGame/ExtraSettings.visible
 	$NewGame/ExtraSettings2.visible = !$NewGame/ExtraSettings2.visible

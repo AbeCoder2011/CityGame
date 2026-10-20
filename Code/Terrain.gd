@@ -37,6 +37,8 @@ func get_hiddenlayer_value(coords: Vector2i) -> float:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action("reroll_seed") and event.is_pressed():
+		if not get_tree().root.get_child(2).name == "Main":
+			return
 		var valid = false
 		var s = 0
 		while not valid:

@@ -25,7 +25,6 @@ func _unhandled_input(event: InputEvent) -> void:
 					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
 						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
 							TryPlace(Vector2i(x,y),grid_size)
-							print(x," - ",y)
 							await Global.CheckFrame(50)
 
 	SetBuildingPreview()
@@ -53,9 +52,15 @@ func SetBuildingPreview():
 					var EndPoint = floor(get_local_mouse_position() / 48)
 					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
 					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
+					var i = 0
+					var xi = 0
 					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
 						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
-							$BuildingPreview.set_cell(Vector2i(x,y),0,atlas_pos)
+							if xi % grid_size.x == 0 and i % grid_size.y == 0:
+								$BuildingPreview.set_cell(Vector2i(x,y),0,atlas_pos)
+							i += 1
+						i = 0
+						xi += 1
 				else:
 					$BuildingPreview.set_cell(Vector2i.ZERO,0,atlas_pos)
 					$BuildingPreview.position = Vector2(grid_pos) * 48
@@ -96,6 +101,8 @@ func IsColliding(pos: Vector2i, size: Vector2i, wateronly=false, canwater=false,
 		if new_rect.intersects(b_rect):
 			return true
 	var p = poses.duplicate()
+	if Global.GameSettings.get("hacked",false):
+		return false
 	for n in p:
 		for r : Rect2 in $"..".BuildableAreas:
 			if r.has_point(n):

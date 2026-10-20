@@ -478,6 +478,13 @@ font_size = 24
 font = ExtResource("11_b1goy")
 font_size = 32
 
+[sub_resource type="LabelSettings" id="LabelSettings_o2ick"]
+font = ExtResource("11_b1goy")
+font_size = 26
+font_color = Color(1, 0, 0, 1)
+outline_size = 8
+outline_color = Color(0.25937498, 0, 0, 1)
+
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
 script = ExtResource("1_dewlx")
@@ -1465,7 +1472,6 @@ libraries/ = SubResource("AnimationLibrary_b1goy")
 
 [node name="Pause" parent="UI" unique_id=2017614116 instance=ExtResource("8_b1goy")]
 layout_mode = 1
-anchors_preset = 15
 
 [node name="Fade" type="ColorRect" parent="UI" unique_id=286619630]
 process_mode = 3
@@ -1906,6 +1912,23 @@ bbcode_enabled = true
 text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 👥 5 population nearby
 [img]res://Assets/coin.png[/img] 20/s"
+
+[node name="HackedLabel" type="Label" parent="UI" unique_id=544307933]
+custom_minimum_size = Vector2(180, 40)
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "HACKED SAVE"
+label_settings = SubResource("LabelSettings_o2ick")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
