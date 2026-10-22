@@ -77,9 +77,7 @@ func _ready() -> void:
 		$"UI".SetLoadProgress("Placing Areas...",100)
 		await get_tree().process_frame
 		var s = 0
-		print(Global.GameSettings)
 		if Global.GameSettings.get("seed") == null:
-			print("no seed set")
 			# Find valid non-water seed
 			var valid = false
 			while not valid:
@@ -87,8 +85,7 @@ func _ready() -> void:
 				valid = $Terrain.ValidateSeed(s)
 		else:
 			s = Global.GameSettings.get("seed",-1)
-			print("seed set: ",s)
-		$"Terrain".seed = s
+		$"Terrain".world_seed = s
 		$"Terrain".Generate()
 		
 		await finished
@@ -201,7 +198,7 @@ func ClaimTiles(pos: Vector2i, size: Vector2i):
 func CheckBuildingUnlocks(current_building_counts:Dictionary):
 	for b in Global.UnlockRequirements.keys():
 		for r in Global.UnlockRequirements[b]:
-			if UnlockedBuildings.get(r, false):
+			if UnlockedBuildings.get(b, false):
 				continue #already unlocked brrrr
 			match r["type"]:
 				"population":
@@ -239,7 +236,7 @@ func SaveGame(autosave=false):
 		"peak":$Buildings.PeakBuildings,
 		"open_areas":$Areas.OpenAreas,
 		"buildable":BuildableAreas,
-		"seed": $"Terrain".seed,
+		"seed": $"Terrain".world_seed,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -265,7 +262,6 @@ func DeleteOldAutosaves():
 		var i = 0
 		for n in files:
 			i += 1
-			print("%d: %s" % [i,n])
 			if i > 12:
 				DirAccess.remove_absolute("user://autosaves/" + n)
 		pass # DELETE OLD AUTOSAVES
@@ -323,12 +319,9 @@ func SpawnBuildings():
 	var length = len(SaveBuildings.values())
 	var i = 0.0
 	for coll in SaveBuildings.values():
-		var coll_size = len(coll)
 		var last = i
-		var this_i = 0
 		for b in coll:
 			$Buildings.NewBuilding(b["name"],b["pos"],false)
-			this_i += 1
 			$UI.SetLoadProgress("Spawning Buildings...",clamp(floor(i/length*100),0,100))
 			await Global.CheckFrame()
 		i = last
@@ -378,8 +371,9 @@ func CaptureCityImage(img_size := Vector2i(480, 270)) -> Image:
 	var z : float = min(img_size.x / city_rect.size.x, img_size.y / city_rect.size.y)
 	camera.zoom = Vector2(z, z)
 
-	$Builder/BuildingPreview.hide()  # it lives in the world, so hide it for the capture
+	$Builder/BuildingPreview.hide()
 	await RenderingServer.frame_post_draw
 	var img := new_vp.get_texture().get_image()
 	new_vp.queue_free()
+	$Builder/BuildingPreview.show()
 	return img

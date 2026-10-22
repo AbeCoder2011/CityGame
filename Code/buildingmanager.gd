@@ -130,13 +130,13 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	$"..".CheckAchievementProgress(b_amounts,true)
 
 func RecomputeBuilding(n):
-		match n["name"]:
-			"Train Station":
-				RecomputeStations()
-			"Transformator Building":
-				RecomputePower()
-			_:
-				Recompute(n)
+	match n["name"]:
+		"Train Station":
+			RecomputeStations()
+		"Transformator Building":
+			RecomputePower()
+		_:
+			Recompute(n)
 
 func DeselectOthers():
 	deselect.emit()
@@ -490,7 +490,6 @@ func RecomputeStations():
 			st["node"].extra_data = {"inventory":inv}
 
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
-	var affection_range : int = 0
 	var affected = [] 
 	var ranges = {}# KEY: BUILDINGS, VALUE: RANGE
 	for n in Global.ORDER.keys():
@@ -514,7 +513,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 		for b in _get_nearby_buildings(this_b["pos"],GetSize(this_b["name"]),ranges[buildings_affected]):
 			var this_nam = b["name"]
 			if this_nam in buildings_affected:
-				if InRange(this_b["pos"],b["pos"],GetSize(this_nam),GetSize(this_nam),ranges[buildings_affected]):
+				if InRange(this_b["pos"],b["pos"],GetSize(this_b["name"]),GetSize(this_nam),ranges[buildings_affected]):
 					if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
 						next_updates.append(b)
 					else:
@@ -571,9 +570,10 @@ func RecomputePower():
 
 func RecomputePopulation():
 	population_total = 0
+	print("recompute pop")
 	for b in AllHousingBuildings:
-		if b["name"] in HOUSING_NAMES:
-			population_total += b["node"].inputs.get("population",0)
+		print("recompute pop for ",b["name"])
+		population_total += b["node"].inputs.get("population",0)
 	Global.Population = population_total
 	
 # --- Building Values Recompute
@@ -788,8 +788,15 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 				
 			return [{"exoticfish":fish}]
 		"Airport Terminal":
-			var tourism = 0
-			return [{"tourists": tourism}]
+			var flights = SumProperty(pos, size, ["Airport Runway"], 1,"flights",[],true,true)
+			var tourism = flights * 150
+			return [{"tourists": tourism},{"flights":flights}]
+		"Airport Runway":
+			var contr_towers = CountNearby(pos,size,["Air Traffic Control Tower"],1,)
+			var flights = 5 if contr_towers > 0 else 1
+			return [{"flights":flights},{"control_towers":contr_towers}]
+		"Air Traffic Control Tower":
+			return [{}]
 		_:
 			return [{}]
 	

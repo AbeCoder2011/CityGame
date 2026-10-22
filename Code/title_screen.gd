@@ -23,7 +23,6 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
-	GetAutoSaves()
 	Global.GameSettings = {}
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
@@ -141,7 +140,7 @@ func RerollSeed() -> void:
 
 func GenerateTerrainPreview(s:int):
 	$NewGame/ExtraSettings/Control/MiniTerrain.clear()
-	$NewGame/ExtraSettings/Control/MiniTerrain.seed = int(s)
+	$NewGame/ExtraSettings/Control/MiniTerrain.world_seed = int(s)
 	$NewGame/ExtraSettings/Control/MiniTerrain.SetUpNoiseMaps(int(s))
 	print(Global.GameSettings)
 	for x in range(-33,33):
@@ -155,9 +154,10 @@ func GetAutoSaves():
 	dir.list_dir_begin()
 	for n in dir.get_files():
 		var l = SaveButton.instantiate()
-		
+		print("[%s] Created Button" % [n])
 		l.SaveName = n
 		Textures[n] = ImageTexture.create_from_image(ResourceLoader.load("user://autosaves/" + n).get("image"))
+		print("[%s] Downloaded texture" % [n])
 		l.text = FormatSaveName(n)
 		$LoadGame/Vbox.add_child(l)
 	dir.list_dir_end()
@@ -165,6 +165,7 @@ func GetAutoSaves():
 func _on_load_game_pressed() -> void:
 	$Main.hide()
 	$LoadGame.show()
+	GetAutoSaves()
 
 
 func FormatSaveName(txt:String):

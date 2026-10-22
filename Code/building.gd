@@ -162,7 +162,6 @@ func FreeNode():
 	queue_free()
 
 func UpdateRailSprite() -> void:
-	var water = 0
 	var other_rails : Dictionary = $"..".Rails
 	rail_connections = {"l":false,"r":false,"u":false,"d":false}
 	if other_rails.has(Vector2i(grid_pos.x + 1, grid_pos.y)):
@@ -174,7 +173,6 @@ func UpdateRailSprite() -> void:
 	if other_rails.has(Vector2i(grid_pos.x, grid_pos.y - 1)):
 		rail_connections["u"] = true
 	if $"../../Terrain".get_tile(grid_pos) in [1,7]:
-		water = 32
 		bridge_rail = true
 	if bridge_rail:
 		if rail_connections["r"] or rail_connections["l"]:
@@ -228,7 +226,7 @@ func GetSize(n) -> Vector2i:
 
 func GetBuildingInfo() -> String:
 	if not Recomputed:
-		return "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf] Recomputing. \n Please wait"
+		return "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf] Recomputing... \n Please wait"
 	
 	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]" + building_name + "\n"
 	for d in extra_data.keys():
@@ -296,6 +294,10 @@ func GetBuildingInfo() -> String:
 				for n in v.keys():
 					if v[n] > 0:
 						out += " - %s x %s\n" % [str(int(v[n])),str(n)]
+			"flights":
+				out += "✈️ Accomodates " + str(v) +  " flights.\n"
+			"control_towers":
+				out += "📡 Has " + str(v) +  " control towers nearby.\n"
 			"power_boost_mult","gets_pop_boost":
 				pass
 			_:
@@ -336,6 +338,10 @@ func GetBuildingInfo() -> String:
 				out += "💎 Refines " + str(v) +  " gemstones.\n"
 			"power":
 				out += "🔋 Generates " + str(v) +  " energy.\n"
+			"tourists":
+				out += "🧳 Receives " + str(v) +  " tourists.\n"
+			"flights":
+				out += "✈️ Accomodates " + str(v) +  " flights.\n"
 			_:
 				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
 	return out

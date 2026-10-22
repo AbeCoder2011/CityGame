@@ -25,7 +25,7 @@ const IconTilemap = preload("res://Assets/icons.png")
 # 0 = Single
 # 1 = Rectangle
 # 2 = Grid
-@export var BuildingTool := 1
+@export var BuildingTool := 0
 
 # Name of building that is now being built
 @export var CurrentBuilding := "None"
@@ -116,7 +116,7 @@ const BuildingData := {
 	},
 	"Large Supermarket":{
 		"atlas_coords": Vector2i(1,2),
-		"size": Vector2i(2,2),
+		"size": Vector2i(2,2),	
 		"cost": 400,
 		"description": "Earns money from a wider population radius (within [b]three[/b] tiles) than a regular supermarket, boosted by nearby (within [b]six[/b] tiles) products from factories."
 	},
@@ -347,21 +347,40 @@ const BuildingData := {
 	"Airport Terminal":{
 		"atlas_coords": Vector2i(17,11),
 		"size": Vector2i(2,1),
-		"cost": 1000000,
+		"cost": 100000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
 	"Air Traffic Control Tower":{
 		"atlas_coords": Vector2i(18,12),
 		"size": Vector2i(1,2),
-		"cost": 1000000,
+		"cost": 100000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
 	"Airport Runway":{
 		"atlas_coords": Vector2i(19,11),
 		"size": Vector2i(1,3),
+		"cost": 100000000,
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
+	},
+	"Metro Station":{
+		"atlas_coords": Vector2i(17,4),
+		"size": Vector2i(1,1),
+		"cost": 1000000000,
+		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
+	},
+	"Large Metro Station":{
+		"atlas_coords": Vector2i(15,3),
+		"size": Vector2i(2,2),
 		"cost": 1000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
+	"Extra Metro Platform":{
+		"atlas_coords": Vector2i(17,5),
+		"size": Vector2i(1,1),
+		"cost": 1000000,
+		"description":"Place next to Metro Stations to increase their passenger capacity. ",
+	},
+	
 }
 
 @export var BuildingUses := {}
@@ -433,9 +452,11 @@ const ORDER = {
  	["Ore Extractor"]:[5,"Jewlery Store"],
  	["Fishing Boat"]:[40,"Fishing Dock"],
  	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
-  	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
-  	["Wind Turbine"]:[5,"Wind Turbine"],
-  	["Sand Mine"]:[4,"Smeltery"]
+ 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
+ 	["Wind Turbine"]:[5,"Wind Turbine"],
+ 	["Sand Mine"]:[4,"Smeltery"],
+	["Air Traffic Control Tower"]:[1,"Airport Runway"],
+	["Airport Runway"]:[1,"Airport Terminal"],
 }  
 
 const ACHIEVEMENTS = {

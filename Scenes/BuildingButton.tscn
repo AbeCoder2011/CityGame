@@ -81,13 +81,10 @@ mouse_filter = 1
 flat = true
 
 [node name="LockedTexture" type="NinePatchRect" parent="." unique_id=290700800]
-visible = false
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 1
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 33.25
-offset_bottom = 29.75
+offset_right = 16.0
+offset_bottom = 16.0
 scale = Vector2(4, 4)
 texture = SubResource("AtlasTexture_00us2")
 patch_margin_left = 14

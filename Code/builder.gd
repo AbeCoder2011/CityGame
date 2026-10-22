@@ -24,12 +24,18 @@ func _unhandled_input(event: InputEvent) -> void:
 					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
 					var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 					var batch = []
+					var i = 0
+					var xi = 0
 					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
 						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
-							if TryPlace(Vector2i(x,y),grid_size):
-								Place(Vector2i(x,y),false)
-								batch.append(Vector2i(x,y))
-							await Global.CheckFrame(50)
+							if xi % grid_size.x == 0 and i % grid_size.y == 0:
+								if TryPlace(Vector2i(x,y),grid_size):
+									Place(Vector2i(x,y),false)
+									batch.append(Vector2i(x,y))
+								await Global.CheckFrame(50)
+							i += 1
+						i = 0
+						xi += 1
 					$"../Buildings".UpdateBuildingBatch(Global.CurrentBuilding,batch)
 
 	SetBuildingPreview()

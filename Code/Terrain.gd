@@ -10,7 +10,7 @@ const NOISE_SCALE = 3
 
 var rivers_starting_points : Array[Vector2i]= []
 
-@export var seed = 0
+@export var world_seed = 0
 
 func get_tile(coords:Vector2i) -> int:
 	var res = -1
@@ -44,7 +44,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		while not valid:
 			s = randi()
 			valid = ValidateSeed(s)
-		seed = s
+		world_seed = s
 		Generate()
 
 func SetUpNoiseMaps(s:int):
@@ -66,7 +66,7 @@ func SetUpNoiseMaps(s:int):
 func Generate() -> void:
 	$"../UI".SetLoadProgress("Generating Terrain...",0)
 	await get_tree().process_frame
-	SetUpNoiseMaps(seed)
+	SetUpNoiseMaps(world_seed)
 	var i = 0.0
 	var total = (Global.GameSettings.get("map_size",20) * 12 + 6) ** 2
 	
@@ -172,7 +172,6 @@ func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
 		return {}
 	var dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 	
-	var best_height := 1.0
 	var best_dirs := []
 	
 	for x in range(4):
@@ -185,7 +184,6 @@ func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
 		# GetTileHeight(new_pos.x + dir.y, new_pos.y + dir.x) > height-0.1 && GetTileHeight(new_pos.x-dir.y, new_pos.y-dir.x) > height-0.1
 		if (height - 0.1) <= h && GetTileRainfall(new_pos.x, new_pos.y) >= 0.15:
 			best_dirs.append(dir)
-			best_height = height
 			break
 	dirs = [Vector2i.LEFT,Vector2i.RIGHT,Vector2i.UP,Vector2i.DOWN]
 	if best_dirs.is_empty():
@@ -199,7 +197,6 @@ func GetRiverPath(pos:Vector2i,startpos:Vector2i,i=0) -> Dictionary:
 			# GetTileHeight(new_pos.x + dir.y, new_pos.y + dir.x) > height-0.1 && GetTileHeight(new_pos.x-dir.y, new_pos.y-dir.x) > height-0.1
 			if (height - 0.17) <= h && GetTileRainfall(new_pos.x, new_pos.y) >= 0.15:
 				best_dirs.append(dir)
-				best_height = height
 				break
 	
 	if not best_dirs.is_empty():

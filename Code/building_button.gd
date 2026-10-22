@@ -15,8 +15,7 @@ func _ready() -> void:
 	var texture_size = (building_size * 17 * 4) + (building_size - Vector2(1,1)) * Vector2(4,4)
 	custom_minimum_size.x = 68
 	$Texture.size = texture_size
-	$LockedTexture.size = texture_size
-	$LockedTexture.size = building_size * 16
+	$LockedTexture.size = texture_size / 4
 	name = Building_Name
 	pressed.connect(SelectBuilding)
 	$Info/Name.text = Building_Name

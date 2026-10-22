@@ -1269,7 +1269,7 @@ mouse_filter = 2
 
 [node name="BasicHouse4" parent="UI/Building/Categories/Transport" unique_id=1620995757 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Air Traffic Control Tower"
+Building_Name = "Airport Runway"
 
 [node name="Gap3" type="Control" parent="UI/Building/Categories/Transport" unique_id=851578345]
 custom_minimum_size = Vector2(68, 68)
@@ -1283,7 +1283,34 @@ mouse_filter = 2
 
 [node name="BasicHouse5" parent="UI/Building/Categories/Transport" unique_id=1702545463 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Airport Runway"
+Building_Name = "Metro Station"
+
+[node name="BasicHouse6" parent="UI/Building/Categories/Transport" unique_id=221640052 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Air Traffic Control Tower"
+
+[node name="Gap5" type="Control" parent="UI/Building/Categories/Transport" unique_id=697796602]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Gap6" type="Control" parent="UI/Building/Categories/Transport" unique_id=1247339320]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse8" parent="UI/Building/Categories/Transport" unique_id=1536512417 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Metro Station"
+
+[node name="Gap7" type="Control" parent="UI/Building/Categories/Transport" unique_id=864344489]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse7" parent="UI/Building/Categories/Transport" unique_id=1049498549 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Extra Metro Platform"
 
 [node name="Entertainment" type="GridContainer" parent="UI/Building/Categories" unique_id=50405458]
 visible = false
