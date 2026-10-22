@@ -787,6 +787,9 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 				b["node"].extra_data = {"deep_water":my_fish}
 				
 			return [{"exoticfish":fish}]
+		"Airport Terminal":
+			var tourism = 0
+			return [{"tourists": tourism}]
 		_:
 			return [{}]
 	
