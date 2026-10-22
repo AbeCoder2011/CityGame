@@ -865,8 +865,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Housing" unique_id=238029415 instance=ExtResource("5_qwshj")]
@@ -878,16 +878,17 @@ layout_mode = 2
 Building_Name = "Double House"
 
 [node name="BasicHouse3" parent="UI/Building/Categories/Housing" unique_id=1440137315 instance=ExtResource("5_qwshj")]
+custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 Building_Name = "Small Apartment Complex"
 
 [node name="BasicHouse4" parent="UI/Building/Categories/Housing" unique_id=266793742 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Large Apartment Complex"
+Building_Name = "Small Motel"
 
 [node name="BasicHouse5" parent="UI/Building/Categories/Housing" unique_id=1297636409 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Mega Apartment Complex"
+Building_Name = "Small Roadside Hotel"
 
 [node name="Gap2" type="Control" parent="UI/Building/Categories/Housing" unique_id=454886567]
 custom_minimum_size = Vector2(68, 68)
@@ -896,7 +897,7 @@ mouse_filter = 2
 
 [node name="BasicHouse7" parent="UI/Building/Categories/Housing" unique_id=827284374 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Giant Apartment Complex"
+Building_Name = "Mega Apartment Complex"
 
 [node name="Gap" type="Control" parent="UI/Building/Categories/Housing" unique_id=1062639605]
 custom_minimum_size = Vector2(68, 68)
@@ -905,9 +906,22 @@ mouse_filter = 2
 
 [node name="BasicHouse6" parent="UI/Building/Categories/Housing" unique_id=1985056110 instance=ExtResource("5_qwshj")]
 layout_mode = 2
-Building_Name = "Small Motel"
+Building_Name = "Giant Apartment Complex"
 
 [node name="Gap3" type="Control" parent="UI/Building/Categories/Housing" unique_id=14341495]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BasicHouse13" parent="UI/Building/Categories/Housing" unique_id=908100395 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Large Apartment Complex"
+
+[node name="BasicHouse14" parent="UI/Building/Categories/Housing" unique_id=1243816028 instance=ExtResource("5_qwshj")]
+layout_mode = 2
+Building_Name = "Medium Hotel"
+
+[node name="Gap19" type="Control" parent="UI/Building/Categories/Housing" unique_id=1397196404]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
@@ -932,22 +946,19 @@ custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BasicHouse8" parent="UI/Building/Categories/Housing" unique_id=1770986171 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Small Roadside Hotel"
-
-[node name="Gap8" type="Control" parent="UI/Building/Categories/Housing" unique_id=7764593]
+[node name="Gap9" type="Control" parent="UI/Building/Categories/Housing" unique_id=731481834]
 custom_minimum_size = Vector2(68, 68)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="BasicHouse9" parent="UI/Building/Categories/Housing" unique_id=1045401900 instance=ExtResource("5_qwshj")]
-layout_mode = 2
-Building_Name = "Medium Hotel"
-
 [node name="BasicHouse10" parent="UI/Building/Categories/Housing" unique_id=432602409 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Large Hotel"
+
+[node name="Gap18" type="Control" parent="UI/Building/Categories/Housing" unique_id=1324958156]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="BasicHouse11" parent="UI/Building/Categories/Housing" unique_id=1589837338 instance=ExtResource("5_qwshj")]
 layout_mode = 2
@@ -956,6 +967,11 @@ Building_Name = "Luxury Hotel"
 [node name="BasicHouse12" parent="UI/Building/Categories/Housing" unique_id=2090267847 instance=ExtResource("5_qwshj")]
 layout_mode = 2
 Building_Name = "Large Luxury Hotel"
+
+[node name="Gap11" type="Control" parent="UI/Building/Categories/Housing" unique_id=142917909]
+custom_minimum_size = Vector2(68, 68)
+layout_mode = 2
+mouse_filter = 2
 
 [node name="Stores" type="GridContainer" parent="UI/Building/Categories" unique_id=102779158]
 visible = false
@@ -969,8 +985,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Stores" unique_id=1467578036 instance=ExtResource("5_qwshj")]
@@ -1094,8 +1110,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Energy Industry" unique_id=284529578 instance=ExtResource("5_qwshj")]
@@ -1148,8 +1164,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Parks" unique_id=862150995 instance=ExtResource("5_qwshj")]
@@ -1180,8 +1196,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Production Industry" unique_id=1070245714 instance=ExtResource("5_qwshj")]
@@ -1225,8 +1241,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Transport" unique_id=955909677 instance=ExtResource("5_qwshj")]
@@ -1281,8 +1297,8 @@ offset_right = -10.0
 offset_bottom = -10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
 columns = 6
 
 [node name="BasicHouse" parent="UI/Building/Categories/Entertainment" unique_id=1944705623 instance=ExtResource("5_qwshj")]
@@ -1914,6 +1930,7 @@ text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
 [img]res://Assets/coin.png[/img] 20/s"
 
 [node name="HackedLabel" type="Label" parent="UI" unique_id=544307933]
+visible = false
 custom_minimum_size = Vector2(180, 40)
 layout_mode = 1
 anchors_preset = 3

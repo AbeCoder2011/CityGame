@@ -25,6 +25,8 @@ var money_total = 0
 var population_total = 0
 var station_networks : Array[Array] = []
 
+var node_maps = {}
+
 const SHOP_NAMES = [
 	"Small Supermarket", "Large Supermarket", "Electronics Store","Cafe", "Bakery", "Restaurant", "Mall","Lumber Mill","Seafood Market"
 ]
@@ -53,13 +55,43 @@ func AddToRemovalList(b:Dictionary):
 	$"..".CheckAchievementProgress(b_amounts,true)
 	$"../UI".UpdateCityStats()
 
-func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
+func SpawnBuildingBatch(nam:String,locations:Array):
+	node_maps = {}
+	for n in locations:
+		node_maps[n] = SpawnBuilding(nam,n)
+		await Global.CheckFrame()
+
+func RegisterBuildingBatch(nam:String,locations:Array) -> Array:
+	var batch = []
+	for n in locations:
+		batch.append(RegisterBuilding(nam,n,node_maps[n]))
+		await Global.CheckFrame()
+	return batch
+
+func UpdateBuildingBatch(nam:String,locations:Array):
+	await SpawnBuildingBatch(nam,locations)
+	var buildings = await RegisterBuildingBatch(nam,locations)
+	var updates = {}
+	for n in buildings:
+		for b in GetRecomputePath(n):
+			if updates.has(b):
+				updates.erase(b)
+			updates[b] = true
+	for u in updates.keys():
+		RecomputeBuilding(u)
+		await Global.CheckFrame()
+
+
+func SpawnBuilding(nam:String,location:Vector2i) -> Node2D:
 	var b : Node2D = BuildingScene.instantiate()
 	b.position = location * 48
 	add_child(b)
 	b.init_building(nam,location)
 	deselect.connect(b.Deselect)
-	var this_b := {"name":nam,"pos":location,"node":b,"claims":{}}
+	return b
+
+func RegisterBuilding(nam:String,location:Vector2i,node:Node2D):
+	var this_b := {"name":nam,"pos":location,"node":node,"claims":{}}
 	_add_building_to_collection(this_b)
 	if nam in HOUSING_NAMES:
 		AllHousingBuildings.append(this_b)
@@ -72,19 +104,32 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 			AllFishingBoats.append(this_b)
 		"Fishing Dock":
 			AllFishingDocks.append(this_b)
+	return this_b
+
+func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
+	var node = SpawnBuilding(nam,location)
+	var this_b = RegisterBuilding(nam,location,node)
+	
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
+	housing_edited = false
+	for n in GetRecomputePath(this_b):
+		RecomputeBuilding(n)
+	if housing_edited:
+		CalculateHapiness()
+		RecomputePopulation()
+	
 	if nam == "Rail" or nam == "Train Station":
 		CalculateStationConnections()
 		RecomputeStations()
 	if nam == "Rail":
 		Rails[location] = this_b
 	#if housing has been edited: recalculate stats etc
-	housing_edited = false
-	for n in GetRecomputePath(this_b):
-		#if n["name"] in HOUSING_NAMES:
-			#continue
+	var b_amounts = GetBuildingAmounts()
+	$"..".CheckAchievementProgress(b_amounts,true)
+
+func RecomputeBuilding(n):
 		match n["name"]:
 			"Train Station":
 				RecomputeStations()
@@ -92,11 +137,6 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 				RecomputePower()
 			_:
 				Recompute(n)
-	if housing_edited:
-		CalculateHapiness()
-		RecomputePopulation()
-	var b_amounts = GetBuildingAmounts()
-	$"..".CheckAchievementProgress(b_amounts,true)
 
 func DeselectOthers():
 	deselect.emit()
@@ -430,6 +470,7 @@ func Tick():
 
 func Recompute(b:Dictionary):
 	SetValues(b)
+	b["node"].Recomputed = true
 	if b["name"] in HOUSING_NAMES:
 		housing_edited = true
 

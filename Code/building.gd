@@ -3,6 +3,8 @@ extends Node2D
 var inputs : Dictionary[String,float] = {}
 var extra_data : Dictionary = {}
 
+var Recomputed = false
+
 var power := 0
 var use_power := false
 var building_name = ""
@@ -225,6 +227,9 @@ func GetSize(n) -> Vector2i:
 	return Global.BuildingData[n].get("size",Vector2i(1,1))
 
 func GetBuildingInfo() -> String:
+	if not Recomputed:
+		return "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf] Recomputing. \n Please wait"
+	
 	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]" + building_name + "\n"
 	for d in extra_data.keys():
 		var v = extra_data[d]
@@ -335,3 +340,11 @@ func GetBuildingInfo() -> String:
 				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
 	return out
 	
+
+
+func _on_visible_screen_entered() -> void:
+	show()
+
+
+func _on_visible_screen_exited() -> void:
+	hide()

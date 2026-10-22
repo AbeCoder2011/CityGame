@@ -157,29 +157,29 @@ func CheckAchievementProgress(b_amounts : Dictionary,something_happened=false) -
 func GetRequirementProgress(d : Dictionary) -> Variant:
 	match d["type"]:
 		"income":
-			return GetValueReached(Global.Income * 2,d["amount"],d.get("exact",false))
+			return GetValueReached(Global.Income * 2,d["amount"],d.get("exact",false),d.get("less",false))
 		"happiness":
-			return GetValueReached(Global.Happiness,d["amount"],d.get("exact",false))
+			return GetValueReached(Global.Happiness,d["amount"],d.get("exact",false),d.get("less",false))
 		"money":
-			return GetValueReached(Global.Money,d["amount"],d.get("exact",false))
+			return GetValueReached(Global.Money,d["amount"],d.get("exact",false),d.get("less",false))
 		"population":
-			return GetValueReached(Global.Population,d["amount"],d.get("exact",false))
+			return GetValueReached(Global.Population,d["amount"],d.get("exact",false),d.get("less",false))
 		"building":
 			if d.has("name"):
-				return GetValueReached(BuildingAmounts.get(d["name"],0),d["amount"],d.get("exact",false))
-			return GetValueReached(BuildingAmounts.get("total",0),d["amount"],d.get("exact",false))
+				return GetValueReached(BuildingAmounts.get(d["name"],0),d["amount"],d.get("exact",false),d.get("less",false))
+			return GetValueReached(BuildingAmounts.get("total",0),d["amount"],d.get("exact",false),d.get("less",false))
 		"peak_buildings":
-			return GetValueReached($Buildings.PeakBuildings,d["amount"],d.get("exact",false))
+			return GetValueReached($Buildings.PeakBuildings,d["amount"],d.get("exact",false),d.get("less",false))
 		_:
 			printerr(d["type"]," is not configured in the achievement checker!")
 	return false
 
 # Takes a value and target, returns the percentage of completion, or true if completed, or false if the value is still 0
-func GetValueReached(v:float,target:float,exact=false) -> Variant:
+func GetValueReached(v:float,target:float,exact=false,less=false) -> Variant:
 	if exact:
 		return floor(v) == target
 	else:
-		if v >= target:
+		if (v >= target) or (less and v <= target):
 			return true
 		else:
 			return int(floor(v / target * 100))

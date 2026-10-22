@@ -334,10 +334,9 @@ offset_bottom = 96.0
 action_mode = 0
 flat = true
 
-[node name="Visible" type="VisibleOnScreenNotifier2D" parent="." unique_id=1594430632]
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1177687952]
 position = Vector2(10, 10)
-rect = Rect2(-11, -11, 50, 50)
-show_rect = false
+rect = Rect2(-10, -10, 48, 48)
 
 [node name="Lines" type="Node2D" parent="." unique_id=1733922494]
 visible = false

@@ -11,16 +11,11 @@ var unlocked = false
 func _ready() -> void:
 	$Texture.texture = AtlasTexture.new()
 	$Texture.texture.atlas = Atlas
-		#$Locked.show()
-		#$Locked.size = Vector2(21.333,21.333) * building_size
-		#if not building_size == Vector2(1,1):
-			#$Locked.scale = Vector2(3.09375,3.09375)
 	$Texture.texture.region = Rect2(Global.BuildingData[Building_Name]["atlas_coords"] * 16,building_size * 16)
-	var but_size = (building_size * 16 * 4) + (building_size * 2) - Vector2(4,4)
-	size = but_size - Vector2(4,4)
-	$Texture/HoverDetection.size = Vector2(building_size * 16)  + Vector2(.5,.5)
-	$Texture.size = but_size
-	$LockedTexture.size = but_size
+	var texture_size = (building_size * 17 * 4) + (building_size - Vector2(1,1)) * Vector2(4,4)
+	custom_minimum_size.x = 68
+	$Texture.size = texture_size
+	$LockedTexture.size = texture_size
 	$LockedTexture.size = building_size * 16
 	name = Building_Name
 	pressed.connect(SelectBuilding)

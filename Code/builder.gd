@@ -10,7 +10,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				if event.is_released():
 					var grid_pos = Vector2i(floor(get_local_mouse_position() / 48))
 					var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
-					TryPlace(grid_pos,grid_size)
+					if TryPlace(grid_pos,grid_size):
+						Place(grid_pos)
 			1:
 				if event.is_pressed():
 					dragging = true
@@ -22,10 +23,14 @@ func _unhandled_input(event: InputEvent) -> void:
 					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
 					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
 					var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
+					var batch = []
 					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
 						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
-							TryPlace(Vector2i(x,y),grid_size)
+							if TryPlace(Vector2i(x,y),grid_size):
+								Place(Vector2i(x,y),false)
+								batch.append(Vector2i(x,y))
 							await Global.CheckFrame(50)
+					$"../Buildings".UpdateBuildingBatch(Global.CurrentBuilding,batch)
 
 	SetBuildingPreview()
 
@@ -70,18 +75,23 @@ func SetBuildingPreview():
 	else:
 		$BuildingPreview.hide()
 
+func Place(grid_pos:Vector2i,trigger_place=true):
+	Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
+	$"..".UpdateCityStats()
+	Global.BuildingUses.set(Global.CurrentBuilding,Global.BuildingUses.get_or_add(Global.CurrentBuilding,0) + 1	)
+	if trigger_place:
+		$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
+		$"../Camera".traumatize(0.15)
+
 func TryPlace(grid_pos:Vector2i ,grid_size:Vector2i):
 	if Global.CurrentBuilding == "None" or IsColliding(grid_pos, grid_size, Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false), Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false),Global.BuildingData.get(Global.CurrentBuilding).get("forcedeepwater",false),Global.BuildingData.get(Global.CurrentBuilding).get("nexttoland",false)):
-		return
+		return false
 
 	if Global.Money >= Global.GetBuildingCost(Global.CurrentBuilding) and $"..".UnlockedBuildings.get(Global.CurrentBuilding,false):
-		$"../Camera".traumatize(0.15)
-		Global.Money -= Global.GetBuildingCost(Global.CurrentBuilding)
-		$"..".UpdateCityStats()
-		$"../Buildings".NewBuilding(Global.CurrentBuilding, grid_pos)
-		Global.BuildingUses.set(Global.CurrentBuilding,Global.BuildingUses.get_or_add(Global.CurrentBuilding,0) + 1	)
+		return true
 	else:
 		$"../UI".insufficient_funds()
+	return false
 
 func GetBuildingSize(building_name: String) -> Vector2i:
 	return Global.BuildingData[building_name].get("size", Vector2i(1, 1))
