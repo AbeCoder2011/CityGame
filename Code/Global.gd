@@ -457,6 +457,8 @@ const ORDER = {
  	["Sand Mine"]:[4,"Smeltery"],
 	["Air Traffic Control Tower"]:[1,"Airport Runway"],
 	["Airport Runway"]:[1,"Airport Terminal"],
+	["Airport Terminal"]:[2,"Metro Station","Large Metro Station"],
+	["Metro Station","Large Metro Station"]:[9,"other_metros"],
 }  
 
 const ACHIEVEMENTS = {

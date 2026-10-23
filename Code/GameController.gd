@@ -299,7 +299,7 @@ func LoadGame():
 	Global.Difficulty = save["diff"]
 	Global.GameSettings = save.get("settings",{})
 	print("Save Settings: ",save.get("settings",{}))
-	$"Terrain".seed = save.get("seed", randi())
+	$"Terrain".world_seed = save.get("seed", randi())
 	UnlockedBuildings = save.get("ub",{})
 	$"UI".CheckBuildingUnlocks()
 	if Global.GameSettings.get("hacked",false):
@@ -311,7 +311,6 @@ func LoadGame():
 	$Areas.OpenAreas = save["open_areas"]
 	$Buildings.PeakBuildings = save["peak"]
 	SaveBuildings = save["buildings"]
-	print("Loaded save!")
 	finished.emit()
 	
 func SpawnBuildings():

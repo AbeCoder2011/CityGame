@@ -298,6 +298,10 @@ func GetBuildingInfo() -> String:
 				out += "✈️ Accomodates " + str(v) +  " flights.\n"
 			"control_towers":
 				out += "📡 Has " + str(v) +  " control towers nearby.\n"
+			"my_passengers":
+				out += "📡 Takes in " + str(v) +  " passengers.\n"
+			"total_passengers":
+				out += "📡 " + str(v) +  " passengers in total.\n"
 			"power_boost_mult","gets_pop_boost":
 				pass
 			_:

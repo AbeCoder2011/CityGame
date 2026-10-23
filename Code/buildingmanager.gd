@@ -10,8 +10,13 @@ var AllTrainStations = []
 var AllPowerRelatedBuildings = []
 var AllFishingBoats = []
 var AllFishingDocks = []
+var AllMetroStations = []
+var AllAirportTerminals = []
+
 var Rails : Dictionary[Vector2i, Dictionary] = {}
 var DestroyedBuildings = []
+
+var AirportUsages := {}
 
 var PeakBuildings = 0
 
@@ -20,6 +25,7 @@ var ClaimCollections : Dictionary[String,Dictionary]= {}
 var housing_edited = false
 var network_inventories  : Array[Array] = []
 var global_power = 0
+var global_metro_passengers = {}
 var already_checked_buildings = []
 var money_total = 0
 var population_total = 0
@@ -104,6 +110,10 @@ func RegisterBuilding(nam:String,location:Vector2i,node:Node2D):
 			AllFishingBoats.append(this_b)
 		"Fishing Dock":
 			AllFishingDocks.append(this_b)
+		"Airport Terminal":
+			AllAirportTerminals.append(this_b)
+		"Metro Station","Large Metro Station":
+			AllMetroStations.append(this_b)
 	return this_b
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
@@ -115,6 +125,7 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		$"../UI".CheckBuildingUnlocks()
 	housing_edited = false
 	for n in GetRecomputePath(this_b):
+		print(n)
 		RecomputeBuilding(n)
 	if housing_edited:
 		CalculateHapiness()
@@ -333,6 +344,37 @@ func IndustryPenalty(pos:Vector2i,size:Vector2i) -> float:
 	var exponent = thermal + nuclear + (large_thermal * 2) + sm_factory + (large_factory * 4)
 	return 0.7 ** exponent
 
+func SumMetroTotal():
+	var total = 0
+	for n in global_metro_passengers.keys():
+		if is_same(n,"total"):
+			continue
+		else:
+			total += global_metro_passengers[n]
+	global_metro_passengers["total"] = total
+	
+
+func GetMetroValue(terminal_values:Dictionary,capacity:int,self_pos:Vector2i) -> int:
+	var own := 0
+	var total := 0
+	var terminal_capacity := 0
+	for n in terminal_values.keys():
+		if n == "total":
+			terminal_capacity = terminal_values[n]
+		elif n == self_pos:
+			own = terminal_values[n]
+		else:
+			total += terminal_values[n]
+	
+	if total >= terminal_capacity:
+		# Oh Oh the total is way over
+		return 0
+	elif total + capacity > terminal_capacity:
+		return terminal_capacity - total
+	else:
+		return capacity
+	
+	
 func CalculateStationConnections():
 	var stations = []
 	var networks : Array[Array] = []
@@ -434,6 +476,10 @@ func Tick():
 					AllFishingBoats.erase(n)
 				"Fishing Dock":
 					AllFishingDocks.erase(n)
+				"Metro Station","Large Metro Station":
+					AllMetroStations.erase(n)
+				"Airport Terminal":
+					AllAirportTerminals.erase(n)
 			if is_instance_valid(n):
 				n.queue_free()
 			housing_edited = false
@@ -489,9 +535,10 @@ func RecomputeStations():
 		for st in nw:
 			st["node"].extra_data = {"inventory":inv}
 
-func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false) -> Array:
+func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false,dont_recompute_metros=false) -> Array:
 	var affected = [] 
 	var ranges = {}# KEY: BUILDINGS, VALUE: RANGE
+	print("UPDATING ",this_b)
 	for n in Global.ORDER.keys():
 		if this_b["name"] in n:
 			var values = Global.ORDER[n].duplicate()
@@ -500,8 +547,20 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 			ranges[values] = rangee
 	if affected.is_empty():
 		return [] if not_self else [this_b]
-	
 	var next_updates := [] if not_self else [this_b]
+	
+	if affected == ["other_metros"]:
+		
+		if dont_recompute_metros:
+			return []
+		print("other metros")
+		for b in AllMetroStations:
+			for n in GetRecomputePath(b,false,true,true):
+				print(next_updates)
+				if next_updates.has(n):
+					next_updates.erase(n)
+				next_updates.append(n)
+		return next_updates
 	
 	if this_b["name"] == "Fishing Boat":
 		for n in AllFishingBoats:
@@ -570,9 +629,7 @@ func RecomputePower():
 
 func RecomputePopulation():
 	population_total = 0
-	print("recompute pop")
 	for b in AllHousingBuildings:
-		print("recompute pop for ",b["name"])
 		population_total += b["node"].inputs.get("population",0)
 	Global.Population = population_total
 	
@@ -600,57 +657,29 @@ func SetValues(b:Dictionary):
 	b["node"].Claims = b["claims"]
 	b["node"].UpdateData()
 
+# Building Variant Values
+const bvvs = {
+	"Basic House": 2,
+	"Double House": 4,
+	"Small Apartment Complex": 8,
+	"Large Apartment Complex": 24,
+	"Mega Apartment Complex": 64,
+	"Giant Apartment Complex": 256,
+	"Metro Station":30,
+	"Large Metro Station":150,
+}
+
 func CalculateBuildingOutput(nam,pos,node) -> Array:
 	var size = GetSize(nam)
 	match nam:
-		"Basic House":
+		"Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Giant Apartment Complex":
 			var power = SumProperty(pos, size,["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 2 * (1 + 0.01 * nature) else 1
-			var pop = 2 * penalty * population_boost * (1 + 0.01 * nature)
+			var population_boost = bvvs[nam] if power > bvvs[nam] * (1 + 0.01 * nature) else 1
+			var pop = bvvs[nam] * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":2,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
-		"Double House":
-			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 4 * (1 + 0.01 * nature) else 1
-			var pop = 4 * penalty * population_boost * (1 + 0.01 * nature)
-			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":4,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
-		"Small Apartment Complex":
-			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 8 * (1 + 0.01 * nature) else 1
-			var pop = 8 * penalty * population_boost * (1 + 0.01 * nature)
-			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":8,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
-		"Large Apartment Complex":
-			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 24 * (1 + 0.01 * nature) else 1
-			var pop = 24 * penalty * population_boost * (1 + 0.01 * nature)
-			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":24,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
-		"Mega Apartment Complex":
-			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 64 * (1 + 0.01 * nature) else 1
-			var pop = 64 * penalty * population_boost * (1 + 0.01 * nature)
-			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":64,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
-		"Giant Apartment Complex":
-			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
-			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
-			var penalty = IndustryPenalty(pos,size)
-			var population_boost = 2 if power > 256 * (1 + 0.01 * nature) else 1
-			var pop = 256 * penalty * population_boost * (1 + 0.01 * nature)
-			var happiness = GetHappinessValue(pos,nam,node) * pop
-			return [{"population": pop},{"base_pop":256,"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
+			return [{"population": pop},{"base_pop":bvvs[nam],"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
 		"Low-Budget Apartment":
 			var power = SumProperty(pos, size, ["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
@@ -790,6 +819,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Airport Terminal":
 			var flights = SumProperty(pos, size, ["Airport Runway"], 1,"flights",[],true,true)
 			var tourism = flights * 150
+			AirportUsages.get_or_add(pos,{"total":0})["total"] = tourism
 			return [{"tourists": tourism},{"flights":flights}]
 		"Airport Runway":
 			var contr_towers = CountNearby(pos,size,["Air Traffic Control Tower"],1,)
@@ -797,6 +827,15 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			return [{"flights":flights},{"control_towers":contr_towers}]
 		"Air Traffic Control Tower":
 			return [{}]
+		"Metro Station","Large Metro Station":
+			var val = 0
+			for n in AllAirportTerminals:
+				if InRange(pos,n["pos"],size,GetSize(n["name"]),2):
+					val = GetMetroValue(AirportUsages[n["pos"]],bvvs[nam],pos)
+					break
+			global_metro_passengers[pos] = val
+			print("metro w/ val of %d" % val)
+			SumMetroTotal()
+			return [{},{"total_passengers":global_metro_passengers["total"],"my_passengers":val}]
 		_:
 			return [{}]
-	
