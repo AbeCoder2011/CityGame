@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bbmiejf3gdaei" path="res://Code/UI.gd" id="1_dewlx"]
 [ext_resource type="Texture2D" uid="uid://dlf0etyhjvnf0" path="res://Assets/Tilesheets/UI/Large tiles/Thin outline/tilemap.png" id="1_nxvpl"]
+[ext_resource type="Texture2D" uid="uid://ds4xjqxj8t6sj" path="res://Assets/Tilesheets/UI/uitiles.png" id="2_wi7yl"]
 [ext_resource type="Texture2D" uid="uid://chbvr14ee60q1" path="res://Assets/Tilesheets/BuildingTiles/tiles.png" id="4_hfhsn"]
 [ext_resource type="PackedScene" uid="uid://maxm0l4vdeil" path="res://Scenes/BuildingButton.tscn" id="5_qwshj"]
 [ext_resource type="Theme" uid="uid://dcusnyd1ctfkm" path="res://CityInfoTheme.tres" id="6_48q88"]
@@ -14,9 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
-atlas = ExtResource("1_nxvpl")
-region = Rect2(33, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_icijx"]
+atlas = ExtResource("2_wi7yl")
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dewlx"]
 atlas = ExtResource("11_vqx31")
@@ -29,6 +30,10 @@ region = Rect2(16, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
 atlas = ExtResource("11_vqx31")
 region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
+atlas = ExtResource("1_nxvpl")
+region = Rect2(33, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mqm5i"]
 atlas = ExtResource("11_vqx31")
@@ -525,40 +530,49 @@ grow_vertical = 2
 
 [node name="Background" type="NinePatchRect" parent="UI/Tools/Main" unique_id=1713079574]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.80300003
+anchor_bottom = 0.91400003
+offset_right = -384.28186
+offset_bottom = -47.980003
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_nxvpl")
-region_rect = Rect2(66, 0, 32, 32)
-patch_margin_left = 4
-patch_margin_top = 4
-patch_margin_right = 4
-patch_margin_bottom = 4
+scale = Vector2(4, 4)
+texture = ExtResource("2_wi7yl")
+region_rect = Rect2(0, 0, 16, 16)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="Selection" type="TextureRect" parent="UI/Tools/Main" unique_id=475266104]
-custom_minimum_size = Vector2(70, 70)
+custom_minimum_size = Vector2(16, 16)
+custom_maximum_size = Vector2(16, 16)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_top = -35.0
-offset_right = 70.0
-offset_bottom = 35.0
+offset_right = 16.0
+offset_bottom = -19.0
 grow_vertical = 2
-texture = SubResource("AtlasTexture_aehul")
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_icijx")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Tools/Main" unique_id=1331652337]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_right = 0.80300003
+anchor_bottom = 0.91400003
+offset_right = -384.28186
+offset_bottom = -47.980003
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(4, 4)
+theme_override_constants/separation = 0
 
 [node name="Select" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=740946215]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
@@ -567,12 +581,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_dewlx")
 
 [node name="Draw" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=1403676064]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
@@ -586,7 +601,7 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_hfhsn")
 
 [node name="Destroy" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=835524992]
-custom_minimum_size = Vector2(60, 0)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
@@ -694,7 +709,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 37.0
 offset_top = -587.0
-offset_right = 589.00146
+offset_right = 589.0029
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -707,48 +722,55 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -424.00293
+offset_bottom = -433.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_nxvpl")
-region_rect = Rect2(99, 0, 32, 32)
+scale = Vector2(4, 4)
+texture = ExtResource("2_wi7yl")
+region_rect = Rect2(0, 0, 16, 16)
 patch_margin_left = 3
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 3
 
 [node name="CategorySelection" type="NinePatchRect" parent="UI/Building" unique_id=799313616]
-custom_minimum_size = Vector2(70, 0)
+custom_minimum_size = Vector2(16, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 10.0
-offset_right = -10.0
-offset_bottom = -10.0
+offset_left = -104.00293
+offset_top = -4.0
+offset_right = -86.00293
+offset_bottom = -435.0
 grow_horizontal = 0
 grow_vertical = 2
-texture = ExtResource("1_nxvpl")
-region_rect = Rect2(33, 0, 32, 32)
-patch_margin_left = 3
-patch_margin_top = 3
-patch_margin_right = 3
-patch_margin_bottom = 3
+scale = Vector2(4, 4)
+texture = ExtResource("2_wi7yl")
+region_rect = Rect2(0, 16, 16, 16)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="CategoryList" type="VBoxContainer" parent="UI/Building/CategorySelection" unique_id=736663107]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 6.0
-offset_top = 6.0
-offset_right = -6.0
-offset_bottom = -6.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = -1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 2
 
 [node name="Housing" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=644776186]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
+propagate_maximum_size = true
 layout_mode = 2
 flat = true
 
@@ -762,11 +784,12 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_tgu54")
 
 [node name="Stores" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=918964084]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Stores" unique_id=1290702940]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -776,11 +799,12 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_qwshj")
 
 [node name="Energy Industry" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=405618852]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Energy Industry" unique_id=1347613600]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -790,11 +814,12 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_48q88")
 
 [node name="Parks" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1361408331]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Parks" unique_id=1481926544]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -804,11 +829,12 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_xjg7p")
 
 [node name="Production Industry" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=398566208]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Production Industry" unique_id=1566917360]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -818,11 +844,12 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_wunin")
 
 [node name="Transport" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=1494350006]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Transport" unique_id=1231663145]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -832,18 +859,34 @@ grow_vertical = 2
 texture = SubResource("AtlasTexture_n04ve")
 
 [node name="Entertainment" type="Button" parent="UI/Building/CategorySelection/CategoryList" unique_id=13019402]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 flat = true
 
 [node name="TextureRect" type="TextureRect" parent="UI/Building/CategorySelection/CategoryList/Entertainment" unique_id=1534985951]
+modulate = Color(0.7, 0.7, 0.7, 1)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 16.0
+offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.5, 0.5)
 texture = SubResource("AtlasTexture_5q4fb")
+
+[node name="Selector" type="NinePatchRect" parent="UI/Building/CategorySelection" unique_id=1569590756]
+visible = false
+layout_mode = 0
+offset_right = 18.0
+offset_bottom = 18.0
+texture = ExtResource("2_wi7yl")
+region_rect = Rect2(32, 0, 16, 16)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
 
 [node name="Categories" type="Control" parent="UI/Building" unique_id=1101925859]
 layout_mode = 1

@@ -6,6 +6,7 @@ var now_hover = ""
 
 var Progresses = {}
 
+var toolbar_selection_target = 0
 
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
@@ -13,6 +14,14 @@ func _ready() -> void:
 	if FileAccess.file_exists("user://settings.cfg"):
 		$UI/Pause.LoadSettings()
 
+func _process(delta: float) -> void:
+	if $UI/Tools/Main/Selection.offset_left < toolbar_selection_target:
+		$UI/Tools/Main/Selection.offset_left += 512 * delta
+	if $UI/Tools/Main/Selection.offset_left > toolbar_selection_target:
+		$UI/Tools/Main/Selection.offset_left -= 512 * delta
+	print(toolbar_selection_target, " ", $UI/Tools/Main/Selection.offset_left)
+	if abs($UI/Tools/Main/Selection.offset_left - toolbar_selection_target) <= 512 * delta:
+		$UI/Tools/Main/Selection.offset_left = toolbar_selection_target
 
 func UpdateAchievements():
 	var i = 0
@@ -54,7 +63,11 @@ func StopHover():
 func SelectCategory(cat_name:String) -> void:
 	for n in $UI/Building/Categories.get_children():
 		n.hide()
+	for n in $UI/Building/CategorySelection/CategoryList.get_children():
+		n.get_child(0).modulate = Color.from_hsv(0,0.0,0.7)
 	$UI/Building/Categories.get_node(cat_name).show()
+	$UI/Building/CategorySelection/CategoryList.get_node(cat_name).get_child(0).modulate = Color(1.0,1.0,1.0,1.0)
+	$UI/Building/CategorySelection/Selector.position = $UI/Building/CategorySelection/CategoryList.get_node(cat_name).position
 
 func ShowInfo(txt:String):
 	$UI/BuildingInfo.show()
@@ -75,14 +88,16 @@ func _on_select_pressed() -> void:
 		$UI/Building/AnimationPlayer.play("hide")
 		$UI/Tools/Tools.hide()
 	Global.Tool = 0
-	$UI/Tools/Main/Selection.offset_left = 3
+	# $UI/Tools/Main/Selection.offset_left = 0
+	toolbar_selection_target = 0
 
 func _on_draw_pressed() -> void:
 	if Global.Tool != 1:
 		$UI/Building/AnimationPlayer.play("show")
 		$UI/Tools/Tools.show()
 	Global.Tool = 1
-	$UI/Tools/Main/Selection.offset_left = 66
+	# $UI/Tools/Main/Selection.offset_left = 64
+	toolbar_selection_target = 64
 	
 
 func _on_destroy_pressed() -> void:
@@ -90,7 +105,8 @@ func _on_destroy_pressed() -> void:
 		$UI/Building/AnimationPlayer.play("hide")
 		$UI/Tools/Tools.hide()
 	Global.Tool = 2
-	$UI/Tools/Main/Selection.offset_left = 128
+	# $UI/Tools/Main/Selection.offset_left = 128
+	toolbar_selection_target = 128
 
 func UpdateCityStats():
 	$UI/CityInfo/Info/Money/Label.text = Global.GetBigNumber(Global.Money)
