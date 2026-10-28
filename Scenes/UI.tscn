@@ -12,6 +12,7 @@
 [ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="10_n04ve"]
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="11_b1goy"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
+[ext_resource type="Texture2D" uid="uid://pm6vjgvxasmm" path="res://Assets/tutorial.png" id="14_5q4fb"]
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
@@ -484,6 +485,65 @@ font_size = 26
 font_color = Color(1, 0, 0, 1)
 outline_size = 8
 outline_color = Color(0.25937498, 0, 0, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r71lk"]
+atlas = ExtResource("14_5q4fb")
+region = Rect2(2, 4, 12, 8)
+
+[sub_resource type="GDScript" id="GDScript_o2ick"]
+script/source = "@tool
+extends TextureRect
+
+@export var active : bool = false
+
+@export var VERTICAL : bool = true
+
+@export var start : Vector2i = Vector2i.ZERO
+
+func _ready() -> void:
+	start = position
+
+func _process(delta: float) -> void:
+	hide()
+	if active:
+		show()
+		if VERTICAL:
+			rotation = 0
+			position.y = start.y + (sin(float(Engine.get_frames_drawn()) / 10) * 15)
+		else:
+			rotation = PI / 2
+			position.x = start.x + (sin(float(Engine.get_frames_drawn()) / 10) * 15)
+		
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1ul7"]
+atlas = ExtResource("14_5q4fb")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pinj1"]
+atlas = ExtResource("14_5q4fb")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o2ick"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d1ul7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pinj1")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_80bsu"]
+font = ExtResource("11_b1goy")
+
+[sub_resource type="LabelSettings" id="LabelSettings_68ajo"]
+font = ExtResource("11_b1goy")
+font_size = 29
 
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
@@ -1973,6 +2033,65 @@ text = "HACKED SAVE"
 label_settings = SubResource("LabelSettings_o2ick")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tutorial" type="Control" parent="UI" unique_id=2040936129]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pointer" type="TextureRect" parent="UI/Tutorial" unique_id=1071051569]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 121.15932
+offset_top = -899.0
+offset_right = 161.15765
+offset_bottom = -859.0001
+grow_vertical = 0
+rotation = 1.5707964
+texture = SubResource("AtlasTexture_r71lk")
+expand_mode = 1
+stretch_mode = 5
+script = SubResource("GDScript_o2ick")
+active = true
+VERTICAL = false
+start = Vector2i(135, 196)
+
+[node name="M" type="ColorRect" parent="UI/Tutorial" unique_id=1285601726]
+layout_mode = 0
+offset_left = 917.0
+offset_top = 881.0
+offset_right = 1903.0
+offset_bottom = 1054.0
+color = Color(0.328125, 0.328125, 0.328125, 1)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/Tutorial/M" unique_id=691772911]
+position = Vector2(79, 97)
+scale = Vector2(8, 8)
+sprite_frames = SubResource("SpriteFrames_o2ick")
+frame_progress = 0.9021699
+
+[node name="Label" type="Label" parent="UI/Tutorial/M" unique_id=442792926]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 6.0
+offset_right = 131.0
+offset_bottom = 30.0
+text = "City Mayor"
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="Label2" type="Label" parent="UI/Tutorial/M" unique_id=540440898]
+layout_mode = 0
+offset_left = 166.0
+offset_top = 10.0
+offset_right = 977.0
+offset_bottom = 164.0
+text = "Greetings traveller! KYSSSSSS"
+label_settings = SubResource("LabelSettings_68ajo")
 
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]

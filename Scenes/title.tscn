@@ -577,7 +577,6 @@ text = "V0.9 "
 label_settings = SubResource("LabelSettings_tgu54")
 
 [node name="Main" type="Control" parent="." unique_id=2000390083]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -645,6 +644,7 @@ text = "- Quit Game -"
 script = ExtResource("6_3eqdi")
 
 [node name="NewGame" type="Control" parent="." unique_id=653756544]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -355,14 +355,13 @@ func SumMetroTotal():
 	
 
 func GetMetroValue(terminal_values:Dictionary,capacity:int,self_pos:Vector2i) -> int:
-	var own := 0
 	var total := 0
 	var terminal_capacity := 0
 	for n in terminal_values.keys():
-		if n == "total":
+		if is_same(n,"total"):
 			terminal_capacity = terminal_values[n]
-		elif n == self_pos:
-			own = terminal_values[n]
+		elif is_same(n, self_pos):
+			pass
 		else:
 			total += terminal_values[n]
 	
@@ -478,6 +477,7 @@ func Tick():
 					AllFishingDocks.erase(n)
 				"Metro Station","Large Metro Station":
 					AllMetroStations.erase(n)
+					global_metro_passengers.erase(n["pos"])
 				"Airport Terminal":
 					AllAirportTerminals.erase(n)
 			if is_instance_valid(n):
@@ -538,7 +538,6 @@ func RecomputeStations():
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false,dont_recompute_metros=false) -> Array:
 	var affected = [] 
 	var ranges = {}# KEY: BUILDINGS, VALUE: RANGE
-	print("UPDATING ",this_b)
 	for n in Global.ORDER.keys():
 		if this_b["name"] in n:
 			var values = Global.ORDER[n].duplicate()
@@ -550,16 +549,14 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 	var next_updates := [] if not_self else [this_b]
 	
 	if affected == ["other_metros"]:
-		
 		if dont_recompute_metros:
-			return []
-		print("other metros")
+			return [] if not_self else [this_b]
 		for b in AllMetroStations:
 			for n in GetRecomputePath(b,false,true,true):
 				print(next_updates)
-				if next_updates.has(n):
-					next_updates.erase(n)
-				next_updates.append(n)
+				if not next_updates.has(n):
+					next_updates.append(n)
+		print("[",this_b,"] ",next_updates)
 		return next_updates
 	
 	if this_b["name"] == "Fishing Boat":
@@ -832,10 +829,11 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			for n in AllAirportTerminals:
 				if InRange(pos,n["pos"],size,GetSize(n["name"]),2):
 					val = GetMetroValue(AirportUsages[n["pos"]],bvvs[nam],pos)
+					AirportUsages[n["pos"]][pos] = val
 					break
 			global_metro_passengers[pos] = val
-			print("metro w/ val of %d" % val)
 			SumMetroTotal()
+			print("metro w/ val of %d" % global_metro_passengers["total"])
 			return [{},{"total_passengers":global_metro_passengers["total"],"my_passengers":val}]
 		_:
 			return [{}]

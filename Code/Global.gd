@@ -457,8 +457,10 @@ const ORDER = {
  	["Sand Mine"]:[4,"Smeltery"],
 	["Air Traffic Control Tower"]:[1,"Airport Runway"],
 	["Airport Runway"]:[1,"Airport Terminal"],
-	["Airport Terminal"]:[2,"Metro Station","Large Metro Station"],
+	["Airport Terminal"]:[3,"Metro Station","Large Metro Station"],
 	["Metro Station","Large Metro Station"]:[9,"other_metros"],
+	["Metro Station","Large Metro Station"]:[3,"Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"],
+	["Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"]:[9,"other_metros"]
 }  
 
 const ACHIEVEMENTS = {
