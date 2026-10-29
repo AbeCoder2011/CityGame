@@ -19,7 +19,6 @@ func _process(delta: float) -> void:
 		$UI/Tools/Main/Selection.offset_left += 512 * delta
 	if $UI/Tools/Main/Selection.offset_left > toolbar_selection_target:
 		$UI/Tools/Main/Selection.offset_left -= 512 * delta
-	print(toolbar_selection_target, " ", $UI/Tools/Main/Selection.offset_left)
 	if abs($UI/Tools/Main/Selection.offset_left - toolbar_selection_target) <= 512 * delta:
 		$UI/Tools/Main/Selection.offset_left = toolbar_selection_target
 
