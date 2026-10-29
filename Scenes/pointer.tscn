@@ -21,7 +21,8 @@ extends TextureRect
 func _ready() -> void:
 	start = position
 
-func register_self
+func register_self():
+	pass
 
 func _process(delta: float) -> void:
 	hide()
