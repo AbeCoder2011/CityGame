@@ -170,7 +170,7 @@ region = Rect2(272, 48, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5q4fb"]
 atlas = ExtResource("4_hfhsn")
-region = Rect2(288, 288, 32, 32)
+region = Rect2(272, 288, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j04uc"]
 atlas = ExtResource("6_xjg7p")
@@ -831,10 +831,10 @@ anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -104.00293
-offset_top = -4.0
-offset_right = -86.00293
-offset_bottom = -435.0
+offset_left = -108.00293
+offset_top = -8.0
+offset_right = -88.00293
+offset_bottom = -437.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(4, 4)
@@ -850,10 +850,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = 1.0
-offset_right = -1.0
-offset_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 2
@@ -959,11 +959,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 16.0
-offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.5, 0.5)
 texture = SubResource("AtlasTexture_5q4fb")
 
 [node name="Selector" type="NinePatchRect" parent="UI/Building/CategorySelection" unique_id=1569590756]
