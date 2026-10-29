@@ -125,7 +125,6 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		$"../UI".CheckBuildingUnlocks()
 	housing_edited = false
 	for n in GetRecomputePath(this_b):
-		print(n)
 		RecomputeBuilding(n)
 	if housing_edited:
 		CalculateHapiness()
@@ -480,8 +479,9 @@ func Tick():
 					global_metro_passengers.erase(n["pos"])
 				"Airport Terminal":
 					AllAirportTerminals.erase(n)
-			if is_instance_valid(n):
-				n.queue_free()
+					AirportUsages.erase(n["pos"])
+			if is_instance_valid(n["node"]):
+				n["node"].queue_free()
 			housing_edited = false
 			for b in GetRecomputePath(n,true):
 				match b["name"]:
@@ -553,10 +553,8 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 			return [] if not_self else [this_b]
 		for b in AllMetroStations:
 			for n in GetRecomputePath(b,false,true,true):
-				print(next_updates)
 				if not next_updates.has(n):
 					next_updates.append(n)
-		print("[",this_b,"] ",next_updates)
 		return next_updates
 	
 	if this_b["name"] == "Fishing Boat":
@@ -573,7 +571,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 					if b["name"] == "Wind Turbine" or (b["name"] in HOUSING_NAMES and this_b["name"] in HOUSING_NAMES):
 						next_updates.append(b)
 					else:
-						for n in GetRecomputePath(b,false,true):
+						for n in GetRecomputePath(b,false,true,dont_recompute_metros):
 							if next_updates.has(n):
 								next_updates.erase(n)
 							next_updates.append(n)
@@ -833,7 +831,6 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 					break
 			global_metro_passengers[pos] = val
 			SumMetroTotal()
-			print("metro w/ val of %d" % global_metro_passengers["total"])
 			return [{},{"total_passengers":global_metro_passengers["total"],"my_passengers":val}]
 		_:
 			return [{}]

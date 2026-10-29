@@ -15,6 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 [ext_resource type="Texture2D" uid="uid://pm6vjgvxasmm" path="res://Assets/tutorial.png" id="14_5q4fb"]
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
+[ext_resource type="Script" uid="uid://et1k41vhtygk" path="res://Scenes/tutorial.gd" id="15_jnovg"]
+[ext_resource type="FontFile" uid="uid://ckualla6euk5q" path="res://Assets/Fonts/Space_Mono/SpaceMono-Bold.ttf" id="15_mqm5i"]
+[ext_resource type="Theme" uid="uid://di8r3j67cqcsp" path="res://DialogueTheme.tres" id="18_13dyv"]
+[ext_resource type="PackedScene" uid="uid://csv7a2aigbi2k" path="res://Scenes/pointer.tscn" id="19_r71lk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icijx"]
 atlas = ExtResource("2_wi7yl")
@@ -491,35 +495,8 @@ font_color = Color(1, 0, 0, 1)
 outline_size = 8
 outline_color = Color(0.25937498, 0, 0, 1)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r71lk"]
-atlas = ExtResource("14_5q4fb")
-region = Rect2(2, 4, 12, 8)
-
-[sub_resource type="GDScript" id="GDScript_o2ick"]
-script/source = "@tool
-extends TextureRect
-
-@export var active : bool = false
-
-@export var VERTICAL : bool = true
-
-@export var start : Vector2i = Vector2i.ZERO
-
-func _ready() -> void:
-	start = position
-
-func _process(delta: float) -> void:
-	hide()
-	if active:
-		show()
-		if VERTICAL:
-			rotation = 0
-			position.y = start.y + (sin(float(Engine.get_frames_drawn()) / 10) * 15)
-		else:
-			rotation = PI / 2
-			position.x = start.x + (sin(float(Engine.get_frames_drawn()) / 10) * 15)
-		
-"
+[sub_resource type="LabelSettings" id="LabelSettings_80bsu"]
+font = ExtResource("15_mqm5i")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d1ul7"]
 atlas = ExtResource("14_5q4fb")
@@ -543,12 +520,65 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="LabelSettings" id="LabelSettings_80bsu"]
-font = ExtResource("11_b1goy")
-
 [sub_resource type="LabelSettings" id="LabelSettings_68ajo"]
 font = ExtResource("11_b1goy")
-font_size = 29
+font_size = 20
+
+[sub_resource type="GDScript" id="GDScript_mqm5i"]
+resource_name = "typewriter_text"
+script/source = "extends Label
+
+func type_text(t: String, speed: float = 0.1) -> void:
+	visible_characters = 0
+	text = t
+
+	for i in range(t.length()):
+		visible_characters = i + 1
+		await get_tree().create_timer(speed).timeout
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
+atlas = ExtResource("14_5q4fb")
+region = Rect2(0, 16, 6, 4)
+
+[sub_resource type="Animation" id="Animation_13dyv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(760, 105)]
+}
+
+[sub_resource type="Animation" id="Animation_r71lk"]
+resource_name = "wobble"
+length = 0.500025
+loop_mode = 1
+step = 0.125
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.375, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(770, 125), Vector2(770, 130), Vector2(770, 120), Vector2(770, 125)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d1ul7"]
+_data = {
+&"RESET": SubResource("Animation_13dyv"),
+&"wobble": SubResource("Animation_r71lk")
+}
 
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
@@ -1471,10 +1501,17 @@ texture = SubResource("AtlasTexture_j04uc")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/Money" unique_id=756751477]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
-text = "0"
+text = "0121"
 label_settings = SubResource("LabelSettings_xjg7p")
+
+[node name="Pointer" parent="UI/CityInfo/Info/Money" unique_id=1795291113 instance=ExtResource("19_r71lk")]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(12.661724, -1)
+offset_transform_rotation = 1.5707964
+start = Vector2i(17, -1)
 
 [node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
 wait_time = 0.5
@@ -2079,62 +2116,155 @@ vertical_alignment = 1
 
 [node name="Tutorial" type="Control" parent="UI" unique_id=2040936129]
 layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -837.0
+offset_top = -178.0
+offset_right = -21.0
+offset_bottom = -17.0
+grow_horizontal = 0
+grow_vertical = 0
+mouse_filter = 2
+script = ExtResource("15_jnovg")
+
+[node name="BG" type="NinePatchRect" parent="UI/Tutorial" unique_id=1377400188]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.125
+anchor_bottom = 0.125
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(8, 8)
+texture = ExtResource("2_wi7yl")
+region_rect = Rect2(0, 16, 16, 16)
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/Tutorial" unique_id=775722283]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -16.0
+
+[node name="Jerry" type="VBoxContainer" parent="UI/Tutorial/HBoxContainer" unique_id=32881426]
+layout_mode = 2
+
+[node name="Mayor Jerry" type="Label" parent="UI/Tutorial/HBoxContainer/Jerry" unique_id=442792926]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+text = "City Mayor"
+label_settings = SubResource("LabelSettings_80bsu")
+horizontal_alignment = 1
+
+[node name="Mayor" type="Control" parent="UI/Tutorial/HBoxContainer/Jerry" unique_id=704941947]
+custom_minimum_size = Vector2(112, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/Tutorial/HBoxContainer/Jerry/Mayor" unique_id=691772911]
+scale = Vector2(7, 7)
+sprite_frames = SubResource("SpriteFrames_o2ick")
+autoplay = "default"
+frame_progress = 0.17223673
+centered = false
+
+[node name="Dialogue" type="VBoxContainer" parent="UI/Tutorial/HBoxContainer" unique_id=1617192634]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+
+[node name="Text" type="Label" parent="UI/Tutorial/HBoxContainer/Dialogue" unique_id=540440898]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+text = "This is your city. You have money and 
+  dawdwadaw d adw ad wad wa aw dw ad wa dwadwa dwad da daw daw daw daw daw daw dwa dwa dwa ad wad wd awda wd wad wa"
+label_settings = SubResource("LabelSettings_68ajo")
+autowrap_mode = 3
+script = SubResource("GDScript_mqm5i")
+
+[node name="Buttons" type="HBoxContainer" parent="UI/Tutorial/HBoxContainer/Dialogue" unique_id=1895385481]
+z_index = 2
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 10
+mouse_filter = 2
+theme_override_constants/separation = 16
+
+[node name="But0" type="Button" parent="UI/Tutorial/HBoxContainer/Dialogue/Buttons" unique_id=321673560]
+visible = false
+z_index = 100
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("18_13dyv")
+text = "Yep!"
+
+[node name="But1" type="Button" parent="UI/Tutorial/HBoxContainer/Dialogue/Buttons" unique_id=786917332]
+visible = false
+z_index = 100
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("18_13dyv")
+text = "Ehmm..."
+
+[node name="But2" type="Button" parent="UI/Tutorial/HBoxContainer/Dialogue/Buttons" unique_id=1429434469]
+visible = false
+z_index = 100
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("18_13dyv")
+text = "Ehmm..."
+
+[node name="But3" type="Button" parent="UI/Tutorial/HBoxContainer/Dialogue/Buttons" unique_id=2117551164]
+visible = false
+z_index = 100
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("18_13dyv")
+text = "Ehmm..."
+
+[node name="NextButton" type="Button" parent="UI/Tutorial" unique_id=1029519429]
+z_index = 1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+flat = true
 
-[node name="Pointer" type="TextureRect" parent="UI/Tutorial" unique_id=1071051569]
+[node name="NextTexture" type="TextureRect" parent="UI/Tutorial" unique_id=414532875]
+visible = false
 layout_mode = 1
-anchors_preset = 2
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 121.15932
-offset_top = -899.0
-offset_right = 161.15765
-offset_bottom = -859.0001
+offset_left = -56.0
+offset_top = -56.0
+offset_right = -50.0
+offset_bottom = -51.99997
+grow_horizontal = 0
 grow_vertical = 0
-rotation = 1.5707964
-texture = SubResource("AtlasTexture_r71lk")
-expand_mode = 1
+scale = Vector2(5, 5)
+texture = SubResource("AtlasTexture_hdgct")
 stretch_mode = 5
-script = SubResource("GDScript_o2ick")
-active = true
-VERTICAL = false
-start = Vector2i(135, 196)
 
-[node name="M" type="ColorRect" parent="UI/Tutorial" unique_id=1285601726]
-layout_mode = 0
-offset_left = 917.0
-offset_top = 881.0
-offset_right = 1903.0
-offset_bottom = 1054.0
-color = Color(0.328125, 0.328125, 0.328125, 1)
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/Tutorial/M" unique_id=691772911]
-position = Vector2(79, 97)
-scale = Vector2(8, 8)
-sprite_frames = SubResource("SpriteFrames_o2ick")
-frame_progress = 0.9021699
-
-[node name="Label" type="Label" parent="UI/Tutorial/M" unique_id=442792926]
-layout_mode = 0
-offset_left = 23.0
-offset_top = 6.0
-offset_right = 131.0
-offset_bottom = 30.0
-text = "City Mayor"
-label_settings = SubResource("LabelSettings_80bsu")
-
-[node name="Label2" type="Label" parent="UI/Tutorial/M" unique_id=540440898]
-layout_mode = 0
-offset_left = 166.0
-offset_top = 10.0
-offset_right = 977.0
-offset_bottom = 164.0
-text = "Greetings traveller! KYSSSSSS"
-label_settings = SubResource("LabelSettings_68ajo")
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Tutorial/NextTexture" unique_id=1161534103]
+libraries/ = SubResource("AnimationLibrary_d1ul7")
+autoplay = &"wobble"
 
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
@@ -2144,3 +2274,7 @@ label_settings = SubResource("LabelSettings_68ajo")
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But0" to="UI/Tutorial" method="option_button" binds= [0]]
+[connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But1" to="UI/Tutorial" method="option_button" binds= [1]]
+[connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But2" to="UI/Tutorial" method="option_button" binds= [2]]
+[connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But3" to="UI/Tutorial" method="option_button" binds= [3]]

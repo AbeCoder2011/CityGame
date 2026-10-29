@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://di8r3j67cqcsp"]
+
+[ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="1_8q3sf"]
+
+[resource]
+Button/font_sizes/font_size = 19
+Button/fonts/font = ExtResource("1_8q3sf")

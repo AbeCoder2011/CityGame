@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://csv7a2aigbi2k"]
+
+[ext_resource type="Texture2D" uid="uid://pm6vjgvxasmm" path="res://Assets/tutorial.png" id="1_e37bj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r71lk"]
+atlas = ExtResource("1_e37bj")
+region = Rect2(2, 4, 12, 8)
+
+[sub_resource type="GDScript" id="GDScript_o2ick"]
+script/source = "@tool
+extends TextureRect
+
+@export var PointerName : String = \"\"
+@export var active : bool = false
+
+
+@export var VERTICAL : bool = true
+
+@export var start : Vector2i = Vector2i.ZERO
+
+func _ready() -> void:
+	start = position
+
+func register_self
+
+func _process(delta: float) -> void:
+	hide()
+	if active:
+		show()
+		if VERTICAL:
+			offset_transform_rotation = 0
+			
+			offset_transform_position.y = start.y + (sin(float(Engine.get_frames_drawn()) / 10) * 900) * delta
+			offset_transform_position.x = start.x
+		else:
+			offset_transform_rotation = PI / 2
+			offset_transform_position.x = start.x + (sin(float(Engine.get_frames_drawn()) / 10) * 900) * delta
+			offset_transform_position.y = start.y
+		
+"
+
+[node name="Pointer" type="TextureRect" unique_id=1795291113]
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 123.184906
+offset_top = -899.0
+offset_right = 163.18279
+offset_bottom = -859.0001
+grow_vertical = 0
+rotation = 1.5707964
+texture = SubResource("AtlasTexture_r71lk")
+expand_mode = 1
+stretch_mode = 5
+script = SubResource("GDScript_o2ick")
+active = true
+VERTICAL = false
+start = Vector2i(113, 181)
