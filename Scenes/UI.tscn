@@ -1506,9 +1506,9 @@ label_settings = SubResource("LabelSettings_xjg7p")
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(12.661724, -1)
+offset_transform_position = Vector2(-14.395277, 0)
 offset_transform_rotation = 1.5707964
-start = Vector2i(17, -1)
+start = Vector2i(0, 0)
 
 [node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
 wait_time = 0.5
