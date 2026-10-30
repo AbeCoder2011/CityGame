@@ -2,19 +2,210 @@ extends Control
 
 const TUTORIAL_BRANCHES = {
 	"start":[
-		{"pointer":""},
+		{"pointer":"money"},
 		{"text":"Hello, and welcome! Have you played this game before?"},
 		{"buttons":["Yep!","No!"],"branch":["end","tutorial"]},
-		{"await":"buttons"}
+		{"await":"buttons"},
+		{"hide_pointer":"money"},
 	],
 	"tutorial":[
 		{"text":"bla bla bla"},
 		{"await":"next"},
+		{"pointer":"income"},
 		{"text":"how is life?????"},
 		{"await":"next"},
+		{"hide_pointer":"income"},
 		{"text":"opinoin on pineapple on pizza?"},
 		{"buttons":["Delicious!","Great!","I love it!"]},
 		{"await":"buttons"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
+		{"text":"Thats what I thought."},
+		{"await":"next"},
+		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
+		{"await":"next"},
 		{"text":"Thats what I thought."},
 		{"await":"next"},
 		{"text":"6767676767676776676776767676767676767676767767676767676767676767"},
@@ -38,6 +229,8 @@ const TUTORIAL_BRANCHES = {
 
 signal next_dialogue
 signal button_pressed
+
+var pointers = {}
 
 var next_branch = "start"
 var next_branch_options = []
@@ -68,10 +261,15 @@ func TutorialPart(part:Dictionary) -> void:
 	var v = part.values()[0]
 	match part.keys()[0]:
 		"pointer":
-			
-			pass # Show pointer with name v
+			print(pointers)
+			pointers.get(v).active = true
+		"hide_pointer":
+			print("hiding ",pointers)
+			pointers.get(v).active = false
 		"text":
+			$HBoxContainer/Jerry/Mayor/Sprite.play()
 			await $HBoxContainer/Dialogue/Text.type_text(v,part.get("speed",0.05))
+			$HBoxContainer/Jerry/Mayor/Sprite.pause()
 		"buttons":
 			var i = 0
 			for b in $HBoxContainer/Dialogue/Buttons.get_children():
@@ -88,7 +286,6 @@ func TutorialPart(part:Dictionary) -> void:
 					await next_dialogue
 					$NextTexture.hide()
 				"buttons":
-					print("awaiting da buttons")
 					await button_pressed
 					# Hide buttons after input is given
 					for b in $HBoxContainer/Dialogue/Buttons.get_children():
@@ -98,10 +295,12 @@ func TutorialPart(part:Dictionary) -> void:
 			next_branch = v
 		
 func option_button(idx:int):
-	print("button ",idx)
 	if len(next_branch_options) >= idx + 1:
 		next_branch = next_branch_options.get(idx)
 	button_pressed.emit()
 
 func h(node):
 	node.hide()
+
+func register_pointer(nod:TextureRect,nam:String):
+	pointers[nam] = nod

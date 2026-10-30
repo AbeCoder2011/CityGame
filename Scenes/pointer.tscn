@@ -19,10 +19,10 @@ extends TextureRect
 @export var start : Vector2i = Vector2i.ZERO
 
 func _ready() -> void:
-	start = position
+	register_self() 
 
 func register_self():
-	pass
+	get_node(\"/root/Main/UI/UI/Tutorial\").register_pointer(self,PointerName)
 
 func _process(delta: float) -> void:
 	hide()
@@ -41,6 +41,8 @@ func _process(delta: float) -> void:
 "
 
 [node name="Pointer" type="TextureRect" unique_id=1795291113]
+visible = false
+anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 123.184906
@@ -49,10 +51,10 @@ offset_right = 163.18279
 offset_bottom = -859.0001
 grow_vertical = 0
 rotation = 1.5707964
+offset_transform_position = Vector2(-13.401742, 0)
+offset_transform_rotation = 1.5707964
 texture = SubResource("AtlasTexture_r71lk")
 expand_mode = 1
 stretch_mode = 5
 script = SubResource("GDScript_o2ick")
-active = true
 VERTICAL = false
-start = Vector2i(113, 181)

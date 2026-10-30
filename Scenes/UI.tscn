@@ -528,13 +528,21 @@ font_size = 20
 resource_name = "typewriter_text"
 script/source = "extends Label
 
+var released = false
+
 func type_text(t: String, speed: float = 0.1) -> void:
 	visible_characters = 0
+	released = false
 	text = t
 
 	for i in range(t.length()):
+		if not Input.is_action_pressed(\"skip_dialogue\"):
+			released = true
 		visible_characters = i + 1
 		await get_tree().create_timer(speed).timeout
+		if Input.is_action_pressed(\"skip_dialogue\") and released:
+			visible_characters = -1
+			return
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
@@ -1506,9 +1514,9 @@ label_settings = SubResource("LabelSettings_xjg7p")
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(12.661724, -1)
-offset_transform_rotation = 1.5707964
-start = Vector2i(17, -1)
+offset_transform_position = Vector2(39.07744, 0)
+PointerName = "money"
+start = Vector2i(17, 0)
 
 [node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
 wait_time = 0.5
@@ -1528,10 +1536,17 @@ texture = SubResource("AtlasTexture_wi7yl")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/Population" unique_id=1967699901]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
 text = "0"
 label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Pointer" parent="UI/CityInfo/Info/Population" unique_id=69703434 instance=ExtResource("19_r71lk")]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(39.07744, 0)
+PointerName = "population"
+start = Vector2i(17, 0)
 
 [node name="Happiness" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1581867426]
 custom_minimum_size = Vector2(30, 50)
@@ -1547,10 +1562,17 @@ texture = SubResource("AtlasTexture_vqx31")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/Happiness" unique_id=1650904332]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
 text = "0"
 label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Pointer" parent="UI/CityInfo/Info/Happiness" unique_id=2002314153 instance=ExtResource("19_r71lk")]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(39.07744, 0)
+PointerName = "happiness"
+start = Vector2i(17, 0)
 
 [node name="IncomePerSecond" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1126922166]
 custom_minimum_size = Vector2(30, 50)
@@ -1566,10 +1588,17 @@ texture = SubResource("AtlasTexture_b1goy")
 
 [node name="Label" type="Label" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=964448424]
 layout_mode = 2
-size_flags_horizontal = 3
 theme = ExtResource("6_48q88")
 text = "0"
 label_settings = SubResource("LabelSettings_aehul")
+
+[node name="Pointer" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=179649997 instance=ExtResource("19_r71lk")]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(39.07744, 0)
+PointerName = "income"
+start = Vector2i(17, 0)
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
 layout_mode = 1
@@ -2168,10 +2197,9 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="UI/Tutorial/HBoxContainer/Jerry/Mayor" unique_id=691772911]
+[node name="Sprite" type="AnimatedSprite2D" parent="UI/Tutorial/HBoxContainer/Jerry/Mayor" unique_id=691772911]
 scale = Vector2(7, 7)
 sprite_frames = SubResource("SpriteFrames_o2ick")
-autoplay = "default"
 frame_progress = 0.17223673
 centered = false
 
