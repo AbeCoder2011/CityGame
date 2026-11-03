@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://dwde3p2a17841"]
+[gd_scene format=3 uid="uid://dwde3p2a17841"]
 
 [ext_resource type="Script" uid="uid://v1fqboo6w3uk" path="res://Code/GameController.gd" id="1_jw32o"]
 [ext_resource type="Texture2D" uid="uid://jt4e480cvn71" path="res://Assets/grid.png" id="1_rgh2o"]
@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Code/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Code/train_animation.gd" id="10_4kpch"]
 [ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_grg3l"]
+[ext_resource type="Texture2D" uid="uid://csrvmifspexx1" path="res://Assets/coin.png" id="12_grg3l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -645,6 +646,26 @@ texture_region_size = Vector2i(288, 288)
 tile_size = Vector2i(288, 288)
 sources/0 = SubResource("TileSetAtlasSource_frkhe")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jnsvb"]
+angle_min = -720.0
+angle_max = 720.0
+use_rotation_3d = true
+rotation_3d_min = Vector3(0, 0, 0)
+rotation_3d_max = Vector3(0, 0, 0)
+spread = 180.0
+angular_velocity_min = -720.0
+angular_velocity_max = 719.99994
+radial_velocity_min = 49.999977
+radial_velocity_max = 99.99998
+use_rotation_velocity_3d = true
+rotation_velocity_3d_min = Vector3(0, 0, 0)
+rotation_velocity_3d_max = Vector3(50, 50, 50)
+gravity = Vector3(0, 100, 0)
+linear_accel_min = -2.2351742e-06
+linear_accel_max = -2.2351742e-06
+radial_accel_min = -2.2351742e-06
+radial_accel_max = -2.2351742e-06
+
 [node name="Main" type="Node2D" unique_id=1367820127]
 script = ExtResource("1_jw32o")
 
@@ -683,7 +704,6 @@ script = ExtResource("5_pbw6q")
 modulate = Color(1, 1, 1, 0.5372549)
 position = Vector2(-408, -235)
 scale = Vector2(3, 3)
-tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAACAAIAAAAAAAAAAAACAAEAAAAAAAAAAAACAAAAAAAAAAAAAAA=")
 tile_set = SubResource("TileSet_o2ick")
 
 [node name="Buildings" type="Node2D" parent="." unique_id=1447662016]
@@ -708,6 +728,17 @@ script = ExtResource("10_4kpch")
 [node name="TrainTimer" type="Timer" parent="TrainAnimation" unique_id=1632609789]
 wait_time = 10.0
 autostart = true
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2096583923]
+visible = false
+position = Vector2(-241, -350)
+amount = 20
+texture = ExtResource("12_grg3l")
+lifetime = 2.0
+explosiveness = 1.0
+randomness = 1.0
+collision_base_size = 0.0
+process_material = SubResource("ParticleProcessMaterial_jnsvb")
 
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
 [connection signal="timeout" from="Autosaver" to="." method="SaveGame" binds= [true]]
