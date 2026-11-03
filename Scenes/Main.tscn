@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Code/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Code/train_animation.gd" id="10_4kpch"]
 [ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_grg3l"]
-[ext_resource type="Texture2D" uid="uid://csrvmifspexx1" path="res://Assets/coin.png" id="12_grg3l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -646,25 +645,39 @@ texture_region_size = Vector2i(288, 288)
 tile_size = Vector2i(288, 288)
 sources/0 = SubResource("TileSetAtlasSource_frkhe")
 
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jnsvb"]
+[sub_resource type="Gradient" id="Gradient_grg3l"]
+colors = PackedColorArray(0.5649617, 0.5649616, 0.5649616, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4kpch"]
+gradient = SubResource("Gradient_grg3l")
+
+[sub_resource type="Gradient" id="Gradient_4kpch"]
+colors = PackedColorArray(1, 1, 1, 1, 0.48, 0.48, 0.48, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_wfpdq"]
+gradient = SubResource("Gradient_4kpch")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_06wwg"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 32.0
 angle_min = -720.0
 angle_max = 720.0
-use_rotation_3d = true
-rotation_3d_min = Vector3(0, 0, 0)
-rotation_3d_max = Vector3(0, 0, 0)
-spread = 180.0
-angular_velocity_min = -720.0
-angular_velocity_max = 719.99994
-radial_velocity_min = 49.999977
+radial_velocity_min = -2.2351742e-05
 radial_velocity_max = 99.99998
-use_rotation_velocity_3d = true
-rotation_velocity_3d_min = Vector3(0, 0, 0)
-rotation_velocity_3d_max = Vector3(50, 50, 50)
-gravity = Vector3(0, 100, 0)
+gravity = Vector3(0, 0, 0)
 linear_accel_min = -2.2351742e-06
 linear_accel_max = -2.2351742e-06
-radial_accel_min = -2.2351742e-06
-radial_accel_max = -2.2351742e-06
+radial_accel_min = -100.0
+radial_accel_max = -50.0
+scale_min = 10.0
+scale_max = 20.0
+color = Color(0.8047426, 0.80474263, 0.8047425, 0.7254902)
+color_ramp = SubResource("GradientTexture1D_wfpdq")
+color_initial_ramp = SubResource("GradientTexture1D_4kpch")
+hue_variation_min = -2.2351742e-08
+hue_variation_max = -2.2351742e-08
 
 [node name="Main" type="Node2D" unique_id=1367820127]
 script = ExtResource("1_jw32o")
@@ -729,16 +742,11 @@ script = ExtResource("10_4kpch")
 wait_time = 10.0
 autostart = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2096583923]
-visible = false
-position = Vector2(-241, -350)
-amount = 20
-texture = ExtResource("12_grg3l")
-lifetime = 2.0
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2054783197]
+position = Vector2(-222, -98)
+amount = 100
 explosiveness = 1.0
-randomness = 1.0
-collision_base_size = 0.0
-process_material = SubResource("ParticleProcessMaterial_jnsvb")
+process_material = SubResource("ParticleProcessMaterial_06wwg")
 
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
 [connection signal="timeout" from="Autosaver" to="." method="SaveGame" binds= [true]]
