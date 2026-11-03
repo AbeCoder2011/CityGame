@@ -743,6 +743,7 @@ wait_time = 10.0
 autostart = true
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2054783197]
+visible = false
 position = Vector2(-222, -98)
 amount = 100
 explosiveness = 1.0
