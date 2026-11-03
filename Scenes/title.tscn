@@ -261,7 +261,7 @@ font = ExtResource("3_fp2oq")
 font_size = 96
 shadow_size = 16
 shadow_color = Color(0, 0, 0, 1)
-shadow_offset = Vector2(3, 3)
+shadow_offset = Vector2(0, 6)
 
 [sub_resource type="LabelSettings" id="LabelSettings_tgu54"]
 font = ExtResource("3_fp2oq")

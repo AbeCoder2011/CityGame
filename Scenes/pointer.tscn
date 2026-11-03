@@ -4,7 +4,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r71lk"]
 atlas = ExtResource("1_e37bj")
-region = Rect2(2, 4, 12, 8)
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="GDScript" id="GDScript_o2ick"]
 script/source = "@tool
@@ -42,7 +42,6 @@ func _process(delta: float) -> void:
 
 [node name="Pointer" type="TextureRect" unique_id=1795291113]
 visible = false
-anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 123.184906

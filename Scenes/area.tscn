@@ -46,7 +46,7 @@ offset_right = 48.0
 offset_bottom = 72.0
 theme = ExtResource("1_oujlu")
 theme_override_fonts/font = ExtResource("2_x45ud")
-text = "Unlock!"
+text = "Unlock"
 
 [node name="Label" type="RichTextLabel" parent="." unique_id=1426613104]
 offset_left = -144.0
