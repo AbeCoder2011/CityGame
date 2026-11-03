@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="11_vqx31"]
 [ext_resource type="Texture2D" uid="uid://pm6vjgvxasmm" path="res://Assets/tutorial.png" id="14_5q4fb"]
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
-[ext_resource type="Script" uid="uid://et1k41vhtygk" path="res://Scenes/tutorial.gd" id="15_jnovg"]
+[ext_resource type="Script" uid="uid://et1k41vhtygk" path="res://Code/tutorial.gd" id="15_jnovg"]
 [ext_resource type="FontFile" uid="uid://ckualla6euk5q" path="res://Assets/Fonts/Space_Mono/SpaceMono-Bold.ttf" id="15_mqm5i"]
 [ext_resource type="Theme" uid="uid://di8r3j67cqcsp" path="res://DialogueTheme.tres" id="18_13dyv"]
 [ext_resource type="PackedScene" uid="uid://csv7a2aigbi2k" path="res://Scenes/pointer.tscn" id="19_r71lk"]
@@ -530,19 +530,28 @@ script/source = "extends Label
 
 var released = false
 
+var skip = false
+
 func type_text(t: String, speed: float = 0.1) -> void:
 	visible_characters = 0
 	released = false
 	text = t
-
+	skip = false
 	for i in range(t.length()):
 		if not Input.is_action_pressed(\"skip_dialogue\"):
 			released = true
+		else:
+			if released == true:
+				skip_dialogue()
 		visible_characters = i + 1
 		await get_tree().create_timer(speed).timeout
-		if Input.is_action_pressed(\"skip_dialogue\") and released:
+		if skip:
+			skip = false
 			visible_characters = -1
 			return
+
+func skip_dialogue():
+	skip = true
 "
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hdgct"]
@@ -684,6 +693,19 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_dewlx")
 
+[node name="Pointer" parent="UI/Tools/Main/HBoxContainer/Select" unique_id=1795291113 instance=ExtResource("19_r71lk")]
+layout_mode = 1
+offset_left = 5.2499995
+offset_top = -9.749999
+offset_right = 45.24788
+offset_bottom = 30.249878
+scale = Vector2(0.2, 0.2)
+offset_transform_enabled = true
+offset_transform_position = Vector2(-14.916653, 0)
+PointerName = "select"
+VERTICAL = false
+start = Vector2i(21, -24)
+
 [node name="Draw" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=1403676064]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -698,6 +720,18 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_hfhsn")
 
+[node name="Pointer" parent="UI/Tools/Main/HBoxContainer/Draw" unique_id=1704624254 instance=ExtResource("19_r71lk")]
+layout_mode = 1
+offset_left = 3.7500005
+offset_top = -9.500006
+offset_right = 43.74788
+offset_bottom = 30.499872
+scale = Vector2(0.2, 0.2)
+offset_transform_position = Vector2(-14.916653, 0)
+PointerName = "build"
+VERTICAL = false
+start = Vector2i(25, -22)
+
 [node name="Destroy" type="Button" parent="UI/Tools/Main/HBoxContainer" unique_id=835524992]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -711,6 +745,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_o2ick")
+
+[node name="Pointer" parent="UI/Tools/Main/HBoxContainer/Destroy" unique_id=1041172712 instance=ExtResource("19_r71lk")]
+layout_mode = 1
+offset_left = 5.0000005
+offset_top = -9.500006
+offset_right = 44.99788
+offset_bottom = 30.499872
+scale = Vector2(0.2, 0.2)
+offset_transform_position = Vector2(-14.916653, 0)
+PointerName = "destroy"
+VERTICAL = false
+start = Vector2i(24, -17)
 
 [node name="Tools" type="Control" parent="UI/Tools" unique_id=81532629]
 visible = false
@@ -1474,6 +1520,18 @@ Building_Name = "Cinema"
 layout_mode = 2
 Building_Name = "Theme Park"
 
+[node name="Pointer" parent="UI/Building" unique_id=449329161 instance=ExtResource("19_r71lk")]
+layout_mode = 1
+offset_left = 22.0
+offset_top = -606.0
+offset_right = 61.997864
+offset_bottom = -566.0001
+scale = Vector2(-1, -1)
+offset_transform_position = Vector2(-20.4234, 0)
+offset_transform_scale = Vector2(1.2192199, -1.3)
+PointerName = "basic_house"
+start = Vector2i(-12, 0)
+
 [node name="CityInfo" type="Control" parent="UI" unique_id=1744660893]
 layout_mode = 1
 anchors_preset = 0
@@ -1510,13 +1568,13 @@ theme = ExtResource("6_48q88")
 text = "0121"
 label_settings = SubResource("LabelSettings_xjg7p")
 
-[node name="Pointer" parent="UI/CityInfo/Info/Money" unique_id=1795291113 instance=ExtResource("19_r71lk")]
+[node name="Pointer" parent="UI/CityInfo/Info/Money" unique_id=942478978 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 offset_transform_enabled = true
-offset_transform_position = Vector2(39.07744, 0)
+offset_transform_position = Vector2(12.802, 0)
 PointerName = "money"
-start = Vector2i(17, 0)
+start = Vector2i(23, -26)
 
 [node name="RedTimer" type="Timer" parent="UI/CityInfo/Info/Money" unique_id=103126097]
 wait_time = 0.5
@@ -1543,10 +1601,10 @@ label_settings = SubResource("LabelSettings_aehul")
 [node name="Pointer" parent="UI/CityInfo/Info/Population" unique_id=69703434 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
-offset_transform_enabled = true
-offset_transform_position = Vector2(39.07744, 0)
+offset_transform_position = Vector2(4.7476773, 0)
+offset_transform_scale = Vector2(1, -1)
 PointerName = "population"
-start = Vector2i(17, 0)
+start = Vector2i(25, -26)
 
 [node name="Happiness" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1581867426]
 custom_minimum_size = Vector2(30, 50)
@@ -1569,10 +1627,9 @@ label_settings = SubResource("LabelSettings_aehul")
 [node name="Pointer" parent="UI/CityInfo/Info/Happiness" unique_id=2002314153 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
-offset_transform_enabled = true
 offset_transform_position = Vector2(39.07744, 0)
 PointerName = "happiness"
-start = Vector2i(17, 0)
+start = Vector2i(25, -26)
 
 [node name="IncomePerSecond" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1126922166]
 custom_minimum_size = Vector2(30, 50)
@@ -1595,10 +1652,9 @@ label_settings = SubResource("LabelSettings_aehul")
 [node name="Pointer" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=179649997 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
-offset_transform_enabled = true
 offset_transform_position = Vector2(39.07744, 0)
 PointerName = "income"
-start = Vector2i(17, 0)
+start = Vector2i(25, -26)
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
 layout_mode = 1
@@ -2212,16 +2268,16 @@ mouse_filter = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
-text = "This is your city. You have money and 
-  dawdwadaw d adw ad wad wa aw dw ad wa dwadwa dwad da daw daw daw daw daw daw dwa dwa dwa ad wad wd awda wd wad wa"
+text = "This is your city. You have money and "
 label_settings = SubResource("LabelSettings_68ajo")
 autowrap_mode = 3
 script = SubResource("GDScript_mqm5i")
 
 [node name="Buttons" type="HBoxContainer" parent="UI/Tutorial/HBoxContainer/Dialogue" unique_id=1895385481]
 z_index = 2
-custom_minimum_size = Vector2(0, 50)
+custom_minimum_size = Vector2(640, 50)
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 10
 mouse_filter = 2
 theme_override_constants/separation = 16
@@ -2231,6 +2287,7 @@ visible = false
 z_index = 100
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_behavior_recursive = 2
 theme = ExtResource("18_13dyv")
 text = "Yep!"
 
@@ -2259,6 +2316,7 @@ theme = ExtResource("18_13dyv")
 text = "Ehmm..."
 
 [node name="NextButton" type="Button" parent="UI/Tutorial" unique_id=1029519429]
+visible = false
 z_index = 1
 layout_mode = 1
 anchors_preset = 15
@@ -2266,7 +2324,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 flat = true
 
 [node name="NextTexture" type="TextureRect" parent="UI/Tutorial" unique_id=414532875]
@@ -2299,7 +2356,9 @@ autoplay = &"wobble"
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
+[connection signal="next_dialogue" from="UI/Tutorial" to="UI/Tutorial/HBoxContainer/Dialogue/Text" method="skip_dialogue"]
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But0" to="UI/Tutorial" method="option_button" binds= [0]]
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But1" to="UI/Tutorial" method="option_button" binds= [1]]
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But2" to="UI/Tutorial" method="option_button" binds= [2]]
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But3" to="UI/Tutorial" method="option_button" binds= [3]]
+[connection signal="pressed" from="UI/Tutorial/NextButton" to="UI/Tutorial" method="done"]

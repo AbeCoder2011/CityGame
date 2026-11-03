@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="3_yosvi"]
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="4_q2qps"]
 [ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="6_2qdx2"]
-[ext_resource type="Script" uid="uid://b6n1phl4cjj7c" path="res://Scenes/button_move_on_hover.gd" id="6_3eqdi"]
+[ext_resource type="Script" uid="uid://b6n1phl4cjj7c" path="res://Code/button_move_on_hover.gd" id="6_3eqdi"]
 [ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="7_yu0ss"]
 [ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="8_6aagf"]
 [ext_resource type="Texture2D" uid="uid://cttf2gksrqm33" path="res://Assets/Tilesheets/mini-terraintiles.png" id="9_kyk5u"]
