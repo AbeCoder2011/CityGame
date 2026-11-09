@@ -304,6 +304,8 @@ func GetBuildingInfo() -> String:
 				out += "📡 " + str(v) +  " passengers in total.\n"
 			"power_boost_mult","gets_pop_boost":
 				pass
+			"tourists":
+				out += "contains " + str(v) + " tourists.\n"
 			_:
 				printerr("Extra text for " + d + " not found! (value = " + str(v) + ")")
 	if use_power:

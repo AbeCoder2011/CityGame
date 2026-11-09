@@ -17,6 +17,7 @@ var Rails : Dictionary[Vector2i, Dictionary] = {}
 var DestroyedBuildings = []
 
 var AirportUsages := {}
+var MetroUsages := {}
 
 var PeakBuildings = 0
 
@@ -477,6 +478,7 @@ func Tick():
 				"Metro Station","Large Metro Station":
 					AllMetroStations.erase(n)
 					global_metro_passengers.erase(n["pos"])
+					MetroUsages.erase(n["pos"])
 				"Airport Terminal":
 					AllAirportTerminals.erase(n)
 					AirportUsages.erase(n["pos"])
@@ -662,6 +664,11 @@ const bvvs = {
 	"Giant Apartment Complex": 256,
 	"Metro Station":30,
 	"Large Metro Station":150,
+	"Small Roadside Hotel": 50,
+	"Medium Motel": 100,
+	 "Large Hotel": 200, 
+	"Luxury Hotel": 500,
+	 "Large Luxury Hotel": 1000,
 }
 
 func CalculateBuildingOutput(nam,pos,node) -> Array:
@@ -831,6 +838,15 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 					break
 			global_metro_passengers[pos] = val
 			SumMetroTotal()
+			MetroUsages.get_or_add(pos, {"total":0})["total"] = global_metro_passengers["total"]
 			return [{},{"total_passengers":global_metro_passengers["total"],"my_passengers":val}]
+		"Small Roadside Hotel", "Medium Motel", "Large Hotel", "Luxury Hotel", "Large Luxury Hotel":
+			var tourists = 0
+			for n in AllMetroStations:
+				if InRange(pos, n["pos"], size, GetSize(n["name"]), 4):
+					tourists = GetMetroValue(MetroUsages[n["pos"]], bvvs[nam], pos)
+					MetroUsages[n["pos"]][pos] = tourists
+					break
+			return [{}, {"tourists": tourists}]
 		_:
 			return [{}]
