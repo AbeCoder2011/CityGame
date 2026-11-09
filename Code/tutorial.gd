@@ -39,6 +39,13 @@ const TUTORIAL_BRANCHES = {
 "building_info":[
 		{"text":"Good question! you can hover over the building to know what it does. You can't ponder yet RIP."},
 		{"await":"next"},
+		{"text":"Combining buildings cleverly is key to earning money as efficiently as possible."},
+		{"await":"next"},
+		{"branch":"area_unlock"}
+	],
+"area_unlock":[
+		{"text":"During your city expansion, you might need space for new buildings. You can unlock these here, but warn you, these cost increasing amounts of money."},
+		{"await":"next"},
 		{"branch":"end"}
 	],
 	"end":[

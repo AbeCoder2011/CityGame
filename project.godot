@@ -141,6 +141,10 @@ skip_dialogue={
 ]
 }
 
+[memory]
+
+limits/message_queue/max_size_mb=128
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

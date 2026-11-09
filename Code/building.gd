@@ -358,3 +358,8 @@ func _on_visible_screen_entered() -> void:
 
 func _on_visible_screen_exited() -> void:
 	hide()
+
+
+func _on_plane_timer_timeout() -> void:
+	if building_name == "Airport Runway":
+		$"../../Planes".SummonPlaneTo(Vector2(grid_pos * 48) + Vector2(24,24))

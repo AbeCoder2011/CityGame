@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://328fr7sj680y"]
+
+[ext_resource type="Texture2D" uid="uid://djejkg2en2d1h" path="res://Assets/plane.png" id="1_6ebbn"]
+
+[sub_resource type="GDScript" id="GDScript_6ebbn"]
+resource_name = "plane"
+script/source = "extends Sprite2D
+
+var target : Vector2 = Vector2.ZERO
+
+
+func _process(delta: float) -> void:
+	position.move_toward(target,delta)
+	if position == target:
+		queue_free()
+"
+
+[sub_resource type="Curve" id="Curve_aehul"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tgu54"]
+curve = SubResource("Curve_aehul")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o2ick"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 10.0
+initial_velocity_max = 50.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.1
+color = Color(0.659375, 0.659375, 0.659375, 1)
+alpha_curve = SubResource("CurveTexture_tgu54")
+
+[node name="Plane" type="Sprite2D" unique_id=1903037850]
+rotation = -1.5707964
+texture = ExtResource("1_6ebbn")
+script = SubResource("GDScript_6ebbn")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=798459082]
+z_index = -1
+position = Vector2(-0.99999976, -5)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_o2ick")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="." unique_id=895517970]
+z_index = -1
+position = Vector2(-1.0000002, 5)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_o2ick")

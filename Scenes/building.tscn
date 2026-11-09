@@ -334,7 +334,7 @@ offset_bottom = 96.0
 action_mode = 0
 flat = true
 
-[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="." unique_id=1177687952]
+[node name="VisibleOnScreenEnabler" type="VisibleOnScreenEnabler2D" parent="." unique_id=1177687952]
 position = Vector2(10, 10)
 rect = Rect2(-10, -10, 48, 48)
 
@@ -343,6 +343,12 @@ visible = false
 z_index = 1
 position = Vector2(24, 24)
 
+[node name="PlaneTimer" type="Timer" parent="." unique_id=379858772]
+process_mode = 3
+wait_time = 20.0
+autostart = true
+
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
 [connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]
 [connection signal="pressed" from="HoverDetection" to="." method="_on_pressed"]
+[connection signal="timeout" from="PlaneTimer" to="." method="_on_plane_timer_timeout"]

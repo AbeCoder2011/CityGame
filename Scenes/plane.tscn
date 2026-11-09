@@ -1,0 +1,106 @@
+[gd_scene format=3 uid="uid://328fr7sj680y"]
+
+[ext_resource type="Texture2D" uid="uid://djejkg2en2d1h" path="res://Assets/plane.png" id="1_6ebbn"]
+[ext_resource type="Shader" uid="uid://be0ift841wnoq" path="res://outline_fade.gdshader" id="1_ly0hq"]
+
+[sub_resource type="Curve2D" id="Curve2D_ly0hq"]
+
+[sub_resource type="GDScript" id="GDScript_6ebbn"]
+resource_name = "plane"
+script/source = "extends Path2D
+
+var speed = 100
+
+func setup(target: Vector2, entry: Vector2, start_pos: Vector2) -> void:
+	position = start_pos
+	curve = Curve2D.new()
+	curve.add_point(Vector2.ZERO)
+	curve.add_point(entry - start_pos, -(target - entry).normalized() * 400, (target - entry).normalized() * 400)
+	curve.add_point(target - start_pos)
+	speed = randi_range(70,600)
+func _process(delta: float) -> void:
+	# Remaining flight pixels
+	var rm = curve.get_baked_length() - $Plane.progress
+	# Elapsed flight pixels
+	var el = $Plane.progress
+	
+	if el < 100:
+		modulate.a = el / 100
+	if rm < 600:
+		# Slow down for stop
+		$Plane.progress += delta * clamp(rm * (float(speed) / 100.0),35,speed * 2) / 2
+		$Plane/Shadow.global_position = $Plane.global_position + Vector2(max(rm,0) / 10,max(rm,0) / 30)
+	else:
+		# FULL SPEED BABYYY
+		$Plane.progress += delta * speed
+		$Plane/Shadow.global_position = $Plane.global_position + Vector2(60,20)
+	
+	# Hide plane on arrival
+	if $Plane.progress >= curve.get_baked_length():
+		$Plane.modulate.a = float($Plane.modulate.a) - delta * 2
+		if $Plane.modulate.a <= 0.01:
+			queue_free()
+			
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m0sdt"]
+shader = ExtResource("1_ly0hq")
+shader_parameter/outline_color = Color(0, 0, 0, 0.54800004)
+shader_parameter/outline_width = 10.10000015050212
+shader_parameter/falloff = 2.5000000335277
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ebbn"]
+atlas = ExtResource("1_6ebbn")
+region = Rect2(0, 0, 256, 256)
+
+[sub_resource type="Curve" id="Curve_aehul"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tgu54"]
+curve = SubResource("Curve_aehul")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o2ick"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 60.0
+initial_velocity_max = 161.61
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5999999
+color = Color(0.49062502, 0.49062502, 0.49062502, 1)
+alpha_curve = SubResource("CurveTexture_tgu54")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
+atlas = ExtResource("1_6ebbn")
+region = Rect2(0, 256, 256, 256)
+
+[node name="Path" type="Path2D" unique_id=798711426]
+curve = SubResource("Curve2D_ly0hq")
+script = SubResource("GDScript_6ebbn")
+
+[node name="Plane" type="PathFollow2D" parent="." unique_id=1830538351]
+loop = false
+
+[node name="PlaneSprite" type="Sprite2D" parent="Plane" unique_id=1903037850]
+material = SubResource("ShaderMaterial_m0sdt")
+scale = Vector2(0.25, 0.25)
+texture = SubResource("AtlasTexture_6ebbn")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Plane/PlaneSprite" unique_id=798459082]
+z_index = -1
+position = Vector2(-12, -40)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_o2ick")
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="Plane/PlaneSprite" unique_id=895517970]
+z_index = -1
+position = Vector2(-8, 40)
+amount = 40
+process_material = SubResource("ParticleProcessMaterial_o2ick")
+
+[node name="Shadow" type="Sprite2D" parent="Plane" unique_id=688482237]
+z_index = -1
+position = Vector2(0, 29)
+scale = Vector2(0.25, 0.25)
+texture = SubResource("AtlasTexture_o2ick")

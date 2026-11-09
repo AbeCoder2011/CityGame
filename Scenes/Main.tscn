@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://3t8k51etl8y0" path="res://Code/Terrain.gd" id="9_bmxlf"]
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Code/train_animation.gd" id="10_4kpch"]
 [ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_grg3l"]
+[ext_resource type="Script" uid="uid://b2an04ifeivuf" path="res://Code/planes.gd" id="12_grg3l"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -747,6 +748,9 @@ position = Vector2(-222, -98)
 amount = 100
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_06wwg")
+
+[node name="Planes" type="Node2D" parent="." unique_id=1331332644]
+script = ExtResource("12_grg3l")
 
 [connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
 [connection signal="timeout" from="Autosaver" to="." method="SaveGame" binds= [true]]
