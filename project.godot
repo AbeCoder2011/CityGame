@@ -19,6 +19,7 @@ boot_splash/bg_color=Color(0.2122578, 0.315625, 0.18641602, 1)
 
 Global="*uid://bxrvxnpby55n6"
 Music="*uid://cedpg40fm8shm"
+DecisionData="*uid://cviv018a0w7d2"
 
 [debug]
 
@@ -143,7 +144,7 @@ skip_dialogue={
 
 [memory]
 
-limits/message_queue/max_size_mb=128
+limits/message_queue/max_size_mb=20024
 
 [physics]
 
@@ -151,6 +152,7 @@ limits/message_queue/max_size_mb=128
 
 [rendering]
 
+rendering_device/d3d12/max_resource_descriptors=150000
 textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 textures/vram_compression/import_s3tc_bptc=true

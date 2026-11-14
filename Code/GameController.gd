@@ -17,6 +17,8 @@ var BuildingAmounts := {}
 
 var SaveBuildings := {}
 
+var HappinessDebuffs := []
+
 
 func _ready() -> void:
 	$UI.UpdateAchievements()
@@ -27,8 +29,8 @@ func _ready() -> void:
 	Global.BuildingUses = {}
 	Global.CurrentBuilding = "None"
 	Global.LoadAchievementProgress()
-	$Autosaver.wait_time = Global.Settings.get("autosave_interval",60)
-	$Autosaver.start()
+	$Timers/Autosaver.wait_time = Global.Settings.get("autosave_interval",60)
+	$Timers/Autosaver.start()
 	
 	$Background/Grid.position = (Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * -1)
 	$Background/Grid.region_rect = Rect2(Vector2(0,0),(Vector2(Global.GameSettings.get("map_size",20),Global.GameSettings.get("map_size",20)) * 6 * 48 * 2))
@@ -70,7 +72,7 @@ func _ready() -> void:
 		if Global.Difficulty <= 2:
 			for n in starter_buildings:
 				$Buildings.NewBuilding(n["name"],n["pos"],false)
-		
+		$DecisionManager.time_until_next_decision = 10
 		$Areas.GenerateAreas()
 		
 		await finished
@@ -91,6 +93,7 @@ func _ready() -> void:
 		await finished
 		$"UI".SetLoadProgress("Generating Terrain...",100)
 		await get_tree().process_frame
+		$UI/UI/Tutorial.StartTutorial()
 		
 	$UI.SetLoadProgress("Finishing Up...",0)
 	await get_tree().process_frame
@@ -101,6 +104,11 @@ func _ready() -> void:
 			UnlockedBuildings[n] = !Global.UnlockRequirements.has(n)
 		if UnlockedBuildings[n]:
 			$UI.already_unlocked.append(n)
+	$Timers/Autosaver.start()
+	$Timers/BuildingClock.start()
+	$Timers/DebuffTimer.start()
+	$Timers/DecisionTimer.start()
+	
 	$UI.SetLoadProgress("Finishing Up...",100)
 	await get_tree().process_frame
 	$"UI/UI/Fade/Label".hide()
@@ -237,6 +245,9 @@ func SaveGame(autosave=false):
 		"open_areas":$Areas.OpenAreas,
 		"buildable":BuildableAreas,
 		"seed": $"Terrain".world_seed,
+		"decision_time": $DecisionManager.time_until_next_decision,
+		"active_decisions": $DecisionManager.active_decisions,
+		"happiness_debuffs":HappinessDebuffs,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -300,7 +311,10 @@ func LoadGame():
 	Global.GameSettings = save.get("settings",{})
 	print("Save Settings: ",save.get("settings",{}))
 	$"Terrain".world_seed = save.get("seed", randi())
+	$DecisionManager.active_decisions = save.get("active_decisions",{})
+	$DecisionManager.time_until_next_decision = save.get("decision_time",60)
 	UnlockedBuildings = save.get("ub",{})
+	HappinessDebuffs = save.get("happiness_debuffs",{})
 	$"UI".CheckBuildingUnlocks()
 	if Global.GameSettings.get("hacked",false):
 		for n in Global.BuildingData.keys():
@@ -333,11 +347,11 @@ func DeleteSave():
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		SaveGame()
-#
-#func SetLoadProgress(nam:String,prog:int):
-	#$UI/Fade/Label.text = nam
-	#$UI/Fade/ProgressBar.value = prog
-	
+
+func AddHappinessDebuff(amount:int,duration:int,reason:String) -> void:
+	HappinessDebuffs.append({"amount":amount,"duration":duration,"reason":reason})
+	$Buildings.CalculateHapiness()
+
 func GetCityRect() -> Rect2:
 	var rect := Rect2()
 	var empty := true
@@ -376,3 +390,12 @@ func CaptureCityImage(img_size := Vector2i(480, 270)) -> Image:
 	new_vp.queue_free()
 	$Builder/BuildingPreview.show()
 	return img
+
+
+func DecreaseDebuffTimers() -> void:
+	for n in HappinessDebuffs:
+		n["duration"] -= 1
+		if n["duration"] <= 0:
+			HappinessDebuffs.erase(n)
+			$Buildings.CalculateHapiness()
+	$UI.SetDebuffTexts(HappinessDebuffs)

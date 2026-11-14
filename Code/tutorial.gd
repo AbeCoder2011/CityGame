@@ -30,14 +30,16 @@ const TUTORIAL_BRANCHES = {
 		{"await":"next"},
 		{"hide_pointer":"build"},
 		{"pointer":"basic_house"},
-		{"text":"The small supermarket is perfect for earning early game income. Try it out!"},
-		{"buttons":["How do I use these buildings?"]},
+		{"text":"The small supermarket is perfect for earning early game income. It generates 0.5 coins for every person nearby."},
+		{"await":"next"},
+		{"text":"Try it out by combining it with some housing to generate income!"},
+		{"buttons":["How do I know what these buildings do?"]},
 		{"await":"buttons"},
 		{"hide_pointer":"basic_house"},
 		{"branch":"building_info"},
 	],
 "building_info":[
-		{"text":"Good question! you can hover over the building to know what it does. You can't ponder yet RIP."},
+		{"text":"Good question! You can hover over the building to know what it does."},
 		{"await":"next"},
 		{"text":"Combining buildings cleverly is key to earning money as efficiently as possible."},
 		{"await":"next"},
@@ -72,7 +74,8 @@ var next_branch = "start"
 var next_branch_options = []
 
 func _ready() -> void:
-	StartTutorial()
+	hide()
+	#StartTutorial()
 
 func StartTutorial():
 	show()

@@ -8,11 +8,17 @@ var Progresses = {}
 
 var toolbar_selection_target = 0
 
+var happiness_text = ""
+var income_text = ""
+
+var menu_open = "none"
+
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
 	if FileAccess.file_exists("user://settings.cfg"):
 		$UI/Pause.LoadSettings()
+	
 
 func _process(delta: float) -> void:
 	if $UI/Tools/Main/Selection.offset_left < toolbar_selection_target:
@@ -109,14 +115,14 @@ func _on_destroy_pressed() -> void:
 
 func UpdateCityStats():
 	$UI/CityInfo/Info/Money/Label.text = Global.GetBigNumber(Global.Money)
-	$UI/CityInfo/Info/IncomePerSecond/Label.text = Global.GetBigNumber(Global.Income * 2) + "/s"
-	$UI/CityInfo/Info/Happiness/Label.text = str(Global.Happiness)
+	$UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox/Label.text = Global.GetBigNumber(Global.Income * 2) + "/s"
+	$UI/CityInfo/Info/Happiness/IconButton/Hbox/Label.text = str(Global.Happiness)
 	if Global.Happiness < 65:
-		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(352,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(352,0,16,16)
 	elif Global.Happiness < 130:
-		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(320,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(320,0,16,16)
 	else:
-		$UI/CityInfo/Info/Happiness/TextureRect.texture.region = Rect2(288,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(288,0,16,16)
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():
@@ -214,3 +220,49 @@ func _on_rectangle_pressed() -> void:
 func _on_grid_pressed() -> void:
 	Global.BuildingTool = 2
 	$UI/Tools/Tools/Selection.offset_left = 85
+
+func _on_icon_button_mouse_entered() -> void:
+	$UI/CityInfo/Info/Debuffs.show()
+	$UI/CityInfo/Info/Debuffs.text = happiness_text
+	menu_open = "happiness"
+
+func _on_icon_button_mouse_exited() -> void:
+	$UI/CityInfo/Info/Debuffs.hide()
+
+func SetDebuffTexts(debuffs:Array,happiness=true) -> void:
+	var text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf][font_size=25]"
+	var delta := 0
+	for n in debuffs:
+		if n["amount"] < 0:
+			text += "[color=#ca4848][{amount}][color=white] {reason} ".format(n)
+		else:
+			text += "[color=#50C878][+{amount}][color=white] {reason} ".format(n)
+		delta += n["amount"]
+		text += "[%d:%02d]\n" % [int(floor(n["duration"] / 60)),int(n["duration"] % 60)]
+	if happiness:
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon/Debuff.visible = delta < 0
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon/Buff.visible = delta > 0
+		happiness_text = text
+		if menu_open == "happiness":
+			$UI/CityInfo/Info/Debuffs.text = happiness_text
+	else:
+		income_text = text
+		if menu_open == "income":
+			$UI/CityInfo/Info/Debuffs.text = income_text
+
+
+func _on_income_mouse_entered() -> void:
+	$UI/CityInfo/Info/Debuffs.show()
+	$UI/CityInfo/Info/Debuffs.text = income_text
+	menu_open = "income"
+
+func UpdateIncome():
+	var income = []
+	for n in $"../DecisionManager".decision_buffs:
+		if n["name"].ends_with("income"):
+			income.append(n)
+	SetDebuffTexts(income,false)
+
+
+func _on_income_mouse_exited() -> void:
+	$UI/CityInfo/Info/Debuffs.hide()

@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://eccvxdkp4v1h" path="res://Assets/ball.png" id="3_n4bpb"]
 [ext_resource type="Texture2D" uid="uid://dtcuy5xhlsf57" path="res://Assets/icons.png" id="4_b2wr7"]
 [ext_resource type="Shader" uid="uid://ct3aa4adankg1" path="res://outline.gdshader" id="4_n4bpb"]
+[ext_resource type="Texture2D" uid="uid://h3vvb0q5gwy6" path="res://Assets/UI icons.png" id="4_vksob"]
+[ext_resource type="Shader" uid="uid://be0ift841wnoq" path="res://outline_fade.gdshader" id="7_urguw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b2wr7"]
 atlas = ExtResource("2_b2wr7")
@@ -80,6 +82,10 @@ colors = PackedColorArray(0.9882353, 1, 0.23921569, 1, 1, 1, 1, 0)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_aehul"]
 gradient = SubResource("Gradient_b2wr7")
 fill_to = Vector2(0.40106007, 0.40459365)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o2ick"]
+atlas = ExtResource("4_vksob")
+region = Rect2(16, 32, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_b2wr7"]
 font_size = 48
@@ -192,6 +198,106 @@ load_path = "res://.godot/imported/icons.png-09c24313aa75a5df81de880395d42450.ct
 atlas = SubResource("CompressedTexture2D_b2wr7")
 region = Rect2(32, 0, 16, 16)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_80bsu"]
+shader = ExtResource("7_urguw")
+shader_parameter/outline_color = Color(0.24, 0.2208, 0.2208, 1)
+shader_parameter/outline_width = 2.80000004172336
+shader_parameter/falloff = 1.1500000134110802
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aehul"]
+atlas = ExtResource("4_vksob")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80bsu"]
+atlas = ExtResource("4_vksob")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="Animation" id="Animation_kl7tv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExclMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExclMark:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExclMark:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2rejh"]
+resource_name = "grab_attention"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ExclMark:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(24, 24)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ExclMark:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExclMark:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(3.4, 3.4)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_elpxs"]
+_data = {
+&"RESET": SubResource("Animation_kl7tv"),
+&"grab_attention": SubResource("Animation_2rejh")
+}
+
 [node name="Building" type="Node2D" unique_id=709613803]
 script = ExtResource("1_avus0")
 
@@ -283,6 +389,15 @@ centered = false
 offset = Vector2(-64, 0)
 flip_h = true
 
+[node name="WarningSign" type="TextureRect" parent="Sprite" unique_id=1236826876]
+visible = false
+offset_left = -8.0
+offset_top = -8.000001
+offset_right = 8.0
+offset_bottom = 7.999999
+texture = SubResource("AtlasTexture_o2ick")
+stretch_mode = 4
+
 [node name="Income" type="Label" parent="." unique_id=942702721]
 visible = false
 z_index = 1
@@ -346,9 +461,35 @@ position = Vector2(24, 24)
 [node name="PlaneTimer" type="Timer" parent="." unique_id=379858772]
 process_mode = 3
 wait_time = 20.0
+one_shot = true
 autostart = true
+
+[node name="DecisionButton" type="Button" parent="." unique_id=2001043486]
+visible = false
+z_index = 1
+offset_right = 48.0
+offset_bottom = 48.0
+flat = true
+
+[node name="DecisionIcon" type="TextureRect" parent="DecisionButton" unique_id=1984491521]
+material = SubResource("ShaderMaterial_80bsu")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_aehul")
+
+[node name="ExclMark" type="Sprite2D" parent="DecisionButton/DecisionIcon" unique_id=619827631]
+texture = SubResource("AtlasTexture_80bsu")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DecisionButton/DecisionIcon" unique_id=1731183022]
+libraries/ = SubResource("AnimationLibrary_elpxs")
+autoplay = &"grab_attention"
 
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
 [connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]
 [connection signal="pressed" from="HoverDetection" to="." method="_on_pressed"]
 [connection signal="timeout" from="PlaneTimer" to="." method="_on_plane_timer_timeout"]
+[connection signal="pressed" from="DecisionButton" to="." method="_on_decision_button_pressed"]

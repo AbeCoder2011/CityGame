@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://ugunq5s6ltwa" path="res://Code/train_animation.gd" id="10_4kpch"]
 [ext_resource type="Texture2D" uid="uid://bss51o5idel7h" path="res://Assets/area.png" id="10_grg3l"]
 [ext_resource type="Script" uid="uid://b2an04ifeivuf" path="res://Code/planes.gd" id="12_grg3l"]
+[ext_resource type="Script" uid="uid://bmejqi6fkuf7o" path="res://Code/decision_manager.gd" id="13_frkhe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kpch"]
 texture = ExtResource("8_vy5pj")
@@ -723,12 +724,6 @@ tile_set = SubResource("TileSet_o2ick")
 [node name="Buildings" type="Node2D" parent="." unique_id=1447662016]
 script = ExtResource("6_v1gob")
 
-[node name="Timer" type="Timer" parent="Buildings" unique_id=2016130931]
-wait_time = 0.5
-autostart = true
-
-[node name="Autosaver" type="Timer" parent="." unique_id=292409366]
-
 [node name="Areas" type="Node2D" parent="." unique_id=621043817]
 script = SubResource("GDScript_50glp")
 
@@ -736,23 +731,42 @@ script = SubResource("GDScript_50glp")
 position = Vector2(-144, -144)
 tile_set = SubResource("TileSet_bmxlf")
 
-[node name="TrainAnimation" type="Node2D" parent="." unique_id=53925479]
+[node name="Animations" type="Node2D" parent="." unique_id=2018369523]
+
+[node name="Planes" type="Node2D" parent="Animations" unique_id=1331332644]
+script = ExtResource("12_grg3l")
+
+[node name="TrainAnimation" type="Node2D" parent="Animations" unique_id=53925479]
 script = ExtResource("10_4kpch")
 
-[node name="TrainTimer" type="Timer" parent="TrainAnimation" unique_id=1632609789]
+[node name="TrainTimer" type="Timer" parent="Animations/TrainAnimation" unique_id=1632609789]
 wait_time = 10.0
 autostart = true
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=2054783197]
+[node name="GPUParticles2D" type="GPUParticles2D" parent="Animations" unique_id=2054783197]
 visible = false
 position = Vector2(-222, -98)
 amount = 100
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_06wwg")
 
-[node name="Planes" type="Node2D" parent="." unique_id=1331332644]
-script = ExtResource("12_grg3l")
+[node name="Timers" type="Node2D" parent="." unique_id=295002288]
 
-[connection signal="timeout" from="Buildings/Timer" to="Buildings" method="Tick"]
-[connection signal="timeout" from="Autosaver" to="." method="SaveGame" binds= [true]]
-[connection signal="timeout" from="TrainAnimation/TrainTimer" to="TrainAnimation" method="_on_train_timer_timeout"]
+[node name="Autosaver" type="Timer" parent="Timers" unique_id=292409366]
+
+[node name="BuildingClock" type="Timer" parent="Timers" unique_id=2016130931]
+wait_time = 0.5
+
+[node name="DebuffTimer" type="Timer" parent="Timers" unique_id=217290861]
+process_mode = 1
+
+[node name="DecisionTimer" type="Timer" parent="Timers" unique_id=95158966]
+
+[node name="DecisionManager" type="Node2D" parent="." unique_id=662950782]
+script = ExtResource("13_frkhe")
+
+[connection signal="timeout" from="Animations/TrainAnimation/TrainTimer" to="Animations/TrainAnimation" method="_on_train_timer_timeout"]
+[connection signal="timeout" from="Timers/Autosaver" to="." method="SaveGame" binds= [true]]
+[connection signal="timeout" from="Timers/BuildingClock" to="Buildings" method="Tick"]
+[connection signal="timeout" from="Timers/DebuffTimer" to="." method="DecreaseDebuffTimers"]
+[connection signal="timeout" from="Timers/DecisionTimer" to="DecisionManager" method="DecreaseDecisionTime"]

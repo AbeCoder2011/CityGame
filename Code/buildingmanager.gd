@@ -438,10 +438,14 @@ func CalculateHapiness():
 	for b in AllHousingBuildings:
 		total += b["node"].extra_data.get("happiness",0)
 		amount += b["node"].inputs.get("population",0)
+	var val : float
 	if amount == 0:
-		Global.Happiness = 100.0
+		val = 100.0
 	else:
-		Global.Happiness = floor(total / max(amount,1))
+		val = floor(total / max(amount,1))
+	for n in $"..".HappinessDebuffs:
+		val += n["amount"]
+	Global.Happiness = val
 	
 
 func GetHappinessValue(pos:Vector2i,nam:String,node:Node2D) -> int:
@@ -466,6 +470,12 @@ func Tick():
 				ClaimCollections.get(n["claims"][claim],{}).erase(claim)
 			if n["name"] in HOUSING_NAMES:
 				AllHousingBuildings.erase(n)
+				var debuff_val : int = int(floor(log(n["node"].inputs.get("population") + 10) * 20 - 40))
+				var debuff_len : int = int(floor(log(n["node"].inputs.get("population") + 10) * 40 - 70))
+				$"..".AddHappinessDebuff(-debuff_val,debuff_len,"Destroyed Housing")
+				CalculateHapiness()
+				RecomputePopulation()
+				
 			match n["name"]:
 				"Transformator Building":
 					AllPowerRelatedBuildings.erase(n)
@@ -506,8 +516,9 @@ func Tick():
 				money_total += b["node"].inputs.get("money",0)
 				if not disable_income_popup:
 					b["node"].display_income(b["node"].inputs.get("money",0))
-	Global.Money += money_total * Global.Happiness / 100
-	Global.Income = money_total * Global.Happiness / 100
+	Global.Money += money_total * Global.Happiness / 100 * $"../DecisionManager".buffs.get("income",1.0)
+	Global.Income = money_total * Global.Happiness / 100 * $"../DecisionManager".buffs.get("income",1.0)
+	print($"../DecisionManager".buffs)
 	$"..".UpdateCityStats()
 	var b_amounts = GetBuildingAmounts()
 	if b_amounts.get("total",0) > PeakBuildings:
@@ -628,7 +639,7 @@ func RecomputePopulation():
 	population_total = 0
 	for b in AllHousingBuildings:
 		population_total += b["node"].inputs.get("population",0)
-	Global.Population = population_total
+	Global.Population = population_total * $"../DecisionManager".buffs.get("population",1.0)
 	
 # --- Building Values Recompute
 	#already_checked_buildings = []

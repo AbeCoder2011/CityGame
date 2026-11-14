@@ -15,9 +15,9 @@ func setup(target: Vector2, entry: Vector2, start_pos: Vector2) -> void:
 	position = start_pos
 	curve = Curve2D.new()
 	curve.add_point(Vector2.ZERO)
-	curve.add_point(entry - start_pos, -(target - entry).normalized() * 400, (target - entry).normalized() * 400)
+	curve.add_point(entry - start_pos, -(target - entry).normalized() * 500, (target - entry).normalized() * 500)
 	curve.add_point(target - start_pos)
-	speed = randi_range(70,600)
+	speed = randi_range(70,250)
 func _process(delta: float) -> void:
 	# Remaining flight pixels
 	var rm = curve.get_baked_length() - $Plane.progress

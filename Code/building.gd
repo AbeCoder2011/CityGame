@@ -23,6 +23,8 @@ var selected = false
 
 var line = preload("res://Scenes/line.tscn")
 
+var decision_ID = -1
+
 func init_building(nam,pos) -> void:
 	building_name = nam
 	grid_pos = pos
@@ -364,4 +366,17 @@ func _on_visible_screen_exited() -> void:
 
 func _on_plane_timer_timeout() -> void:
 	if building_name == "Airport Runway":
-		$"../../Planes".SummonPlaneTo(Vector2(grid_pos * 48) + Vector2(24,24))
+		$"../../Animations/Planes".SummonPlaneTo(Vector2(grid_pos * 48) + Vector2(24,24))
+		$PlaneTimer.wait_time = randi_range(20,50)
+		$PlaneTimer.start()
+
+func SpawnDecision(id:int):
+	decision_ID = id
+	$DecisionButton.position = Vector2(randi_range(-32,32),randi_range(-32,32))
+	$DecisionButton.show()
+
+func HideDecision():
+	$DecisionButton.hide()
+
+func _on_decision_button_pressed() -> void:
+	$"../../DecisionManager".DecisionPressed(decision_ID)

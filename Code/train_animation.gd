@@ -3,14 +3,14 @@ extends Node2D
 var train_scene = preload("res://Scenes/train.tscn")
 
 func _on_train_timer_timeout() -> void:
-	for nw in $"../Buildings".station_networks:
+	for nw in $"../../Buildings".station_networks:
 		if nw.size() < 2:
 			continue
 		var new_nw = nw.duplicate()
 		var stA = new_nw.pick_random()
 		new_nw.erase(stA)
 		var stB = new_nw.pick_random()
-		var path :Array = $"../Buildings".GetRailPath(stA["pos"],stB["pos"])
+		var path :Array = $"../../Buildings".GetRailPath(stA["pos"],stB["pos"])
 		if path.is_empty():
 			return
 		var train : Path2D = train_scene.instantiate()

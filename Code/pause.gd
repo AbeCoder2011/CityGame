@@ -83,7 +83,7 @@ func SetSettingValue(new_value:float,nam:String):
 		"autosave_interval":
 			$"General/HBoxContainer/1/AutosaveInterval2".text = "Autosave Interval (" + str(int(new_value / 60)) + "m)"
 			if not main_menu:
-				$"../../../Autosaver".wait_time = new_value
+				$"../../../Timers/Autosaver".wait_time = new_value
 		"master_volume":
 			AudioServer.set_bus_volume_linear(AudioServer.get_bus_index("Master"),new_value)
 			$"Audio/HBoxContainer/1/Master".text = "Master Volume (%d%s)" % [(new_value * 100),"%"]
@@ -144,6 +144,8 @@ func LoadSettings() -> void:
 				$"General/HBoxContainer/1/AutosaveIntervalSlider".visible = v
 			"autosave_interval":
 				$"General/HBoxContainer/1/AutosaveIntervalSlider".value = v
+				if !main_menu:
+					$"../../../Timers/Autosaver".wait_time = Global.Settings.get("autosave_interval",60)
 			"camera_speed":
 				$"General/HBoxContainer/1/CamSpeedSlider".value = v
 			"number_notation":
@@ -173,9 +175,6 @@ func LoadSettings() -> void:
 				else:
 					Engine.max_fps = v
 					$"Video/HBoxContainer/1/FPS".text = "Maximum FPS (%d fps)" % v
-			"autosave_interval":
-				if !main_menu:
-					$"../Autosaver".wait_time = Global.Settings.get("autosave_interval",60)
 			"window_size":
 				get_window().size = WINDOW_SIZES[v]
 			"window_mode":

@@ -194,7 +194,15 @@ outline_color = Color(0, 0, 0, 1)
 atlas = ExtResource("6_xjg7p")
 region = Rect2(288, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_b1goy"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc83r"]
+atlas = ExtResource("9_wunin")
+region = Rect2(0, 16, 6, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68ajo"]
+atlas = ExtResource("9_wunin")
+region = Rect2(6, 16, 6, 6)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iufls"]
 atlas = ExtResource("6_xjg7p")
 region = Rect2(384, 0, 16, 16)
 
@@ -275,6 +283,19 @@ _data = {
 &"RESET": SubResource("Animation_j04uc"),
 &"new_building": SubResource("Animation_vqx31")
 }
+
+[sub_resource type="GDScript" id="GDScript_u43da"]
+resource_name = "hide_in_editor"
+script/source = "@tool
+extends ColorRect
+
+
+func _ready() -> void:
+	if Engine.is_editor_hint():
+		hide()
+	else:
+		show()
+"
 
 [sub_resource type="Animation" id="Animation_b1goy"]
 length = 0.001
@@ -597,6 +618,114 @@ _data = {
 &"wobble": SubResource("Animation_r71lk")
 }
 
+[sub_resource type="GDScript" id="GDScript_o2ick"]
+resource_name = "decision"
+script/source = "extends Control
+
+var options = []
+
+func _ready() -> void:
+	var i = 0
+	for nod in $VBoxContainer.get_children():
+		if nod.name.begins_with(\"Option\"):
+			nod.pressed.connect(pressed.bind(i))
+			i += 1
+
+func pressed(i:int):
+	$\"../../../DecisionManager\".DecisionButtonPressed(i)
+	hide()
+
+func SetDecision(nam:String,d:Dictionary):
+	$VBoxContainer/Option1.hide()
+	$VBoxContainer/Option2.hide()
+	$VBoxContainer/Option3.hide()
+	$VBoxContainer/Title/Title.text = nam
+	$VBoxContainer/Description.text = d[\"desc\"]
+	var i = 1
+	options = d[\"options\"]
+	for option in d[\"options\"]:
+		$VBoxContainer.get_node(\"Option\" + str(i)).show()
+		$VBoxContainer.get_node(\"Option\" + str(i)).text = \"   \" + option[\"name\"]
+		i += 1
+	show()
+
+
+func _on_dismiss_pressed() -> void:
+	hide()
+
+func EffectToDescription(effects:Array) -> String:
+	var text = \"\"
+	var last_positive = null
+	for n in effects:
+		var txt : String = GetName(n[\"name\"])
+		var positive = txt.left(1) in [\"i\",\"g\"]
+		if last_positive == true:
+			if positive:
+				text += \" and \"
+			else:
+				text += \", but \"
+		elif last_positive == false:
+			if not positive:
+				text += \" and \"
+			else:
+				text += \", but \"
+		text += txt
+		last_positive = positive
+	return text.left(1).to_upper() + text.right(-1) + \".\"
+
+func GetName(eff_nam:String) -> String:
+	match eff_nam:
+		\"boost_income\":
+			return \"increases income\"
+		\"reduce_income\":
+			return \"reduces income\"
+		\"boost_population\":
+			return \"increases population temporarily\"
+		\"reduce_population\":
+			return \"reduces population temporarily\"
+		\"happiness_boost\":
+			return \"increases happiness\"
+		\"happiness_debuff\":
+			return \"reduces happiness\"
+		\"reduce_building_cost\":
+			return \"reduces building cost\"
+		\"increase_building_cost\":
+			return \"reduces building cost\"
+		\"gain_money\":
+			return \"gives money\"
+		\"lose_money\":
+			return \"costs money\"
+	return \"\"
+
+
+func _on_option_focus_entered(id:int) -> void:
+	$VBoxContainer/Outcome.text = EffectToDescription(options[id][\"effects\"])
+	$VBoxContainer/Outcome.show()
+
+func _on_option_focus_exited() -> void:
+	$VBoxContainer/Outcome.hide()
+"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j47vx"]
+atlas = ExtResource("2_wi7yl")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r71lk"]
+atlas = ExtResource("2_wi7yl")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="LabelSettings" id="LabelSettings_61h6g"]
+font = ExtResource("11_b1goy")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_yc83r"]
+font = ExtResource("11_b1goy")
+font_size = 22
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gobav"]
+atlas = ExtResource("2_wi7yl")
+region = Rect2(0, 32, 16, 16)
+
 [node name="UI" type="CanvasLayer" unique_id=790133659]
 process_mode = 3
 script = ExtResource("1_dewlx")
@@ -853,7 +982,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 37.0
 offset_top = -587.0
-offset_right = 589.0029
+offset_right = 589.0032
 offset_bottom = -10.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -1037,6 +1166,7 @@ anchor_bottom = 1.0
 offset_right = -80.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Housing" type="GridContainer" parent="UI/Building/Categories" unique_id=865928390]
 layout_mode = 1
@@ -1537,7 +1667,7 @@ layout_mode = 1
 anchors_preset = 0
 offset_left = 15.0
 offset_top = 15.0
-offset_right = 296.0
+offset_right = 524.0
 offset_bottom = 429.0
 mouse_filter = 2
 
@@ -1546,6 +1676,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 124.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -1555,7 +1686,7 @@ custom_minimum_size = Vector2(30, 50)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Money" unique_id=1791370521]
+[node name="Icon" type="TextureRect" parent="UI/CityInfo/Info/Money" unique_id=1791370521]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
@@ -1585,7 +1716,7 @@ custom_minimum_size = Vector2(30, 50)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Population" unique_id=1128344503]
+[node name="Icon" type="TextureRect" parent="UI/CityInfo/Info/Population" unique_id=1128344503]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
@@ -1611,50 +1742,120 @@ custom_minimum_size = Vector2(30, 50)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/Happiness" unique_id=701407011]
+[node name="IconButton" type="Button" parent="UI/CityInfo/Info/Happiness" unique_id=1846234034]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+flat = true
+
+[node name="Hbox" type="HBoxContainer" parent="UI/CityInfo/Info/Happiness/IconButton" unique_id=316479938]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Icon" type="TextureRect" parent="UI/CityInfo/Info/Happiness/IconButton/Hbox" unique_id=701407011]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
 texture = SubResource("AtlasTexture_vqx31")
 
-[node name="Label" type="Label" parent="UI/CityInfo/Info/Happiness" unique_id=1650904332]
+[node name="Debuff" type="TextureRect" parent="UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon" unique_id=770387210]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 34.4
+offset_bottom = 33.0
+texture = SubResource("AtlasTexture_yc83r")
+stretch_mode = 5
+
+[node name="Buff" type="TextureRect" parent="UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon" unique_id=481036325]
+visible = false
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 34.4
+offset_bottom = 33.0
+texture = SubResource("AtlasTexture_68ajo")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/Happiness/IconButton/Hbox" unique_id=1650904332]
 layout_mode = 2
 theme = ExtResource("6_48q88")
 text = "0"
 label_settings = SubResource("LabelSettings_aehul")
 
-[node name="Pointer" parent="UI/CityInfo/Info/Happiness" unique_id=2002314153 instance=ExtResource("19_r71lk")]
+[node name="Pointer" parent="UI/CityInfo/Info/Happiness/IconButton/Hbox" unique_id=2002314153 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 offset_transform_position = Vector2(39.07744, 0)
 PointerName = "happiness"
-start = Vector2i(25, -26)
+start = Vector2i(20, -41)
 
 [node name="IncomePerSecond" type="HBoxContainer" parent="UI/CityInfo/Info" unique_id=1126922166]
 custom_minimum_size = Vector2(30, 50)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=1933732170]
+[node name="IconButton" type="Button" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=2102616892]
+custom_minimum_size = Vector2(30, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+flat = true
+
+[node name="Hbox" type="HBoxContainer" parent="UI/CityInfo/Info/IncomePerSecond/IconButton" unique_id=255504142]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Icon" type="TextureRect" parent="UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox" unique_id=2109432465]
 custom_minimum_size = Vector2(30, 30)
 layout_mode = 2
 size_flags_vertical = 4
 mouse_filter = 2
-texture = SubResource("AtlasTexture_b1goy")
+texture = SubResource("AtlasTexture_iufls")
 
-[node name="Label" type="Label" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=964448424]
+[node name="Debuff" type="TextureRect" parent="UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox/Icon" unique_id=352540542]
+visible = false
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 34.4
+offset_bottom = 33.0
+texture = SubResource("AtlasTexture_yc83r")
+stretch_mode = 5
+
+[node name="Buff" type="TextureRect" parent="UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox/Icon" unique_id=1645183507]
+layout_mode = 0
+offset_left = 19.0
+offset_top = 19.0
+offset_right = 34.4
+offset_bottom = 33.0
+texture = SubResource("AtlasTexture_68ajo")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox" unique_id=1746078487]
 layout_mode = 2
 theme = ExtResource("6_48q88")
 text = "0"
 label_settings = SubResource("LabelSettings_aehul")
 
-[node name="Pointer" parent="UI/CityInfo/Info/IncomePerSecond" unique_id=179649997 instance=ExtResource("19_r71lk")]
+[node name="Pointer" parent="UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox" unique_id=717244881 instance=ExtResource("19_r71lk")]
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 offset_transform_position = Vector2(39.07744, 0)
-PointerName = "income"
-start = Vector2i(25, -26)
+PointerName = "happiness"
+start = Vector2i(20, -41)
+
+[node name="Debuffs" type="RichTextLabel" parent="UI/CityInfo/Info" unique_id=131601615]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf][font_size=25][color=#50C878][{amount}][color=white] {reason} "
+autowrap_mode = 0
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
 layout_mode = 1
@@ -1750,6 +1951,7 @@ grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("10_n04ve")
 color = Color(0, 0, 0, 1)
+script = SubResource("GDScript_u43da")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Fade" unique_id=217332684]
 libraries/ = SubResource("AnimationLibrary_wi7yl")
@@ -2348,12 +2550,250 @@ stretch_mode = 5
 libraries/ = SubResource("AnimationLibrary_d1ul7")
 autoplay = &"wobble"
 
+[node name="Decision" type="Control" parent="UI" unique_id=127398420]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 464.0
+offset_top = 240.0
+offset_right = -585.0
+offset_bottom = -286.0
+grow_horizontal = 2
+grow_vertical = 2
+script = SubResource("GDScript_o2ick")
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision" unique_id=866391264]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.1
+anchor_bottom = 0.1
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(10, 10)
+texture = SubResource("AtlasTexture_j47vx")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/Decision" unique_id=1394553531]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="NinePatchRect" parent="UI/Decision/VBoxContainer" unique_id=270150537]
+custom_minimum_size = Vector2(162, 10)
+layout_mode = 2
+size_flags_horizontal = 0
+offset_transform_enabled = true
+offset_transform_scale = Vector2(5, 5)
+offset_transform_pivot_ratio = Vector2(0, 0)
+texture = SubResource("AtlasTexture_r71lk")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Title" type="Label" parent="UI/Decision/VBoxContainer/Title" unique_id=134029259]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -2.0
+anchor_right = 3.0
+anchor_bottom = 1.0
+offset_left = -7.0
+offset_right = 3370.1396
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.2, 0.2)
+text = "Factory strike!"
+label_settings = SubResource("LabelSettings_61h6g")
+horizontal_alignment = 1
+
+[node name="Gap" type="Control" parent="UI/Decision/VBoxContainer" unique_id=313579592]
+custom_minimum_size = Vector2(0, 43.815)
+layout_mode = 2
+
+[node name="Description" type="Label" parent="UI/Decision/VBoxContainer" unique_id=1923067454]
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+size_flags_vertical = 3
+text = "The factory employees are striking! They demand a salary raise."
+label_settings = SubResource("LabelSettings_yc83r")
+autowrap_mode = 2
+
+[node name="Outcome" type="Label" parent="UI/Decision/VBoxContainer" unique_id=668034214]
+custom_minimum_size = Vector2(1, 20)
+layout_mode = 2
+size_flags_vertical = 1
+label_settings = SubResource("LabelSettings_yc83r")
+autowrap_mode = 2
+
+[node name="Option1" type="Button" parent="UI/Decision/VBoxContainer" unique_id=233036587]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   Hello there"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Option1" unique_id=180831675]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Option2" type="Button" parent="UI/Decision/VBoxContainer" unique_id=2028204984]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   Hello there"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Option2" unique_id=673327216]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Option3" type="Button" parent="UI/Decision/VBoxContainer" unique_id=1975955095]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   Hello there"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Option3" unique_id=29273198]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Option4" type="Button" parent="UI/Decision/VBoxContainer" unique_id=156165603]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   Hello there"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Option4" unique_id=1167982572]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Option5" type="Button" parent="UI/Decision/VBoxContainer" unique_id=890020041]
+visible = false
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   Hello there"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Option5" unique_id=880280630]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
+[node name="Dismiss" type="Button" parent="UI/Decision/VBoxContainer" unique_id=1979230094]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("11_b1goy")
+theme_override_font_sizes/font_size = 18
+text = "   I won't adress this right now"
+flat = true
+alignment = 0
+
+[node name="BG" type="NinePatchRect" parent="UI/Decision/VBoxContainer/Dismiss" unique_id=97581359]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.25
+anchor_bottom = 0.25
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_gobav")
+patch_margin_left = 2
+patch_margin_top = 2
+patch_margin_right = 2
+patch_margin_bottom = 2
+
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Select" to="." method="_on_select_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Draw" to="." method="_on_draw_pressed"]
 [connection signal="pressed" from="UI/Tools/Main/HBoxContainer/Destroy" to="." method="_on_destroy_pressed"]
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Single" to="." method="_on_single_pressed"]
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Rectangle" to="." method="_on_rectangle_pressed"]
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
+[connection signal="mouse_entered" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_entered"]
+[connection signal="mouse_exited" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_exited"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
 [connection signal="next_dialogue" from="UI/Tutorial" to="UI/Tutorial/HBoxContainer/Dialogue/Text" method="skip_dialogue"]
@@ -2362,3 +2802,13 @@ autoplay = &"wobble"
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But2" to="UI/Tutorial" method="option_button" binds= [2]]
 [connection signal="pressed" from="UI/Tutorial/HBoxContainer/Dialogue/Buttons/But3" to="UI/Tutorial" method="option_button" binds= [3]]
 [connection signal="pressed" from="UI/Tutorial/NextButton" to="UI/Tutorial" method="done"]
+[connection signal="mouse_entered" from="UI/Decision/VBoxContainer/Option1" to="UI/Decision" method="_on_option_focus_entered" binds= [0]]
+[connection signal="mouse_exited" from="UI/Decision/VBoxContainer/Option1" to="UI/Decision" method="_on_option_focus_exited"]
+[connection signal="mouse_entered" from="UI/Decision/VBoxContainer/Option2" to="UI/Decision" method="_on_option_focus_entered" binds= [1]]
+[connection signal="mouse_exited" from="UI/Decision/VBoxContainer/Option2" to="UI/Decision" method="_on_option_focus_exited"]
+[connection signal="mouse_entered" from="UI/Decision/VBoxContainer/Option3" to="UI/Decision" method="_on_option_focus_entered" binds= [2]]
+[connection signal="mouse_entered" from="UI/Decision/VBoxContainer/Option4" to="UI/Decision" method="_on_option_focus_entered" binds= [3]]
+[connection signal="mouse_exited" from="UI/Decision/VBoxContainer/Option4" to="UI/Decision" method="_on_option_focus_exited"]
+[connection signal="mouse_entered" from="UI/Decision/VBoxContainer/Option5" to="UI/Decision" method="_on_option_focus_entered" binds= [4]]
+[connection signal="mouse_exited" from="UI/Decision/VBoxContainer/Option5" to="UI/Decision" method="_on_option_focus_exited"]
+[connection signal="pressed" from="UI/Decision/VBoxContainer/Dismiss" to="UI/Decision" method="_on_dismiss_pressed"]

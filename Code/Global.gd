@@ -643,8 +643,7 @@ const ACHIEVEMENTS = {
 		"requirements": [{"type": "population", "amount": 200000}]
 	}
 }
-const RailIndexes = {
-}
+
 @export var Money := 100.0
 @export var Population := 0
 @export var Income := 0.0
@@ -656,7 +655,7 @@ func GetBuildingCost(nam) -> int:
 		return base
 	var mult = BuildingUses.get_or_add(nam,0)
 	var increase : float = {1:1.05,2:1.1,3:1.3,4:1.4,5:1.5}[Difficulty]
-	return base * (increase ** mult)
+	return base * (increase ** mult) * get_tree().current_scene.get_node("DecisionManager").buffs.get("building_cost",1.0)
 
 #func _unhandled_input(event: InputEvent) -> void:
 	#if event.is_action("Abe") and event.is_pressed():
