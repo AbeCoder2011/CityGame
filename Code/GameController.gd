@@ -254,6 +254,7 @@ func SaveGame(autosave=false):
 	ResourceSaver.save(resource, SAVE_PATH + SAVE_NAME)
 	if autosave:
 		resource.image = await CaptureCityImage()
+		resource.extra_data = {"money":Global.Money,"population":Global.Population,"happiness":Global.Happiness,"income":Global.Income}
 		MakeAutosave(resource)
 		DeleteOldAutosaves()
 	print("Game saved succesfully!")
@@ -268,7 +269,7 @@ func DeleteOldAutosaves():
 	var dir := DirAccess.open("user://autosaves/")
 	dir.list_dir_begin()
 	var files : Array = dir.get_files()
-	files.reverse()
+	files.sort_custom(SortByDate)
 	if len(files) > 12:
 		var i = 0
 		for n in files:
@@ -276,7 +277,9 @@ func DeleteOldAutosaves():
 			if i > 12:
 				DirAccess.remove_absolute("user://autosaves/" + n)
 		pass # DELETE OLD AUTOSAVES
-	
+
+func SortByDate(a:String,b:String):
+	return FileAccess.get_modified_time("user://autosaves/" + a) > FileAccess.get_modified_time("user://autosaves/" + b)
 
 func LoadGame():
 	$UI.SetLoadProgress("Loading save...",0)
@@ -360,9 +363,9 @@ func GetCityRect() -> Rect2:
 			var r := Rect2(Vector2(b["pos"]) * 48, Vector2($Buildings.GetSize(b["name"])) * 48)
 			if empty:
 				rect = r 
+				empty = false
 			else:
-				rect.merge(r)
-			empty = false
+				rect = rect.merge(r)
 	if empty:  # default area
 		var a : Rect2 = BuildableAreas[0]
 		rect = Rect2(a.position * 48, a.size * 48)

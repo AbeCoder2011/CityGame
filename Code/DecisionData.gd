@@ -13,7 +13,7 @@ const Data = {
 	"Homeless on the Street":{
 		"desc":"Families are sleeping in doorways near your houses. Families are starting to complain.",
 		"options":[
-			{"name":"Build a shelter","effects":[{"name":"reduce_income","value":50,"duration":300}]},
+			{"name":"Build a shelter","effects":[{"name":"reduce_income","value":20,"duration":300}]},
 			{"name":"Move them along","effects":[{"name":"happiness_debuff","value":-20,"duration":600}]},
 			{"name":"Hand out food","effects":[{"name":"lose_money","value":30}]},
 		],
@@ -256,7 +256,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Mall","amount":1},
 	},
 	"Poetry Night":{
-		"desc":"The cafe owner wants to host an poetry night. Some poetry is better than others.",
+		"desc":"The cafe owner wants to host a poetry night. Some poetry is better than others.",
 		"options":[
 			{"name":"Let the poets in","effects":[{"name":"boost_income","value":15,"duration":300},{"name":"happiness_boost","value":5,"duration":300}]},
 			{"name":"Keep it a quiet cafe","effects":[{"name":"gain_money","value":10}]},
@@ -292,7 +292,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Lumber Mill","amount":1},
 	},
 	"Empty Nets":{
-		"desc":"The fishermen return with almost nothing. The sea seems emptier then ever.",
+		"desc":"The fishermen return with almost nothing. The sea seems emptier than ever.",
 		"options":[
 			{"name":"Fish further out","effects":[{"name":"lose_money","value":30},{"name":"boost_income","value":10,"duration":300}]},
 			{"name":"Let the water recover","effects":[{"name":"reduce_income","value":15,"duration":300},{"name":"happiness_boost","value":5,"duration":1200}]},
@@ -486,7 +486,7 @@ const Data = {
 		"options":[
 			{"name":"Buy everything","effects":[{"name":"lose_money","value":15},{"name":"happiness_boost","value":10,"duration":300}]},
 			{"name":"Just one cookie","effects":[{"name":"lose_money","value":2},{"name":"happiness_boost","value":3,"duration":300}]},
-			{"name":"No cookies for me","effects":[{"name":"happiness_boost","value":-15,"duration":300}]},
+			{"name":"No cookies for me","effects":[{"name":"happiness_debuff","value":-15,"duration":300}]},
 		],
 		"eligible_buildings":"all_housing",
 		"requirement":{"type":"population","amount":20},
@@ -503,7 +503,7 @@ const Data = {
 	"Graffiti Artist":{
 		"desc":"Someone painted a giant mural on the wall of the bakery. Nobody knows who did it, but it looks really good.",
 		"options":[
-			{"name":"Keep the fish","effects":[{"name":"happiness_boost","value":8,"duration":600},{"name":"reduce_income","value":15,"duration":120}]},
+			{"name":"Keep the mural","effects":[{"name":"happiness_boost","value":8,"duration":600},{"name":"reduce_income","value":15,"duration":120}]},
 			{"name":"Paint over it","effects":[{"name":"lose_money","value":10}]},
 		],
 		"eligible_buildings":"Bakery",
@@ -537,7 +537,7 @@ const Data = {
 		"requirement":{"type":"population","amount":40},
 	},
 	"Cold Snap":{
-		"desc":"It's freezing! Everyone is wearing three scarves, and the fountain freezed up completely.",
+		"desc":"It's freezing! Everyone is wearing three scarves, and the fountain froze up completely.",
 		"options":[
 			{"name":"Hand out hot cocoa","effects":[{"name":"lose_money","value":15},{"name":"happiness_boost","value":10,"duration":300}]},
 			{"name":"Tell everyone to stay inside","effects":[{"name":"reduce_income","value":8,"duration":300}]},
@@ -581,16 +581,6 @@ const Data = {
 		"eligible_buildings":"all",
 		"requirement":{"type":"population","amount":200},
 	},
-	"Sir Fluffington Returns":{
-		"desc":"Sir Fluffington was found asleep in the bakery. He's wearing a tiny bow tie, and nobody knows where he got it.",
-		"options":[
-			{"name":"Throw a welcome home party","effects":[{"name":"lose_money","value":10},{"name":"happiness_boost","value":12,"duration":600}]},
-			{"name":"Give him a job at the bakery","effects":[{"name":"boost_income","value":8,"duration":600}]},
-		],
-		"eligible_buildings":"all_housing",
-		"requirement":{"type":"population","amount":15},
-		"follows_up":"Lost Cat",
-	},
 	"Rooftop Garden":{
 		"desc":"The people in the tower want a garden on the roof. They are already theorizing about the veggies they will plant.",
 		"options":[
@@ -610,7 +600,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Mega Apartment Complex","amount":1},
 	},
 	"Overcrowded Lobby":{
-		"desc":"So many people live here that the lobby has was overfull yesterday. ",
+		"desc":"So many people live here that the lobby was overfull yesterday. A homeless man even slept on a bench in the lobby last night.",
 		"options":[
 			{"name":"Build a bigger lobby","effects":[{"name":"lose_money","value":100},{"name":"boost_population","value":15,"duration":900}]},
 			{"name":"Hand out waiting numbers","effects":[{"name":"happiness_debuff","value":-10,"duration":300}]},
@@ -655,7 +645,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Small Supermarket","amount":3},
 	},
 	"Barista Championship":{
-		"desc":"Two baristas are fighting over who makes the best coffee. They are currently argueing about the difference between oat and cow milk.",
+		"desc":"Two baristas are fighting over who makes the best coffee. They are currently arguing about the difference between oat and cow milk.",
 		"options":[
 			{"name":"Host a contest","effects":[{"name":"lose_money","value":25},{"name":"boost_income","value":30,"duration":300},{"name":"happiness_boost","value":8,"duration":300}]},
 			{"name":"Declare a tie","effects":[{"name":"happiness_boost","value":5,"duration":300}]},
@@ -709,7 +699,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Restaurant","amount":1},
 	},
 	"Coal Shortage":{
-		"desc":"The coal truck is lost. News sites say it 'Made a sudden stop near the egde of a cliff'.",
+		"desc":"The coal truck is lost. News sites say it 'Made a sudden stop near the edge of a cliff'.",
 		"options":[
 			{"name":"Buy emergency coal","effects":[{"name":"lose_money","value":50}]},
 			{"name":"Wait for the truck","effects":[{"name":"reduce_income","value":20,"duration":300}]},
@@ -794,7 +784,7 @@ const Data = {
 		"options":[
 			{"name":"Keep the honey","effects":[{"name":"gain_money","value":25},{"name":"happiness_debuff","value":-5,"duration":300}]},
 			{"name":"Move the bees","effects":[{"name":"lose_money","value":20}]},
-			{"name":"Destroy the bee nest","effects":[{"name":"happiness_debuff","value":8,"duration":300}]},
+			{"name":"Destroy the bee nest","effects":[{"name":"happiness_debuff","value":-8,"duration":300}]},
 		],
 		"eligible_buildings":"Large Park",
 		"requirement":{"type":"building","name":"Large Park","amount":1},
@@ -818,7 +808,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Small Factory","amount":1},
 	},
 	"Industrial Espionage":{
-		"desc":"A mysterious man was seen taking photos of your machines. He couldn't speak english, and left in a limosuine.",
+		"desc":"A mysterious man was seen taking photos of your machines. He couldn't speak english, and left in a limousine.",
 		"options":[
 			{"name":"Hire security","effects":[{"name":"lose_money","value":80}]},
 			{"name":"Sell him the secrets","effects":[{"name":"gain_money","value":60},{"name":"reduce_income","value":10,"duration":600}]},
@@ -890,7 +880,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Fishing Dock","amount":1},
 	},
 	"Sushi Craze":{
-		"desc":"Everybody wants sushi! There's a line of a hundred people waiting for a famous Calefornia Roll.",
+		"desc":"Everybody wants sushi! There's a line of a hundred people waiting for a famous California Roll.",
 		"options":[
 			{"name":"Open a sushi bar","effects":[{"name":"lose_money","value":45},{"name":"boost_income","value":30,"duration":600}]},
 			{"name":"Stick to fish","effects":[{"name":"boost_income","value":8,"duration":300}]},

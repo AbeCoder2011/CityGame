@@ -6,9 +6,9 @@ script/source = "extends Button
 @export var SaveName : String
 
 func _ready() -> void:
-	pressed.connect($\"../../..\".LoadAutosave.bind(SaveName))
-	mouse_entered.connect($\"../../..\".OnHover.bind(SaveName))
-	mouse_exited.connect($\"../../..\".OnNotHover)
+	pressed.connect($\"../../../..\".LoadAutosave.bind(SaveName))
+	mouse_entered.connect($\"../../../..\".OnHover.bind(SaveName))
+	mouse_exited.connect($\"../../../..\".OnNotHover)
 "
 
 [node name="Button" type="Button" unique_id=2121744020]

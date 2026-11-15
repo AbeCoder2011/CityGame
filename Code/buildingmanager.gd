@@ -87,6 +87,8 @@ func UpdateBuildingBatch(nam:String,locations:Array):
 	for u in updates.keys():
 		RecomputeBuilding(u)
 		await Global.CheckFrame()
+	if nam == "Rail" or nam == "Train Station":
+		RefreshStationNetworks()
 
 
 func SpawnBuilding(nam:String,location:Vector2i) -> Node2D:
@@ -120,10 +122,14 @@ func RegisterBuilding(nam:String,location:Vector2i,node:Node2D):
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var node = SpawnBuilding(nam,location)
 	var this_b = RegisterBuilding(nam,location,node)
+	if nam == "Rail":
+		Rails[location] = this_b
 	
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
 		$"../UI".CheckBuildingUnlocks()
+	if nam == "Rail" or nam == "Train Station":
+		RefreshStationNetworks()
 	housing_edited = false
 	for n in GetRecomputePath(this_b):
 		RecomputeBuilding(n)
@@ -131,14 +137,21 @@ func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 		CalculateHapiness()
 		RecomputePopulation()
 	
-	if nam == "Rail" or nam == "Train Station":
-		CalculateStationConnections()
-		RecomputeStations()
-	if nam == "Rail":
-		Rails[location] = this_b
 	#if housing has been edited: recalculate stats etc
 	var b_amounts = GetBuildingAmounts()
 	$"..".CheckAchievementProgress(b_amounts,true)
+
+func RefreshStationNetworks() -> void:
+	CalculateStationConnections()
+	RecomputeStations()  # Update Inventories
+	var updates := []
+	for st in AllTrainStations:  # Update All other buildings that take things from them
+		for b in GetStationRecomputePath(st["pos"]):
+			if updates.has(b):
+				updates.erase(b)
+			updates.append(b)
+	for b in updates:
+		RecomputeBuilding(b)
 
 func RecomputeBuilding(n):
 	match n["name"]:
@@ -464,6 +477,7 @@ func GetHappinessValue(pos:Vector2i,nam:String,node:Node2D) -> int:
 func Tick():
 	# --- REMOVE OLD BUILDINGS
 	if not DestroyedBuildings.is_empty():
+		var stations_changed := false
 		for n in DestroyedBuildings:
 			BuildingCollections[GetCollectionPos(n["pos"])].erase(n)
 			for claim in n["claims"].keys():
@@ -481,6 +495,7 @@ func Tick():
 					AllPowerRelatedBuildings.erase(n)
 				"Train Station","Rail":
 					AllTrainStations.erase(n)
+					stations_changed = true
 				"Fishing Boat":
 					AllFishingBoats.erase(n)
 				"Fishing Dock":
@@ -507,6 +522,8 @@ func Tick():
 				CalculateHapiness()
 				RecomputePopulation()
 		DestroyedBuildings.clear()
+		if stations_changed:
+			RefreshStationNetworks()
 	# --- COUNT MONEY TOTAL AND ADD TO MONEY
 	money_total = 0
 	var disable_income_popup = Global.Settings.get("disable_income_popup",false)
@@ -547,6 +564,7 @@ func RecomputeStations():
 		network_inventories.append([stations,inv])
 		for st in nw:
 			st["node"].extra_data = {"inventory":inv}
+			st["node"].Recomputed = true
 
 func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations=false,dont_recompute_metros=false) -> Array:
 	var affected = [] 
@@ -676,7 +694,7 @@ const bvvs = {
 	"Metro Station":30,
 	"Large Metro Station":150,
 	"Small Roadside Hotel": 50,
-	"Medium Motel": 100,
+	"Medium Hotel": 100,
 	 "Large Hotel": 200, 
 	"Luxury Hotel": 500,
 	 "Large Luxury Hotel": 1000,
@@ -689,7 +707,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			var power = SumProperty(pos, size,["Transformator Building"], 8, "power")
 			var nature = SumProperty(pos, size, ["Pocket Park","Small Park","Fountain Park","Large Park"], 7, "nature")
 			var penalty = IndustryPenalty(pos,size)
-			var population_boost = bvvs[nam] if power > bvvs[nam] * (1 + 0.01 * nature) else 1
+			var population_boost = 2 if power > bvvs[nam] * (1 + 0.01 * nature) else 1
 			var pop = bvvs[nam] * penalty * population_boost * (1 + 0.01 * nature)
 			var happiness = GetHappinessValue(pos,nam,node) * pop
 			return [{"population": pop},{"base_pop":bvvs[nam],"power_boost":power,"power_boost_mult":population_boost,"industry":penalty,"nature":nature,"happiness":happiness}]
@@ -811,7 +829,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Jewlery Store":
 			var gemstones = SumProperty(pos,size,["Ore Extractor"],5,"gemstones",[],true)
 			var pop = SumProperty(pos,size,HOUSING_NAMES,5,"population")
-			return [{"money":gemstones * pop * 10},{"population":pop,"gemstones":gemstones}]
+			return [{"money":gemstones * pop * 30},{"population":pop,"gemstones":gemstones}]
 		"Fishing Dock":
 			var boats = FindConnectedFishingBoats(pos)
 			var fish = 0
@@ -851,7 +869,7 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			SumMetroTotal()
 			MetroUsages.get_or_add(pos, {"total":0})["total"] = global_metro_passengers["total"]
 			return [{},{"total_passengers":global_metro_passengers["total"],"my_passengers":val}]
-		"Small Roadside Hotel", "Medium Motel", "Large Hotel", "Luxury Hotel", "Large Luxury Hotel":
+		"Small Roadside Hotel", "Medium Hotel", "Large Hotel", "Luxury Hotel", "Large Luxury Hotel":
 			var tourists = 0
 			for n in AllMetroStations:
 				if InRange(pos, n["pos"], size, GetSize(n["name"]), 4):

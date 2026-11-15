@@ -179,13 +179,13 @@ const BuildingData := {
 	},
 	"Ore Extractor":{
 		"atlas_coords": Vector2i(10,2),
-		"cost": 5000000000,
+		"cost": 3000000000, # 3B
 		"size":Vector2i(2,2),
 		"description": "Takes raw gems from nearby mines (within [b]four[/b] tiles) and processes it into gems"
 	},
 	"Jewlery Store":{
 		"atlas_coords": Vector2i(6,3),
-		"cost": 5000000000,
+		"cost": 800000000, # 800M
 		"description": "Sells gems from within [b]five[/b] tiles and sells them to population within [b]five[/b] tiles"
 	},
 	# --- Energy Industry
@@ -293,7 +293,7 @@ const BuildingData := {
 	},
 	"Mine":{
 		"atlas_coords": Vector2i(0,11),
-		"cost": 1000000000, # 1b
+		"cost": 800000000, # 800M
 		"description": "Mines raw gems from adjacent mountains. (within [b]one[/b] tile)"
 	},
 	"Fishing Boat":{
@@ -437,31 +437,43 @@ const UnlockRequirements := {
 } 
  
 const ORDER = {
- 	["Small Wheatfield","Large Wheatfield"]:[5,"Mill"],
- 	["Mill"]:[4,"Bakery","Restaurant"],
- 	["Animal Farm"]:[4,"Butcher"],
- 	["Butcher"]:[4,"Restaurant"],
- 	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Wind Turbine"]:[4,"Transformator Building", "Small Factory", "Large Factory"],
- 	["Transformator Building"]:[8,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
- 	["Pocket Park", "Small Park", "Fountain Park", "Large Park", "Cinema", "Theme Park"]:[7,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
- 	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
- 	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
- 	["Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex",""]:[1,"Basic House", "Double House", "Small Apartment Complex","Large Apartment Complex", "Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
- 	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Market"]:[2,"Mall"],
- 	["Mine"]:[4,"Ore Extractor"],
- 	["Ore Extractor"]:[5,"Jewlery Store"],
- 	["Fishing Boat"]:[40,"Fishing Dock"],
- 	["Fishing Hut", "Fishing Dock"]:[4,"Seafood Market"],
- 	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
- 	["Wind Turbine"]:[5,"Wind Turbine"],
- 	["Sand Mine"]:[4,"Smeltery"],
+	["Mill"]:[4,"Bakery","Restaurant"],
+
+	["Animal Farm"]:[4,"Butcher"],
+	["Butcher"]:[4,"Restaurant"],
+
+	["Thermal Power Plant","Small Solar Farm","Nuclear Power Plant","Large Thermal Power Plant","Large Solar Farm","Wind Turbine"]:[4,"Transformator Building","Small Factory","Large Factory","Smeltery"],
+
+	["Transformator Building"]:[8,"Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+
+	["Pocket Park","Small Park","Fountain Park","Large Park","Cinema","Theme Park"]:[7,"Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+
+	["Small Factory","Large Factory"]:[6,"Small Supermarket","Large Supermarket","Restaurant"],
+
+	["Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"]:[6,"Bakery","Mall","Restaurant","Small Supermarket","Large Supermarket","Jewlery Store","Cafe","Electronics Store","Lumber Mill","Fishing Hut","Seafood Market","Mine","Sand Mine"],
+
+	["Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex",""]:[1,"Basic House","Double House","Small Apartment Complex","Large Apartment Complex","Mega Apartment Complex","Low-Budget Apartment","Giant Apartment Complex"],
+
+	["Small Supermarket","Large Supermarket","Electronics Store","Cafe","Bakery","Restaurant","Lumber Mill","Seafood Market"]:[2,"Mall"],
+
+	["Mine"]:[4,"Ore Extractor"],
+	["Ore Extractor"]:[5,"Jewlery Store"],
+
+	["Fishing Boat"]:[40,"Fishing Dock"],
+	["Fishing Hut","Fishing Dock"]:[4,"Seafood Market"],
+
+	["Train Station"]:[4,"Bakery","Restaurant","Small Supermarket","Large Supermarket","Butcher","Ore Extractor","Jewlery Store","Lumber Mill"],
+
+	["Wind Turbine"]:[5,"Wind Turbine"],
+
+	["Sand Mine"]:[4,"Smeltery"],
+
 	["Air Traffic Control Tower"]:[1,"Airport Runway"],
 	["Airport Runway"]:[1,"Airport Terminal"],
-	["Airport Terminal"]:[3,"Metro Station","Large Metro Station"],
-	["Metro Station","Large Metro Station"]:[9,"other_metros"],
-	["Metro Station","Large Metro Station"]:[3,"Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"],
-	["Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"]:[9,"other_metros"]
-}  
+	["Airport Terminal"]:[2,"Metro Station","Large Metro Station"],
+
+	["Metro Station","Large Metro Station"]:[4,"Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"]
+}
 
 const ACHIEVEMENTS = {
 	"Avogaadro's dream": {

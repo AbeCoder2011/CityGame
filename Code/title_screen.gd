@@ -14,6 +14,7 @@ const SAVE_PATH := "user://saves/"
 const SAVE_NAME := "save.tres"
 
 var Textures = {}
+var Data : Dictionary[String,Dictionary] = {}
 
 const MiniTileMap = {
 	
@@ -148,19 +149,32 @@ func GenerateTerrainPreview(s:int):
 			$NewGame/ExtraSettings/Control/MiniTerrain.set_cell(Vector2i(x+33,y+33),0,$NewGame/ExtraSettings/Control/MiniTerrain.FindTerrainTile(x,y))
 
 func GetAutoSaves():
+	for n in $LoadGame/Hbox/Saves.get_children():
+		if not n.name in ["Back"]:
+			n.free()
+	
+	
 	DirAccess.make_dir_absolute("user://autosaves/")
 	
 	var dir := DirAccess.open("user://autosaves/")
 	dir.list_dir_begin()
-	for n in dir.get_files():
+	var files : Array = dir.get_files()
+	files.sort_custom(SortByDate)
+	for n in files:
 		var l = SaveButton.instantiate()
 		print("[%s] Created Button" % [n])
 		l.SaveName = n
-		Textures[n] = ImageTexture.create_from_image(ResourceLoader.load("user://autosaves/" + n).get("image"))
+		var rs = ResourceLoader.load("user://autosaves/" + n)
+		Textures[n] = ImageTexture.create_from_image(rs.get("image"))
+		Data[n] = rs.get("extra_data")
+		
 		print("[%s] Downloaded texture" % [n])
 		l.text = FormatSaveName(n)
-		$LoadGame/Vbox.add_child(l)
+		$LoadGame/Hbox/Saves.add_child(l)
 	dir.list_dir_end()
+
+func SortByDate(a:String,b:String):
+	return FileAccess.get_modified_time("user://autosaves/" + a) > FileAccess.get_modified_time("user://autosaves/" + b)
 
 func _on_load_game_pressed() -> void:
 	$Main.hide()
@@ -179,9 +193,32 @@ func FormatSaveName(txt:String):
 
 func OnHover(nam:String):
 	var img = Textures.get(nam)
-	$LoadGame/TextureRect.texture = img
-	$LoadGame/TextureRect.show()
+	var data : Dictionary = Data.get(nam)
+	if not data.is_empty():
+		$LoadGame/Hbox/Data/RichTextLabel.source_text = GetSaveText(data)
+	else:
+		$LoadGame/Hbox/Data/RichTextLabel.source_text = ""
+		
+	$LoadGame/Hbox/Data/Image.texture = img
+	$LoadGame/Hbox/Data/Image.show()
 
 func OnNotHover():
-	$LoadGame/TextureRect.hide()
+	$LoadGame/Hbox/Data/Image.hide()
+
+func GetSaveText(d:Dictionary) -> String:
+	var out = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf][font_size=25]Save\n"
+	out += "[tile x=0 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["money"]) + "\n"
+	out += "[tile x=2 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["population"]) + "\n"
+	if d["happiness"] < 65:
+		out += "[tile x=22 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["happiness"]) + "\n"
+	elif d["happiness"] < 130:
+		out += "[tile x=20 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["happiness"]) + "\n"
+	else:
+		out += "[tile x=18 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["happiness"]) + "\n"
+	out += "[tile x=24 y=0 f=1.6]res://Assets/icons.png[/tile] " + Global.GetBigNumber(d["income"]) + "\n"
+
 	
+	
+	
+	
+	return out

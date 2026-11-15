@@ -2794,6 +2794,8 @@ patch_margin_bottom = 2
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
 [connection signal="mouse_entered" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_entered"]
 [connection signal="mouse_exited" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_exited"]
+[connection signal="mouse_entered" from="UI/CityInfo/Info/IncomePerSecond/IconButton" to="." method="_on_income_mouse_entered"]
+[connection signal="mouse_exited" from="UI/CityInfo/Info/IncomePerSecond/IconButton" to="." method="_on_income_mouse_exited"]
 [connection signal="pressed" from="UI/Toolbar/Box/Achievements" to="UI/Toolbar" method="_on_achievements_pressed"]
 [connection signal="pressed" from="UI/Achievements/Close" to="." method="_on_close_pressed"]
 [connection signal="next_dialogue" from="UI/Tutorial" to="UI/Tutorial/HBoxContainer/Dialogue/Text" method="skip_dialogue"]

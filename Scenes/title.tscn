@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://dhry7ibulbugw" path="res://Assets/Fonts/Space_Mono/SpaceMono.ttf" id="3_fp2oq"]
 [ext_resource type="Texture2D" uid="uid://djd1bfv6c8ta3" path="res://Assets/Tilesheets/terraintiles.png" id="3_yosvi"]
 [ext_resource type="Theme" uid="uid://dw6fjogmebf23" path="res://MenuTheme.tres" id="4_q2qps"]
+[ext_resource type="Texture2D" uid="uid://b0xumalus43p6" path="res://Assets/CityScapeLogo.png" id="5_th2ad"]
 [ext_resource type="PackedScene" uid="uid://cehxlwe5maud2" path="res://Scenes/pause.tscn" id="6_2qdx2"]
 [ext_resource type="Script" uid="uid://b6n1phl4cjj7c" path="res://Code/button_move_on_hover.gd" id="6_3eqdi"]
 [ext_resource type="Theme" uid="uid://cg5nwoggkuqdf" path="res://SettingsTheme.tres" id="7_yu0ss"]
@@ -404,6 +405,91 @@ font_color = Color(1, 0, 0, 1)
 outline_size = 8
 outline_color = Color(0.25937498, 0, 0, 1)
 
+[sub_resource type="GDScript" id="GDScript_o2ick"]
+script/source = "@tool
+extends RichTextLabel
+## A RichTextLabel that understands a custom [tile] tag:
+##
+##   [tile x=1 y=0 w=16 h=16 f=3.0]res://Assets/Tilesheets/BuildingTiles/tiles.png[/tile]
+##
+## x, y : tile index in the sheet (default 0)
+## w, h : size of one tile in pixels (default 16)
+## f    : scale factor of the shown image (default 1.0)
+##
+## IMPORTANT: set the text through `source_text` (or set_source_text()),
+## not through `text`. Godot does not let scripts hook the native `text`
+## property, so `source_text` is what gets rewritten into [img] tags.
+
+static var _tile_regex : RegEx
+static var _attr_regex : RegEx
+
+## Text containing [tile] tags. Setting this updates the label.
+@export_multiline var source_text : String = \"\":
+	set(value):
+		source_text = value
+		_apply()
+
+## Use nearest-neighbour filtering so pixel art stays crisp when scaled.
+@export var pixel_perfect := true:
+	set(value):
+		pixel_perfect = value
+		texture_filter = TEXTURE_FILTER_NEAREST if value else TEXTURE_FILTER_PARENT_NODE
+
+
+func _init() -> void:
+	bbcode_enabled = true
+
+
+func _ready() -> void:
+	if pixel_perfect:
+		texture_filter = TEXTURE_FILTER_NEAREST
+	_apply()
+
+
+func set_source_text(value: String) -> void:
+	source_text = value
+
+
+func _apply() -> void:
+	text = parse(source_text)
+
+
+## Rewrites every [tile ...]path[/tile] into a native [img region=...] tag.
+## Static, so it can also be used on strings that go into other labels.
+static func parse(input: String) -> String:
+	if _tile_regex == null:
+		_tile_regex = RegEx.new()
+		_tile_regex.compile(\"\\\\[tile([^\\\\]]*)\\\\]\\\\s*(.*?)\\\\s*\\\\[/tile\\\\]\")
+		_attr_regex = RegEx.new()
+		_attr_regex.compile(\"(\\\\w+)\\\\s*=\\\\s*(-?[0-9]*\\\\.?[0-9]+)\")
+
+	var out := \"\"
+	var last := 0
+	for m in _tile_regex.search_all(input):
+		out += input.substr(last, m.get_start() - last)
+		out += _build_img(m.get_string(1), m.get_string(2))
+		last = m.get_end()
+	out += input.substr(last)
+	return out
+
+
+static func _build_img(attr_text: String, path: String) -> String:
+	var a := {\"x\": 0.0, \"y\": 0.0, \"w\": 16.0, \"h\": 16.0, \"f\": 1.0}
+	for m in _attr_regex.search_all(attr_text):
+		var key := m.get_string(1).to_lower()
+		if a.has(key):
+			a[key] = float(m.get_string(2))
+
+	var tw : int = maxi(roundi(a[\"w\"]), 1)
+	var th : int = maxi(roundi(a[\"h\"]), 1)
+	var rx : int = roundi(a[\"x\"]) * tw
+	var ry : int = roundi(a[\"y\"]) * th
+	var dw : int = maxi(roundi(tw * a[\"f\"]), 1)
+	var dh : int = maxi(roundi(th * a[\"f\"]), 1)
+
+	return \"[img region=%d,%d,%d,%d width=%d height=%d]%s[/img]\" % [rx, ry, tw, th, dw, dh, path]
+"
+
 [sub_resource type="Animation" id="Animation_q2qps"]
 length = 0.001
 tracks/0/type = "value"
@@ -575,6 +661,16 @@ grow_horizontal = 0
 grow_vertical = 0
 text = "V0.9 "
 label_settings = SubResource("LabelSettings_tgu54")
+
+[node name="Title2" type="TextureRect" parent="Base" unique_id=367891722]
+visible = false
+layout_mode = 0
+offset_left = 34.0
+offset_top = 54.999996
+offset_right = 3034.0
+offset_bottom = 1055.0
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("5_th2ad")
 
 [node name="Main" type="Control" parent="." unique_id=2000390083]
 layout_mode = 1
@@ -962,18 +1058,21 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Vbox" type="VBoxContainer" parent="LoadGame" unique_id=586690510]
-custom_minimum_size = Vector2(500, 0)
+[node name="Hbox" type="HBoxContainer" parent="LoadGame" unique_id=1801859925]
 layout_mode = 1
 anchors_preset = -1
 anchor_bottom = 1.0
 offset_left = 60.0
 offset_top = 250.0
-offset_right = 560.0
-offset_bottom = -20.0
+offset_bottom = -80.0
+theme_override_constants/separation = 64
+
+[node name="Saves" type="VBoxContainer" parent="LoadGame/Hbox" unique_id=586690510]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
 theme_override_constants/separation = 30
 
-[node name="Back" type="Button" parent="LoadGame/Vbox" unique_id=1498917647]
+[node name="Back" type="Button" parent="LoadGame/Hbox/Saves" unique_id=1498917647]
 modulate = Color(0.606085, 0.60608506, 0.606085, 1)
 custom_minimum_size = Vector2(0, 70)
 layout_mode = 2
@@ -981,14 +1080,22 @@ theme = ExtResource("4_q2qps")
 text = "← Back "
 script = ExtResource("6_3eqdi")
 
-[node name="TextureRect" type="TextureRect" parent="LoadGame" unique_id=1004904639]
-layout_mode = 0
-offset_left = 628.0
-offset_top = 264.0
-offset_right = 1128.0
-offset_bottom = 764.0
-expand_mode = 1
+[node name="Data" type="VBoxContainer" parent="LoadGame/Hbox" unique_id=834779191]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="Image" type="TextureRect" parent="LoadGame/Hbox/Data" unique_id=1004904639]
+layout_mode = 2
+expand_mode = 5
 stretch_mode = 4
+
+[node name="RichTextLabel" type="RichTextLabel" parent="LoadGame/Hbox/Data" unique_id=337095994]
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+script = SubResource("GDScript_o2ick")
 
 [node name="Credits" type="Control" parent="." unique_id=2103616721]
 visible = false
@@ -1070,5 +1177,5 @@ layout_mode = 1
 [connection signal="value_changed" from="NewGame/ExtraSettings2/Mountains/HSlider" to="." method="OnSettingChanged" binds= ["mountain_amount"]]
 [connection signal="value_changed" from="NewGame/ExtraSettings2/Wheat fields/HSlider" to="." method="OnSettingChanged" binds= ["wheat_field_amount"]]
 [connection signal="value_changed" from="NewGame/ExtraSettings2/Desert/HSlider" to="." method="OnSettingChanged" binds= ["desert_amount"]]
-[connection signal="pressed" from="LoadGame/Vbox/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="LoadGame/Hbox/Saves/Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Credits/Back" to="." method="_on_back_pressed"]

@@ -187,8 +187,9 @@ func _on_close_pressed() -> void:
 
 
 func _on_continue_pressed() -> void:
-	$UI/Pause.visible = !$UI/Pause.visible
-	get_tree().paused = $UI/Pause.visible
+	$UI/Pause.visible = false
+	get_tree().paused = false
+	$UI/Pause.menu = "main"
 
 
 func _on_save_and_return_pressed() -> void:
@@ -260,7 +261,7 @@ func UpdateIncome():
 	var income = []
 	for n in $"../DecisionManager".decision_buffs:
 		if n["name"].ends_with("income"):
-			income.append(n)
+			income.append({"name":n["name"],"amount":n["value"],"duration":n["duration"],"reason":"Decision Expenses"})
 	SetDebuffTexts(income,false)
 
 

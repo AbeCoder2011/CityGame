@@ -52,7 +52,7 @@ func GetEligibleDecision():
 	var decisions = DecisionData.Data.duplicate().values()
 	decisions.shuffle()
 	for n in decisions:
-		var req = n.get("requirement",[])
+		var req = n.get("requirement",{})
 		if is_same($"..".GetRequirementProgress(req),true):
 			return n
 
@@ -160,9 +160,10 @@ func Resolve(outcome:Array):
 				decision_buffs.append({"name":"building_cost","value":-n["value"],"duration":n["duration"]})
 			"gain_money":
 				Global.Money += GetMoneyValue(n["value"])
-			"gain_money":
+			"lose_money":
 				Global.Money -= GetMoneyValue(n["value"])
-			# OTHERS
+			_:
+				printerr("Unknown decision effect: ", n["name"])
 	UpdateBuffs()
 
 func GetMoneyValue(seconds:int) -> float:

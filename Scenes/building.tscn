@@ -449,7 +449,7 @@ offset_bottom = 96.0
 action_mode = 0
 flat = true
 
-[node name="VisibleOnScreenEnabler" type="VisibleOnScreenEnabler2D" parent="." unique_id=1177687952]
+[node name="Visible" type="VisibleOnScreenNotifier2D" parent="." unique_id=991649951]
 position = Vector2(10, 10)
 rect = Rect2(-10, -10, 48, 48)
 
@@ -466,7 +466,7 @@ autostart = true
 
 [node name="DecisionButton" type="Button" parent="." unique_id=2001043486]
 visible = false
-z_index = 1
+z_index = 5
 offset_right = 48.0
 offset_bottom = 48.0
 flat = true
@@ -491,5 +491,7 @@ autoplay = &"grab_attention"
 [connection signal="mouse_entered" from="HoverDetection" to="." method="_on_mouse_enter"]
 [connection signal="mouse_exited" from="HoverDetection" to="." method="_on_mouse_exit"]
 [connection signal="pressed" from="HoverDetection" to="." method="_on_pressed"]
+[connection signal="screen_entered" from="Visible" to="." method="_on_visible_screen_entered"]
+[connection signal="screen_exited" from="Visible" to="." method="_on_visible_screen_exited"]
 [connection signal="timeout" from="PlaneTimer" to="." method="_on_plane_timer_timeout"]
 [connection signal="pressed" from="DecisionButton" to="." method="_on_decision_button_pressed"]

@@ -58,6 +58,7 @@ func init_building(nam,pos) -> void:
 		_:
 			$Info/TextureRect.texture.atlas = Global.IconTilemap
 			$HoverDetection.size = GetSize(nam) * 48
+			$Visible.rect = Rect2(Vector2(0,0),GetSize(nam)*48).grow(5)
 			$Sprite.texture.region = Rect2(Global.BuildingData[nam]["atlas_coords"] * 16,GetSize(nam)*16)
 	
 func display_income(i:float):
@@ -353,15 +354,13 @@ func GetBuildingInfo() -> String:
 			_:
 				printerr("Text for " + d + " not found! (value = " + str(v) + ")")
 	return out
-	
-
 
 func _on_visible_screen_entered() -> void:
-	show()
+	pass#$Sprite.show()
 
 
 func _on_visible_screen_exited() -> void:
-	hide()
+	pass#$Sprite.hide()
 
 
 func _on_plane_timer_timeout() -> void:
