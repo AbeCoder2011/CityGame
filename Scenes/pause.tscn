@@ -401,6 +401,17 @@ script = SubResource("GDScript_b1goy")
 setting_name = "number_format"
 setting_type = "Dropdown"
 
+[node name="Gap" type="Label" parent="General/HBoxContainer/2" unique_id=1136162833]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_80bsu")
+
+[node name="StartTutorial" type="Button" parent="General/HBoxContainer/2" unique_id=454433586]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+mouse_default_cursor_shape = 2
+text = "  Restart Tutorial"
+alignment = 0
+
 [node name="Audio" type="Control" parent="." unique_id=1290293471]
 visible = false
 layout_mode = 1
@@ -637,3 +648,4 @@ mouse_filter = 2
 [connection signal="pressed" from="Settings/VBoxContainer/Video" to="." method="SubSetting" binds= ["video"]]
 [connection signal="pressed" from="Settings/VBoxContainer/Accesibility" to="." method="SubSetting" binds= ["accesibility"]]
 [connection signal="pressed" from="Settings/VBoxContainer/Back" to="." method="_on_back_settings_pressed"]
+[connection signal="pressed" from="General/HBoxContainer/2/StartTutorial" to="." method="_on_start_tutorial_pressed"]

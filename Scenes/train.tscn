@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://1dyge5xybm82"]
 
 [ext_resource type="Texture2D" uid="uid://bco61bf2s75n2" path="res://Assets/train.png" id="1_pkyfe"]
+[ext_resource type="Texture2D" uid="uid://bn4i4i7sipwcv" path="res://Assets/smoke.png" id="2_nxpru"]
 
 [sub_resource type="Curve2D" id="Curve2D_pkyfe"]
 
@@ -10,9 +11,9 @@ script/source = "extends Path2D
 var stop = false
 var last = 32.0
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if not stop:
-		$PathFollow2D.progress += 2
+		$PathFollow2D.progress += 120 * delta
 		if $PathFollow2D.progress_ratio >= 1:
 			stop = true
 			$PathFollow2D/Sprite2D.show()
@@ -20,7 +21,7 @@ func _process(_delta: float) -> void:
 	else:
 		$PathFollow2D/Sprite2D.region_rect = Rect2(0,0,12,last)
 		$PathFollow2D/Sprite2D.offset = Vector2(0, 16 - (last / 2))
-		last -= 1.33333
+		last -= 80 * delta
 		if last < 0:
 			queue_free()
 "
@@ -83,6 +84,27 @@ animations = [{
 atlas = ExtResource("1_pkyfe")
 region = Rect2(10, 0, 12, 32)
 
+[sub_resource type="Curve" id="Curve_80bsu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.7317074, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_aehul"]
+curve = SubResource("Curve_80bsu")
+
+[sub_resource type="Gradient" id="Gradient_0hk28"]
+colors = PackedColorArray(0.86875, 0.86875, 0.86875, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_tgu54"]
+gradient = SubResource("Gradient_0hk28")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o2ick"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 0.06
+scale_max = 0.099999994
+color_initial_ramp = SubResource("GradientTexture1D_tgu54")
+alpha_curve = SubResource("CurveTexture_aehul")
+
 [node name="Train" type="Path2D" unique_id=1704886258]
 curve = SubResource("Curve2D_pkyfe")
 script = SubResource("GDScript_o2ick")
@@ -93,14 +115,23 @@ rotation = 0.7853982
 loop = false
 
 [node name="Train" type="AnimatedSprite2D" parent="PathFollow2D" unique_id=1803979106]
+visible = false
 rotation = -1.5707964
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_o2ick")
 autoplay = "default"
+frame_progress = 0.7950244
 
 [node name="Sprite2D" type="Sprite2D" parent="PathFollow2D" unique_id=910592631]
+position = Vector2(-5.722046e-06, -4.7683716e-06)
 rotation = -1.5707964
 scale = Vector2(1.5, 1.5)
 texture = SubResource("AtlasTexture_tgu54")
 region_enabled = true
 region_rect = Rect2(0, 0, 12, 32)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="PathFollow2D/Sprite2D" unique_id=276617162]
+position = Vector2(0, 11.3137045)
+amount = 108
+texture = ExtResource("2_nxpru")
+process_material = SubResource("ParticleProcessMaterial_o2ick")

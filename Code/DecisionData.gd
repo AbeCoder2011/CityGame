@@ -898,7 +898,7 @@ const Data = {
 		"requirement":{"type":"building","name":"Lumber Mill","amount":1},
 	},
 	"Cow on the Tracks":{
-		"desc":"A cow is standing on the tracks and refuses to move. She's chewing. She's winning.",
+		"desc":"A cow is standing on the tracks and refuses to move. She's chewing on some grass that grew over the track.",
 		"options":[
 			{"name":"Wait for her","effects":[{"name":"reduce_income","value":15,"duration":300}]},
 			{"name":"Offer her some fresh grass","effects":[{"name":"lose_money","value":10}]},

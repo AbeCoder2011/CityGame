@@ -63,7 +63,6 @@ func AddToRemovalList(b:Dictionary):
 	$"../UI".UpdateCityStats()
 
 func SpawnBuildingBatch(nam:String,locations:Array):
-	node_maps = {}
 	for n in locations:
 		node_maps[n] = SpawnBuilding(nam,n)
 		await Global.CheckFrame()
@@ -109,6 +108,7 @@ func RegisterBuilding(nam:String,location:Vector2i,node:Node2D):
 			AllPowerRelatedBuildings.append(this_b)
 		"Train Station":
 			AllTrainStations.append(this_b)
+			UpdateRailsAround(location)
 		"Fishing Boat":
 			AllFishingBoats.append(this_b)
 		"Fishing Dock":
@@ -117,13 +117,18 @@ func RegisterBuilding(nam:String,location:Vector2i,node:Node2D):
 			AllAirportTerminals.append(this_b)
 		"Metro Station","Large Metro Station":
 			AllMetroStations.append(this_b)
+		"Rail":
+			Rails[location] = this_b
+			node.UpdateRailSprite()
+			for offset in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+				if Rails.has(location + offset):
+					Rails[location + offset]["node"].UpdateRailSprite()
+	
 	return this_b
 
 func NewBuilding(nam:String, location:Vector2i,check_unlocks=true):
 	var node = SpawnBuilding(nam,location)
 	var this_b = RegisterBuilding(nam,location,node)
-	if nam == "Rail":
-		Rails[location] = this_b
 	
 	$"..".CheckBuildingUnlocks(GetBuildingAmounts())
 	if check_unlocks:
@@ -152,6 +157,19 @@ func RefreshStationNetworks() -> void:
 			updates.append(b)
 	for b in updates:
 		RecomputeBuilding(b)
+
+func IsStationAt(pos: Vector2i) -> bool:
+	for st in AllTrainStations:
+		if Rect2i(st["pos"], Vector2i(2, 2)).has_point(pos):
+			return true
+	return false
+
+func UpdateRailsAround(pos: Vector2i) -> void:
+	for x in range(-1, 3):
+		for y in range(-1, 3):
+			var p := pos + Vector2i(x, y)
+			if Rails.has(p):
+				Rails[p]["node"].UpdateRailSprite()
 
 func RecomputeBuilding(n):
 	match n["name"]:
@@ -496,6 +514,8 @@ func Tick():
 				"Train Station","Rail":
 					AllTrainStations.erase(n)
 					stations_changed = true
+					if n["name"] == "Train Station":
+						UpdateRailsAround(n["pos"])
 				"Fishing Boat":
 					AllFishingBoats.erase(n)
 				"Fishing Dock":
@@ -504,6 +524,10 @@ func Tick():
 					AllMetroStations.erase(n)
 					global_metro_passengers.erase(n["pos"])
 					MetroUsages.erase(n["pos"])
+					for t in AllAirportTerminals:
+						if AirportUsages[t["pos"]].has(n["pos"]):
+							AirportUsages[t["pos"]].erase(n["pos"])
+					SumMetroTotal()
 				"Airport Terminal":
 					AllAirportTerminals.erase(n)
 					AirportUsages.erase(n["pos"])
@@ -535,7 +559,6 @@ func Tick():
 					b["node"].display_income(b["node"].inputs.get("money",0))
 	Global.Money += money_total * Global.Happiness / 100 * $"../DecisionManager".buffs.get("income",1.0)
 	Global.Income = money_total * Global.Happiness / 100 * $"../DecisionManager".buffs.get("income",1.0)
-	print($"../DecisionManager".buffs)
 	$"..".UpdateCityStats()
 	var b_amounts = GetBuildingAmounts()
 	if b_amounts.get("total",0) > PeakBuildings:
@@ -579,9 +602,7 @@ func GetRecomputePath(this_b:Dictionary,not_self = false,dont_recompute_stations
 		return [] if not_self else [this_b]
 	var next_updates := [] if not_self else [this_b]
 	
-	if affected == ["other_metros"]:
-		if dont_recompute_metros:
-			return [] if not_self else [this_b]
+	if this_b["name"] in ["Metro Station", "Large Metro Station"] and not dont_recompute_metros:
 		for b in AllMetroStations:
 			for n in GetRecomputePath(b,false,true,true):
 				if not next_updates.has(n):
@@ -755,9 +776,9 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 			return [{"fish": floor(pop / 8.0) * water},{"population":pop,"water":water}]
 		"Seafood Market":
 			var fish = SumProperty(pos,Vector2i(2,2),["Fishing Hut"],4,"fish")
-			var rarefish = SumProperty(pos,Vector2i(2,2),["Fishing Dock"],4,"exoticfish")
+			var exoticfish = SumProperty(pos,Vector2i(2,2),["Fishing Dock"],4,"exoticfish")
 			var pop = SumProperty(pos, Vector2i(2,2), HOUSING_NAMES,4,"population")
-			return [{"money":pop*floor(log(fish+1)) + pop*floor(log(rarefish*10+1)*rarefish*0.2)}]
+			return [{"money":pop*floor(log(fish+1)) + pop*floor(log(exoticfish*10+1)*exoticfish*0.2)},{"population":pop,"fish":fish,"exoticfish":exoticfish}]
 		"Transformator Building":
 			return [{"power": global_power},{"global_power":global_power}]
 		"Thermal Power Plant","Small Solar Farm":
@@ -859,10 +880,12 @@ func CalculateBuildingOutput(nam,pos,node) -> Array:
 		"Air Traffic Control Tower":
 			return [{}]
 		"Metro Station","Large Metro Station":
+			var capacity = bvvs[nam] + CountNearby(pos,size,["Extra Metro Platform"],1) * 100
+			
 			var val = 0
 			for n in AllAirportTerminals:
 				if InRange(pos,n["pos"],size,GetSize(n["name"]),2):
-					val = GetMetroValue(AirportUsages[n["pos"]],bvvs[nam],pos)
+					val = GetMetroValue(AirportUsages[n["pos"]],capacity,pos)
 					AirportUsages[n["pos"]][pos] = val
 					break
 			global_metro_passengers[pos] = val

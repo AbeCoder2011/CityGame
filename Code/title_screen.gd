@@ -27,6 +27,9 @@ func _ready() -> void:
 	Global.GameSettings = {}
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
+		$Base/TextureRect.hide()
+	else:
+		$Base/TextureRect/AnimationPlayer.play("hide")
 	Global.First = false
 	RerollSeed()
 	if not HasSave():
@@ -102,7 +105,6 @@ func _on_settings_pressed() -> void:
 	$Pause._on_settings_pressed()
 
 func OnSettingChanged(new_value:Variant,nam:String):
-	print(nam," ---> ",new_value)
 	match nam:
 		"map_size":
 			Global.GameSettings[nam] = int(floor(new_value))
@@ -143,7 +145,6 @@ func GenerateTerrainPreview(s:int):
 	$NewGame/ExtraSettings/Control/MiniTerrain.clear()
 	$NewGame/ExtraSettings/Control/MiniTerrain.world_seed = int(s)
 	$NewGame/ExtraSettings/Control/MiniTerrain.SetUpNoiseMaps(int(s))
-	print(Global.GameSettings)
 	for x in range(-33,33):
 		for y in range(-33,33):
 			$NewGame/ExtraSettings/Control/MiniTerrain.set_cell(Vector2i(x+33,y+33),0,$NewGame/ExtraSettings/Control/MiniTerrain.FindTerrainTile(x,y))

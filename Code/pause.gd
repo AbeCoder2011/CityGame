@@ -22,6 +22,7 @@ func _ready() -> void:
 		$Base/Paused.text = "Settings"
 		$Settings/SettingsText.hide()
 		$Base/ColorRect.hide()
+		$"General/HBoxContainer/2/StartTutorial".hide()
 		offset_top = 155
 
 
@@ -195,3 +196,7 @@ func _on_save_and_quit_pressed() -> void:
 
 func _on_continue_pressed() -> void:
 	$"../.."._on_continue_pressed()
+
+
+func _on_start_tutorial_pressed() -> void:
+	$"../Tutorial".StartTutorial()

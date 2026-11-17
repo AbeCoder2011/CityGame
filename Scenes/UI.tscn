@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://67l0v3xxg7r5" path="res://Scenes/achievementButton.tscn" id="14_wi7yl"]
 [ext_resource type="Script" uid="uid://et1k41vhtygk" path="res://Code/tutorial.gd" id="15_jnovg"]
 [ext_resource type="FontFile" uid="uid://ckualla6euk5q" path="res://Assets/Fonts/Space_Mono/SpaceMono-Bold.ttf" id="15_mqm5i"]
+[ext_resource type="Script" uid="uid://c8wx1funfmr3t" path="res://Code/TileMapText.gd" id="16_d1ul7"]
 [ext_resource type="Theme" uid="uid://di8r3j67cqcsp" path="res://DialogueTheme.tres" id="18_13dyv"]
 [ext_resource type="PackedScene" uid="uid://csv7a2aigbi2k" path="res://Scenes/pointer.tscn" id="19_r71lk"]
 
@@ -51,6 +52,45 @@ region = Rect2(16, 16, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_13dyv"]
 atlas = ExtResource("11_vqx31")
 region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d1ul7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.42745098, 0.29411766, 0.15294118, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.6392157, 0.4392157, 0.22745098, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b8rtp"]
+bg_color = Color(0.6392157, 0.4392157, 0.22745098, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.77254903, 0.5294118, 0.2784314, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r71lk"]
+bg_color = Color(0.64, 0.4760533, 0.30080003, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.77254903, 0.5294118, 0.2784314, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="LabelSettings" id="LabelSettings_j47vx"]
+font = ExtResource("11_b1goy")
 
 [sub_resource type="Animation" id="Animation_xjg7p"]
 length = 0.001
@@ -183,7 +223,7 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wi7yl"]
 atlas = ExtResource("6_xjg7p")
-region = Rect2(32, 0, 16, 16)
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="LabelSettings" id="LabelSettings_aehul"]
 font_size = 26
@@ -192,7 +232,7 @@ outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vqx31"]
 atlas = ExtResource("6_xjg7p")
-region = Rect2(288, 0, 16, 16)
+region = Rect2(32, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yc83r"]
 atlas = ExtResource("9_wunin")
@@ -204,7 +244,7 @@ region = Rect2(6, 16, 6, 6)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iufls"]
 atlas = ExtResource("6_xjg7p")
-region = Rect2(384, 0, 16, 16)
+region = Rect2(64, 16, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_80bsu"]
 atlas = ExtResource("1_nxvpl")
@@ -971,6 +1011,59 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_13dyv")
+
+[node name="GridSettings" type="Control" parent="UI/Tools/Tools" unique_id=1081214770]
+visible = false
+layout_mode = 1
+anchor_top = -0.075
+anchor_bottom = -0.075
+offset_top = -62.7
+offset_right = 280.0
+offset_bottom = -4.7
+
+[node name="Background" type="NinePatchRect" parent="UI/Tools/Tools/GridSettings" unique_id=34802367]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_nxvpl")
+region_rect = Rect2(99, 0, 32, 32)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Slider" type="HSlider" parent="UI/Tools/Tools/GridSettings" unique_id=497067610]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.7
+anchor_right = 1.0
+anchor_bottom = 0.7
+offset_left = 20.0
+offset_top = -8.0
+offset_right = -20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/slider = SubResource("StyleBoxFlat_d1ul7")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_b8rtp")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_r71lk")
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+tick_count = 10
+ticks_position = 3
+
+[node name="Text" type="Label" parent="UI/Tools/Tools/GridSettings" unique_id=2055629988]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 9.0
+offset_right = 179.0
+offset_bottom = 33.0
+text = "Spacing (1 tile)"
+label_settings = SubResource("LabelSettings_j47vx")
 
 [node name="Building" type="Control" parent="UI" unique_id=35165732]
 visible = false
@@ -1854,7 +1947,6 @@ layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2
 bbcode_enabled = true
-text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf][font_size=25][color=#50C878][{amount}][color=white] {reason} "
 autowrap_mode = 0
 
 [node name="Messages" type="Control" parent="UI" unique_id=2013560116]
@@ -2053,8 +2145,6 @@ patch_margin_left = 45
 patch_margin_top = 15
 patch_margin_right = 54
 patch_margin_bottom = 10
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 1
 
 [node name="Label" type="Label" parent="UI/Achievements" unique_id=615586228]
 layout_mode = 0
@@ -2364,6 +2454,7 @@ patch_margin_right = 6
 patch_margin_bottom = 6
 
 [node name="Text" type="RichTextLabel" parent="UI/BuildingInfo" unique_id=194311629]
+texture_filter = 1
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -2376,9 +2467,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 bbcode_enabled = true
-text = "[font=res://Assets/Fonts/Space_Mono/SpaceMono.ttf]Supermarket
-👥 5 population nearby
-[img]res://Assets/coin.png[/img] 20/s"
+script = ExtResource("16_d1ul7")
 
 [node name="HackedLabel" type="Label" parent="UI" unique_id=544307933]
 visible = false
@@ -2792,6 +2881,7 @@ patch_margin_bottom = 2
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Single" to="." method="_on_single_pressed"]
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Rectangle" to="." method="_on_rectangle_pressed"]
 [connection signal="pressed" from="UI/Tools/Tools/HBoxContainer/Grid" to="." method="_on_grid_pressed"]
+[connection signal="value_changed" from="UI/Tools/Tools/GridSettings/Slider" to="." method="OnSpacingChanged"]
 [connection signal="mouse_entered" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_entered"]
 [connection signal="mouse_exited" from="UI/CityInfo/Info/Happiness/IconButton" to="." method="_on_icon_button_mouse_exited"]
 [connection signal="mouse_entered" from="UI/CityInfo/Info/IncomePerSecond/IconButton" to="." method="_on_income_mouse_entered"]

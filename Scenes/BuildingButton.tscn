@@ -91,8 +91,6 @@ patch_margin_left = 14
 patch_margin_top = 14
 patch_margin_right = 1
 patch_margin_bottom = 1
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
 
 [node name="Info" type="NinePatchRect" parent="." unique_id=1698204215]
 visible = false

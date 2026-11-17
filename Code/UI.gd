@@ -13,6 +13,8 @@ var income_text = ""
 
 var menu_open = "none"
 
+var Spacing : int = 1
+
 func _ready() -> void:
 	for Cat :Button in $UI/Building/CategorySelection/CategoryList.get_children():
 		Cat.pressed.connect(SelectCategory.bind(Cat.name))
@@ -76,17 +78,26 @@ func SelectCategory(cat_name:String) -> void:
 
 func ShowInfo(txt:String):
 	$UI/BuildingInfo.show()
-	$UI/BuildingInfo/Text.text = txt
+	$UI/BuildingInfo/Text.source_text = txt
 func HideInfo():
 	$UI/BuildingInfo.hide()
 	
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action("build_tool") and event.is_pressed():
-		_on_draw_pressed()
+		if Global.Tool == 1 and Input.is_key_pressed(KEY_ALT):
+			_on_rectangle_pressed()
+		else:
+			_on_draw_pressed()
 	if event.is_action("select_tool") and event.is_pressed():
-		_on_select_pressed()
+		if Global.Tool == 1 and Input.is_key_pressed(KEY_ALT):
+			_on_single_pressed()
+		else:
+			_on_select_pressed()
 	if event.is_action("erase_tool") and event.is_pressed():
-		_on_destroy_pressed()
+		if Global.Tool == 1 and Input.is_key_pressed(KEY_ALT):
+			_on_grid_pressed()
+		else:
+			_on_destroy_pressed()
 
 func _on_select_pressed() -> void:
 	if Global.Tool == 1:
@@ -118,11 +129,11 @@ func UpdateCityStats():
 	$UI/CityInfo/Info/IncomePerSecond/IconButton/Hbox/Label.text = Global.GetBigNumber(Global.Income * 2) + "/s"
 	$UI/CityInfo/Info/Happiness/IconButton/Hbox/Label.text = str(Global.Happiness)
 	if Global.Happiness < 65:
-		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(352,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(48,16,16,16)
 	elif Global.Happiness < 130:
-		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(320,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(32,16,16,16)
 	else:
-		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(288,0,16,16)
+		$UI/CityInfo/Info/Happiness/IconButton/Hbox/Icon.texture.region = Rect2(16,16,16,16)
 	$UI/CityInfo/Info/Population/Label.text = str(Global.Population)
 	for n in $UI/Building/Categories.get_children():
 		for b in n.get_children():
@@ -213,14 +224,17 @@ func SetLoadProgress(nam:String,prog:int):
 func _on_single_pressed() -> void:
 	Global.BuildingTool = 0
 	$UI/Tools/Tools/Selection.offset_left = 0
+	$UI/Tools/Tools/GridSettings.hide()
 
 func _on_rectangle_pressed() -> void:
 	Global.BuildingTool = 1
 	$UI/Tools/Tools/Selection.offset_left = 42
+	$UI/Tools/Tools/GridSettings.hide()
 
 func _on_grid_pressed() -> void:
 	Global.BuildingTool = 2
 	$UI/Tools/Tools/Selection.offset_left = 85
+	$UI/Tools/Tools/GridSettings.show()
 
 func _on_icon_button_mouse_entered() -> void:
 	$UI/CityInfo/Info/Debuffs.show()
@@ -267,3 +281,7 @@ func UpdateIncome():
 
 func _on_income_mouse_exited() -> void:
 	$UI/CityInfo/Info/Debuffs.hide()
+
+func OnSpacingChanged(new_val:float):
+	Spacing = int(new_val)
+	$UI/Tools/Tools/GridSettings/Text.text = "Spacing (%d tile%s)" % [int(new_val),"" if int(new_val) == 1 else "s"]

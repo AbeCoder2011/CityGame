@@ -37,6 +37,33 @@ func _unhandled_input(event: InputEvent) -> void:
 						i = 0
 						xi += 1
 					$"../Buildings".UpdateBuildingBatch(Global.CurrentBuilding,batch)
+			2:
+				if event.is_pressed():
+					dragging = true
+					StartingPoint = floor(get_local_mouse_position() / 48)
+				else:
+					dragging = false
+					SetBuildingPreview()
+					var EndPoint = floor(get_local_mouse_position() / 48)
+					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
+					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
+					var spacing = $"../UI".Spacing
+					var grid_size : Vector2i = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
+					var spaced_grid_size : Vector2i = grid_size + Vector2i(spacing,spacing)
+					var batch = []
+					var i = 0
+					var xi = 0
+					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
+						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
+							if xi % spaced_grid_size.x == 0 and i % spaced_grid_size.y == 0:
+								if TryPlace(Vector2i(x,y),grid_size):
+									Place(Vector2i(x,y),false)
+									batch.append(Vector2i(x,y))
+								await Global.CheckFrame(50)
+							i += 1
+						i = 0
+						xi += 1
+					$"../Buildings".UpdateBuildingBatch(Global.CurrentBuilding,batch)
 
 	SetBuildingPreview()
 
@@ -47,6 +74,8 @@ func SetBuildingPreview():
 
 		var grid_size = Global.BuildingData[Global.CurrentBuilding].get("size",Vector2i(1,1))
 		var atlas_pos = Global.BuildingData[Global.CurrentBuilding]["atlas_coords"]
+		if Global.CurrentBuilding == "Rail":
+			atlas_pos = Vector2(19,5)
 		if IsColliding(grid_pos, grid_size,Global.BuildingData.get(Global.CurrentBuilding).get("forcewater",false),Global.BuildingData.get(Global.CurrentBuilding).get("can_on_water",false),Global.BuildingData.get(Global.CurrentBuilding).get("forcedeepwater",false), Global.BuildingData.get(Global.CurrentBuilding).get("nexttoland",false)):
 			$BuildingPreview.modulate = Color(1, 0.4, 0.4,.5)
 		else:
@@ -75,7 +104,27 @@ func SetBuildingPreview():
 				else:
 					$BuildingPreview.set_cell(Vector2i.ZERO,0,atlas_pos)
 					$BuildingPreview.position = Vector2(grid_pos) * 48
-
+			2:
+				$BuildingPreview.clear()
+				if dragging:
+					$BuildingPreview.position = Vector2.ZERO
+					var EndPoint = floor(get_local_mouse_position() / 48)
+					var XDir = 1 if EndPoint.x > StartingPoint.x else -1
+					var YDir = 1 if EndPoint.y > StartingPoint.y else -1
+					var spacing = $"../UI".Spacing
+					var spaced_grid_size : Vector2i = grid_size + Vector2i(spacing,spacing)
+					var i = 0
+					var xi = 0
+					for x in range(StartingPoint.x,EndPoint.x + XDir,XDir):
+						for y in range(StartingPoint.y,EndPoint.y + YDir,YDir):
+							if xi % spaced_grid_size.x == 0 and i % spaced_grid_size.y == 0:
+								$BuildingPreview.set_cell(Vector2i(x,y),0,atlas_pos)
+							i += 1
+						i = 0
+						xi += 1
+				else:
+					$BuildingPreview.set_cell(Vector2i.ZERO,0,atlas_pos)
+					$BuildingPreview.position = Vector2(grid_pos) * 48
 			_:
 				pass
 	else:

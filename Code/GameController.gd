@@ -26,6 +26,7 @@ func _ready() -> void:
 	$UI.SetLoadProgress("Setting Values...",0)
 	Global.Money = {1:300,2:200,3:100,4:70,5:70}[Global.Difficulty]
 	Global.Population = 0
+	Global.Happiness = 100
 	Global.BuildingUses = {}
 	Global.CurrentBuilding = "None"
 	Global.LoadAchievementProgress()
@@ -248,6 +249,7 @@ func SaveGame(autosave=false):
 		"decision_time": $DecisionManager.time_until_next_decision,
 		"active_decisions": $DecisionManager.active_decisions,
 		"happiness_debuffs":HappinessDebuffs,
+		"grid_spacing":$UI.Spacing,
 	}
 	var resource = SAVE_FILE.new()
 	resource.save = save
@@ -317,8 +319,9 @@ func LoadGame():
 	$DecisionManager.active_decisions = save.get("active_decisions",{})
 	$DecisionManager.time_until_next_decision = save.get("decision_time",60)
 	UnlockedBuildings = save.get("ub",{})
-	HappinessDebuffs = save.get("happiness_debuffs",{})
+	HappinessDebuffs = save.get("happiness_debuffs",[])
 	$"UI".CheckBuildingUnlocks()
+	$UI.Spacing = save.get("grid_spacing",1)
 	if Global.GameSettings.get("hacked",false):
 		for n in Global.BuildingData.keys():
 			get_node("/root/Main").UnlockedBuildings[n] = true
@@ -326,7 +329,7 @@ func LoadGame():
 	$UI/UI/HackedLabel.visible = Global.GameSettings.get("hacked",false)
 	BuildableAreas = save.get("buildable",[Rect2(-3,-3,6,6)])
 	$Areas.OpenAreas = save["open_areas"]
-	$Buildings.PeakBuildings = save["peak"]
+	$Buildings.PeakBuildings = save.get("peak",0)
 	SaveBuildings = save["buildings"]
 	finished.emit()
 	

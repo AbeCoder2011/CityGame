@@ -188,6 +188,7 @@ const BuildingData := {
 		"cost": 800000000, # 800M
 		"description": "Sells gems from within [b]five[/b] tiles and sells them to population within [b]five[/b] tiles"
 	},
+	
 	# --- Energy Industry
 	"Thermal Power Plant":{
 		"atlas_coords": Vector2i(0,4),
@@ -362,7 +363,7 @@ const BuildingData := {
 		"cost": 100000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
-	"Metro Station":{
+	"Metro Station":{ # REDUNDANT
 		"atlas_coords": Vector2i(17,4),
 		"size": Vector2i(1,1),
 		"cost": 1000000000,
@@ -371,11 +372,11 @@ const BuildingData := {
 	"Large Metro Station":{
 		"atlas_coords": Vector2i(15,3),
 		"size": Vector2i(2,2),
-		"cost": 1000000,
+		"cost": 1000000000,
 		"description":"A small cinema for people to watch movies. Give happiness to population within [b]four[/b] tiles",
 	},
 	"Extra Metro Platform":{
-		"atlas_coords": Vector2i(17,5),
+		"atlas_coords": Vector2i(17,4),
 		"size": Vector2i(1,1),
 		"cost": 1000000,
 		"description":"Place next to Metro Stations to increase their passenger capacity. ",
@@ -472,7 +473,8 @@ const ORDER = {
 	["Airport Runway"]:[1,"Airport Terminal"],
 	["Airport Terminal"]:[2,"Metro Station","Large Metro Station"],
 
-	["Metro Station","Large Metro Station"]:[4,"Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"]
+	["Metro Station","Large Metro Station"]:[4,"Small Motel","Small Roadside Hotel","Medium Hotel","Large Hotel","Luxury Hotel","Large Luxury Hotel"],
+	["Extra Metro Platform"]:[1,"Metro Station","Large Metro Station"],
 }
 
 const ACHIEVEMENTS = {
