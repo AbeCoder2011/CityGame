@@ -12,6 +12,24 @@ var SaveButton = preload("res://Scenes/SaveButton.tscn")
 
 const SAVE_PATH := "user://saves/"
 const SAVE_NAME := "save.tres"
+const SPLASH_TEXTS := [
+	"Special thanks to our friends: []",
+	"why do they call it oven if you of in the cold food of out hot eat the food",
+	"- signed by mayor jerry",
+	"vive la mayor jerry",
+	#"Built by Gamers!",
+	"Stay Hydrated",
+	"Mayor [font_size=96]Jerry[font_size=64]!",
+	"with 'frequent' updates",
+	"D:",
+	"[color=pink]:3",
+	"the worlds first AAAA game (real)",
+	"made by humans",
+	"they don't pay me enough for this",
+	"i use [color=red]arch[color=white] btw",
+	"human, i remember you're [color=red]genocides[color=white]",
+	"[font=res://Assets/Fonts/wingding.ttf]VERY, VERY, INTERESTING",
+]
 
 var Textures = {}
 var Data : Dictionary[String,Dictionary] = {}
@@ -24,6 +42,7 @@ func HasSave() -> bool:
 	return FileAccess.file_exists(SAVE_PATH + SAVE_NAME)
 
 func _ready() -> void:
+	random_splash_text()
 	Global.GameSettings = {}
 	if not Global.First:
 		$Fade/Anim.play("fade_in")
@@ -41,6 +60,8 @@ func _ready() -> void:
 			n.pressed.connect(difficulty_pressed.bind(int(n.name)))
 	if FileAccess.file_exists("user://settings.cfg"):
 		$Pause.LoadSettings()
+func random_splash_text():
+	$"Base/Splash Text".text = "[font=res://Assets/Fonts/ShantellSans-VariableFont_BNCE,INFM,SPAC,wght.ttf][font_size=64]" + SPLASH_TEXTS.pick_random()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("HACK"):
@@ -223,3 +244,6 @@ func GetSaveText(d:Dictionary) -> String:
 	
 	
 	return out
+func _input(event: InputEvent) -> void:
+	if event.is_action("HACK") && event.is_pressed():
+		random_splash_text()

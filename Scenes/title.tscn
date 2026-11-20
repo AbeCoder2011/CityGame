@@ -728,6 +728,20 @@ expand_mode = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Base/TextureRect" unique_id=21829979]
 libraries/ = SubResource("AnimationLibrary_wkj73")
 
+[node name="Splash Text" type="RichTextLabel" parent="Base" unique_id=647658384]
+layout_mode = 0
+offset_left = 600.0
+offset_top = 100.0
+offset_right = 1400.0
+offset_bottom = 187.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+bbcode_enabled = true
+text = "hey kajer"
+fit_content = true
+scroll_active = false
+autowrap_mode = 2
+
 [node name="Main" type="Control" parent="." unique_id=2000390083]
 layout_mode = 1
 anchors_preset = 15
